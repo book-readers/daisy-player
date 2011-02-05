@@ -1,0 +1,189 @@
+# message catalog file for daisy-player - german version
+#
+# Copyright (C) 2003-2011 J. Lemmens
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation; either version 2 of the License, or (at your
+# option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+# Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+msgid ""
+msgstr ""
+"language information for daisy-player\n"
+"Copyright (C)_2011 J. Lemmens\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "\t\t(all)\n"
+msgstr "\t\t(alles)\n"
+
+msgid "A parser to play Daisy CD's with Linux"
+msgstr "Ein Programm, um Daisy CDs unter Linux abzuspielen"
+
+msgid "Cannot find a daisy structure"
+msgstr "Kann keine Daisy-struktur finden"
+
+msgid "Cannot find a daisy structure in %s\n%s"
+msgstr "Kann keine Daisy-struktur in %s finden\n%s"
+
+msgid "\nCannot read %s\n"
+msgstr "\nKann %s nicht lesen\n"
+
+msgid "\nCannot read /proc/mounts."
+msgstr "\nKann /proc/mounts nicht lesen."
+
+msgid "\nCannot use udisks command."
+msgstr "\nKann udisks Befehl nicht verwenden."
+
+msgid "Corrupt daisy structure!"
+msgstr "Kaputte Daisy-Struktur!"
+
+msgid "Corrupt daisy structure %s"
+msgstr "Kaputte Daisy-Struktur %s"
+
+msgid "Go to page number:        "
+msgstr "Gehe zur Seitenzahl:      "
+
+msgid "'h' for help "
+msgstr "'h' für Hilfe "
+
+msgid "\n%s: is not a sound device.\n"
+msgstr "\n%s: ist kein sound device.\n"
+
+msgid " level: %d of %d "
+msgstr " Level: %d von %d "
+
+msgid "Maybe a read-error occurred!"
+msgstr "Möglicherweise trat ein Lesefehler auf!"
+
+msgid "\nNo daisy-cd in drive."
+msgstr "\nKeine Daisy-CD im Laufwerk."
+
+msgid "n length: %d\n"
+msgstr "n Länge: %d\n"
+
+msgid " (%2d of %2d)"
+msgstr " (%2d von %2d)"
+
+msgid " %d pages "
+msgstr " %d Seiten "
+
+msgid "Please wait..."
+msgstr "Bitte warten..."
+
+msgid "Please wait... -------------------------"
+msgstr "Bitte warten... ------------------------"
+
+msgid "Press 'h' for help "
+msgstr "'h' für Hilfe drücken"
+
+msgid "Reading %s... "
+msgstr "%s gelesen... "
+
+msgid "Reading daisy structure..."
+msgstr "Daisy-Struktur wird gelesen..."
+
+msgid "Something is wrong with %s"
+msgstr "Etwas stimmt nicht mit %s"
+
+msgid "Something is wrong with the %s file"
+msgstr "Etwas stimmt nicht mit der Datei %s"
+
+msgid "s length: %d\n"
+msgstr "s Länge: %d\n"
+
+msgid " total length: %s "
+msgstr " Gesamtlänge: %s "
+
+msgid "\nUsage: %s [-l language] [directory with a Daisy-structure]\n"
+msgstr "\nAufruf: %s [-l sprache] [Verzeichnis mit einer Daisy-Struktur]\n"
+
+msgid "What do you search?                           "
+msgstr "Suchen nach...?                               "
+
+msgid "\nThese commands are available in this version:\n"
+msgstr "\nFolgende Befehle sind in dieser Version vorhanden:\n"
+
+msgid "cursor down     - move cursor to the next item\n"
+msgstr "Pfeil runter    - verschiebt den Cursor auf das nächste Element\n"
+
+msgid "cursor up       - move cursor to the previous item\n"
+msgstr "Pfeil hoch      - verschiebt den Cursor auf das vorhergehende Element\n"
+
+msgid "cursor right    - skip to next phrase\n"
+msgstr "Pfeil rechts    - springe zur nächsten Phrase\n"
+
+msgid "cursor left     - skip to previous phrase\n"
+msgstr "Pfeil links     - springe zur vorhergehenden Phrase\n"
+
+msgid "page-down       - view next page\n"
+msgstr "Seite runter    - zur nächsten Seite\n"
+
+msgid "page-up         - view previous page\n"
+msgstr "Seite hoch      - zur vorigen Seite\n"
+
+msgid "enter           - start playing\n"
+msgstr "Eingabetaste    - abspielen\n"
+
+msgid "space           - pause/resume playing\n"
+msgstr "Leertaste       - Pause-/Weiter\n"
+
+msgid "Press any key for next page..."
+msgstr "Taste drücken für nächste Seite..."
+
+msgid "\n/               - search for a label\n"
+msgstr "\n/               - suche nach einem Begriff\n"
+
+msgid "d               - store current item to disk\n"
+msgstr "d               - Aktuelles Element speichern\n"
+
+msgid "f               - find the currently playing item and place the cursor there\n"
+msgstr "f               - aktuell spielendes Element finden und den Cursor dort\n                  platzieren\n"
+
+msgid "g               - go to page number (if any)\n"
+msgstr "g               - zur Seitenzahl gehen (falls vorhanden)\n"
+
+msgid "h or ?          - give this help\n"
+msgstr "h oder ?        - diese Hilfe anzeigen\n"
+
+msgid "j               - just play current item\n"
+msgstr "j               - nur das aktuelle Element abspielen\n"
+
+msgid "l               - switch to next level\n"
+msgstr "l               - zum nächsten Level wechseln\n"
+
+msgid "L               - switch to previous level\n"
+msgstr "L               - zum vorigen Level wechseln\n"
+
+msgid "n               - search forwards\n"
+msgstr "n               - Suche vorwärts\n"
+
+msgid "N               - search backwards\n"
+msgstr "N               - Suche rückwärts\n"
+
+msgid "o               - select next output sound device\n"
+msgstr "o               - nächstes sound device für Ausgabe wählen\n"
+
+msgid "q               - quit daisy-player and place a bookmark\n"
+msgstr "q               - Daisy-Player verlassen und Lesezeichen setzen\n"
+
+msgid "s               - stop playing\n"
+msgstr "s               - Abspielen stoppen\n"
+
+msgid "\nPress any key to leave help..."
+msgstr "\nTaste drücken, um die Hilfe zu verlassen..."
+
+msgid "p               - place a bookmark\n"
+msgstr "p               - Lesezeichen setzen\n"
+
+msgid "card"
+msgstr "Karte"

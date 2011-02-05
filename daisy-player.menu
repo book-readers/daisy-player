@@ -1,0 +1,1 @@
+?package(daisy-player):needs="text" section="Applications/Accessibility" title="Daisy-player" command="daisy-player"

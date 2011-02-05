@@ -1,0 +1,80 @@
+Daisy-player - A parser to play Daisy CD's with Linux
+(C)2003-2011 J. Lemmens
+
+DESCRIPTION
+Daisy-player reads a DAISY-CD and plays its audio-files.
+
+REQUIREMENTS
+Be sure the following extra packages exist on your system:
+
+   libncursesw5
+   libcdio10
+   madplay
+   sox
+
+The following packages are needed to make the manual and the html document:
+
+   txt2man
+   man2html
+
+FILES
+Download and unpack the file 'daisy-player-<version>.tar.bz2'.
+In the created directory 'daisy-player-<version>' you'll find the
+following files:
+
+- Changelog: Changes made in the previous versions
+- COMPILE: Information about how to compile and install daisy-player
+- COPYING: copyright information.
+- daisy-player.1: formatted manual page
+- daisy-player.c: source code
+- daisy-player.de.po: translations for the german language
+- daisy-player.desktop: file for the graphical interface
+- daisy-player.html: manual page in HTML format
+- daisy-player.icons.tar.gz: tar archive with icons
+- daisy-player.nl.po: translations for the dutch language
+- daisy-player.txt: manual page in ASCII format
+- error.mp3: soundfile will be played when an error occured
+- install.sh script to install daisy-player
+- License: The text of the GPL version 3 license of daisy-player
+- Makefile: needed to compile from source
+- Readme: the text you are reading now.
+- playmp3.c: source code
+- TODO: things to do.
+
+INSTALLATION
+As user 'root' on the command line, run the install.sh script to
+install the package:
+
+   # ./install.sh
+
+USAGE
+As a mortal user, put a DAISY-cd in your cd-player and,
+on the command line, give:
+
+   $ daisy-player
+
+This starts reading the DAISY-CD and printing the content on
+the screen. After giving an [ENTER], playing the audio files starts.
+
+One could also give a directory with a daisy
+structure as argument to daisy-player:
+
+   $ daisy-player /home/jos/daisy_dir
+
+A list of items on the DAISY-CD will appear. Press <ENTER>
+to start playing. When reading of an item has finished, daisy-player will
+play the next item and the cursor will automatically skip
+to that item, so that your braille-terminal will display the name
+of that item.
+Daisy-player plays the audio on the default sound device.
+
+For keyboard navigation, plese press 'h' or '?'.
+
+Daisy-player is multilingual. The following languages are currently supported:
+english, german, dutch.
+
+Enjoy
+
+Jos Lemmens
+jos@jlemmens.nl
+http://www.jlemmens.nl

@@ -1,0 +1,15 @@
+Unfortunately there is no log for previous versions of daisyplayer. :-(
+
+5.3.1.1	The titles will be truncated when they are to long.
+5.4	Select an alternative soundcard using aplay
+	(Not implemented yet)
+5.4.1	Update of the manpage.
+5.5	Daisy-player is now multilingual. (english, german and dutch)
+	Be sure the library ncursesw5 is installed onto your system.
+	The eject function ('e') now works.
+5.5.1	cd will be umounted when quiting.
+6.0	The extern command madplay is not needed anymore.
+	Daisy-player now has an mp3 player built-in.
+	With the -d option one can specify an alternative sound device/.
+6.1	Now daisy-player is able to increase or decrease playing speed
+	Selecting an alternative soundcard now works.
