@@ -1,12 +1,14 @@
 To compile daisy-player, be sure the following packages are installed:
 
    libncursesw5-dev
+   libidn11-dev
+   libsox-dev
 
 Give the following command:
 
    $ make
 
-run the script install.sh, as user root, to install daisy-player on
-to your system:
+run the script install.sh, as user root, to install daisy-player onto
+your system:
 
-   $ ./install.sh
+   # ./install.sh

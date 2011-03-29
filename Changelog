@@ -1,4 +1,4 @@
-Unfortunately there is no log for previous versions of daisyplayer. :-(
+Unfortunately there is no log for previous versions of daisy-player. :-(
 
 5.3.1.1	The titles will be truncated when they are to long.
 5.4	Select an alternative soundcard using aplay
@@ -13,3 +13,36 @@ Unfortunately there is no log for previous versions of daisyplayer. :-(
 	With the -d option one can specify an alternative sound device/.
 6.1	Now daisy-player is able to increase or decrease playing speed
 	Selecting an alternative soundcard now works.
+6.1.1	The extern command madplay is introduced again.
+	The files on a daisy-cd will be played using sox, But the "trim"
+	effect of sox is very slow, so madplay will be used to cut
+	the audio-files and sox will play the cut-out.
+6.1.2	Test for the existence of madplay and sox.
+6.1.3	PRoblem with lang like nl or de is solved.
+	The comma in speed=1,0000 will be changed in a dot.
+6.1.4	The directory containing message catalogs is set with the
+	bindtextdomain() function.
+	Currently it is set to "/usr/local/share/locale".
+6.2	HTML entities are now converted to UTF8.
+6.2.1	In place of the sox executable dp now uses the sox library itself.
+6.2.2	Problem with setlocale() solved.
+6.2.3	Multiplexing added. Thanks to Halim Sahin <halim.sahin@t-online.de>
+	for the patch.
+6.2.4	Test if the requested sound device exists.
+	If not, use "default".
+6.2.5	The search function now searches from the current cursor position till
+	the end of the list and from the first item of the list till
+	the current cursor position.
+	The 'N'-command searches the other way round.
+	Error messages from the SoX library will be discarded.
+	The page-find function ('g') now finds the correct page.
+	The cursor left and right commands now take into account
+	the current level.
+6.3	madplay is not needed anymore. (For real this time. `-) )
+	It has been dropped in favor of the cutmp3 package.
+	Cutmp3 - Jochen Puchalla <mail@puchalla-online.de>
+	Thanks for his work!
+	The "store current item to disk" function now uses the sox
+	library instead of madplay.
+6.4	madplay is back again!
+	Cutmp3 was not as good as I hoped, unfortunately.

@@ -25,8 +25,8 @@ msgstr "Daisy-player - Versie %s - (C)2011 J. Lemmens"
 msgid "Cannot find a daisy structure"
 msgstr "Kan geen daisy structuur vinden"
 
-msgid "Cannot find a daisy structure in %s\n%s"
-msgstr "Kan geen daisy structuur in %s vinden\n%s"
+msgid "Cannot find a daisy structure in %s"
+msgstr "Kan geen daisy structuur in %s vinden"
 
 msgid "\nCannot read %s\n"
 msgstr "\nKan %s niet lezen\n"
@@ -40,8 +40,8 @@ msgstr "\nKan geen gebruik maken van het udisks commando."
 msgid "Corrupt daisy structure!"
 msgstr "Corrupte daisy structuur!"
 
-msgid "Corrupt daisy structure %s"
-msgstr "Corrupte daisy structuur %s"
+msgid "Corrupt daisy structure %s\n"
+msgstr "Corrupte daisy structuur %s\n"
 
 msgid "Daisy-player - Version %s\n"
 msgstr "Daisy-player - Versie %s\n"
@@ -88,11 +88,11 @@ msgstr "%s wordt gelezen... "
 msgid "Reading daisy structure..."
 msgstr "daisy structuur wordt gelezen..."
 
-msgid "Something is wrong with %s"
-msgstr "er is iets niet goed met %s"
+msgid "Something is wrong with %s\n"
+msgstr "er is iets niet goed met %s\n"
 
-msgid "Something is wrong with the %s file"
-msgstr "Er is iets niet goed met het %s bestand"
+msgid "Something is wrong with the %s file\n"
+msgstr "Er is iets niet goed met het %s bestand\n"
 
 msgid "start_playing(): %s"
 msgstr "start_playing(): %s"
@@ -181,8 +181,8 @@ msgstr "s               - stop het afspelen\n"
 msgid "\nPress any key to leave help..."
 msgstr "\nDruk op een toets om dit help-scherm te verlaten..."
 
-msgid "No such directory: %s"
-msgstr "Map %s bestaat niet"
+msgid "No such directory: %s\n"
+msgstr "Map %s bestaat niet\n"
 
 msgid "home            - play on normal speed\n"
 msgstr "home            - speel af op normale snelheid\n"

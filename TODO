@@ -1,5 +1,4 @@
-- The search function searches from the current cursor position.
-  It stops at the end of the list.
-  Let it continue from the start till the current position.
-- skip_left wrong when previous item is an other level.
 - ajust time viewing when altering speed.
+- .mo files in /usr/local/share/locale/nl/LC_MESSAGES/
+  The path /usr/local/share/locale/ is hardcoded in the source.
+  How to set the path from the command-line?

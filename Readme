@@ -9,8 +9,9 @@ Be sure the following extra packages exist on your system:
 
    libncursesw5
    libcdio10
+   libidn11
+   libsox1b
    madplay
-   sox
 
 The following packages are needed to make the manual and the html document:
 
@@ -30,16 +31,20 @@ following files:
 - daisy-player.de.po: translations for the german language
 - daisy-player.desktop: file for the graphical interface
 - daisy-player.html: manual page in HTML format
-- daisy-player.icons.tar.gz: tar archive with icons
 - daisy-player.nl.po: translations for the dutch language
 - daisy-player.txt: manual page in ASCII format
-- error.mp3: soundfile will be played when an error occured
+- entities.h: source code
+- entities.txt: information about entities.h
+- error.txt: information about error.wav
+- error.wav: soundfile will be played when an error occured
+- icons: directory containing icons
 - install.sh script to install daisy-player
 - License: The text of the GPL version 3 license of daisy-player
 - Makefile: needed to compile from source
 - Readme: the text you are reading now.
-- playmp3.c: source code
 - TODO: things to do.
+- UCkd.h: source code
+- UCkd.txt: information about UCkd.h
 
 INSTALLATION
 As user 'root' on the command line, run the install.sh script to

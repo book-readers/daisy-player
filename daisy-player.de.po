@@ -32,8 +32,8 @@ msgstr "Ein Programm, um Daisy CDs unter Linux abzuspielen"
 msgid "Cannot find a daisy structure"
 msgstr "Kann keine Daisy-struktur finden"
 
-msgid "Cannot find a daisy structure in %s\n%s"
-msgstr "Kann keine Daisy-struktur in %s finden\n%s"
+msgid "Cannot find a daisy structure in %s"
+msgstr "Kann keine Daisy-struktur in %s finden"
 
 msgid "\nCannot read %s\n"
 msgstr "\nKann %s nicht lesen\n"
@@ -47,8 +47,8 @@ msgstr "\nKann udisks Befehl nicht verwenden."
 msgid "Corrupt daisy structure!"
 msgstr "Kaputte Daisy-Struktur!"
 
-msgid "Corrupt daisy structure %s"
-msgstr "Kaputte Daisy-Struktur %s"
+msgid "Corrupt daisy structure %s\n"
+msgstr "Kaputte Daisy-Struktur %s\n"
 
 msgid "Go to page number:        "
 msgstr "Gehe zur Seitenzahl:      "
@@ -92,11 +92,11 @@ msgstr "%s gelesen... "
 msgid "Reading daisy structure..."
 msgstr "Daisy-Struktur wird gelesen..."
 
-msgid "Something is wrong with %s"
-msgstr "Etwas stimmt nicht mit %s"
+msgid "Something is wrong with %s\n"
+msgstr "Etwas stimmt nicht mit %s\n"
 
-msgid "Something is wrong with the %s file"
-msgstr "Etwas stimmt nicht mit der Datei %s"
+msgid "Something is wrong with the %s file\n"
+msgstr "Etwas stimmt nicht mit der Datei %s\n"
 
 msgid "s length: %d\n"
 msgstr "s Länge: %d\n"

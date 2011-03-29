@@ -1,21 +1,17 @@
 CC      = gcc
-CFLAGS  = -Wall -Wunused
+PREFIX  = /usr/local/
 LD      = $(CC)
-LDLIBS  = -lncursesw -lcdio # -lmpeg3 -lasound
-
-OFILES = daisy-player.o # playmp3.o
+LDLIBS  = -lncursesw -lcdio -lidn -lsox -lm
+OFILES  = daisy-player.o
 
 all: $(OFILES)
-	$(LD) $(CFLAGS) $(OFILES) $(LDLIBS) -o daisy-player -s
+	$(LD) $(OFILES) $(LDLIBS) -o daisy-player
 
 daisy-player.o: daisy-player.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-playmp3.o: playmp3.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) -Wall -Wunused -D PREFIX=\"$(PREFIX)\" -c $< -o $@
 
 clean:
 	rm -f *.o daisy-player
 
 install:
-	@./install.sh
+	@./install.sh $(PREFIX)

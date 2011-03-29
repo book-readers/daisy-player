@@ -1,10 +1,8 @@
-Content-type: text/html
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <HTML><HEAD><TITLE>Man page of daisy-player</TITLE>
 </HEAD><BODY>
 <H1>daisy-player</H1>
-Section: Linux Reference Manual (1)<BR>Updated: 05 February 2011<BR><A HREF="#index">Index</A>
+Section: Linux Reference Manual (1)<BR>Updated: 29 March 2011<BR><A HREF="#index">Index</A>
 <A HREF="/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -42,7 +40,7 @@ One could also give a directory with a daisy structure as argument to <B>daisy-p
 <DT><B>-d</B> ALSA sound device
 
 <DD>
-Daisy-player will play on this sound device. Default is hw:0.
+Daisy-player will play on this sound device. Default is &quot;default&quot;.
 </DL>
 <A NAME="lbAF">&nbsp;</A>
 <H3>SCREEN</H3>
@@ -53,7 +51,7 @@ The name and version of this program and the name of the author will be displaye
 The second row of the screen will display the number of pages of the current loaded book (if any), the current selected level and the total number of levels, the total playing time, the current displayed screen and the total number of screens.
 <P>
 
-The next rows will display the title of the item, the first and last page of the item within brackets (if there are pages) and the playing time. Items in higher levels will be indented. (Three spaces each level.) When &quot;just playing this item&quot; is active, a &quot;J&quot; will be viewed at the first column of that item.
+The next rows will display the title of the item, the first page of the item within brackets (if there are pages) and the playing time. Items in higher levels will be indented. (Three spaces each level.) When &quot;just playing this item&quot; is active, a &quot;J&quot; will be viewed at the first column of that item.
 <A NAME="lbAG">&nbsp;</A>
 <H3>CONTROL KEYS</H3>
 
@@ -143,6 +141,14 @@ search forewards
 
 <DD>
 search backwards
+<DT><B>o</B>
+
+<DD>
+select next output sound device
+<DT><B>p</B>
+
+<DD>
+place a bookmark
 <DT><B>q</B>
 
 <DD>
@@ -201,6 +207,6 @@ This program is free software; you can redistribute it and/or modify it under th
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 15:02:56 GMT, February 05, 2011
+Time: 13:34:35 GMT, March 29, 2011
 </BODY>
 </HTML>
