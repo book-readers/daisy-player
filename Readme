@@ -8,7 +8,6 @@ REQUIREMENTS
 Be sure the following extra packages exist on your system:
 
    libncursesw5
-   libcdio10
    libidn11
    libsox1b
    madplay

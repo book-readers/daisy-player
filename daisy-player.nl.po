@@ -195,3 +195,11 @@ msgstr "U               - verhoog afspeel snelheid\n"
 
 msgid "p               - place a bookmark\n"
 msgstr "p               - plaats een boekenlegger\n"
+
+msgid "clip_end (%f) is smaller than clip_begin (%f). \n\
+This is not possible!\n\
+Daisy-player can't handle this DTB.\n"
+
+msgstr "clip_end (%f) is kleiner dan clip_begin (%f). \n\
+Dit is niet mogelijk!\n\
+Daisy-player kan niet overweg met dit DTB.\n"

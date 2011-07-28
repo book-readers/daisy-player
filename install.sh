@@ -12,6 +12,7 @@ else
 fi
 
 # Compile from source
+make clean
 make
 
 # Install daisy-player

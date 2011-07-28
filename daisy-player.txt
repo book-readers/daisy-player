@@ -4,7 +4,7 @@ SYNOPSIS
 daisy-player [directory_with_a_Daisy-structure] [-d ALSA_sound_device]
 DESCRIPTION
 Daisy-player reads a Daisy-CD and plays the audio-files.
-Only DAISY version 2 is currently supported.
+DAISY version 2.02 and 3 are currently supported.
 
 A list of items on the Daisy-CD will appear. Press <ENTER> to start playing. When reading of an item has finished, daisy-player will play the next item and the cursor will automatically skip to that item, so that an attached braille-terminal will display the name of that item.
 

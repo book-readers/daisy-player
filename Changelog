@@ -45,4 +45,10 @@ Unfortunately there is no log for previous versions of daisy-player. :-(
 	The "store current item to disk" function now uses the sox
 	library instead of madplay.
 6.4	madplay is back again!
-	Cutmp3 was not as good as I hoped, unfortunately.
+	Cutmp3 was not as good as I hoped, unfortunately. :-(
+6.4.1	Tempo change with D and U are limited.
+7.0.0	Daisy-player now also can handle daisy version 3.
+7.0.2	When LANG=de_DE.utf8 '.' in numbers became ','.
+	madplay -s can't handle numbers with a comma.
+	So, when LANG is de or nl, force decimal point in numbers with:
+	setlocale (LC_NUMERIC, "C");

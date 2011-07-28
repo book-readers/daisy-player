@@ -1,4 +1,4 @@
-To compile daisy-player, be sure the following packages are installed:
+To compile daisy-player, be sure the following extra packages are installed:
 
    libncursesw5-dev
    libidn11-dev
