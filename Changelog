@@ -52,3 +52,14 @@ Unfortunately there is no log for previous versions of daisy-player. :-(
 	madplay -s can't handle numbers with a comma.
 	So, when LANG is de or nl, force decimal point in numbers with:
 	setlocale (LC_NUMERIC, "C");
+7.0.4	https://bugs.launchpad.net/daisy-player/+bug/818112
+
+	The following procedure makes daisy-player crash repeatedly on my
+	computer:
+
+	Pause a playing daisy book by pressing the space-bar.
+	View the key bindings by pressing the question mark.
+	Press the space-bar twice to go to the next screen. After the second
+	space-bar daisy-player crashes.
+
+	solved.

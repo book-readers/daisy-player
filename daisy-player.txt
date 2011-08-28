@@ -12,13 +12,13 @@ Daisy-player supports the following languages: english, german and dutch.
 OPTIONS
 directory_with_a_Daisy-structure  One could also give a directory with a daisy structure as argument to daisy-player.
 -d ALSA sound device  Daisy-player will play on this sound device. Default is "default".
- SCREEN
+SCREEN
 The name and version of this program and the name of the author will be displayed left aligned at the top of the screen. The name of the current loaded book will be displayed right aligned.
 
 The second row of the screen will display the number of pages of the current loaded book (if any), the current selected level and the total number of levels, the total playing time, the current displayed screen and the total number of screens.
 
 The next rows will display the title of the item, the first page of the item within brackets (if there are pages) and the playing time. Items in higher levels will be indented. (Three spaces each level.) When "just playing this item" is active, a "J" will be viewed at the first column of that item.
- CONTROL KEYS
+CONTROL KEYS
 Daisy-player recognizes the following keyboard-commands:
 cursor down     move cursor to the next item
 cursor up       move cursor to the previous item

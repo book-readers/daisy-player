@@ -40,8 +40,7 @@
 #include <sox.h>
 #include <errno.h>
 
-
-#define VERSION "7.0.2"
+#define VERSION "7.0.4"
 
 WINDOW *screenwin, *titlewin;
 int smil_file_fd, discinfo_fp, discinfo = 00, multi = 0, displaying = 0;
@@ -102,6 +101,7 @@ extern void save_rc ();
 extern void previous_item ();
 extern void quit_daisy_player ();
 extern void get_tag ();
+extern void skip_left ();
 extern void skip_right ();
 
 void playfile (char *filename, char *tempo)
@@ -281,7 +281,7 @@ void get_bookmark ()
       get_next_clips (smil_file_fd);
       skip_right ();
    } // while
-   play_now ();
+   skip_left ();
 } // get_bookmark
 
 void html_entities_to_utf8 (char *s)
@@ -609,9 +609,8 @@ int get_element_tag_or_label (int r)
 void get_tag ()
 {
    char *p;
-
    p = tag;
-   while (*p != ' ' && *p != '>' && p - element <= 250)
+   while (*p != ' ' && *p != '>' && p - tag <= 250)
      p++;
    *p = 0;
 } // get_tag
@@ -678,6 +677,24 @@ void get_page_number ()
             return;
          } // if
       } // while
+      close (fd);
+      return;
+   } // if
+   if (strcmp (daisy_version, "3") == 0)
+   {
+return; // jos
+      fd = open (NCC_HTML, O_RDONLY);
+      do
+      {
+         if (get_element_tag_or_label (fd) == EOF)
+            break;
+      } while (atoi (attribute.playorder) != current);
+      do
+      {
+         if (get_element_tag_or_label (fd) == EOF)
+            break;
+      } while (! *label);
+      current_page_number = atoi (label);
       close (fd);
       return;
    } // if
@@ -1016,6 +1033,8 @@ void player_ended ()
 
 void play_now ()
 {
+   if (playing == -1)
+      return;
    if (! *daisy[playing].audio_file)
    {
       endwin ();
@@ -1799,7 +1818,7 @@ void browse ()
       case '?':
          kill_player (SIGSTOP);
          help ();
-         kill_player (SIGCONT);
+            kill_player (SIGCONT);
          break;
       case 'j':
          if (just_this_item != -1)
