@@ -1,5 +1,5 @@
 /* daisy-player - A parser to play Daisy cd's.
- *  Copyright (C) 2003-2011 J. Lemmens
+ *  Copyright (C) 2003-2012 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -16,95 +16,38 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#define _GNU_SOURCE
-
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
-#include <ncursesw/curses.h>
-#include <fcntl.h>
-#include <libgen.h>
-#include <time.h>
-#include <dirent.h>
-#include <pwd.h>
-#include <sys/mount.h>
-#include <locale.h>
-#include <libintl.h>
+#include "daisy-player.h"
 #include "entities.h"
-#include <stringprep.h>
-#include <sox.h>
-#include <errno.h>
 
-#define VERSION "7.0.4"
+#define VERSION "7.1.1"
 
+int discinfo_fp, discinfo = 00, multi = 0, displaying = 0;
+int playing, just_this_item, current_playorder = 1;
+int current_page_number, total_pages;
+double current_begin;
 WINDOW *screenwin, *titlewin;
-int smil_file_fd, discinfo_fp, discinfo = 00, multi = 0, displaying = 0;
-int playing, just_this_item;
-int bytes_read, current_page_number, total_pages;
-char label[255], clip_str_b[15], clip_str_e[15], bookmark_title[100];
-char tag[255], element[255], search_str[30], tmp_ncx[255], tmp_wav[255];
+mxml_node_t *node, *tree;
+char label[255], bookmark_title[100];
+char tag[255], element[1024], search_str[30], tmp_wav[255];
 char daisy_version[25];
 pid_t player_pid, daisy_player_pid;
 double clip_begin, clip_end;
-char daisy_title[255], prog_name[255];
-struct
-{
-   int x, y, screen;
-   double begin, end;
-   char smil_file[255], anchor[255], label[255];
-   char audio_file[255], class[100];
-   int level, page_number;
-} daisy[2000];
-
-struct
-{
-   char a[100],
-        class[100],
-        clip_begin[100],
-        clip_end[100],
-        content[100],
-        dc_format[100],
-        dc_title[100],
-        dtb_depth[100],
-        dtb_totalPageCount[100],
-        href[100],
-        id[100],
-        media_type[100],
-        name[100],
-        ncc_depth[100],
-        ncc_maxPageNormal[100],
-        ncc_totalTime[100],
-        playorder[100],
-        src[100],  
-        value[100];
-} attribute;
-
-int current, max_y, max_x, total_items, level, depth;
+char daisy_title[255], prog_name[255], daisy_language[255];
+int current, max_y, max_x, total_items, level, depth, displaying;
 double audio_total_length, tempo;
-char NCC_HTML[255], discinfo_html[255], ncc_totalTime[10];
+char NCC_HTML[100], discinfo_html[255], ncc_totalTime[100];
 char sound_dev[16], daisy_mp[255];
 time_t start_time;
-DIR *dir;
+daisy_t daisy[2000];
+my_attribute_t my_attribute;
 struct dirent *dirent;
 
-extern void play_now ();
-extern void kill_player (int sig);
-extern void view_screen ();
 extern void open_smil_file (char *, char *);
-extern int get_next_clips (int);
 extern void save_rc ();
-extern void previous_item ();
 extern void quit_daisy_player ();
-extern void get_tag ();
-extern void skip_left ();
-extern void skip_right ();
+extern void get_attributes (char *, char *);
 
-void playfile (char *filename, char *tempo)
+void playfile (char *filename, char *tempo) 
 {
   sox_format_t *in, *out; /* input and output files */
   sox_effects_chain_t *chain;
@@ -113,11 +56,12 @@ void playfile (char *filename, char *tempo)
 
   sox_globals.verbosity = 0;
   sox_init();
-  in = sox_open_read (filename, NULL, NULL, NULL);
+  if (! (in = sox_open_read (filename, NULL, NULL, NULL)))
+    return;
   while (! (out =
          sox_open_write (sound_dev, &in->signal, NULL, "alsa", NULL, NULL)))
   {
-    strncpy (sound_dev, "default", 8);
+    strncpy (sound_dev, "hw:0", 8);
     save_rc ();
     if (out)
       sox_close (out);
@@ -164,8 +108,12 @@ void playfile (char *filename, char *tempo)
   sox_quit ();
 } // playfile
 
-char *realname (char *name)
+void realname (char *name_in)
 {
+   DIR *dir;
+   struct dirent *dirent;
+   char *name;
+
    if (! (dir = opendir (daisy_mp)))
    {
       endwin ();
@@ -174,16 +122,16 @@ char *realname (char *name)
       fflush (stdout);
       _exit (1);
    } // if
+   name = name_in;
    while ((dirent = readdir (dir)) != NULL)
    {
       if (strcasecmp (dirent->d_name, name) == 0)
       {
+         strncpy (name, dirent->d_name, strlen (name));
          closedir (dir);
-         return dirent->d_name;
+         break;
       } // if
    } // while
-   closedir (dir);
-   return name;
 } // realname
 
 double read_time (char *p)
@@ -211,7 +159,7 @@ void get_clips ()
    char *t;
 
 // fill begin
-   t = attribute.clip_begin;
+   t = my_attribute.clip_begin;
    while (! isdigit (*t))
       t++;
    if (strchr (t, 's'))
@@ -222,7 +170,7 @@ void get_clips ()
       clip_begin = read_time (t);
 
 // fill end
-   t = attribute.clip_end;
+   t = my_attribute.clip_end;
    while (! isdigit (*t))
       t++;
    if (strchr (t, 's'))
@@ -244,14 +192,97 @@ void put_bookmark ()
                        getenv ("HOME"), bookmark_title);
    if ((w = creat (str, 0644)) != -1)
    {
-      dprintf (w, "%d\n", current);
-      if (clip_end == daisy[current - 1].end)
-         clip_begin = 0;
-      dprintf (w, "%lf\n", clip_begin);
+      if (playing >= 0)
+         dprintf (w, "%d\n", playing);
+      else
+         dprintf (w, "%d\n", current);
+      dprintf (w, "%f\n", clip_begin);
       dprintf (w, "%d\n", level);
       close (w);
    } // if
 } // put_bookmark
+
+mxml_node_t *get_tag_or_label (mxml_node_t *node, mxml_node_t *tree)
+{
+   char name[100], content[100];
+
+   *name = *content = 0;
+   *tag = *label = 0;
+   *my_attribute.class = 0;
+   *my_attribute.clip_begin = 0;
+   *my_attribute.clip_end = 0;
+   *my_attribute.content = 0;
+   *my_attribute.dc_format = 0;
+   *my_attribute.dc_title = 0;
+   *my_attribute.dtb_depth = 0,
+   *my_attribute.dtb_totalPageCount = 0;
+   *my_attribute.href = 0;
+   *my_attribute.http_equiv = 0;
+   *my_attribute.id = 0;
+   *my_attribute.media_type = 0;
+   *my_attribute.name = 0;
+   *my_attribute.ncc_depth = 0;
+   *my_attribute.ncc_maxPageNormal = 0,
+   *my_attribute.ncc_totalTime = 0;
+   *my_attribute.playorder = 0;
+   *my_attribute.src = 0;
+   *my_attribute.value = 0;
+
+   if (! (node = mxmlWalkNext (node, tree, MXML_DESCEND)))
+      return NULL;
+   switch (node->type)
+   {
+      int x;
+
+      case MXML_IGNORE:
+      case MXML_INTEGER:
+      case MXML_OPAQUE:
+      case MXML_REAL:
+      case MXML_CUSTOM:
+         return NULL;
+      case MXML_ELEMENT:
+         strncpy (tag, node->value.element.name, 250);
+         for (x = 0; x < node->value.element.num_attrs; x++)
+         {
+            get_attributes (node->value.element.attrs[x].name,
+                            node->value.element.attrs[x].value);
+            if (strcasecmp (node->value.element.attrs[x].name, "name") == 0)
+               strncpy (name, node->value.element.attrs[x].value, 90);
+            if (strcasecmp (node->value.element.attrs[x].name,
+                            "content") == 0)
+               strncpy (content, node->value.element.attrs[x].value, 90);
+         } // for
+         if (strcasecmp (name, "dc:format") == 0)
+            strncpy (daisy_version, content, 20);
+         if (strcasecmp (name, "dc:title") == 0)
+            strncpy (daisy_title, content, 90);
+         if (strcasecmp (name, "dtb:depth") == 0)
+            depth = atoi (content);
+         if (strcasecmp (name, "dtb:totalPageCount") == 0)
+            total_pages = atoi (content);
+         if (strcasecmp (name, "dtb:totalTime") == 0)
+         {
+            strncpy (ncc_totalTime, content, 90);
+            *strchr (ncc_totalTime, '.') = 0;
+         } // if
+         if (strcasecmp (name, "ncc:depth") == 0)
+            depth = atoi (content);
+         if (strcasecmp (name, "ncc:maxPageNormal") == 0)
+            total_pages = atoi (content);
+         if (strcasecmp (name, "ncc:totalTime") == 0)
+         {
+            strncpy (ncc_totalTime, content, 90);
+            if (strchr (ncc_totalTime, '.'))
+               *strchr (ncc_totalTime, '.') = 0;
+         } // if
+         break;
+      case MXML_TEXT:
+         if (*node->value.text.string)
+            strncpy (label, mxmlSaveAllocString (node, MXML_NO_CALLBACK), 90);
+         break;
+   } // switch
+   return node;
+} // get_tag_or_label
 
 void get_bookmark ()
 {
@@ -259,33 +290,325 @@ void get_bookmark ()
    double begin;
    FILE *r;
 
+   if (! *bookmark_title)
+      return;
    snprintf (str, 250, "%s/.daisy-player/%s",
                        getenv ("HOME"), bookmark_title);
+   realname (str);
    if ((r = fopen (str, "r")) == NULL)
       return;
-   fscanf (r, "%d\n%lf\n%d", &current, &begin, &level);
-   fclose (r);
-   if (begin >= daisy[current].end)
+   if (fscanf (r, "%d\n%lf\n%d", &current, &begin, &level) == EOF)
    {
-      current++;
-      begin = daisy[current].begin;
+      playfile (PREFIX"share/daisy-player/error.wav", "1");
+      _exit (1);
    } // if
+   fclose (r);
+   if (current <= 0)
+      current = 0;
+   if (current >= total_items)
+      current = 0;           
+   open_smil_file (daisy[current].smil_file, daisy[current].anchor);
+   while (1)
+   {
+      if ((node = get_tag_or_label (node, tree)) == NULL)
+         return;
+      if (strcasecmp (tag, "audio") == 0)
+      {
+         get_clips ();
+         if (clip_begin == begin)
+            break;
+      } // if
+   } // while
    if (level < 1)
       level = 1;
    displaying = playing = current;
    just_this_item = -1;
-   open_smil_file (daisy[current].smil_file, daisy[current].anchor);
-   clip_begin = 0;
-   while (clip_begin < begin)
-   {
-      get_next_clips (smil_file_fd);
-      skip_right ();
-   } // while
    skip_left ();
 } // get_bookmark
 
+void get_attributes (char *name, char *value)
+{
+   if (strcasecmp (name, "class") == 0)
+      strncpy (my_attribute.class, value, 90);
+   if (strcasecmp (name, "clip-begin") == 0)
+      strncpy (my_attribute.clip_begin, value, 90);
+   if (strcasecmp (name, "clipBegin") == 0)
+      strncpy (my_attribute.clip_begin, value, 90);
+   if (strcasecmp (name, "clip-end") == 0)
+      strncpy (my_attribute.clip_end, value, 90);
+   if (strcasecmp (name, "clipEnd") == 0)
+      strncpy (my_attribute.clip_end, value, 90);
+   if (strcasecmp (name, "href") == 0)
+      strncpy (my_attribute.href, value, 90);
+   if (strcasecmp (name, "http-equiv") == 0)
+      strncpy (my_attribute.http_equiv, value, 90);
+   if (strcasecmp (name, "id") == 0)
+      strncpy (my_attribute.id, value, 90);
+   if (strcasecmp (name, "idref") == 0)
+       strncpy (my_attribute.idref, value, 90);
+   if (strcasecmp (name, "media-type") == 0)
+      strncpy (my_attribute.media_type, value, 90);
+   if (strcasecmp (name, "playOrder") == 0)
+      strncpy (my_attribute.playorder, value, 90);
+   if (strcasecmp (name, "src") == 0)
+      strncpy (my_attribute.src, value, 90);
+} // get_attributes
+
+void get_page_number (char *src)
+{
+   char file[100], *anchor = 0;
+   mxml_node_t *page_node, *page_tree;
+
+   if (! *src)
+      return;
+   if (strstr (daisy_version, "2.02"))
+   {
+      FILE *src_r;
+      char *anchor = 0;
+
+      if (strchr (src, '#'))
+      {
+         anchor = strchr (src, '#') + 1;
+         *strchr (src, '#') = 0;
+      } // if
+      realname (src);
+      if (! (src_r = fopen (src, "r")))
+      {
+         endwin ();
+         printf ("get_page_number(): %s: %s\n", src, strerror (errno));
+         playfile (PREFIX"share/daisy-player/error.wav", "1");
+         fflush (stdout);
+         _exit (1);
+      } // if
+      page_tree = mxmlLoadFile (NULL, src_r, MXML_NO_CALLBACK);
+      page_node =
+         mxmlFindElement (page_tree, page_tree, NULL, NULL, NULL, MXML_DESCEND_FIRST);
+      fclose (src_r);
+      while (1)
+      {
+         if ((page_node = get_tag_or_label (page_node, page_tree)) == NULL)
+            return;
+         if (strcasecmp (my_attribute.id, anchor) == 0)
+            break;
+      } // while
+      while (1)
+      {
+         if ((page_node = get_tag_or_label (page_node, page_tree)) == NULL)
+            return;
+         if (strcasecmp (tag, "span") == 0)
+            break;
+      } // while
+      while (1)
+      {
+         if ((page_node = get_tag_or_label (page_node, page_tree)) == NULL)
+            return;
+         if (*label)
+            break;
+      } // while
+      current_page_number = atoi (label);
+      return;
+   } // if (strstr (daisy_version, "2.02"))
+
+// daisy_version, "3"
+   FILE *r;
+
+   strncpy (file, src, 90);
+   if (strchr (file, '#'))
+   {
+      anchor = strchr (file, '#') + 1;
+      *strchr (file, '#') = 0;
+   } // if
+   realname (file);
+   r = fopen (file, "r");
+   page_tree = mxmlLoadFile (NULL, r, MXML_NO_CALLBACK);
+   fclose (r);
+   page_node = mxmlFindElement (page_tree, page_tree, NULL, NULL, NULL,
+                                MXML_DESCEND_FIRST);
+   while (1)
+   {
+      if ((page_node = get_tag_or_label (page_node, page_tree)) == NULL)
+         return;
+      if (strcasecmp (my_attribute.id, anchor) == 0)
+      if (strcasecmp (tag, "pagenum") == 0)
+      {
+         while (1)
+         {
+            if ((page_node = get_tag_or_label (page_node, page_tree)) == NULL)
+               return;
+            if (*label)
+               break;
+         } // while
+         current_page_number = atoi (label);
+         break;
+      } // if
+      if (strcasecmp (tag, "text") == 0)
+         break;
+   } // while
+} // get_page_number
+
+int get_next_clips ()
+{
+   while (1)
+   {
+      if ((node = get_tag_or_label (node, tree)) == NULL)
+         return 0;
+      if (strcasecmp (my_attribute.id, daisy[playing + 1].anchor) == 0 &&
+          playing + 1 != total_items)
+         return 0;
+      if (strcasecmp (tag, "audio") == 0)
+      {
+         get_clips ();
+         return 1;
+      } // if
+      if (strcasecmp (tag, "text") == 0)
+         get_page_number (my_attribute.src);
+   } // while
+} // get_next_clips
+
+int compare_playorder (const void *p1, const void *p2)
+{
+   return (*(int *)p1 - *(int*)p2);
+} // compare_playorder
+
+void insert_page_numbers ()
+{
+   int x;
+
+   for (x = 0; x < total_items; x++)
+   {
+      // ... jos
+   } // for
+} // insert_page_numbers
+
+void parse_smil ()
+{
+   int x;
+   FILE *smil_file_r;
+
+   for (x = 0; x < total_items; x++)
+   {
+      if (*daisy[x].smil_file == 0)
+         continue;
+      realname (daisy[x].smil_file);
+      if (! (smil_file_r = fopen (daisy[x].smil_file, "r")))
+      {
+         endwin ();
+         playfile (PREFIX"share/daisy-player/error.wav", "1");
+         printf (gettext ("\nCannot read %s\n"), daisy[x].smil_file);
+         fflush (stdout);
+         _exit (1);
+      } // if
+      tree = mxmlLoadFile (NULL, smil_file_r, MXML_NO_CALLBACK);
+      fclose (smil_file_r);
+      node = mxmlFindElement (tree, tree, NULL, NULL, NULL,
+                              MXML_DESCEND_FIRST);
+
+// parse this smil
+      while (1)
+      {
+         if ((node = get_tag_or_label (node, tree)) == NULL)
+            break;
+
+// find anchor
+         if (strcasecmp (my_attribute.id, daisy[x].anchor) == 0)
+            break;
+      } // while
+      while (1)
+      {
+         if ((node = get_tag_or_label (node, tree)) == NULL)
+            break;
+
+// get clip_begin
+         if (strcasecmp (tag, "audio") == 0)
+         {
+            realname (my_attribute.src);
+            strncpy (daisy[x].audio_file, my_attribute.src, 90);
+            get_clips ();
+            daisy[x].begin = clip_begin;
+            daisy[x].end   = clip_end;
+
+// get clip_end
+            while (1)
+            {
+               if ((node = get_tag_or_label (node, tree)) == NULL)
+                  break;
+               if (*daisy[x + 1].anchor)
+                  if (strcasecmp (my_attribute.id, daisy[x + 1].anchor) == 0)
+                     break;
+               if (strcasecmp (tag, "audio") == 0)
+               {
+                  get_clips ();
+                  daisy[x].end = clip_end;
+               } // IF
+            } // while
+            if (*daisy[x + 1].anchor)
+               if (strcasecmp (my_attribute.id, daisy[x + 1].anchor) == 0)
+                  break;
+         } // if (strcasecmp (tag, "audio") == 0)
+      } // while
+   } // for
+} // parse_smil
+
+void view_screen ()
+{
+   int i, x, x2;
+
+   mvwaddstr (titlewin, 1, 0, "----------------------------------------");
+   waddstr (titlewin, "----------------------------------------");
+   mvwprintw (titlewin, 1, 0, gettext ("'h' for help "));
+   mvwprintw (titlewin, 1, 28, gettext (" level: %d of %d "), level, depth);
+   if (total_pages)
+      mvwprintw (titlewin, 1, 15, gettext (" %d pages "), total_pages);
+   mvwprintw (titlewin, 1, 47, gettext (" total length: %s "), ncc_totalTime);
+   mvwprintw (titlewin, 1, 74, " %d/%d ", \
+              daisy[current].screen + 1, daisy[total_items - 1].screen + 1);
+   wrefresh (titlewin);
+   wclear (screenwin);
+   for (i = 0; daisy[i].screen != daisy[current].screen; i++);
+   do
+   {
+      mvwprintw (screenwin, daisy[i].y, daisy[i].x + 1, daisy[i].label);
+      x = strlen (daisy[i].label) + daisy[i].x;
+      if (x / 2 * 2 != x)
+         waddstr (screenwin, " ");
+      for (x2 = x; x2 < 59; x2 = x2 + 2)
+         waddstr (screenwin, " .");
+      if (daisy[i].page_number)
+         mvwprintw (screenwin, daisy[i].y, 62, "(%3d)", daisy[i].page_number);
+      if (daisy[i].level <= level)
+if (! strstr (daisy_version, "3"))
+// not implemented yet
+         mvwprintw (screenwin, daisy[i].y, 74, "%02d:%02d",
+                 (int) (daisy[i].end - daisy[i].begin + .5) / 60, \
+                 (int) (daisy[i].end - daisy[i].begin + .5) % 60);
+      if (i >= total_items - 1)
+         break;
+   } while (daisy[++i].screen == daisy[current].screen);
+   if (just_this_item != -1 && daisy[current].screen == daisy[playing].screen)
+      mvwprintw (screenwin, daisy[displaying].y, 0, "J");
+   wmove (screenwin, daisy[current].y, daisy[current].x);
+   wrefresh (screenwin);
+} // view_screen
+
+void remake_structure (int level)
+{
+   int c, x;
+
+   for (c = 0; c < total_items; c++)
+   {
+      if (daisy[c + 1].level > level)
+      {
+         for (x = c + 1; daisy[x].level > level && x < total_items + 1; x++)
+            daisy[c].end += daisy[x].end;
+      } // if
+   } // for
+} // remake_structure
+
 void html_entities_to_utf8 (char *s)
 {
+// convert entities to UTf-8: "&lt;" -> "<"
+//                            "&amp;" -> "&"
+
   int e_flag, x;
   char entity[10], *e, new[255], *n, *orig, *s2;
 
@@ -337,526 +660,13 @@ void html_entities_to_utf8 (char *s)
   strncpy (orig, new, 250);
 } // html_entities_to_utf8
 
-void get_attributes (char *p)
-{
-   char name[255], *value, *begin;
-   int break2;
-
-   *attribute.class = 0;
-   *attribute.clip_begin = 0;
-   *attribute.clip_end = 0;
-   *attribute.content = 0;
-   *attribute.dc_format = 0;
-   *attribute.dc_title = 0;
-   *attribute.dtb_depth = 0,
-   *attribute.dtb_totalPageCount = 0;
-   *attribute.href = 0;
-   *attribute.id = 0;
-   *attribute.media_type = 0;
-   *attribute.name = 0;
-   *attribute.ncc_depth = 0;
-   *attribute.ncc_maxPageNormal = 0,
-   *attribute.ncc_totalTime = 0;
-   *attribute.playorder = 0;
-   *attribute.src = 0;
-   *attribute.value = 0;
-   begin = p;
-
-// skip to first attribute
-   while (! isspace (*p))
-   {
-      if (*p == '>' || *p == '?')
-         return;
-      if (p - begin > 250)
-      {
-         *p = 0;
-         return;
-      } // if
-      p++;
-   } // while
-   break2 = 0;
-   while (1)
-   {
-      while (isspace (*++p))
-      {
-         if (*p == '>' || *p == '?')
-         {
-            break2 = 1;
-            break;
-         } // if
-         if (p - begin > 250)
-         {
-            *p = 0;
-            break2 = 1;
-            break;
-         } // if
-      } // while
-      if (break2)
-        break;
-      strncpy (name, p, 250);
-      p = name;
-      while (! isspace (*p) && *p != '=')
-      {
-         if (*p == '>' || *p == '?')
-         {
-            break2 = 1;
-            break;
-         } // if
-         if (p - begin > 250)
-         {
-            *p = 0;
-            break2 = 1;
-            break;
-         } // if
-         p++;
-      } // while
-      if (break2)
-         break;
-      *p = 0;
-      while (*p != '"')
-      {
-         if (*p == '>' || *p == '?')
-         {
-            break2 = 1;
-            break; 
-         } // if
-         if (p - begin > 250)
-         {
-            *p = 0;
-            break2 = 1;
-            break; // return;
-         } // if
-         p++;
-      } // while
-      if (break2)
-         break;
-      p++;
-
-      value = p;
-      p = value;
-      while (*p != '"' && *p != '>' && *p != '?')
-      {
-         if (p - begin > 250)
-         {
-            *p = 0;
-            break2 = 1;
-            break;
-         } // if
-         p++;
-      } // while
-      if (break2)
-         break;
-      *p = 0;
-
-      if (strcasecmp (name, "class") == 0)
-         strncpy (attribute.class, value, 90);
-      if (strcasecmp (name, "clip-begin") == 0)
-         strncpy (attribute.clip_begin, value, 90);
-      if (strcasecmp (name, "clipbegin") == 0)
-         strncpy (attribute.clip_begin, value, 90);
-      if (strcasecmp (name, "clip-end") == 0)
-         strncpy (attribute.clip_end, value, 90);
-      if (strcasecmp (name, "clipend") == 0)
-         strncpy (attribute.clip_end, value, 90);
-      if (strcasecmp (name, "content") == 0)
-         strncpy (attribute.content, value, 90);
-      if (strcasecmp (name, "href") == 0)
-         strncpy (attribute.href, value, 90);
-      if (strcasecmp (name, "id") == 0)
-         strncpy (attribute.id, value, 90);
-      if (strcasecmp (name, "media-type") == 0)
-         strncpy (attribute.media_type, value, 90);
-      if (strcasecmp (name, "name") == 0)
-      {
-         if (strcasecmp (value, "dc:format") == 0)
-            strncpy (attribute.dc_format, "prepare for content", 90);
-         if (strcasecmp (value, "dc:title") == 0)
-            strncpy (attribute.dc_title, "prepare for content", 90);
-         if (strcasecmp (value, "dtb:depth") == 0)
-            strncpy (attribute.dtb_depth, "prepare for content", 90);
-         if (strcasecmp (value, "dtb:totalPageCount") == 0)
-            strncpy (attribute.ncc_maxPageNormal, "prepare for content", 90);
-         if (strcasecmp (value, "dtb:totalTime") == 0)
-            strncpy (attribute.ncc_totalTime, "prepare for content", 90);
-         if (strcasecmp (value, "ncc:depth") == 0)
-            strncpy (attribute.ncc_depth, "prepare for content", 90);
-         if (strcasecmp (value, "ncc:maxPageNormal") == 0)
-            strncpy (attribute.ncc_maxPageNormal, "prepare for content", 90);
-         if (strcasecmp (value, "ncc:totalTime") == 0)
-            strncpy (attribute.ncc_totalTime, "prepare for content", 90);
-      } // if
-      if (strcasecmp (name, "playorder") == 0)
-         strncpy (attribute.playorder, value, 90);
-      if (strcasecmp (name, "src") == 0)
-         strncpy (attribute.src, value, 90);
-      if (strcasecmp (name, "value") == 0)
-         strncpy (attribute.value, value, 90);
-   } // while
-   if (*attribute.dc_format)
-      strncpy (attribute.dc_format, attribute.content, 90);
-   if (*attribute.dc_title)
-      strncpy (attribute.dc_title, attribute.content, 90);
-   if (*attribute.dtb_depth)
-      depth = atoi (attribute.content);
-   if (*attribute.dtb_totalPageCount)
-      total_pages = atoi (attribute.content);
-   if (*attribute.ncc_depth)
-      depth = atoi (attribute.content);
-   if (*attribute.ncc_maxPageNormal)
-      total_pages = atoi (attribute.content);
-   if (*attribute.ncc_totalTime)
-   {
-      strncpy (attribute.ncc_totalTime, attribute.content, 90);
-      if (strchr (attribute.ncc_totalTime, '.'))
-         *strchr (attribute.ncc_totalTime, '.') = 0;
-   } // if
-} // get_attributes
-
-int get_element_tag_or_label (int r)
-{
-   char *p, h;
-   static char read_flag = 0;
-
-   *tag = *label = 0;
-   p = element;
-   do
-   {
-      switch (read (r, p, 1))
-      {
-      case -1:
-         endwin ();
-         playfile (PREFIX"share/daisy-player/error.wav", "1");
-         puts (gettext ("Corrupt daisy structure!"));
-         fflush (stdout);
-         _exit (1);
-      case 0:
-         return EOF;
-      } // switch
-   } while (isspace (*p));
-   h = *p;
-
-   if (read_flag)
-   {
-      *p++ = '<';
-      *p = h;
-   } // if
-   if (*p == '<' || read_flag)
-   {
-      read_flag = 0;
-      *label = 0;
-      do
-      {
-         if (p - element > 250)
-         {
-            *p = 0;
-            strncpy (tag, element + 1, 250);
-            get_tag ();
-            get_attributes (element);
-            return 0;
-         } // if
-         switch (read (r, ++p, 1))
-         {
-         case -1:
-            endwin ();
-            playfile (PREFIX"share/daisy-player/error.wav", "1");
-            printf ("get_element_tag_or_label: %s\n", p);
-            fflush (stdout);
-            _exit (1);
-         case 0:
-            *++p = 0;
-            strncpy (tag, element + 1, 250);
-            get_tag ();
-            get_attributes (element);
-            return EOF;
-         } // switch
-      } while (*p != '>');
-      *++p = 0;
-      strncpy (tag, element + 1, 250);
-      get_tag ();
-      get_attributes (element);
-      return 0;
-   } // if
-   *label = *p;
-   *element = 0;
-   p = label;
-   do
-   {
-      if (p - label > 250)
-      {
-         *p = 0;
-         return 0;
-      } // if
-      switch (read (r, ++p, 1))
-      {
-      case -1:
-         endwin ();
-         playfile (PREFIX"share/daisy-player/error.wav", "1");
-         puts (gettext ("Maybe a read-error occurred!"));
-         fflush (stdout);
-         _exit (1);
-      case 0:
-         *p = 0;
-         return EOF;
-      } // switch
-      if (*p == '\n')
-         p--;
-   } while (*p != '<');
-   read_flag = 1;
-   *p = 0;
-   return 0;
-} // get_element_tag_or_label
-
-void get_tag ()
-{
-   char *p;
-   p = tag;
-   while (*p != ' ' && *p != '>' && p - tag <= 250)
-     p++;
-   *p = 0;
-} // get_tag
-
-void get_page_number ()
-{
-   int fd;
-   char file[100], *anchor;
-
-   if (strstr (daisy_version, "2.02"))
-   {
-      if (! strcasestr (element, attribute.src))
-         return;
-      strncpy (file, attribute.src, 90);
-      if (strchr (file, '#'))
-      {
-         anchor = strchr (file, '#') + 1;
-         *strchr (file, '#') = 0;
-      } // if
-      if ((fd = open (realname (file), O_RDONLY)) == -1)
-      {
-         endwin ();
-         playfile (PREFIX"share/daisy-player/error.wav", "1");
-         printf ("get_page_number(): %s\n", file);
-         fflush (stdout);
-         _exit (1);
-      } // if
-      while (1)
-      {
-         if (get_element_tag_or_label (fd) == EOF)
-         {
-            close (fd);
-            return;
-         } // if
-         if (strcasecmp (attribute.id, anchor) == 0)
-            break;
-      } // while
-      while (1)
-      {
-         if (get_element_tag_or_label (fd) == EOF)
-         {
-            close (fd);
-            return;
-         } // if
-         if (strcasecmp (tag, "span") == 0)
-            break;
-         if (tolower (tag[0]) == 'h' && isdigit (tag[1]))
-         {
-            close (fd);
-            return;
-         } // if
-      } // while
-      while (1)
-      {
-         if (get_element_tag_or_label (fd) == EOF)
-         {
-            close (fd);
-            return;
-         } // if
-         if (isdigit (*label))
-         {
-            current_page_number = atoi (label);
-            close (fd);
-            return;
-         } // if
-      } // while
-      close (fd);
-      return;
-   } // if
-   if (strcmp (daisy_version, "3") == 0)
-   {
-return; // jos
-      fd = open (NCC_HTML, O_RDONLY);
-      do
-      {
-         if (get_element_tag_or_label (fd) == EOF)
-            break;
-      } while (atoi (attribute.playorder) != current);
-      do
-      {
-         if (get_element_tag_or_label (fd) == EOF)
-            break;
-      } while (! *label);
-      current_page_number = atoi (label);
-      close (fd);
-      return;
-   } // if
-} // get_page_number
-
-int get_next_clips (int fd)
-{
-   if (fd == EOF)
-      return 0;
-   while (1)
-   {
-      if (get_element_tag_or_label (fd) == EOF)
-      {
-         close (fd);
-         return 0;
-      } // if
-      if (strcasecmp (tag, "text") == 0)
-         get_page_number ();
-      if (strcasecmp (tag, "audio") == 0)
-      {
-         if (strcasecmp (daisy[playing].audio_file, attribute.src) != 0)
-         {
-            close (fd);
-            return 0;
-         } // if
-         get_clips ();
-         if (clip_begin < daisy[playing].begin)
-            continue;
-         if (clip_end <= daisy[playing].end)
-            return 1;
-         close (fd);
-         return 0;
-      } // if
-   } // while
-} // get_next_clips
-
-void parse_smil ()
-{
-   int r, x, got_begin;
-
-   for (x = 0; x < total_items; x++)
-   {
-      r = open (daisy[x].smil_file, O_RDONLY);
-      do
-      {
-         get_element_tag_or_label (r);
-      } while (strcasecmp (attribute.id, daisy[x].anchor) != 0);
-      if (strcasecmp (attribute.class, "pagenum") == 0)
-      {
-         do
-         {
-            get_element_tag_or_label (r);
-// discard pagenumbers
-//            if (strcasecmp (tag, "audio") == 0)
-//               strncpy (daisy[x].audio_file, realname (attribute.src), 250);
-         } while (strcasecmp (tag, "/par") != 0);
-      } // if
-      got_begin = 0;
-      while (1)
-      {
-         if (get_element_tag_or_label (r) == EOF)
-            break;
-         if (strcasecmp (tag, "audio") == 0)
-         {
-            strncpy (daisy[x].audio_file, realname (attribute.src), 250);
-            get_clips ();
-            if (! got_begin)
-            {
-               got_begin = 1;
-               daisy[x].begin = clip_begin;
-            } // if
-            daisy[x].end = clip_end;
-         } // if
-         if (*daisy[x + 1].anchor)
-            if (strcasecmp (attribute.id, daisy[x + 1].anchor) == 0)
-               break;
-      } // while
-
-      if (daisy[x].end < daisy[x].begin)
-      {
-         endwin ();
-         playfile (PREFIX"share/daisy-player/error.wav", "1");
-         printf (gettext ("clip_end (%lf) is smaller than clip_begin (%lf). \n\
-This is not possible!\n\
-Daisy-player can't handle this DTB.\n"),
-daisy[x].end, daisy[x].begin);
-         fflush (stdout);
-         _exit (1);
-      } // if
-      close (r);
-   } // for
-} // parse_smil
-
-void view_screen ()
-{
-   int i, x, x2;
-
-   mvwaddstr (titlewin, 1, 0, "----------------------------------------");
-   waddstr (titlewin, "----------------------------------------");
-   mvwprintw (titlewin, 1, 0, gettext ("'h' for help "));
-   if (! discinfo)
-   {
-      mvwprintw (titlewin, 1, 28,
-                 gettext (" level: %d of %d "), level, depth);
-      if (total_pages)
-         mvwprintw (titlewin, 1, 15, gettext (" %d pages "), total_pages);
-      mvwprintw (titlewin, 1, 47,
-                 gettext (" total length: %s "), ncc_totalTime);
-      mvwprintw (titlewin, 1, 74, " %d/%d ", \
-              daisy[current].screen + 1, daisy[total_items - 1].screen + 1);
-   } // if
-   wrefresh (titlewin);
-   wclear (screenwin);
-   for (i = 0; daisy[i].screen != daisy[current].screen; i++);
-   do
-   {
-      mvwprintw (screenwin, daisy[i].y, daisy[i].x + 1, daisy[i].label);
-      x = strlen (daisy[i].label) + daisy[i].x;
-      if (x / 2 * 2 != x)
-         waddstr (screenwin, " ");
-      for (x2 = x; x2 < 59; x2 = x2 + 2)
-         waddstr (screenwin, " .");
-      if (! discinfo)
-      {
-         if (daisy[i].page_number)
-            mvwprintw (screenwin, daisy[i].y, 62,
-                       "(%3d)", daisy[i].page_number);
-         if (daisy[i].level <= level)
-            mvwprintw (screenwin, daisy[i].y, 74, "%02d:%02d",
-                 (int) (daisy[i].end - daisy[i].begin + .5) / 60, \
-                 (int) (daisy[i].end - daisy[i].begin + .5) % 60);
-      } // if
-      if (i >= total_items - 1)
-         break;
-   } while (daisy[++i].screen == daisy[current].screen);
-   if (just_this_item != -1 &&
-       daisy[current].screen == daisy[playing].screen)
-      mvwprintw (screenwin, daisy[displaying].y, 0, "J");
-   wmove (screenwin, daisy[current].y, daisy[current].x);
-   wrefresh (screenwin);
-} // view_screen
-
-void remake_structure (int level)
-{
-   int c, x;
-
-   for (c = 0; c < total_items; c++)
-   {
-      if (daisy[c + 1].level > level)
-      {
-         for (x = c + 1; daisy[x].level > level && x < total_items + 1; x++)
-            daisy[c].end += daisy[x].end;
-      } // if
-   } // for
-} // remake_structure
-
 void get_label (int flag, int indent)
 {
    html_entities_to_utf8 (label);
    strncpy (daisy[current].label, label, 250);
+   if (strchr (daisy[current].label, '\n'))
+      *strchr (daisy[current].label, '\n') = 0;
    daisy[current].label[58 - daisy[current].x] = 0;
-
    if (flag)
    {
       mvwprintw (titlewin, 1, 0, "----------------------------------------");
@@ -865,117 +675,31 @@ void get_label (int flag, int indent)
          daisy[current].label);
       wrefresh (titlewin);
    } // if
-   if (displaying == max_y)    
+   if (displaying == max_y)
       displaying = 0;
    daisy[current].y = displaying;
    daisy[current].screen = current / max_y;
-
-   if (strcasecmp (daisy[current].class, "pagenum") == 0)
-      daisy[current].x = 0;
-   else
-      if (daisy[current].x == 0)
-         daisy[current].x = indent + 3;
+   if (daisy[current].x == 0)
+      daisy[current].x = indent + 3;
 } // get_label
 
-void read_daisy_structure (char *xml_file, int flag)
+void read_daisy_structure (int flag)
 {
-   int indent = 0, r;
+   int indent = 0;
+   FILE *ncc_file_r;
 
-   if ((r = open (xml_file, O_RDONLY)) == -1)
-   {
-      endwin ();
-      playfile (PREFIX"share/daisy-player/error.wav", "1");
-      printf (gettext ("Corrupt daisy structure %s\n"), xml_file);
-      fflush (stdout);
-      _exit (1);
-   } // if
+   if (strstr (daisy_version, "3"))
+      return;
+   realname (NCC_HTML);
+   ncc_file_r = fopen (NCC_HTML, "r");
+   tree = mxmlLoadFile (NULL, ncc_file_r, MXML_NO_CALLBACK);
+   fclose (ncc_file_r);
+   node = mxmlFindElement (tree, tree, NULL, NULL, NULL, MXML_DESCEND_FIRST);
    current = displaying = 0;
-   do
+   while (1)
    {
-      if (get_element_tag_or_label (r) == EOF)
+      if ((node = get_tag_or_label (node, tree)) == NULL)
          break;
-      if (*attribute.dc_title)
-         strncpy (daisy_title, attribute.dc_title, 90);
-      if (*attribute.ncc_totalTime)
-         strncpy (ncc_totalTime, attribute.ncc_totalTime, 8);
-      if (strcasecmp (tag, "navPoint") == 0)
-      {
-         int l, got_label = 0;
-
-         daisy[current].page_number = 0;
-         l = attribute.class[1] - '0';
-         daisy[current].level = l;
-         indent = daisy[current].x = (l - 1) * 3 + 1;
-         strncpy (daisy[current].class, attribute.class, 90);
-         do
-         {
-            get_element_tag_or_label (r);
-            if (*label)
-            {
-               get_label (flag, indent);
-               got_label = 1;
-            } // if
-            if (strcasecmp (tag, "content") == 0)
-            {
-               strncpy (daisy[current].smil_file, attribute.src, 250);
-               if (strchr (daisy[current].smil_file, '#'))
-               {
-                  strncpy (daisy[current].anchor,
-                           strchr (daisy[current].smil_file, '#') + 1, 250);
-                  *strchr (daisy[current].smil_file, '#') = 0;
-               } // if
-            } // if
-         } while (strcasecmp (tag, "content") != 0);
-         if (got_label)
-         {
-            current++;
-            displaying++;
-         } // if
-      } // if (strcasecmp (tag, "navPoint") == 0)
-      if (strcasecmp (tag, "pageTarget") == 0)
-      {
-         int got_label = 0;
-
-         daisy[current].page_number = 0;
-         strncpy (daisy[current].class, attribute.class, 90);
-         do
-         {
-            get_element_tag_or_label (r);
-            if (*label)
-            {
-               get_label (flag, indent);
-               got_label = 1;
-               daisy[current].page_number = atoi (daisy[current].label);
-            } // if
-            if (strcasecmp (tag, "content") == 0)
-            {
-               strncpy (daisy[current].smil_file, attribute.src, 250);
-               if (strchr (daisy[current].smil_file, '#'))
-               {
-                  strncpy (daisy[current].anchor,
-                           strchr (daisy[current].smil_file, '#') + 1, 250);
-                  *strchr (daisy[current].smil_file, '#') = 0;
-               } // if
-            } // if
-         } while (strcasecmp (tag, "content") != 0);
-         if (got_label)
-         {
-            current++;
-            displaying++;
-         } // if
-      } // if (strcasecmp (tag, "pageTarget") == 0)
-      if (strcasecmp (tag, "docTitle") == 0)
-      {
-         do
-         {
-            get_element_tag_or_label (r);
-         } while (strcasecmp (tag, "text") != 0);
-         do
-         {
-            get_element_tag_or_label (r);
-         } while (*label == 0);
-         strncpy (daisy_title, label, 250);
-      } // if (strcasecmp (tag, "docTitle") == 0)
       if (strcasecmp (tag, "h1") == 0 ||
           strcasecmp (tag, "h2") == 0 ||
           strcasecmp (tag, "h3") == 0 ||
@@ -991,9 +715,10 @@ void read_daisy_structure (char *xml_file, int flag)
          indent = daisy[current].x = (l - 1) * 3 + 1;
          do
          {
-            get_element_tag_or_label (r);
+            if ((node = get_tag_or_label (node, tree)) == NULL)
+               break;
          } while (strcasecmp (tag, "a") != 0);
-         strncpy (daisy[current].smil_file, attribute.href, 250);
+         strncpy (daisy[current].smil_file, my_attribute.href, 250);
          if (strchr (daisy[current].smil_file, '#'))
          {
             strncpy (daisy[current].anchor,
@@ -1002,7 +727,8 @@ void read_daisy_structure (char *xml_file, int flag)
          } // if
          do
          {
-            get_element_tag_or_label (r);
+            if ((node = get_tag_or_label (node, tree)) == NULL)
+               break;
          } while (*label == 0);
          get_label (flag, indent);
          current++;
@@ -1010,19 +736,23 @@ void read_daisy_structure (char *xml_file, int flag)
       } // if (strcasecmp (tag, "h1") == 0 || ...
       if (strcasecmp (tag, "span") == 0)
       {
-         do
+         while (1)
          {
-            get_element_tag_or_label (r);
-            if (! daisy[current - 1].page_number && isdigit (*label))
+            if ((node = get_tag_or_label (node, tree)) == NULL)
+               break;
+            if (isdigit (*label))
             {
+               if (daisy[current - 1].page_number > 0)
+                  break;                         
                daisy[current - 1].page_number = atoi (label);
                break;
             } // if
-         } while (strcasecmp (tag, "/span") != 0);
+         } // while
       } // if (strcasecmp (tag, "span") == 0)
-   } while (strcasecmp (tag, "/html") != 0 && strcasecmp (tag, "/ncx") != 0);
-   close (r);
+   } // while
    total_items = current;
+   if (strstr (daisy_version, "3"))
+      qsort (&daisy, total_items, sizeof (daisy[1]), compare_playorder);
    parse_smil ();
 } // read_daisy_structure
 
@@ -1035,13 +765,6 @@ void play_now ()
 {
    if (playing == -1)
       return;
-   if (! *daisy[playing].audio_file)
-   {
-      endwin ();
-      playfile (PREFIX"share/daisy-player/error.wav", "1");
-      printf ("No audio_file\n");
-      _exit (1);
-   } // if
    switch (player_pid = fork ())
    {
    case -1:
@@ -1051,7 +774,6 @@ void play_now ()
       fflush (stdout);
       _exit (1);
    case 0:
-      player_pid = setsid ();
       break;
    default:
       return;
@@ -1060,9 +782,10 @@ void play_now ()
    char tempo_str[15], cmd[255];
 
    snprintf (cmd, 250, "madplay -Q %s -s %f -t %f -o \"%s\"",
-                 daisy[playing].audio_file, clip_begin,
+                  my_attribute.src, clip_begin,
                  clip_end - clip_begin, tmp_wav);
-   system (cmd);
+   if (system (cmd) != 0)
+      return;
    snprintf (tempo_str, 10, "%lf", tempo);
    playfile (tmp_wav, tempo_str);
 /* When the sox trim effedct is used, use this
@@ -1073,60 +796,44 @@ void play_now ()
 
 void open_smil_file (char *smil_file, char *anchor)
 {
-   if (smil_file_fd > -1)
-   {
-      close (smil_file_fd);
-   } // if
-   if ((smil_file_fd = open (realname (smil_file), O_RDONLY)) == -1)
+   FILE *smil_file_r;
+
+   realname (smil_file);
+   if (! (smil_file_r = fopen (smil_file, "r")))
    {
       endwin ();
+      printf ("open_smil_file(): %s: %s\n", smil_file, strerror (errno));
       playfile (PREFIX"share/daisy-player/error.wav", "1");
-      printf ("open_smil_file(): %s\n", smil_file);
       fflush (stdout);
       _exit (1);
    } // if
-   current_page_number = 0;
+   tree = mxmlLoadFile (NULL, smil_file_r, MXML_NO_CALLBACK);
+   fclose (smil_file_r);
+   node = mxmlFindElement (tree, tree, NULL, NULL, NULL, MXML_DESCEND_FIRST);
+   start_time = time (NULL);
+
+// skip to anchor
    while (1)
    {
-      if (get_element_tag_or_label (smil_file_fd) == EOF)
-      {
-         close (smil_file_fd);
+      if ((node = get_tag_or_label (node, tree)) == NULL)
          return;
-      } // if
-      if (*anchor)
-      {
-         if (strcasecmp (anchor, attribute.id) == 0)
-         {
-            get_page_number ();
-            break;
-         } // if
-      }
-      else
-      {
-         if (strcasecmp (tag, "audio") == 0)
-         {
-            get_clips ();
-            break;
-         } // if
-      } // if
+      if (strcasecmp (my_attribute.id, anchor) == 0)
+         break;
    } // while
-   start_time = time (NULL);
 } // open_smil_file
 
 void pause_resume ()
 {
    if (playing != -1)
-      playing = -1;    
-   else
-      playing = displaying;
-   if (smil_file_fd == -1)
-         return;
+   {
+      playing = -1;
+      kill (player_pid, SIGQUIT);
+   }
    else
    {
-      if (playing != -1)
-         kill_player (SIGCONT);
-      else
-         kill_player (SIGSTOP);
+      playing = displaying;
+      kill (player_pid, SIGCONT);
+      node = mxmlWalkPrev (node, tree, MXML_NO_DESCEND);
    } // if
 } // pause_resume
 
@@ -1158,7 +865,7 @@ void store_to_disk ()
             daisy[current].label, str);
    wrefresh (screenwin);
    pause_resume ();
-   write_wav (daisy[current].audio_file, str);
+   write_wav (my_attribute.src, str);
    pause_resume ();
    view_screen ();
 } // store_to_disk
@@ -1243,8 +950,10 @@ void next_item ()
    wmove (screenwin, daisy[current].y, daisy[current].x);
 } // next_item
 
-void play_clip (int smil_file_fd)
+void play_clip ()
 {
+   char str[255];
+
    if (daisy[playing].screen == daisy[current].screen)
    {
       time_t cur_time, addition;
@@ -1252,14 +961,18 @@ void play_clip (int smil_file_fd)
 
       wattron (screenwin, A_BOLD);
       if (current_page_number)
-         mvwprintw (screenwin, daisy[playing].y, 63, "%3i",
-                                                     current_page_number);
+         mvwprintw (screenwin, daisy[playing].y, 63,
+                    "%3d", current_page_number);
       cur_time = time (NULL);
       addition = (time_t) (clip_begin - daisy[playing].begin);
       played_time = cur_time - start_time + addition;
+if (! strstr (daisy_version, "3"))
+// not implemented yet
       mvwprintw (screenwin, daisy[playing].y, 68, "%02d:%02d", \
                  played_time / 60, played_time % 60);
       remain_time =  daisy[playing].end - played_time;
+if (! strstr (daisy_version, "3"))
+// not implemented yet
       mvwprintw (screenwin, daisy[playing].y, 74, "%02d:%02d", \
                  remain_time / 60, remain_time % 60);
       wattroff (screenwin, A_BOLD);
@@ -1270,7 +983,7 @@ void play_clip (int smil_file_fd)
 // if still playing
       return;
    player_pid = -2;
-   if (get_next_clips (smil_file_fd))
+   if (get_next_clips ())
    {
       play_now ();
       start_time = time (NULL);
@@ -1281,88 +994,81 @@ void play_clip (int smil_file_fd)
    if (++playing >= total_items)
    {
       quit_daisy_player ();
-      exit (0);
+      snprintf (str, 250, "%s/.daisy-player/%s",
+                getenv ("HOME"), bookmark_title);
+      unlink (str);
+      _exit (0);
    } // if
    if (daisy[playing].level <= level)
       displaying = current = playing;
-   open_smil_file (daisy[playing].smil_file, daisy[playing].anchor);
    if (just_this_item != -1)
       if (daisy[playing].level <= level)
          playing = just_this_item = -1;
+   if (playing > -1)
+      open_smil_file (daisy[playing].smil_file, daisy[playing].anchor);
    view_screen ();
-} // play_clip    
+} // play_clip
 
 void skip_left ()
 {
-   char last_element[255];
-   double current_clip;
+   double latest = 0, current_clip_begin;
 
-   if (playing <= 0)
+   if (playing < 0)
    {
       beep ();
       return;
    } // if
-   if (smil_file_fd == -1)
-      return;
-   kill_player (SIGTERM);
+   if (player_pid > 0)
+      while (kill (player_pid, SIGQUIT) != 0);
+   *my_attribute.clip_begin = 0;
+   current_page_number = daisy[playing].page_number;
    if (clip_begin == daisy[playing].begin)
    {
-// go to previous item
-      close (smil_file_fd);
-      if (--playing < displaying)
-      {
-         current = --displaying;
-         previous_item ();
-         displaying = current;
-      } // if
-      if (playing < 0)
+// go to end of previous item
+      current = displaying = --playing;
+      if (current < 0)
       {
          beep ();
-         playing = 0;
+         current = displaying = playing = 0;
+         return;
       } // if
-      if ((smil_file_fd = open (daisy[playing].smil_file, O_RDONLY)) == -1)
+      open_smil_file (daisy[playing].smil_file, daisy[playing].anchor);
+      while (1)
       {
-         endwin ();
-         playfile (PREFIX"share/daisy-player/error.wav", "1");
-         printf (gettext ("Something is wrong with %s\n"),
-                 daisy[playing].smil_file);
-         fflush (stdout);
-         _exit (1);
-      } // if
-      while (get_element_tag_or_label (smil_file_fd) != EOF)
-      {
-         if (strcasecmp (tag, "text") == 0)
-            get_page_number ();
-         if (strcasecmp (tag, "audio") == 0)
-            strncpy (last_element, element, 250);
+// search last clip
+         if ((node = get_tag_or_label (node, tree)) == NULL)
+         {
+            view_screen ();
+            play_now ();
+            return;
+         } // if
+         if (*my_attribute.clip_begin)
+            get_clips ();
       } // while
-      get_attributes (last_element);
-      get_clips ();
-      play_now ();
-      view_screen ();
-      return;
    } // if (clip_begin == daisy[playing].begin)
 
-   double old_clip;
-
-   lseek (smil_file_fd, 0, SEEK_SET);
-   current_clip = clip_begin;
+   current_clip_begin = clip_begin;
+   open_smil_file (daisy[playing].smil_file, daisy[playing].anchor);
+   if (*my_attribute.src)
+      get_page_number (my_attribute.src);
    while (1)
    {
-      if (get_element_tag_or_label (smil_file_fd) == EOF)
+      if ((node = get_tag_or_label (node, tree)) == NULL)
          return;
       if (strcasecmp (tag, "text") == 0)
-         get_page_number ();
-      if (strcasecmp (tag, "audio") == 0)
+         get_page_number (my_attribute.src);
+      if (*my_attribute.clip_begin)
       {
-         old_clip = clip_begin;
          get_clips ();
-         if (clip_begin == current_clip)
-            break;
+         if (clip_begin == current_clip_begin)
+         {
+            clip_begin = latest;
+            play_now ();
+            return;
+         } // if
+         latest = clip_begin;
       } // if
    } // while
-   clip_begin = old_clip;
-   play_now ();
 } // skip_left
 
 void skip_right ()
@@ -1372,13 +1078,15 @@ void skip_right ()
       beep ();
       return;
    } // if
-   kill_player (SIGTERM);
+   kill (player_pid, SIGQUIT);
 } // skip_right
 
 void change_level (char key)
 {
    int c;
 
+   if (depth == 1)
+      return;
    if (key == 'l')
       if (++level > depth)
          level = 1;
@@ -1389,7 +1097,7 @@ void change_level (char key)
    wprintw (titlewin, "----------------------------------------");
    wrefresh (titlewin);
    c = current;
-   read_daisy_structure (NCC_HTML, 0);
+   read_daisy_structure (0);
    current = c;
    remake_structure (level);
    if (daisy[current].level > level)
@@ -1404,8 +1112,12 @@ void read_rc ()
    char line[255], *p;
    struct passwd *pw = getpwuid (geteuid ());
 
-   chdir (pw->pw_dir);     
-   strncpy (sound_dev, "default", 8);
+   if (chdir (pw->pw_dir) == -1)
+   {
+      playfile (PREFIX"share/daisy-player/error.wav", "1");
+      _exit (1);
+   } // if
+   strncpy (sound_dev, "hw:0", 8);
    if ((r = fopen (".daisy-player.rc", "r")) == NULL)
       return;
    while (fgets (line, 250, r))
@@ -1449,8 +1161,22 @@ void read_rc ()
 void save_rc ()
 {
    FILE *w;
-   struct passwd *pw = getpwuid (geteuid ());
-   chdir (pw->pw_dir);
+   struct passwd *pw;
+   
+   if (! (pw = getpwuid (geteuid ())))
+   {
+      endwin ();
+      printf ("getuid (): %d\n", getuid ());
+      printf ("getpwuid ()\n");
+      playfile (PREFIX"share/daisy-player/error.wav", "1");
+      fflush (stdout);
+      _exit (1);
+   } // if
+   if (chdir (pw->pw_dir) == -1)
+   {
+      playfile (PREFIX"share/daisy-player/error.wav", "1");
+      _exit (1);
+   } // if
    if ((w = fopen (".daisy-player.rc", "w")) == NULL)
       return;
    fputs ("# This file contains the name of the desired audio device and  the\n", w);
@@ -1461,7 +1187,6 @@ void save_rc ()
    fputs ("# otherwise your changes will be lost.\n", w);
    fputs ("#\n", w);
    fputs ("# On which ALSA-audio device should daisy-player play the DTB?\n", w);
-   fputs ("# default: sound_dev=default\n", w);
    fprintf (w, "sound_dev=%s\n", sound_dev);
    fputs ("#\n", w);
    fputs ("# At wich speed should the DTB be read?\n", w);
@@ -1473,14 +1198,10 @@ void save_rc ()
 void quit_daisy_player ()
 {
    endwin ();
-   kill_player (SIGTERM);
+   kill (player_pid, SIGQUIT);
    wait (NULL);
    put_bookmark ();
    save_rc ();
-   if (smil_file_fd > -1)
-      close (smil_file_fd);
-   if (*tmp_ncx)
-      unlink (tmp_ncx);
    unlink (tmp_wav);
 } // quit_daisy_player
 
@@ -1491,7 +1212,7 @@ void search (int start, char mode)
    if (mode == '/')
    {
       if (playing != -1)
-         kill_player (SIGSTOP);
+         kill (player_pid, SIGQUIT);
       mvwaddstr (titlewin, 1, 0, "----------------------------------------");
       waddstr (titlewin, "----------------------------------------");
       mvwprintw (titlewin, 1, 0, gettext ("What do you search?                           "));
@@ -1552,31 +1273,23 @@ void search (int start, char mode)
       view_screen ();
       playing = current;
       if (playing != -1)
-         kill_player (SIGCONT);
+         kill (player_pid, SIGCONT);
       open_smil_file (daisy[current].smil_file, daisy[current].anchor);
       previous_item ();
    }
    else
    {
       beep ();
+      view_screen ();
    } // if
 } // search
 
-void kill_player (int sig)
-{
-   killpg (player_pid, SIGKILL);
-   wait (NULL);
-   if (sig == SIGCONT)
-      play_now ();
-} // kill_player
-
 void go_to_page_number ()
 {
-   int fd;
-   char filename[100], anchor[100], pre_filename[100], pre_anchor[100];
-   char pn[15];
+   char filename[100], *anchor = 0;
+   char pn[15], href[100], prev_href[100];
 
-   kill_player (SIGTERM);
+   kill (player_pid, SIGQUIT);
    mvwaddstr (titlewin, 1, 0, "----------------------------------------");
    waddstr (titlewin, "----------------------------------------");
    mvwprintw (titlewin, 1, 0, gettext ("Go to page number:        "));
@@ -1585,118 +1298,111 @@ void go_to_page_number ()
    wgetnstr (titlewin, pn, 5);
    noecho ();
    view_screen ();
-   if (! *pn || ! isdigit (*pn))
+   if (! *pn || atoi (pn) > total_pages)
    {
       beep ();
-      skip_left ();
       return;
-   } // if
-   if ((fd = open (NCC_HTML, O_RDONLY)) == -1)
-   {
-      endwin ();
-      playfile (PREFIX"share/daisy-player/error.wav", "1");
-      printf (gettext ("Something is wrong with the %s file\n"), NCC_HTML);
-      fflush (stdout);
-      _exit (1);
    } // if
    if (strstr (daisy_version, "2.02"))
    {
-      do
-      {
-         if (get_element_tag_or_label (fd) == EOF)
-         {
-            beep ();
-            close (fd);
-            return;
-         } // if
-         if (strcasecmp (tag, "a") == 0)
-         {
-            strncpy (pre_filename, filename, 90);
-            strncpy (pre_anchor, anchor, 90);
-            strncpy (filename, attribute.href, 90);
-            if (strchr (filename, '#'))
-            {
-               strncpy (anchor, strchr (filename, '#') + 1, 90);
-               *strchr (filename, '#') = 0;
-            } // if
-         } // if "a"
-         if (strcmp (label, pn) == 0)
-         {
-            close (fd);
-            for (current = 0; current <= total_items; current++)
-            {
-               if (strcasecmp (daisy[current].smil_file, pre_filename) == 0)
-                  break;
-            } // for
-            view_screen ();
-            wmove (screenwin, daisy[current].y, daisy[current].x);
-            playing = current;
-            just_this_item = -1;
-            open_smil_file (pre_filename, pre_anchor);
-            return;
-         } // if
-      } while (strcasecmp (tag, "/html") != 0);
-   } // if (strstr (daisy_version, "2.02"))
-   if (strcmp (daisy_version, "3") == 0)
-   {
+      FILE *ncc_file_r;
+
+      realname (NCC_HTML);
+      ncc_file_r = fopen (NCC_HTML, "r");
+      tree = mxmlLoadFile (NULL, ncc_file_r, MXML_NO_CALLBACK);
+      fclose (ncc_file_r);
+      node = mxmlFindElement (tree, tree, NULL, NULL, NULL,
+                              MXML_DESCEND_FIRST);
+      *prev_href = *href = 0;
       while (1)
       {
-         if (get_element_tag_or_label (fd) == EOF)
-         {
-            beep ();
-            close (fd);
+         if ((node = get_tag_or_label (node, tree)) == NULL)
             return;
-         } // if
-         if (strcasecmp (tag, "pageTarget") == 0)
+         if (strcasecmp (tag, "a") == 0)
          {
-            if (strcmp (pn, attribute.value) == 0)
+            strncpy (prev_href, href, 90);
+            strncpy (href, my_attribute.href, 90);
+            while (1)
             {
-               do
-               {
-                  if (get_element_tag_or_label (fd) == EOF)
-                  {
-                     beep ();
-                     close (fd);
-                     return;
-                  } // if
-                  if (strcasecmp (tag, "/pageTarget") == 0)
-                  {
-                     beep ();
-                     close (fd);
-                     return;
-                  } // if
-               } while (strcasecmp (tag, "content") != 0);
-               strncpy (filename, attribute.src, 90);
-               if (strchr (filename, '#'))
-               {
-                  strncpy (anchor, strchr (filename, '#') + 1, 90);
-                  *strchr (filename, '#') = 0;
-               } // if
-               for (current = 0; current <= total_items; current++)
-               {
-                  if (strcasecmp (daisy[current].anchor, anchor) == 0)
-                     break;
-               } // for
-               view_screen ();
-               wmove (screenwin, daisy[current].y, daisy[current].x);
-               playing = current;
-               just_this_item = -1;
-               open_smil_file (filename, anchor);
-               return;
-            } // if
-         } // if "pageTarget"
+               if ((node = get_tag_or_label (node, tree)) == NULL)
+                  return;
+               if (*label)
+                  break;
+            } // while
+            *strchr (label, '\n') = 0;
+            if (strcmp (label, pn) == 0)
+               break;
+         } // if (strcasecmp (tag, "a") == 0)
       } // while
-   } // if (strcmp (daisy_version, "3") == 0)
-   beep ();
+      if (*prev_href)
+      {
+         strncpy (filename, prev_href, 90);
+         if (strchr (filename, '#'))
+         {
+            anchor = strchr (filename, '#') + 1;
+            *strchr (filename, '#') = 0;
+         } // if
+      } // if (*href)
+      for (current = 0; current <= total_items; current++)
+         if (strcasecmp (daisy[current].smil_file, filename) == 0)
+            break;
+      playing = displaying = current;
+      view_screen ();
+      current_page_number = atoi (pn);
+      wmove (screenwin, daisy[current].y, daisy[current].x);
+      just_this_item = -1;
+      open_smil_file (daisy[current].smil_file, anchor);
+   } // if (strstr (daisy_version, "2.02"))
+
+   if (strstr (daisy_version, "3"))
+   {
+      FILE *r;
+      mxml_node_t *node, *tree;
+      int text = 0, content = 0;
+      char file[100], *anchor = 0;
+
+      realname (NCC_HTML);
+      r = fopen (NCC_HTML, "R");
+      tree = mxmlLoadFile (NULL, r, MXML_NO_CALLBACK);
+      fclose (r);
+      node = mxmlFindElement (tree, tree, NULL, NULL, NULL,
+                              MXML_DESCEND_FIRST);
+      while (1)
+      {
+         if ((node = get_tag_or_label (node, tree)) == NULL)
+            return;
+         if (strcasecmp (tag, "pageTarget") == 0)
+            break;
+      } // while
+      while (1)
+      {
+         if ((node = get_tag_or_label (node, tree)) == NULL)
+            return;
+         if (*label && atoi (pn) == atoi (label))
+            text = 1;
+         if (strcasecmp (tag, "content") == 0)
+         {
+            strncpy (file, my_attribute.src, 90);
+            content = 1;
+         } // if
+         if (text && content)
+            break;
+      } // while
+      if (strchr (file, '#'))
+      {
+         anchor = strchr (file, '#') + 1;
+         *strchr (file, '#') = 0;
+      } // if
+      open_smil_file (file, anchor);
+   } // if (strstr (daisy_version, "3"))
 } // go_to_page_number
 
 void select_next_output_device ()
 {
    FILE *r;
-   int n, bx, by, y;
-   char list[10][255], trash[100];
+   int n, y;
+   char list[10][1024], trash[1024];
 
-   getyx (screenwin, by, bx);
    wclear (screenwin);
    wprintw (screenwin, "\nSelect an soundcard:\n\n");
    if (! (r = fopen ("/proc/asound/cards", "r")))
@@ -1710,8 +1416,16 @@ void select_next_output_device ()
    for (n = 0; n < 10; n++)
    {
       *list[n] = 0;
-      fgets (list[n], 100, r);
-      fgets (trash, 100, r);
+      if (! fgets (list[n], 1000, r))
+      {
+         playfile (PREFIX"share/daisy-player/error.wav", "1");
+         _exit (1);
+      } // if
+      if (! fgets (trash, 1000, r))
+      {
+         playfile (PREFIX"share/daisy-player/error.wav", "1");
+         _exit (1);
+      } // if
       if (! *list[n])
          break;
       wprintw (screenwin, "   %s", list[n]);
@@ -1725,7 +1439,7 @@ void select_next_output_device ()
       switch (wgetch (screenwin))
       {
       case 13:
-         snprintf (sound_dev, 15, "default:%i", y - 3);
+         snprintf (sound_dev, 15, "hw:%i", y - 3);
          view_screen ();
          nodelay (screenwin, TRUE);
          return;
@@ -1752,7 +1466,6 @@ void browse ()
 
    current = 0;
    just_this_item = playing = -1;
-   smil_file_fd = -1;
    get_bookmark ();
    remake_structure (level);
    view_screen ();
@@ -1771,12 +1484,15 @@ void browse ()
          {
             snprintf (str, 250, "%s -m %s -d %s", prog_name,
                    dirname (daisy[current].smil_file), sound_dev);
-            system (str);
+            if (system (str) != 0)
+               return;
             view_screen ();
             break;
          } // if
          playing = displaying = current;
-         kill_player (SIGTERM);
+         current_begin = 0;
+         current_page_number = 0;
+         kill (player_pid, SIGQUIT);
          open_smil_file (daisy[current].smil_file, daisy[current].anchor);
          break;
       case '/':
@@ -1795,9 +1511,11 @@ void browse ()
             break;
          } // if
          quit_daisy_player ();
-         system ("udisks --unmount /dev/sr0 > /dev/null");
-         system ("udisks --eject /dev/sr0 > /dev/null");
-         exit (0);
+         if (system ("udisks --unmount /dev/sr0 > /dev/null") != 0)
+            return;
+         if (system ("udisks --eject /dev/sr0 > /dev/null") != 0)
+            return;
+         _exit (0);
       case 'f':
          if (playing == -1)
          {
@@ -1816,9 +1534,9 @@ void browse ()
          break;
       case 'h':
       case '?':
-         kill_player (SIGSTOP);
+         kill (player_pid, SIGQUIT);
          help ();
-            kill_player (SIGCONT);
+            kill (player_pid, SIGCONT);
          break;
       case 'j':
          if (just_this_item != -1)
@@ -1829,7 +1547,7 @@ void browse ()
          if (playing == -1)
          {
             just_this_item = displaying = playing = current;
-            kill_player (SIGTERM);
+            kill (player_pid, SIGQUIT);
             open_smil_file (daisy[current].smil_file, daisy[current].anchor);
          } // if
          if (just_this_item != -1 &&
@@ -1853,22 +1571,22 @@ void browse ()
          break;
       case 'o':
          if (playing != -1)
-            kill_player (SIGSTOP);
+            kill (player_pid, SIGQUIT);
          select_next_output_device ();
          if (playing != -1)
-            kill_player (SIGCONT);
+            kill (player_pid, SIGCONT);
          break;
       case 'p':
          put_bookmark();
          break;
       case 'q':
          quit_daisy_player ();
-         exit (0);
+         _exit (0);
       case 's':
+         kill (player_pid, SIGQUIT);
          playing = just_this_item = -1;
          view_screen ();
          wmove (screenwin, daisy[current].y, daisy[current].x);
-         kill_player (SIGTERM);
          break;
       case KEY_DOWN:
          next_item ();
@@ -1921,7 +1639,7 @@ void browse ()
             break;
          } // if
          tempo += 0.1;
-         kill_player (SIGTERM);
+         kill (player_pid, SIGQUIT);
          play_now ();
          break;
       case 'D':
@@ -1931,12 +1649,12 @@ void browse ()
             break;
          } // if
          tempo -= 0.1;
-         kill_player (SIGTERM);
+         kill (player_pid, SIGQUIT);
          play_now ();
          break;
       case KEY_HOME:
          tempo = 1;
-         kill_player (SIGTERM);
+         kill (player_pid, SIGQUIT);
          play_now ();
          break;
       default:
@@ -1945,7 +1663,7 @@ void browse ()
       } // switch
 
       if (playing != -1)
-         play_clip (smil_file_fd);
+         play_clip ();
 
       fd_set rfds;
       struct timeval tv;
@@ -1962,7 +1680,7 @@ void browse ()
 void usage (char *argv)
 {
    printf (gettext ("Daisy-player - Version %s\n"), VERSION);
-   puts ("(C)2003-2011 J. Lemmens");
+   puts ("(C)2003-2012 J. Lemmens");
    playfile (PREFIX"share/daisy-player/error.wav", "1");
    printf (gettext ("\nUsage: %s [directory with a Daisy-structure] [-d ALSA sound device]\n"), basename (argv));
    fflush (stdout);
@@ -1998,121 +1716,11 @@ char *get_mount_point ()
    return NULL;
 } // get_mount_point
 
-char *read_opf (char *name, char *type)
-{
-   int opf;
-   DIR *dir;
-
-   if (! (dir = opendir (name)))
-   {
-      endwin ();
-      playfile (PREFIX"share/daisy-player/error.wav", "1");
-      printf (gettext ("Cannot read %s\n"), name);
-      fflush (stdout);
-      _exit (1);
-   } // if
-   while ((dirent = readdir (dir)) != NULL)
-   {
-      if (! strcmp (dirent->d_name, ".") || ! strcmp (dirent->d_name, ".."))
-         continue;
-      if (strcasecmp (dirent->d_name + strlen (dirent->d_name) - 4,
-                 ".opf") == 0)
-      {
-         closedir (dir);
-         break;
-      } // if
-   } // while
-   opf = open (dirent->d_name, O_RDONLY);
-   while (1)
-   {
-      if (get_element_tag_or_label (opf) == EOF)
-      {
-         close (opf);
-         closedir (dir);
-         return NULL;
-      } // if
-      if (*attribute.ncc_totalTime)
-         strncpy (ncc_totalTime, attribute.ncc_totalTime, 8);
-      if (strcasecmp (tag, "dc:title") == 0)
-      {
-         do
-         {
-            get_element_tag_or_label (opf);
-         } while (! *label);
-         strncpy (daisy_title, label, 90);
-      } // if
-      if (strcasecmp (attribute.media_type, type) == 0)
-      {
-         close (opf);
-         return attribute.href;
-      } // if
-   } // while
-} // read_opf
-
-char *sort_by_playorder ()
-{
-   int n, r, w;
-
-   snprintf (tmp_ncx, 200, "/tmp/daisy-player.XXXXXX");
-   mkstemp (tmp_ncx);
-   unlink (tmp_ncx);
-   strcat (tmp_ncx, ".ncx");
-   if ((r = open (NCC_HTML, O_RDONLY)) == -1)
-   {
-      endwin ();
-      playfile (PREFIX"share/daisy-player/error.wav", "1");
-      printf (gettext ("Something is wrong with the %s file\n"), NCC_HTML);
-      fflush (stdout);
-      _exit (1);
-   } // if
-   if ((w = open (tmp_ncx, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)) == -1)
-   {
-      endwin ();
-      playfile (PREFIX"share/daisy-player/error.wav", "1");
-      printf ("sort_by_playorder(%s)\n", tmp_ncx);
-      fflush (stdout);
-      _exit (1);
-   } // if
-   do
-   {
-      if (get_element_tag_or_label (r) == EOF)
-         break;
-      if (*element)
-         dprintf (w, "%s\n", element);
-      else
-         dprintf (w, "%s\n", label);
-   } while (strcasecmp (tag, "navmap") != 0);
-   n = 1;
-   do
-   {
-      *attribute.playorder = 0;
-      if (get_element_tag_or_label (r) == EOF)
-         break;
-      if (atoi (attribute.playorder) == n)
-      {
-         dprintf (w, "%s\n", element);
-         do
-         {
-            if (get_element_tag_or_label (r) == EOF)
-               break;
-            if (*element)
-               dprintf (w, "%s\n", element);
-            else
-               dprintf (w, "%s\n", label);
-         } while (strcasecmp (tag, "content") != 0);
-         n++;
-         lseek (r, 0, SEEK_SET);
-      } // if
-   } while (strcasecmp (tag, "/ncx") != 0);
-   close (w);
-   close (r);
-   return tmp_ncx;
-} // sort_by_playorder
-
 int main (int argc, char *argv[])
 {
-   int r, x, opt;
+   int opt;
    char str[255];
+   FILE *ncc_file_r;
 
    fclose (stderr); // discard SoX messages
    strncpy (prog_name, basename (argv[0]), 90);
@@ -2140,9 +1748,18 @@ int main (int argc, char *argv[])
          usage (prog_name);
       } // switch
    } // while
-   puts ("(C)2003-2011 J. Lemmens");
+   puts ("(C)2003-2012 J. Lemmens");
    printf (gettext ("Daisy-player - Version %s\n"), VERSION);
    puts (gettext ("A parser to play Daisy CD's with Linux"));
+   if (system ("madplay -h > /dev/null") > 0)
+   {
+      playfile (PREFIX"share/daisy-player/error.wav", "1");
+      endwin ();
+      printf (gettext ("\nDaisy-player needs the \"madplay\" programme.\n"));
+      printf (gettext ("Please install it and try again.\n"));
+      fflush (stdout);
+      _exit (1);
+   } // if
    fflush (stdout);
    if (! argv[optind])
 // when no mount-point is given try to mount the cd
@@ -2182,6 +1799,7 @@ int main (int argc, char *argv[])
       {
          printf ("stat: %s: %s\n", strerror (errno), daisy_mp);
          playfile (PREFIX"share/daisy-player/error.wav", "1");
+         fflush (stdout);
          _exit (1);
       } // if
    } // if
@@ -2203,79 +1821,32 @@ int main (int argc, char *argv[])
       fflush (stdout);
       _exit (1);
    } // if
-   strncpy (clip_str_b, "clip-begin", 10);
-   strncpy (clip_str_e, "clip-end", 10);
-   strncpy (NCC_HTML, realname ("ncc.html"), 250);
-   if ((r = open (NCC_HTML, O_RDONLY)) != -1)
+   strncpy (NCC_HTML, "ncc.html", 10);
+   realname (NCC_HTML);
+   if ((ncc_file_r = fopen (NCC_HTML, "r")))
    {
+      mxmlDelete (tree);
+      tree = mxmlLoadFile (NULL, ncc_file_r, MXML_NO_CALLBACK);
+      fclose (ncc_file_r);
+      node = mxmlFindElement (tree, tree, NULL, NULL, NULL,
+                              MXML_DESCEND_FIRST);
       while (1)
       {
-         if (get_element_tag_or_label (r) == EOF)
+         if ((node = get_tag_or_label (node, tree)) == NULL)
             break;
-         if (*attribute.dc_format)
+         if (*daisy_version)
          {
-            strncpy (daisy_version, attribute.dc_format, 20);
+            strncpy (daisy_version, my_attribute.dc_format, 20);
             break;
          } // if
-      } // while
-   }
-   else
-   {
-// look if this is daisy3
-      strncpy (NCC_HTML, read_opf (daisy_mp, "application/x-dtbncx+xml"), 250);
-      strncpy (NCC_HTML, sort_by_playorder (), 250);
-      if ((r = open (NCC_HTML, O_RDONLY)) == -1)
-      {
-         endwin ();
-         playfile (PREFIX"share/daisy-player/error.wav", "1");
-         printf (gettext ("Cannot find a daisy structure in %s\n"), daisy_mp);
-         fflush (stdout);
-         _exit (1);
-      } // if
-      strncpy (daisy_version, "3", 2);
-      strncpy (clip_str_b, "clipbegin", 10);
-      strncpy (clip_str_e, "clipend", 10);
-   } // if
-/* discinfo.html
-   if (r = open (NCC_HTML, O_RDONLY)) == -1)
-   {
-      strncpy (discinfo_html, "discinfo.html", 15);
-      if ((discinfo_fp = open (discinfo_html, O_RDONLY)) >= 0)
-      {
-         discinfo = 1;
-         read_daisy_structure (discinfo_html, 0);
-         browse ();
-         close (discinfo_fp);
-         exit (0);
-      }
-      else
-      {
-         endwin ();
-         puts ("");
-         playfile (PREFIX"share/daisy-player/error.wav", "1");
-         printf (gettext (CANNOT_FIND_A_DAISY_STRUCTURE), NCC_HTML);
-         fflush (stdout);
-         _exit (1);
-      } // if
-   } // if
-discinfo.html */
-   wattron (titlewin, A_BOLD);
-   snprintf (str, 250, gettext ("Daisy-player - Version %s - (C)2011 J. Lemmens"), VERSION);
-   wprintw (titlewin, str);
-   wrefresh (titlewin);
-   lseek (r, 0, SEEK_SET);
-   if (strstr (daisy_version, "2.02"))
-   {
-      while (1)
-      {
-         if (get_element_tag_or_label (r) == EOF)
-            break;
          if (strcasecmp (tag, "title") == 0)
          {
-            if (get_element_tag_or_label (r) == EOF)
+            if ((node = get_tag_or_label (node, tree)) == NULL)
                break;
             if (*label)
             {
+               int x;
+
                for (x = strlen (label) - 1; x >= 0; x--)
                   if (isspace (label[x]))
                      label[x] = 0;
@@ -2286,29 +1857,25 @@ discinfo.html */
             } // if
          } // if
       } // while
-   } // if
-   if (strcmp (daisy_version, "3") == 0)
+   }
+   else
    {
-      while (1)
-      {
-         if (get_element_tag_or_label (r) == EOF)
-            break;
-         if (strcasecmp (tag, "docTitle") == 0)
-         {
-            do
-            {
-               if (get_element_tag_or_label (r) == EOF)
-                  break;
-            } while (! *label);
-            strncpy (daisy_title, label, 90);
-            strncpy (bookmark_title, label, 90);
-         } // if
-      } // while
+      daisy3 (daisy_mp);
+      strncpy (daisy_version, "3", 2);
    } // if
-   close (r);
-   read_daisy_structure (NCC_HTML, 1);
+   read_daisy_structure (1);
+   wattron (titlewin, A_BOLD);
+   snprintf (str, 250, gettext
+             ("Daisy-player - Version %s - (C)2012 J. Lemmens"), VERSION);
+   mvwprintw (titlewin, 0, 0, str);
+   wrefresh (titlewin);
+
    snprintf (tmp_wav, 200, "/tmp/daisy_player.XXXXXX");
-   mkstemp (tmp_wav);
+   if (! mkstemp (tmp_wav))
+   {
+      playfile (PREFIX"share/daisy-player/error.wav", "1");
+      _exit (1);
+   } // if
    unlink (tmp_wav);
    strcat (tmp_wav, ".wav");
    if (strlen (daisy_title) + strlen (str) >= 80)

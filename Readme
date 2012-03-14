@@ -1,5 +1,5 @@
 Daisy-player - A parser to play Daisy CD's with Linux
-(C)2003-2011 J. Lemmens
+(C)2003-2012 J. Lemmens
 
 DESCRIPTION
 Daisy-player reads a DAISY-CD and plays its audio-files.
@@ -10,7 +10,11 @@ Be sure the following extra packages exist on your system:
    libncursesw5
    libidn11
    libsox1b
+   libmxml1
    madplay
+   gettext
+   language-pack-nl
+   language-pack-de
 
 The following packages are needed to make the manual and the html document:
 
@@ -27,13 +31,12 @@ following files:
 - COPYING: copyright information.
 - daisy-player.1: formatted manual page
 - daisy-player.c: source code
+- daisy3.c: source code
 - daisy-player.de.po: translations for the german language
 - daisy-player.desktop: file for the graphical interface
 - daisy-player.html: manual page in HTML format
 - daisy-player.nl.po: translations for the dutch language
 - daisy-player.txt: manual page in ASCII format
-- entities.h: source code
-- entities.txt: information about entities.h
 - error.txt: information about error.wav
 - error.wav: soundfile will be played when an error occured
 - icons: directory containing icons
@@ -42,7 +45,9 @@ following files:
 - Makefile: needed to compile from source
 - Readme: the text you are reading now.
 - TODO: things to do.
-- UCkd.h: source code
+- entities.h: from the lynx-package
+- entities.txt: information about entities.h
+- UCkd.h: from the lynx-package
 - UCkd.txt: information about UCkd.h
 
 INSTALLATION

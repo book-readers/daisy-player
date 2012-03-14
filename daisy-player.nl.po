@@ -1,6 +1,6 @@
 # message catalog file for daisy-player - dutch version
 #
-# Copyright (C) 2003-2011 J. Lemmens
+# Copyright (C) 2003-2012 J. Lemmens
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
@@ -19,8 +19,8 @@
 msgid "A parser to play Daisy CD's with Linux"
 msgstr "Een programma om Daisy CD's met Linux af te spelen"
 
-msgid "Daisy-player - Version %s - (C)2011 J. Lemmens"
-msgstr "Daisy-player - Versie %s - (C)2011 J. Lemmens"
+msgid "Daisy-player - Version %s - (C)2012 J. Lemmens"
+msgstr "Daisy-player - Versie %s - (C)2012 J. Lemmens"
 
 msgid "Cannot find a daisy structure"
 msgstr "Kan geen daisy structuur vinden"
@@ -196,10 +196,11 @@ msgstr "U               - verhoog afspeel snelheid\n"
 msgid "p               - place a bookmark\n"
 msgstr "p               - plaats een boekenlegger\n"
 
-msgid "clip_end (%f) is smaller than clip_begin (%f). \n\
-This is not possible!\n\
-Daisy-player can't handle this DTB.\n"
+msgid "clip_end (%f) is smaller than clip_begin (%f).\n"
+msgstr "clip_end (%f) is kleiner dan clip_begin (%f).\n"
 
-msgstr "clip_end (%f) is kleiner dan clip_begin (%f). \n\
-Dit is niet mogelijk!\n\
-Daisy-player kan niet overweg met dit DTB.\n"
+msgid "This is not possible!"
+msgstr "Dit is niet mogelijk!"
+
+msgid "Daisy-player can't handle this DTB."
+msgstr "Daisy-player kan niet overweg met dit DTB."

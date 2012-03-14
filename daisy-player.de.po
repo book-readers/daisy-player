@@ -1,6 +1,6 @@
 # message catalog file for daisy-player - german version
 #
-# Copyright (C) 2003-2011 J. Lemmens
+# Copyright (C) 2003-2012 J. Lemmens
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
@@ -18,11 +18,11 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-02 12:34+0200\n"
+"POT-Creation-Date: 2012-04-02 12:34+0200\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "language information for daisy-player\n"
-"Copyright (C)_2011 J. Lemmens\n"
+"Copyright (C)_2012 J. Lemmens\n"
 
 #: daisy-player.c:867
 msgid ""
@@ -143,7 +143,7 @@ msgstr ""
 
 #: daisy-player.c:1736
 #, c-format
-msgid "Daisy-player - Version %s - (C)2011 J. Lemmens"
+msgid "Daisy-player - Version %s - (C)2012 J. Lemmens"
 msgstr ""
 
 #: daisy-player.c:1249
@@ -165,7 +165,7 @@ msgstr "N               - Suche rückwärts\n"
 #: daisy-player.c:1699
 #, c-format
 msgid "No such directory: %s\n"
-msgstr ""
+msgstr "Kein solches Verzeichnis: %s\n"
 
 #: daisy-player.c:1060
 msgid "Please wait... -------------------------"
@@ -287,41 +287,42 @@ msgstr "s               - Abspielen stoppen\n"
 msgid "space           - pause/resume playing\n"
 msgstr "Leertaste       - Pause-/Weiter\n"
 
-#~ msgid "\t\t(all)\n"
-#~ msgstr "\t\t(alles)\n"
+msgid "\t\t(all)\n"
+msgstr "\t\t(alles)\n"
 
-#~ msgid ""
-#~ "\n"
-#~ "%s: is not a sound device.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "%s: ist kein sound device.\n"
+msgid ""
+"\n"
+"%s: is not a sound device.\n"
+msgstr ""
+"\n"
+"%s: ist kein sound device.\n"
 
-#~ msgid " (%2d of %2d)"
-#~ msgstr " (%2d von %2d)"
+msgid " (%2d of %2d)"
+msgstr " (%2d von %2d)"
 
-#~ msgid "Cannot find a daisy structure"
-#~ msgstr "Kann keine Daisy-struktur finden"
+msgid "Cannot find a daisy structure"
+msgstr "Kann keine Daisy-struktur finden"
 
-#~ msgid "Please wait..."
-#~ msgstr "Bitte warten..."
+msgid "Please wait..."
+msgstr "Bitte warten..."
 
-#~ msgid "Reading daisy structure..."
-#~ msgstr "Daisy-Struktur wird gelesen..."
+msgid "Reading daisy structure..."
+msgstr "Daisy-Struktur wird gelesen..."
 
-#~ msgid "card"
-#~ msgstr "Karte"
+msgid "card"
+msgstr "Karte"
 
-#~ msgid "n length: %d\n"
-#~ msgstr "n Länge: %d\n"
+msgid "n length: %d\n"
+msgstr "n Länge: %d\n"
 
-#~ msgid "s length: %d\n"
-#~ msgstr "s Länge: %d\n"
+msgid "s length: %d\n"
+msgstr "s Länge: %d\n"
 
-msgid "clip_end (%f) is smaller than clip_begin (%f). \n\
-This is not possible!\n\
-Daisy-player can't handle this DTB.\n"
+msgid "clip_end (%f) is smaller than clip_begin (%f).\n"
+msgstr "clip_end (%f) ist kleiner als clip_begin (%f).\n"
 
-msgstr "clip_end (%f) is smaller than clip_begin (%f). \n\
-This is not possible!\n\
-Daisy-player can't handle this DTB.\n"
+msgid "This is not possible!"
+msgstr "Dieses ist nicht möchlich."
+
+msgid "Daisy-player can't handle this DTB."
+msgstr "Daisy-player kann diesem DTB nicht lesen."

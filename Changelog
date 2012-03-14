@@ -24,6 +24,7 @@ Unfortunately there is no log for previous versions of daisy-player. :-(
 	bindtextdomain() function.
 	Currently it is set to "/usr/local/share/locale".
 6.2	HTML entities are now converted to UTF8.
+	(like "&lt;" to "<"
 6.2.1	In place of the sox executable dp now uses the sox library itself.
 6.2.2	Problem with setlocale() solved.
 6.2.3	Multiplexing added. Thanks to Halim Sahin <halim.sahin@t-online.de>
@@ -63,3 +64,17 @@ Unfortunately there is no log for previous versions of daisy-player. :-(
 	space-bar daisy-player crashes.
 
 	solved.
+7.0.5	Remove bookmark when reading is finished.
+7.1	Removed my own xml parser in favour of the xml2 library.
+	Copyright (C) 1998-2002 Daniel Veillard.
+
+* realname.patch: New patch to fix realname to really return a valid string.
+	Problem in the realname function solved.
+
+Samuel Thibault <sthibault@debian.org>
+* buffer-size.patch: Increase buffer size, to cope with long elements
+  - element[255]
+  + element[1024]
+
+* opf.patch: New patch to fix read_opf.
+  closedir (dir); after all dirent operations
