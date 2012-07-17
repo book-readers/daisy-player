@@ -18,21 +18,169 @@
 
 #include "daisy-player.h"
 
-extern mxml_node_t *get_tag_or_label (mxml_node_t *, mxml_node_t *);
+extern int get_tag_or_label (xmlTextReaderPtr), current_page_number;
 extern daisy_t daisy[];
 extern struct my_attribute my_attribute;
-extern int current, max_y, total_items;
+extern int current, displaying, max_y, total_items;
 extern char tag[], label[], daisy_title[], bookmark_title[], NCC_HTML[100];
+extern float clip_begin, clip_end;
 extern void realname (char *);
 
 char daisy_language[255];
 
+void parse_text_file (char *text_file)
+{
+   xmlTextReaderPtr textptr;
+   char *anchor = 0;
+
+   if (strchr (text_file, '#'))
+   {
+      anchor = strdup (strchr (text_file, '#') + 1);
+      *strchr (text_file, '#') = 0;
+   } // if
+   realname (text_file);
+   xmlDocPtr doc = xmlRecoverFile (text_file);
+   if (! (textptr = xmlReaderWalker (doc)))
+   {
+      endwin ();
+      playfile (PREFIX"share/daisy-player/error.wav", "1");
+      printf (gettext ("\nCannot read %s\n"), text_file);
+      _exit (1);
+   } // if
+   while (1)
+   {
+      if (! get_tag_or_label (textptr))
+      {
+         xmlTextReaderClose (textptr);
+         xmlFreeDoc (doc);
+         return;
+      } // if
+      if (strcasecmp (my_attribute.id, anchor) == 0)
+         break;
+   } // while
+   do
+   {
+      if (! get_tag_or_label (textptr))
+      {
+         xmlTextReaderClose (textptr);
+         xmlFreeDoc (doc);
+         return;
+      } // if
+   } while (! *label);
+   daisy[current].page_number = atoi (label);
+   xmlTextReaderClose (textptr);
+   xmlFreeDoc (doc);
+} // parse_text_file
+
+void get_page_number_3 (xmlTextReaderPtr reader)
+{
+   xmlDocPtr doc;
+   xmlTextReaderPtr page;
+   char *anchor = 0;
+
+   do
+   {
+      if (! get_tag_or_label (reader))
+         return;
+   } while (strcasecmp (tag, "text") != 0);
+   if (strchr (my_attribute.src, '#'))
+   {
+      anchor = strdup (strchr (my_attribute.src, '#') + 1);
+      *strchr (my_attribute.src, '#') = 0;
+   } // if
+   realname (my_attribute.src);
+   doc = xmlRecoverFile (my_attribute.src);
+   if (! (page = xmlReaderWalker (doc)))
+   {
+      endwin ();
+      playfile (PREFIX"share/daisy-player/error.wav", "1");
+      printf (gettext ("\nCannot read %s\n"), my_attribute.src);
+      fflush (stdout);
+      _exit (1);
+   } // if
+   do
+   {
+      if (! get_tag_or_label (page))
+         return;
+   } while (strcasecmp (my_attribute.id, anchor) != 0);
+   do
+   {
+      if (! get_tag_or_label (page))
+         return;
+   } while (! *label);
+   xmlTextReaderClose (page);
+   xmlFreeDoc (doc);
+   current_page_number = atoi (label);
+} // get_page_number_3
+
+void parse_smil_3 ()
+{
+   int x;
+   xmlTextReaderPtr parse;
+
+   for (x = 0; x < total_items; x++)
+   {
+      if (*daisy[x].smil_file == 0)
+         continue;
+      realname (daisy[x].smil_file);
+      xmlDocPtr doc = xmlRecoverFile (daisy[x].smil_file);
+      if (! (parse = xmlReaderWalker (doc)))
+      {
+         endwin ();
+         playfile (PREFIX"share/daisy-player/error.wav", "1");
+         printf (gettext ("\nCannot read %s\n"), daisy[x].smil_file);
+         fflush (stdout);
+         _exit (1);
+      } // if
+
+// parse this smil
+      while (1)
+      {
+         if (! get_tag_or_label (parse))
+            break;
+         if (strcasecmp (daisy[x].anchor, my_attribute.id) == 0)
+            break;
+      } // while                                        
+      daisy[x].duration = 0;
+      while (1)
+      {
+         if (! get_tag_or_label (parse))
+            break;
+// get clip_begin
+         if (strcasecmp (tag, "audio") == 0)
+         {
+            get_clips (my_attribute.clip_begin, my_attribute.clip_end);
+            daisy[x].begin = clip_begin;
+            daisy[x].duration += clip_end - clip_begin;
+// get clip_end
+            while (1)
+            {
+               if (! get_tag_or_label (parse))
+                  break;
+               if (*daisy[x + 1].anchor)
+                  if (strcasecmp (my_attribute.id, daisy[x + 1].anchor) == 0)
+                     break;
+               if (strcasecmp (tag, "audio") == 0)
+               {
+                  get_clips (my_attribute.clip_begin, my_attribute.clip_end);
+                  daisy[x].duration += clip_end - clip_begin;
+               } // IF
+            } // while
+            if (*daisy[x + 1].anchor)
+               if (strcasecmp (my_attribute.id, daisy[x + 1].anchor) == 0)
+                  break;
+         } // if (strcasecmp (tag, "audio") == 0)
+      } // while
+      xmlTextReaderClose (parse);
+      xmlFreeDoc (doc);
+   } // for
+} // parse_smil_3
+
 void parse_content (char *src)
 {
-   FILE *r;
-   char file[100], *anchor = 0;
    int found_anchor, found_text;
-   mxml_node_t *page_tree, *page_node;
+   char text_file[100];
+   xmlTextReaderPtr content;
 
    strncpy (daisy[current].smil_file, src, 250);
    if (strchr (daisy[current].smil_file, '#'))
@@ -42,89 +190,56 @@ void parse_content (char *src)
       *strchr (daisy[current].smil_file, '#') = 0;
    } // if
    realname (daisy[current].smil_file);
-   if (! (r = fopen (daisy[current].smil_file, "r")))
+   xmlDocPtr doc = xmlRecoverFile (daisy[current].smil_file);
+   if (! (content = xmlReaderWalker (doc)))
    {
       endwin ();
       playfile (PREFIX"share/daisy-player/error.wav", "1");
       printf (gettext ("\nCannot read %s\n"), daisy[current].smil_file);
-      fflush (stdout);
       _exit (1);
    } // if
-   page_tree = mxmlLoadFile (NULL, r, MXML_NO_CALLBACK);
-   fclose (r);
-   page_node = mxmlFindElement (page_tree, page_tree, NULL,
-                  NULL, NULL, MXML_DESCEND_FIRST);
    found_anchor = found_text = 0;
    while (1)
    {
-      if ((page_node = get_tag_or_label (page_node, page_tree)) == NULL)
+      if (! get_tag_or_label (content))
+      {
+         xmlTextReaderClose (content);
+         xmlFreeDoc (doc);
          return;
+      } // if
       if (strcasecmp (tag, "text") == 0)
       {
          found_text = 1;
-         strncpy (file, my_attribute.src, 90);
+         strncpy (text_file, my_attribute.src, 90);
       } // if
       if (strcasecmp (my_attribute.id, daisy[current].anchor) == 0)
          found_anchor = 1;
       if (found_anchor && found_text)
          break;
    } // while
-   if (strchr (file, '#'))
-   {
-      anchor = strchr (file, '#') + 1;
-      *strchr (file, '#') = 0;
-   } // if
-   realname (file);
-   if (! (r = fopen (file, "r")))
-   {
-      endwin ();
-      playfile (PREFIX"share/daisy-player/error.wav", "1");
-      printf (gettext ("\nCannot read %s\n"), file);
-      fflush (stdout);
-      _exit (1);
-   } // if
-   page_tree = mxmlLoadFile (NULL, r, MXML_NO_CALLBACK);
-   fclose (r);
-   page_node = mxmlFindElement (page_tree, page_tree, NULL,
-            NULL, NULL, MXML_DESCEND_FIRST);
-   while (1)
-   {
-      if ((page_node = get_tag_or_label (page_node, page_tree)) == NULL)
-         return;
-      if (strcasecmp (my_attribute.id, anchor) == 0)
-         break;
-   } // while
-   while (1)
-   {
-      if ((page_node = get_tag_or_label (page_node, page_tree)) == NULL)
-         return;
-      if (*label)
-         break;
-   } // while
-   daisy[current].page_number = atoi (label);
+   parse_text_file (text_file);
+   xmlTextReaderClose (content);
+   xmlFreeDoc (doc);
 } // parse_content
 
 void parse_opf_ncx (char *name)
 {
    int indent, flag = 0;
-   FILE *r;
-   mxml_node_t *node, *tree;
+   xmlTextReaderPtr reader;
 
    realname (name);
-   if (! (r = fopen (name, "r")))
+   xmlDocPtr doc = xmlRecoverFile (name);
+   if (! (reader = xmlReaderWalker (doc)))
    {
       endwin ();
       playfile (PREFIX"share/daisy-player/error.wav", "1");
       printf (gettext ("\nCannot read %s\n"), name);
-      fflush (stdout);
       _exit (1);
    } // if
-   tree = mxmlLoadFile (NULL, r, MXML_NO_CALLBACK);
-   fclose (r);
-   node = mxmlFindElement (tree, tree, NULL, NULL, NULL, MXML_DESCEND_FIRST);
+   current = displaying = 0;
    while (1)
    {
-      if ((node = get_tag_or_label (node, tree)) == NULL)
+      if (! get_tag_or_label (reader))
          break;
       if (strcasecmp (tag, "item") == 0 &&
           strcasecmp (my_attribute.id, "ncx") == 0)
@@ -138,7 +253,7 @@ void parse_opf_ncx (char *name)
       {
          do
          {
-            if ((node = get_tag_or_label (node, tree)) == NULL)
+            if (! get_tag_or_label (reader))
                break;
          } while (! *label);
          strncpy (daisy_language, label, 90);
@@ -147,7 +262,7 @@ void parse_opf_ncx (char *name)
       {
          do
          {
-            if ((node = get_tag_or_label (node, tree)) == NULL)
+            if (! get_tag_or_label (reader))
                break;
          } while (! *label);
          strncpy (daisy_title, label, 90);
@@ -156,31 +271,25 @@ void parse_opf_ncx (char *name)
       {
          while (1)
          {
-            if ((node = get_tag_or_label (node, tree)) == NULL)
+            if (! get_tag_or_label (reader))
                break;
             if (strcasecmp (tag, "itemref") == 0)
             {
                char idref[100];
-               FILE *r;
-               mxml_node_t *node, *tree;
 
                realname (name);
-               if (! (r = fopen (name, "r")))
+               xmlDocPtr doc = xmlRecoverFile (name);
+               if (! (reader = xmlReaderWalker (doc)))
                {
                   endwin ();
                   playfile (PREFIX"share/daisy-player/error.wav", "1");
                   printf (gettext ("\nCannot read %s\n"), name);
-                  fflush (stdout);
                   _exit (1);
                } // if
-               tree = mxmlLoadFile (NULL, r, MXML_NO_CALLBACK);
-               fclose (r);
-               node = mxmlFindElement (tree, tree, NULL, NULL, NULL,
-                                       MXML_DESCEND_FIRST);
                strncpy (idref, my_attribute.idref, 90);
                while (1)
                {
-                  if ((node = get_tag_or_label (node, tree)) == NULL)
+                  if (! get_tag_or_label (reader))
                      break;
                   if (strcasecmp (my_attribute.id, idref) == 0)
                      break;
@@ -199,7 +308,7 @@ void parse_opf_ncx (char *name)
       {
          do
          {
-            if ((node = get_tag_or_label (node, tree)) == NULL)
+            if (! get_tag_or_label (reader))
                break;
          } while (! *label);
          strncpy (daisy_title, label, 90);
@@ -217,48 +326,36 @@ void parse_opf_ncx (char *name)
          strncpy (daisy[current].class, my_attribute.class, 90);
          while (1)
          {
-            if ((node = get_tag_or_label (node, tree)) == NULL)
+            if (! get_tag_or_label (reader))
                break;
             if (strcasecmp (tag, "text") == 0)
             {
                while (1)
                {
-                  if ((node = get_tag_or_label (node, tree)) == NULL)
+                  if (! get_tag_or_label (reader))
                      break;
                   if (*label);
                   {
                      get_label (flag, indent);
                      daisy[current].screen = current / max_y;
                      daisy[current].y = current - daisy[current].screen * max_y;
+                     strncpy (daisy[current].label, label, 90);
                      break;
                   } // if
                } // while
-            } // if
+            } // if (strcasecmp (tag, "text") == 0)
             if (strcasecmp (tag, "content") == 0)
             {
                parse_content (my_attribute.src);
                current++;
                break;
-            } // if
+            } // if (strcasecmp (tag, "content") == 0)
          } // while
       } // if (strcasecmp (tag, "navPoint") == 0)
-      if (strcasecmp (tag, "span") == 0)
-      {
-         do
-         {
-            if ((node = get_tag_or_label (node, tree)) == NULL)
-               break;
-            if (! daisy[current - 1].page_number && isdigit (*label))
-            {
-               daisy[current - 1].page_number = atoi (label);
-               break;
-            } // if
-         } while (strcasecmp (tag, "/span") != 0);
-      } // if (strcasecmp (tag, "span") == 0)
    } // while
 } // parse_opf_ncx
 
-void daisy3 (char *daisy_mp)
+void read_daisy_3 (int flag, char *daisy_mp)
 {
    DIR *dir;
    struct dirent *dirent;
@@ -268,7 +365,6 @@ void daisy3 (char *daisy_mp)
       endwin ();
       playfile (PREFIX"share/daisy-player/error.wav", "1");
       printf (gettext ("\nCannot read %s\n"), daisy_mp);
-      fflush (stdout);
       _exit (1);
    } // if
 
@@ -285,6 +381,5 @@ void daisy3 (char *daisy_mp)
    } // while
    closedir (dir);
    total_items = current;
-// not yet implemented   qsort (&daisy, total_items, sizeof (daisy[1]), compare_playorder);
-   parse_smil ();
-} // daisy3
+   parse_smil_3 ();
+} // read_daisy_3

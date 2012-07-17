@@ -65,8 +65,9 @@ Unfortunately there is no log for previous versions of daisy-player. :-(
 
 	solved.
 7.0.5	Remove bookmark when reading is finished.
-7.1	Removed my own xml parser in favour of the xml2 library.
-	Copyright (C) 1998-2002 Daniel Veillard.
+7.1	Removed my own xml parser in favour of the Mini-XML library.
+	Copyright 2003-2008 by Michael Sweet.
+	http://www.minixml.org
 
 * realname.patch: New patch to fix realname to really return a valid string.
 	Problem in the realname function solved.
@@ -78,3 +79,20 @@ Samuel Thibault <sthibault@debian.org>
 
 * opf.patch: New patch to fix read_opf.
   closedir (dir); after all dirent operations
+7.2	The Mini-XML library is replaced by libxml2.
+	XML toolkit from the GNOME project
+	Copyright (C) 1998-2002 Daniel Veillard.  All Rights Reserved.
+
+	The Mini-XML library gave problems in some xml-files.
+
+	The following files are not needed anymore:
+
+	   UCkd.h
+	   UCkd.txt
+	   entities.h
+	   entities.txt
+	Daisy-player is also available in Afrikaans.
+	Thanks to Willem van der Walt <wvdwalt@csir.co.za>
+
+	View the page-number currently read.
+	Better support for volumes with multiple daisy-books (discinfo.html)

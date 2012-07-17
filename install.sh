@@ -16,7 +16,7 @@ make clean
 make
 
 # Install daisy-player
-install -s -D daisy-player  ${PREFIX}/bin/daisy-player
+install -D daisy-player  ${PREFIX}/bin/daisy-player
 
 # generate manpage
 txt2man -p daisy-player.txt > daisy-player.1
@@ -37,3 +37,9 @@ msgfmt daisy-player.de.po -o ${PREFIX}/share/locale/de/LC_MESSAGES/daisy-player.
 # nl for dutch
 install -d ${PREFIX}/share/locale/nl/LC_MESSAGES
 msgfmt daisy-player.nl.po -o ${PREFIX}/share/locale/nl/LC_MESSAGES/daisy-player.mo
+
+# af for afrikaans
+install -d ${PREFIX}/share/locale/af/LC_MESSAGES
+msgfmt daisy-player.af.po -o ${PREFIX}/share/locale/af/LC_MESSAGES/daisy-player.mo
+update-language
+update-locale

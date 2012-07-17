@@ -10,11 +10,12 @@ Be sure the following extra packages exist on your system:
    libncursesw5
    libidn11
    libsox1b
-   libmxml1
+   libxml2
    madplay
    gettext
    language-pack-nl
    language-pack-de
+   language-pack-af
 
 The following packages are needed to make the manual and the html document:
 
@@ -29,12 +30,11 @@ following files:
 - Changelog: Changes made in the previous versions
 - COMPILE: Information about how to compile and install daisy-player
 - COPYING: copyright information.
-- daisy-player.1: formatted manual page
 - daisy-player.c: source code
 - daisy3.c: source code
+- daisy-player.af.po: translations for afrikaans
 - daisy-player.de.po: translations for the german language
 - daisy-player.desktop: file for the graphical interface
-- daisy-player.html: manual page in HTML format
 - daisy-player.nl.po: translations for the dutch language
 - daisy-player.txt: manual page in ASCII format
 - error.txt: information about error.wav
@@ -45,10 +45,6 @@ following files:
 - Makefile: needed to compile from source
 - Readme: the text you are reading now.
 - TODO: things to do.
-- entities.h: from the lynx-package
-- entities.txt: information about entities.h
-- UCkd.h: from the lynx-package
-- UCkd.txt: information about UCkd.h
 
 INSTALLATION
 As user 'root' on the command line, run the install.sh script to
@@ -80,7 +76,7 @@ Daisy-player plays the audio on the default sound device.
 For keyboard navigation, plese press 'h' or '?'.
 
 Daisy-player is multilingual. The following languages are currently supported:
-english, german, dutch.
+english, german, afrikaans and dutch.
 
 Enjoy
 

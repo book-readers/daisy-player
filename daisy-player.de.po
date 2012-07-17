@@ -105,8 +105,8 @@ msgid " total length: %s "
 msgstr " Gesamtlänge: %s "
 
 #: daisy-player.c:548
-msgid "'h' for help "
-msgstr "'h' für Hilfe "
+msgid "'h' for help -"
+msgstr "'h' für Hilfe -"
 
 #: daisy-player.c:1650
 msgid "A parser to play Daisy CD's with Linux"
@@ -147,8 +147,8 @@ msgid "Daisy-player - Version %s - (C)2012 J. Lemmens"
 msgstr ""
 
 #: daisy-player.c:1249
-msgid "Go to page number:        "
-msgstr "Gehe zur Seitenzahl:      "
+msgid "Go to page number: "
+msgstr "Gehe zur Seitenzahl: "
 
 #: daisy-player.c:875
 msgid "L               - switch to previous level\n"
@@ -199,8 +199,8 @@ msgid "U               - increase playing speed\n"
 msgstr "U               - erhöhe Abspielgeschwindigkeit\n"
 
 #: daisy-player.c:1167
-msgid "What do you search?                           "
-msgstr "Suchen nach...?                               "
+msgid "What do you search? "
+msgstr "Suchen nach...? "
 
 #: daisy-player.c:852
 msgid "cursor down     - move cursor to the next item\n"

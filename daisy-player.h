@@ -23,7 +23,7 @@
 #include <string.h>
 #include <strings.h>
 #include <stdlib.h>
-#include <ctype.h>
+#include <ctype.h> 
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -37,15 +37,17 @@
 #include <stringprep.h>
 #include <sox.h>
 #include <errno.h>
-#include <mxml.h>
 #include <time.h>
+#include <libxml/xmlreader.h>
+#include <sys/mount.h>
 
 typedef struct daisy
 {
    int playorder, x, y, screen;
-   double begin, end;
-   char smil_file[255], anchor[255], audio_file[255], label[255], class[100];
+   float begin, duration;
+   char smil_file[255], anchor[255], label[255], class[100];
    int level, page_number;
+   char daisy_mp[100]; // discinfo
 } daisy_t;
 
 typedef struct my_attribute
@@ -58,7 +60,7 @@ typedef struct my_attribute
         dc_title[100],
         dtb_depth[100],
         dtb_totalPageCount[100],
-        href[100],
+        href[255],
         http_equiv[100],
         id[100],
         idref[100],
@@ -68,12 +70,13 @@ typedef struct my_attribute
         ncc_maxPageNormal[100],
         ncc_totalTime[100],
         playorder[100],
-        src[100],
+        src[255],
+        smilref[255],
         value[100];
 } my_attribute_t;
 
 void playfile (char *, char *);
-double read_time (char *);
+float read_time (char *);
 void get_clips ();
 void put_bookmark ();
 void get_bookmark ();
@@ -85,7 +88,7 @@ void player_ended ();
 void play_now ();
 void open_text_file (char *, char *);
 void pause_resume ();
-void write_wav (char *, char *);
+void write_wav (char *);
 void help ();
 void previous_item ();
 void next_item ();
@@ -105,8 +108,7 @@ char *sort_by_playorder ();
 void read_out_eBook (const char *);
 const char *read_eBook (char *);
 void get_eBook_struct (int);
-void daisy3 (char *);
+void read_daisy_3 (int, char *);
 void parse_smil ();
 void start_element (void *, const char *, const char **);
 void end_element (void *, const char *);
-
