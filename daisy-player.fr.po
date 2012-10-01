@@ -1,4 +1,4 @@
-# message catalog file for daisy-player - afrikaans version
+# message catalog file for daisy-player - french version
 #
 # Copyright (C) 2003-2012 J. Lemmens
 #
@@ -16,256 +16,257 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
-# translated by Willem van der Walt <wvdwalt@csir.co.za>
+# translated by Osvaldo La Rosa aka Aldo <aldo.nospam@scarlet.be>
 
 # 1
-msgid  " %d pages "
-msgstr " %d bladsye "
+msgid " %d pages "
+msgstr " %d pages "
 
 # 2
-msgid  " (%2d of %2d)"
-msgstr " (%2d van %2d)"
+msgid " (%2d of %2d)"
+msgstr "(%2d de %2d)"
 
 # 3
 msgid " level: %d of %d "
-msgstr " vlak: %d van %d "
+msgstr " niveau: %d de %d "
 
 # 4
 msgid " total length: %s "
-msgstr " totale lengte: %s "
+msgstr " durée totale: %s "
 
 # 5
-msgid  "'h' for help -"
-msgstr "'h' vir hulp -"
+msgid "'h' for help -"
+msgstr "'h' pour obtenir de l'aide"
 
 # 6
 msgid "A parser to play Daisy CD's with Linux"
-msgstr "'n program om Daisy CD's in Linux te speel"
+msgstr "Une application pour écouter des CD's Daisy sous Linux"
 
 # 7
 msgid "Cannot find a daisy structure in %s"
-msgstr "Kan nie 'n daisy struktuur in %s kry nie"
+msgstr "Ne trouve pas de structure daisy dans %s"
 
 # 8
 msgid "Cannot find a daisy structure"
-msgstr "Kan nie 'n daisy struktuur kry nie"
+msgstr "Ne trouve pas de structure daisy"
 
 # 9
 msgid "Corrupt daisy structure %s\n"
-msgstr "beskadigde daisy struktuur %s\n"
+msgstr "Structure daisy corrompue %s\n"
 
 # 10
 msgid "Corrupt daisy structure!"
-msgstr "beskadigde daisy struktuur!"
+msgstr "Structure daisy corrompue!"
 
 # 11
 msgid "D               - decrease playing speed\n"
-msgstr "D - verlaag terugspeelspoed\n"
+msgstr "D           - décélérer la vitesse de diffusion\n"
 
 # 12
 msgid "Daisy-player - Version %s - (C)2012 J. Lemmens"
-msgstr "Daisy-player - weergawe %s - (C)2012 J. Lemmens"
+msgstr "Daisy-player - Version %s - (C)2012 J. Lemmens"
 
 # 13
 msgid "Daisy-player - Version %s\n"
-msgstr "Daisy-player - weergawe %s\n"
+msgstr "Daisy-player - Version %s\n"
 
 # 14
 msgid "Daisy-player can't handle this DTB."
-msgstr "Daisy-player kan nie hierdie DTB hanteer nie."
+msgstr "Daisy-player ne sait traiter ce type de DTB"
 
 # 15
 msgid "Go to page number: "
-msgstr "Gaan na bladsynommer: "
+msgstr "Aller à la page numéro : "
 
 # 16
 msgid "L               - switch to previous level\n"
-msgstr "L - verander na die vorige vlak\n"
+msgstr "L           - remonter au niveau précédent\n"
 
 # 17
 msgid "Maybe a read-error occurred!"
-msgstr "'n leesfout het dalk voorgekom!"
+msgstr "Une erreur de lecture a probablement eu lieu!"
 
 # 18
 msgid "N               - search backwards\n"
-msgstr "N - soek agteruit\n"
+msgstr "N           - recherche inverse\n"
 
 # 19
 msgid "No such directory: %s\n"
-msgstr "Directory %s bestaan nie\n"
+msgstr "Le répertoire    n'existe pas %s\n"
 
 # 20
-msgid  "Please wait... -------------------------"
-msgstr "Wag asseblief... -----------------------"
+msgid "Please wait... -------------------------"
+msgstr "Un instant svp... -----------------------"
 
 # 21
 msgid "Please wait..."
-msgstr "Wag asseblief?"
+msgstr "Un instant svp..."
 
 # 22
 msgid "Press 'h' for help "
-msgstr "Druk 'h' vir hulp "
+msgstr "Appuyez sur 'h' pour obtenir de l'aide "
 
 # 23
 msgid "Press any key for next page..."
-msgstr "Druk enige sleutel vir die volgende bladsy..."
+msgstr "Appuyez sur une touche pour aller à la page suivante..."
 
 # 24
 msgid "Reading %s... "
-msgstr "%s word nou gelees... "
+msgstr "En cours de lecture %s..."
 
 # 25
 msgid "Reading daisy structure..."
-msgstr "daisy struktuur word nou gelees..."
+msgstr "Structure daisy en cours de lecture..."
 
 # 26
 msgid "Something is wrong with %s\n"
-msgstr "Daar is iets verkeerd met %s\n"
+msgstr "Il y a un problème avec %s\n"
 
 # 27
 msgid "Something is wrong with the %s file\n"
-msgstr "Daar is iets verkeerd met die %s l�er\n"
+msgstr "Il y a un problème avec le%s  fichier\n"
 
 # 28
 msgid "This is not possible!"
-msgstr "Dit is nie moontlik nie!"
+msgstr "Ceci n'est pas possible!"
 
 # 29
 msgid "U               - increase playing speed\n"
-msgstr "U - verhoog terugspeelspoed\n"
+msgstr "U           - accélérer la vitesse de diffusion\n"
 
 # 30
 msgid "What do you search? "
-msgstr "Wat soek u? "
+msgstr "Que recherchez-vous? "
 
 # 31
 msgid "\n%s: is not a sound device.\n"
-msgstr "\n%s: is nie 'n klankapparaat nie.\n"
+msgstr "\n%s    : n'est pas une unité audio.\n"
 
 # 32
 msgid "\n/               - search for a label\n"
-msgstr "\n/              - soek vir 'n ettiket\n"
+msgstr "\n/           - cherche label\n"
 
 # 33
 msgid "\nCannot read %s\n"
-msgstr "\nKan nie %s lees nie\n"
+msgstr "\nNe sait pas lire %s\n"
 
 # 34
 msgid "\nCannot read /proc/mounts."
-msgstr "\nKan nie /proc/mounts lees nie."
+msgstr "\nNe sait pas lire /proc/mounts."
 
 # 35
 msgid "\nCannot use udisks command."
-msgstr "\nKan nie die udisks bevel gebruik nie."
+msgstr "\nNe sait utiliser la commande udisks."
 
 # 36
 msgid "\nNo daisy-cd in drive."
-msgstr "\nDaar is nie 'n daisy-cd in die CD speler nie."
+msgstr "\nPas de cd daisy dans le lecteur."
 
 # 37
 msgid "\nPress any key to leave help..."
-msgstr "\nDruk enige sleutel om die help-skerm te verlaat..."
+msgstr "\nAppuyez sur une touche pour quitter l'aide..."
 
 # 38
 msgid "\nThese commands are available in this version:\n"
-msgstr "\nHierdie bevele is beskikbaar in hierdie weergawe:\n"
+msgstr "\nCes commandes sont disponibles dans cette version:\n"
 
 # 39
 msgid "\nUsage: %s [-l language] [directory with a Daisy-structure]\n"
-msgstr "\nGebruiksaanwysings: %s [-l taal] [directory met 'n Daisy-struktuur]^G\n"
+msgstr "\nUtilisation: %s [-l langue] [répertoire avec structure Daisy]\n"
 
 # 40
 msgid "clip_end (%f) is smaller than clip_begin (%f).\n"
-msgstr "clip_end (%f) is kleiner as clip_begin (%f).\n"
+msgstr "clif_fin (%f) est plus petit que clip_début (%f)\n"
 
 # 41
 msgid "cursor down     - move cursor to the next item\n"
-msgstr "Af peiltjie - skuif die loper na die volgende item\n"
+msgstr "curseur bas      - déplacez le curseur vers l'élément suivant\n"
 
 # 42
 msgid "cursor left     - skip to previous phrase\n"
-msgstr "links peiltjie - spring na die vorige frase toe\n"
+msgstr "curseur gauche   - revenir à la phrase précédente\n"
 
 # 43
 msgid "cursor right    - skip to next phrase\n"
-msgstr "regs peiltjie - spring na die volgende frase toe\n"
+msgstr "curseur droit    - aller à la phrase suivante\n"
 
 # 44
 msgid "cursor up       - move cursor to the previous item\n"
-msgstr "op peiltjie - skuif die loper na die vorige item\n"
+msgstr "curseur haut     - déplacez le curseur vers l'élément précédent\n"
 
 # 45
 msgid "d               - store current item to disk\n"
-msgstr "d - stoor huidige item op skyf\n"
+msgstr "d           - sauvegardez l'élément courant sur disque dur\n"
 
 # 46
 msgid "enter           - start playing\n"
-msgstr "enter - begin speel\n"
+msgstr "enter            - démarrer l'audition\n"
 
 # 47
 msgid "f               - find the currently playing item and place the cursor there\n"
-msgstr "f - Kry die item wat nou speel en skuif die loper daarheen\n"
+msgstr "f           - trouvez l'élément en cours de diffusion et placez-y le curseur\n"
 
 # 48
 msgid "g               - go to page number (if any)\n"
-msgstr "g - gaan na bladsynommer\n"
+msgstr "g           - allez à la page numéro\n"
 
 # 49
 msgid "h or ?          - give this help\n"
-msgstr "h of ? - wys hierdie help-bladsy\n"
+msgstr "h ou ?      - affichez cette page d'aide\n"
 
 # 50
 msgid "home            - play on normal speed\n"
-msgstr "home - speel teen normale spoed\n"
+msgstr "home             - diffuser à la vitesse normale\n"
 
 # 51
 msgid "j               - just play current item\n"
-msgstr "j - speel net die huidige item\n"
+msgstr "j           - diffusez uniquement l'élément courant\n"
 
 # 52
 msgid "l               - switch to next level\n"
-msgstr "l - verander na die volgende vlak\n"
+msgstr "l           - allez au niveau suivant\n"
 
 # 53
 msgid "n               - search forwards\n"
-msgstr "n - soek vorentoe\n"
+msgstr "n           - recherche sur la suite\n"
 
 # 54
 msgid "n length: %d\n"
-msgstr "n lengte: %d\n"
+msgstr "n durée: %d\n"
 
 # 55
 msgid "o               - select next output sound device\n"
-msgstr "o - kies die volgende klankkaart\n"
+msgstr "o           - sélectionnez la carte son\n"
 
 # 56
 msgid "p               - place a bookmark\n"
-msgstr "p              - maak 'n boekmerk\n"
+msgstr "p           - placez un marqueur\n"
 
 # 57
 msgid "page-down       - view next page\n"
-msgstr "page-down - wys die volgende bladsy\n"
+msgstr "page bas         - affichez la page suivante\n"
 
 # 58
 msgid "page-up         - view previous page\n"
-msgstr "page-up - wys die vorige bladsy\n"
+msgstr "page haut        - affichez la page précédente\n"
 
 # 59
 msgid "q               - quit daisy-player and place a bookmark\n"
-msgstr "q              - stop daisy-player en maak 'n boekmerk\n"
+msgstr "q           - quittez daisy-player et placez un marqueur\n"
 
 # 60
 msgid "s               - stop playing\n"
-msgstr "s - hou op speel\n"
+msgstr "s           - arrêtez la diffusion\n"
 
 # 61
 msgid "s length: %d\n"
-msgstr "s lengte: %d\n"
+msgstr "s durée: %d\n"
 
 # 62
 msgid "space           - pause/resume playing\n"
-msgstr "spasie - stop tydelik/hervat terugspeel\n"
+msgstr "espace           - pause/poursuivre la diffusion\n"
 
 # 63
 msgid "start_playing(): %s"
 msgstr "start_playing(): %s"
+

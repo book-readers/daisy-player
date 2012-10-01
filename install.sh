@@ -1,5 +1,6 @@
 #!/bin/bash
 
+clear
 if [ `whoami` != "root" ]; then
   echo "To install daisy-player this script needs to be executed whith root privillages."
   exit
@@ -41,5 +42,14 @@ msgfmt daisy-player.nl.po -o ${PREFIX}/share/locale/nl/LC_MESSAGES/daisy-player.
 # af for afrikaans
 install -d ${PREFIX}/share/locale/af/LC_MESSAGES
 msgfmt daisy-player.af.po -o ${PREFIX}/share/locale/af/LC_MESSAGES/daisy-player.mo
-update-language
+
+# fr for french
+install -d ${PREFIX}/share/locale/fr/LC_MESSAGES
+msgfmt daisy-player.fr.po -o ${PREFIX}/share/locale/fr/LC_MESSAGES/daisy-player.mo
+
+# es for spanish
+install -d ${PREFIX}/share/locale/es/LC_MESSAGES
+msgfmt daisy-player.es.po -o ${PREFIX}/share/locale/es/LC_MESSAGES/daisy-player.mo
+
+update-language                                       
 update-locale

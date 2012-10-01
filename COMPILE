@@ -1,7 +1,6 @@
 To compile daisy-player, be sure the following extra packages are installed:
 
    libncursesw5-dev
-   libidn11-dev
    libsox-dev
    libxml2-dev
 

@@ -5,6 +5,7 @@ Unfortunately there is no log for previous versions of daisy-player. :-(
 	(Not implemented yet)
 5.4.1	Update of the manpage.
 5.5	Daisy-player is now multilingual. (english, german and dutch)
+	Thanks to Klaus Knopper <knopper@knopper.net>
 	Be sure the library ncursesw5 is installed onto your system.
 	The eject function ('e') now works.
 5.5.1	cd will be umounted when quiting.
@@ -96,3 +97,7 @@ Samuel Thibault <sthibault@debian.org>
 
 	View the page-number currently read.
 	Better support for volumes with multiple daisy-books (discinfo.html)
+	Daisy-player is also available in French.
+        Thanks to Osvaldo La Rosa <aldo.nospam@scarlet.be>
+        and also available in Spanish.
+        Thanks to Hanna Tulleken <hannatulleken@gmail.com>

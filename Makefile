@@ -1,8 +1,8 @@
-CC      = gcc
+CC      = gcc 
 CFLAGS  = -Wall -g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Wformat-security -Werror=format-security -I /usr/include/libxml2/
 PREFIX  = /usr/local/
 LD      = $(CC)
-LDLIBS  = -lncursesw -lidn -lsox -lxml2
+LDLIBS  = -lncursesw -lsox -lxml2
 OFILES  = daisy-player.o daisy3.o
 
 all: $(OFILES)

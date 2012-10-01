@@ -23,7 +23,7 @@
 #include <string.h>
 #include <strings.h>
 #include <stdlib.h>
-#include <ctype.h> 
+#include <ctype.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -34,16 +34,18 @@
 #include <pwd.h>
 #include <locale.h>
 #include <libintl.h>
-#include <stringprep.h>
 #include <sox.h>
 #include <errno.h>
 #include <time.h>
 #include <libxml/xmlreader.h>
+#include <libxml/xmlwriter.h>
 #include <sys/mount.h>
+
+#define max_phrase_len 500000
 
 typedef struct daisy
 {
-   int playorder, x, y, screen;
+   int playorder, x, y, screen, n_phrases;
    float begin, duration;
    char smil_file[255], anchor[255], label[255], class[100];
    int level, page_number;
@@ -69,26 +71,24 @@ typedef struct my_attribute
         ncc_depth[100],
         ncc_maxPageNormal[100],
         ncc_totalTime[100],
+        number[100],
         playorder[100],
         src[255],
         smilref[255],
+        toc[100],
         value[100];
 } my_attribute_t;
 
 void playfile (char *, char *);
-float read_time (char *);
-void get_clips ();
 void put_bookmark ();
 void get_bookmark ();
 void get_tag ();
 void get_page_number ();
 void view_screen ();
-void get_label (int, int);
 void player_ended ();
 void play_now ();
 void open_text_file (char *, char *);
 void pause_resume ();
-void write_wav (char *);
 void help ();
 void previous_item ();
 void next_item ();
@@ -96,8 +96,8 @@ void skip_left ();
 void skip_right ();
 void change_level (char);
 void read_rc ();
+void get_label (int, int);
 void save_rc ();
-void quit_eBook_reader ();
 void search (int , char);
 void kill_player ();
 void go_to_page_number ();
@@ -108,7 +108,7 @@ char *sort_by_playorder ();
 void read_out_eBook (const char *);
 const char *read_eBook (char *);
 void get_eBook_struct (int);
-void read_daisy_3 (int, char *);
 void parse_smil ();
 void start_element (void *, const char *, const char **);
 void end_element (void *, const char *);
+char *convert (char *);

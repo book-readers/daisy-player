@@ -16,43 +16,51 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include "daisy-player.h"
+#include "daisy.h"
 
-#define VERSION "7.2"
+#define VERSION "7.2.2"
 
-int discinfo = 0, displaying = 0;
+int discinfo = 0, displaying = 0, phrase_nr, tts_no;
 int playing, just_this_item, current_playorder = 1;
-int current_page_number, total_pages;
+int current_page_number;
+float speed;
 WINDOW *screenwin, *titlewin;
 xmlTextReaderPtr reader;
-char label[1024], bookmark_title[100], search_str[30];
+char label[max_phrase_len], bookmark_title[100], search_str[30];
 char tag[255], element[1024], tmp_wav[255];
 char daisy_version[25];
+char ncx_name[255], opf_name[255];
 pid_t player_pid, daisy_player_pid;
 float clip_begin, clip_end;
 char daisy_title[255], prog_name[255], daisy_language[255];
-int current, max_y, max_x, total_items, level, depth, displaying;
-float tempo;
+int current, max_y, max_x, total_items, level, displaying;
 char NCC_HTML[255], ncc_totalTime[100];
 char sound_dev[16], daisy_mp[255];
 char current_audio_file[100];
 time_t seconds;
 float played_time, start_time;
+float read_time (char *);
 daisy_t daisy[2000];
 my_attribute_t my_attribute;
+int depth, total_pages;
 
-extern void save_rc ();
-extern void quit_daisy_player ();
-extern void get_attributes (xmlTextReaderPtr);
-extern void get_page_number_3 (xmlTextReaderPtr);
+void realname (char *);
+int get_tag_or_label (xmlTextReaderPtr);
+void get_clips (char *, char *);
+void save_rc ();
+void quit_daisy_player ();
+void get_page_number_3 (xmlTextReaderPtr);
+void parse_smil_3 ();
 void open_smil_file (char *, char *);
+void parse_ncx (char *);
+void parse_opf (char *, char *);
 
 void playfile (char *filename, char *tempo)
 {
   sox_format_t *sox_in, *sox_out; /* input and output files */
   sox_effects_chain_t *chain;
   sox_effect_t *e;
-  char *args[100], str[100], str2[100];
+  char *args[100], str[100];
 
   sox_globals.verbosity = 0;
   if (sox_init ())
@@ -75,9 +83,10 @@ void playfile (char *filename, char *tempo)
   args[0] = (char *) sox_in, sox_effect_options (e, 1, args);
   sox_add_effect (chain, e, &sox_in->signal, &sox_in->signal);
 
-  snprintf (str, 90, "%f", clip_begin);
-  snprintf (str2, 90, "%f", clip_end - clip_begin);  
 /* Don't use the sox trim effect. It works nice, but is far too slow
+  char str2[100];
+  snprintf (str,  90, "%f", clip_begin);
+  snprintf (str2, 90, "%f", clip_end - clip_begin);
   e = sox_create_effect (sox_find_effect ("trim"));
   args[0] = str;
   args[1] = str2;
@@ -110,197 +119,93 @@ void playfile (char *filename, char *tempo)
   sox_quit ();
 } // playfile
 
-void realname (char *name)
+void read_daisy_3 (int flag, char *daisy_mp)
 {
    DIR *dir;
    struct dirent *dirent;
-   char *names[10], *dname, *bname, path[100];
-   int i, j, found;
 
-   strncpy (path, name, 90);
-   for (i = 0; i < 10; i++)
+   if (! (dir = opendir (daisy_mp)))
    {
-      bname = strdup (basename (path));
-      names[i] = strdup (bname);
-      dname = strdup (dirname (path));
-      if (strcmp (dname, ".") == 0)
-         break;
-      strncpy (path, dname, 90);
-      if (strcmp (path, names[i]) == 0)
-         break;
-   } // for
-
-   strncpy (path, daisy_mp, 90);
-   for (j = i; j >= 0; j--)
-   {
-      if (! (dir = opendir (path)))
-      {
-         endwin ();
-         playfile (PREFIX"share/daisy-player/error.wav", "1");
-         printf (gettext ("\nCannot read %s\n"), daisy_mp);
-         fflush (stdout);
-         _exit (1);
-      } // if
-      found = 0;
-      while ((dirent = readdir (dir)) != NULL)
-      {
-         if (strcasecmp (dirent->d_name, names[j]) == 0)
-         {
-            if (path[strlen (path) - 1] != '/')
-               strcat (path, "/");
-            strcat (path, dirent->d_name);
-            found = 1;
-            break;
-         } // if
-      } // while
-      closedir (dir);
-      if (! found)
-         return;
-   } // for
-   strncpy (name, path, 90);
-} // realname         
-
-float read_time (char *p)
-{
-   char *h, *m, *s;
-
-   s = strrchr (p, ':') + 1;
-   if (s > p)
-      *(s - 1) = 0;
-   if (strchr (p, ':'))
-   {
-      m = strrchr (p, ':') + 1;
-      *(m - 1) = 0;
-      h = p;
-   }
-   else
-   {
-      h = "0";
-      m = p;
+      endwin ();
+      playfile (PREFIX"share/daisy-player/error.wav", "1");
+      printf (gettext ("\nCannot read %s\n"), daisy_mp);
+      fflush (stdout);
+      _exit (1);
    } // if
-   return atoi (h) * 3600 + atoi (m) * 60 + (float) atof (s);
-} // read_time
-
-void get_clips (char *orig_begin, char *end)
-{
-   char begin_str[100], *begin;
-
-   strncpy (begin_str, orig_begin, 90);
-   begin = begin_str;
-   while (! isdigit (*begin))
-      begin++;
-   if (strchr (begin, 's'))
-      *strchr (begin, 's') = 0;
-   if (! strchr (begin, ':'))
-      clip_begin = (float) atof (begin);
-   else
-      clip_begin = read_time (begin);
-
-// fill end
-   while (! isdigit (*end))
-      end++;
-   if (strchr (end, 's'))
-      *strchr (end, 's') = 0;
-   if (! strchr (end, ':'))
-      clip_end = (float) atof (end);
-   else
-      clip_end = read_time (end);
-} // get_clips
+   while ((dirent = readdir (dir)) != NULL)
+   {
+      if (strcasecmp (dirent->d_name +
+                      strlen (dirent->d_name) - 4, ".ncx") == 0)
+      {
+         strncpy (ncx_name, dirent->d_name, 250);
+         strncpy (NCC_HTML, dirent->d_name, 250);
+      } // if   
+      if (strcasecmp (dirent->d_name +
+                      strlen (dirent->d_name) - 4, ".opf") == 0)
+         strncpy (opf_name, dirent->d_name, 250);
+   } // while
+   closedir (dir);
+   parse_ncx (ncx_name);
+   total_items = current;
+} // read_daisy_3
 
 void put_bookmark ()
 {
-   int w;
    char str[255];
+   xmlTextWriterPtr writer;
+   struct passwd *pw;;
 
-   snprintf (str, 250, "%s/.daisy-player", getenv ("HOME"));
+   pw = getpwuid (geteuid ());
+   snprintf (str, 250, "%s/.daisy-player", pw->pw_dir);
    mkdir (str, 0755);
-   snprintf (str, 250, "%s/.daisy-player/%s",
-                       getenv ("HOME"), bookmark_title);
-   if ((w = creat (str, 0644)) != -1)
-   {
-      if (playing >= 0)
-         dprintf (w, "%d\n", playing);
-      else
-         dprintf (w, "%d\n", current);
-      dprintf (w, "%f\n", clip_begin);
-      dprintf (w, "%d\n", level);
-      close (w);
-   } // if
+   snprintf (str, 250, "%s/.daisy-player/%s", pw->pw_dir, bookmark_title);
+   if (! (writer = xmlNewTextWriterFilename (str, 0)))
+      return;
+   xmlTextWriterStartDocument (writer, NULL, NULL, NULL);
+   xmlTextWriterStartElement (writer, BAD_CAST "bookmark");
+   if (playing >= 0)
+      xmlTextWriterWriteFormatAttribute
+         (writer, BAD_CAST "item", "%d", playing);
+   else
+      xmlTextWriterWriteFormatAttribute
+         (writer, BAD_CAST "item", "%d", current);
+   xmlTextWriterWriteFormatAttribute
+      (writer, BAD_CAST "clip-begin", "%f", clip_begin);
+   xmlTextWriterWriteFormatAttribute (writer, BAD_CAST "level", "%d", level);
+   xmlTextWriterEndElement (writer);
+   xmlTextWriterEndDocument (writer);
+   xmlFreeTextWriter (writer);
 } // put_bookmark
-
-int get_tag_or_label (xmlTextReaderPtr local_reader)
-{
-   int type;
-
-   *tag = *label = 0;
-   *my_attribute.class = *my_attribute.clip_begin = *my_attribute.clip_end =
-   *my_attribute.href = *my_attribute.id = *my_attribute.media_type =
-   *my_attribute.playorder = * my_attribute.smilref = *my_attribute.src =
-   *my_attribute.value = 0;
-
-   switch (xmlTextReaderRead (local_reader))
-   {
-   case -1:
-      endwin ();
-      printf ("This DTB contains a corrupt structure!\n");
-      printf ("Don't know how to handle it yet, sorry. :-(\n");
-      playfile (PREFIX"share/daisy-player/error.wav", "1");
-      fflush (stdout);
-      _exit (1);
-   case 0:
-      return 0;
-   case 1:
-      break;
-   } // swwitch
-   switch ((type = xmlTextReaderNodeType (local_reader)))
-   {
-      int n, i;
-   case -1:
-      endwin ();
-      playfile (PREFIX"share/daisy-player/error.wav", "1");
-      printf (gettext ("\nCannot read\n"));
-      fflush (stdout);
-      _exit (1);
-   case XML_READER_TYPE_ELEMENT:
-      strncpy (tag, (char *) xmlTextReaderConstName (local_reader), 90);
-      n = xmlTextReaderAttributeCount (local_reader);
-      for (i = 0; i < n; i++)
-         get_attributes (local_reader);
-      return 1;
-   case XML_READER_TYPE_END_ELEMENT:
-      snprintf (tag, 90, "/%s", (char *) xmlTextReaderName (local_reader));
-      return 1;
-   case XML_READER_TYPE_TEXT:
-      strncpy (label, (char *) xmlTextReaderConstValue (local_reader), 900);
-      return 1;
-   case XML_READER_TYPE_DOCUMENT_TYPE:
-   case XML_READER_TYPE_SIGNIFICANT_WHITESPACE:
-      return 1;
-   } // switch
-   return 0;
-} // get_tag_or_label
 
 void get_bookmark ()
 {
    char str[255];
    float begin;
-   FILE *r;
+   xmlTextReaderPtr local;
+   xmlDocPtr doc;
+   struct passwd *pw;;
 
+   pw = getpwuid (geteuid ());
    if (! *bookmark_title)
       return;
-   snprintf (str, 250, "%s/.daisy-player/%s",
-                       getenv ("HOME"), bookmark_title);
+   snprintf (str, 250, "%s/.daisy-player/%s", pw->pw_dir, bookmark_title);
    realname (str);
-   if ((r = fopen (str, "r")) == NULL)
-      return;
-   if (fscanf (r, "%d\n%f\n%d", &current, &begin, &level) == EOF)
+   doc = xmlRecoverFile (str);
+   if (! (local = xmlReaderWalker (doc)))
    {
-      playfile (PREFIX"share/daisy-player/error.wav", "1");
-      printf ("get_bookmark ()\n");
-      fflush (stdout);
-      _exit (1);
+      xmlTextReaderClose (local);
+      xmlFreeDoc (doc);
+      return;
    } // if
-   fclose (r);
+   do
+   {
+      if (! get_tag_or_label (local))
+         break;
+   } while (strcasecmp (tag, "bookmark") != 0);
+   xmlTextReaderClose (local);
+   xmlFreeDoc (doc);
+   get_clips (my_attribute.clip_begin, my_attribute.clip_end);
+   begin = clip_begin;
    if (current <= 0)
       current = 0;
    if (current >= total_items)
@@ -325,79 +230,6 @@ void get_bookmark ()
    just_this_item = -1;
    play_now ();
 } // get_bookmark
-
-void get_attributes (xmlTextReaderPtr reader)
-{
-   if (xmlTextReaderGetAttribute (reader, (const xmlChar *) "class"))
-      strncpy (my_attribute.class, (char *) xmlTextReaderGetAttribute
-               (reader, (const xmlChar *) "class"), 90);
-   if (xmlTextReaderGetAttribute (reader, (const xmlChar *) "clip-begin"))
-      strncpy (my_attribute.clip_begin, (char *) xmlTextReaderGetAttribute
-               (reader, (const xmlChar *) "clip-begin"), 90);
-   if (xmlTextReaderGetAttribute (reader, (const xmlChar *) "clipBegin"))
-      strncpy (my_attribute.clip_begin, (char *) xmlTextReaderGetAttribute
-               (reader, (const xmlChar *) "clipBegin"), 90);
-   if (xmlTextReaderGetAttribute (reader, (const xmlChar *) "clip-end"))
-      strncpy (my_attribute.clip_end, (char *) xmlTextReaderGetAttribute
-               (reader, (const xmlChar *) "clip-end"), 90);
-   if (xmlTextReaderGetAttribute (reader, (const xmlChar *) "clipEnd"))
-      strncpy (my_attribute.clip_end, (char *) xmlTextReaderGetAttribute
-               (reader, (const xmlChar *) "clipEnd"), 90);
-   if (xmlTextReaderGetAttribute (reader, (const xmlChar *) "href"))
-      strncpy (my_attribute.href, (char *) xmlTextReaderGetAttribute
-               (reader, (const xmlChar *) "href"), 90);
-   if (xmlTextReaderGetAttribute (reader, (const xmlChar *) "id"))
-      strncpy (my_attribute.id, (char *) xmlTextReaderGetAttribute
-               (reader, (const xmlChar *) "id"), 90);
-   if (xmlTextReaderGetAttribute (reader, (const xmlChar *) "media_type"))
-      strncpy (my_attribute.media_type, (char *) xmlTextReaderGetAttribute
-               (reader, (const xmlChar *) "media_type"), 90);
-   if (xmlTextReaderGetAttribute (reader, (const xmlChar *) "name"))
-   {
-      char name[100], content[100];
-
-      *name = 0;
-      if (xmlTextReaderGetAttribute (reader, (const xmlChar *) "name"))
-         strncpy (name, (char *) xmlTextReaderGetAttribute (reader,
-                  (const xmlChar *) "name"), 90);
-      *content = 0;
-      if (xmlTextReaderGetAttribute (reader, (const xmlChar *) "content"))
-         strncpy (content, (char *) xmlTextReaderGetAttribute (reader,
-                  (const xmlChar *) "content"), 90);
-      if (strcasestr (name, "dc:format"))
-         strncpy (daisy_version, content, 20);
-      if (strcasestr (name, "dc:title"))
-         strncpy (daisy_title, content, 90);
-      if (strcasestr (name, "dtb:depth"))
-         depth = atoi (content);
-      if (strcasestr (name, "dtb:totalPageCount"))
-         total_pages = atoi (content);
-      if (strcasestr (name, "ncc:depth"))
-         depth = atoi (content);
-      if (strcasestr (name, "ncc:maxPageNormal"))
-         total_pages = atoi (content);
-      if (strcasestr (name, "ncc:pageNormal"))
-         total_pages = atoi (content);
-      if (strcasestr (name, "ncc:page-normal"))
-            total_pages = atoi (content);
-      if (strcasestr (name, "dtb:totalTime")  ||
-          strcasestr (name, "ncc:totalTime"))
-      {
-         strncpy (ncc_totalTime, content, 90);
-         if (strchr (ncc_totalTime, '.'))
-            *strchr (ncc_totalTime, '.') = 0;
-      } // if
-   } // if
-   if (xmlTextReaderGetAttribute (reader, (const xmlChar *) "playorder"))
-      strncpy (my_attribute.playorder, (char *) xmlTextReaderGetAttribute
-               (reader, (const xmlChar *) "playorder"), 90);
-   if (xmlTextReaderGetAttribute (reader, (const xmlChar *) "src"))
-      strncpy (my_attribute.src, (char *) xmlTextReaderGetAttribute
-               (reader, (const xmlChar *) "src"), 90);
-   if (xmlTextReaderGetAttribute (reader, (const xmlChar *) "value"))
-      strncpy (my_attribute.value, (char *) xmlTextReaderGetAttribute
-               (reader, (const xmlChar *) "value"), 90);
-} // get_attributes
 
 void get_page_number_2 (char *p)
 {
@@ -629,37 +461,6 @@ void view_screen ()
    wrefresh (screenwin);
 } // view_screen
 
-void get_label (int flag, int indent)
-{
-   char *ptr = label;
-
-   while (1)
-   {
-      if (isspace (*ptr))
-         ptr++;
-      else
-         break;
-   } // while
-   if (strchr (ptr, '\n'))
-      *strchr (ptr, '\n') = 0;
-   strncpy (daisy[current].label, ptr, 250);
-   daisy[current].label[58 - daisy[current].x] = 0;
-   if (flag)
-   {
-      mvwprintw (titlewin, 1, 0, "----------------------------------------");
-      wprintw (titlewin, "----------------------------------------");
-      mvwprintw (titlewin, 1, 0, gettext ("Reading %s... "),
-         daisy[current].label);
-      wrefresh (titlewin);
-   } // if
-   if (displaying == max_y)
-      displaying = 0;
-   daisy[current].y = displaying;
-   daisy[current].screen = current / max_y;
-   if (daisy[current].x == 0)
-      daisy[current].x = indent + 3;
-} // get_label
-
 void read_daisy_2 (int flag)
 {
 // function for daisy 2.02
@@ -694,6 +495,7 @@ void read_daisy_2 (int flag)
          daisy[current].page_number = 0;
          l = tag[1] - '0';
          daisy[current].level = l;
+         daisy[current].x = l + 3 - 1;
          indent = daisy[current].x = (l - 1) * 3 + 1;
          do
          {
@@ -712,7 +514,7 @@ void read_daisy_2 (int flag)
             if (! get_tag_or_label (ncc))
                break;
          } while (*label == 0);
-         get_label (flag, indent);
+         get_label (current, indent);
          current++;
          displaying++;
       } // if (strcasecmp (tag, "h1") == 0 || ...
@@ -765,10 +567,10 @@ void play_now ()
    view_page (my_attribute.id);
    snprintf (cmd, 250, "madplay -Q %s -s %f -t %f -o \"%s\"",
                   current_audio_file, clip_begin,
-                 clip_end - clip_begin, tmp_wav);
+                  clip_end - clip_begin, tmp_wav);
    if (system (cmd) != 0)
-      return;
-   snprintf (tempo_str, 10, "%lf", tempo);
+      _exit (0);
+   snprintf (tempo_str, 10, "%lf", speed);
    playfile (tmp_wav, tempo_str);
 /* When the sox trim effedct is used, use this
    playfile (current_audio_file, tempo_str);
@@ -823,8 +625,10 @@ void write_wav (char *outfile)
   sox_sample_t samples[2048];
   size_t number_read;
   char str[255];
+  struct passwd *pw;
 
-  snprintf (str, 250, "%s/%s", getenv ("HOME"), outfile);
+  pw = getpwuid (geteuid ());
+  snprintf (str, 250, "%s/%s", pw->pw_dir, outfile);
   in = sox_open_read (my_attribute.src, NULL, NULL, NULL);
   out = sox_open_write (str, &in->signal, NULL, NULL, NULL, NULL);
   while ((number_read = sox_read (in, samples, 2048)))
@@ -948,9 +752,11 @@ void play_clip ()
    clip_begin = 0;
    if (++playing >= total_items)
    {
+      struct passwd *pw;
+
+      pw = getpwuid (geteuid ());
       quit_daisy_player ();
-      snprintf (str, 250, "%s/.daisy-player/%s",
-                getenv ("HOME"), bookmark_title);
+      snprintf (str, 250, "%s/.daisy-player/%s", pw->pw_dir, bookmark_title);
       unlink (str);
       _exit (0);
    } // if
@@ -1117,7 +923,10 @@ void change_level (char key)
    if (strcasestr (daisy_version, "2.02"))
       read_daisy_2 (0);
    if (strcasestr (daisy_version, "3"))
+   {
       read_daisy_3 (0, daisy_mp);
+      parse_smil_3 ();
+   } // if
    current = c;
    if (daisy[current].level > level)
       previous_item ();
@@ -1127,104 +936,43 @@ void change_level (char key)
 
 void read_rc ()
 {
-   FILE *r;
-   char *line, *p;
-   size_t bytes = 2048;
-   struct passwd *pw = getpwuid (geteuid ());
+   char str[255];
+   struct passwd *pw;;
+   xmlTextReaderPtr reader;
+   xmlDocPtr doc;
 
-   if (chdir (pw->pw_dir) == -1)
-   {
-      endwin ();
-      printf ("Can't chdir (\"%s\")\n", pw->pw_dir);
-      playfile (PREFIX"share/daisy-player/error.wav", "1");
-      fflush (stdout);
-      _exit (1);
-   } // if
-   strncpy (sound_dev, "hw:0", 8);
-   if ((r = fopen (".daisy-player.rc", "r")) == NULL)
+   pw = getpwuid (geteuid ());
+   snprintf (str, 250, "%s/.daisy-player.rc", pw->pw_dir);
+   doc = xmlRecoverFile (str);
+   if (! (reader = xmlReaderWalker (doc)))
       return;
    do
    {
-      line = malloc (bytes);
-      bytes = getline (&line, &bytes, r);
-      if (strchr (line, '#'))
-         *strchr (line, '#') = 0;
-      if ((p = strcasestr (line, "sound_dev")))
-      {
-         p += 8;
-         while (*++p != 0)
-         {
-            if (*p == '=')
-            {
-               while (! *++p);
-               if (*p == 0)
-                  break;
-               strncpy (sound_dev, p, 15);
-               sound_dev[15] = 0;
-            } // if
-         } // while
-      } // if
-      if ((p = strcasestr (line, "speed")))
-      {
-         p += 4;
-         while (*++p != 0)
-         {
-            if (*p == '=')
-            {
-               while (! isdigit (*++p))
-                  if (*p == 0)
-                  {
-                     free (line);
-                     return;
-                  } // if
-               tempo = (float) atof (p);
-               break;
-            } // if
-         } // while
-      } // if
-   } while (! feof (r));
-   fclose (r);
-   free (line);
+      if (! get_tag_or_label (reader))
+         break;
+   } while (strcasecmp (tag, "prefs") != 0);
+   xmlTextReaderClose (reader);
+   xmlFreeDoc (doc);
 } // read_rc
 
 void save_rc ()
 {
-   FILE *w;
    struct passwd *pw;
-   
-   if (! (pw = getpwuid (geteuid ())))
-   {
-      endwin ();
-      printf ("getuid (): %d\n", getuid ());
-      printf ("getpwuid ()\n");
-      playfile (PREFIX"share/daisy-player/error.wav", "1");
-      fflush (stdout);
-      _exit (1);
-   } // if
-   if (chdir (pw->pw_dir) == -1)
-   {
-      endwin ();
-      printf ("Can't chdir (\"%s\")\n", pw->pw_dir);
-      playfile (PREFIX"share/daisy-player/error.wav", "1");
-      fflush (stdout);
-      _exit (1);
-   } // if
-   if ((w = fopen (".daisy-player.rc", "w")) == NULL)
+   char str[255];
+   xmlTextWriterPtr writer;
+
+   pw = getpwuid (geteuid ());
+   snprintf (str, 250, "%s/.daisy-player.rc", pw->pw_dir);
+   if (! (writer = xmlNewTextWriterFilename (str, 0)))
       return;
-   fputs ("# This file contains the name of the desired audio device and  the\n", w);
-   fputs ("# desired playing speed.\n", w);
-   fputs ("#\n", w);
-   fputs ("# WARNING\n", w);
-   fputs ("# If you edit this file by hand, be sure there is no daisy-player active\n", w);
-   fputs ("# otherwise your changes will be lost.\n", w);
-   fputs ("#\n", w);
-   fputs ("# On which ALSA-audio device should daisy-player play the DTB?\n", w);
-   fprintf (w, "sound_dev=%s\n", sound_dev);
-   fputs ("#\n", w);
-   fputs ("# At wich speed should the DTB be read?\n", w);
-   fputs ("# default: speed=1\n", w);
-   fprintf (w, "speed=%lf\n", tempo);
-   fclose (w);
+   xmlTextWriterStartDocument (writer, NULL, NULL, NULL);
+   xmlTextWriterStartElement (writer, BAD_CAST "prefs");
+   xmlTextWriterWriteFormatAttribute
+      (writer, BAD_CAST "sound_dev", "%s", sound_dev);
+   xmlTextWriterWriteFormatAttribute (writer, BAD_CAST "speed", "%lf", speed);
+   xmlTextWriterEndElement (writer);
+   xmlTextWriterEndDocument (writer);
+   xmlFreeTextWriter (writer);
 } // save_rc
 
 void quit_daisy_player ()
@@ -1565,6 +1313,8 @@ void browse ()
          search (current + 1, '/');
          break;
       case ' ':
+      case KEY_IC:
+      case '0':
          if (discinfo)
          {
             beep ();
@@ -1581,6 +1331,8 @@ void browse ()
          store_to_disk ();
          break;
       case 'e':
+      case '.':
+      case KEY_DC:
          if (discinfo)
          {
             beep ();
@@ -1716,9 +1468,11 @@ void browse ()
          wmove (screenwin, daisy[current].y, daisy[current].x);
          break;
       case KEY_DOWN:
+      case '2':
          next_item ();
          break;
       case KEY_UP:
+      case '8':
          if (current == 0)
          {
             beep ();
@@ -1729,12 +1483,15 @@ void browse ()
          previous_item ();
          break;
       case KEY_RIGHT:
+      case '6':
          skip_right ();
          break;
       case KEY_LEFT:
+      case '4':
          skip_left ();
          break;
       case KEY_NPAGE:
+      case '3':
          if (daisy[current].screen == daisy[total_items - 1].screen)
          {
             beep ();
@@ -1746,6 +1503,7 @@ void browse ()
          wmove (screenwin, daisy[current].y, daisy[current].x);
          break;
       case KEY_PPAGE:
+      case '9':
          if (daisy[current].screen == 0)
          {
             beep ();
@@ -1760,27 +1518,30 @@ void browse ()
       case ERR:
          break;
       case 'U':
-         if (tempo >= 100)
+      case '+':
+         if (speed >= 100)
          {
             beep ();
             break;
          } // if
-         tempo += 0.1;
+         speed += 0.1;
          skip_left ();
          kill (player_pid, SIGKILL);
          break;
       case 'D':
-         if (tempo <= 0.3)
+      case '-':
+         if (speed <= 0.3)
          {
             beep ();
             break;
          } // if
-         tempo -= 0.1;
+         speed -= 0.1;
          skip_left ();
          kill (player_pid, SIGKILL);
          break;
       case KEY_HOME:
-         tempo = 1;
+      case '*':
+         speed = 1;
          kill (player_pid, SIGKILL);
          skip_left ();
          skip_right ();
@@ -1936,7 +1697,7 @@ int main (int argc, char *argv[])
    fclose (stderr); // discard SoX messages
    strncpy (prog_name, basename (argv[0]), 90);
    daisy_player_pid = getpid ();
-   tempo = 1;
+   speed = 1;
    atexit (quit_daisy_player);
    read_rc ();
    setlocale (LC_ALL, getenv ("LANG"));
@@ -1962,7 +1723,6 @@ int main (int argc, char *argv[])
    if (system ("madplay -h > /dev/null") > 0)
    {
       endwin ();
-      printf ("system ()\n");
       playfile (PREFIX"share/daisy-player/error.wav", "1");
       printf (gettext ("\nDaisy-player needs the \"madplay\" programme.\n"));
       printf (gettext ("Please install it and try again.\n"));
@@ -2013,8 +1773,15 @@ int main (int argc, char *argv[])
       } // if
    } // if
    initscr ();
-   titlewin = newwin (2, 80,  0, 0);
-   screenwin = newwin (23, 80, 2, 0);
+   if (! (titlewin = newwin (2, 80,  0, 0)) ||
+       ! (screenwin = newwin (23, 80, 2, 0)))
+   {
+      endwin ();
+      playfile (PREFIX"share/daisy-player/error.wav", "1");
+      printf ("No curses\n");
+      fflush (stdout);
+      _exit (1);
+   } // if
    getmaxyx (screenwin, max_y, max_x);
    max_y--;
    keypad (screenwin, TRUE);
@@ -2045,7 +1812,7 @@ int main (int argc, char *argv[])
          {
             endwin ();
             playfile (PREFIX"share/daisy-player/error.wav", "1");
-            printf (gettext ("\nCannot read %s\n"), daisy_mp);
+            printf (gettext ("\nCannot read %s\n"), NCC_HTML);
             fflush (stdout);
             _exit (1);
          } // if
@@ -2062,10 +1829,12 @@ int main (int argc, char *argv[])
                   int x;
 
                   for (x = strlen (label) - 1; x >= 0; x--)
+                  {
                      if (isspace (label[x]))
                         label[x] = 0;
                      else
                         break;
+                  } // for
                   strncpy (bookmark_title, label, 90);
                   break;
                } // if
@@ -2076,6 +1845,7 @@ int main (int argc, char *argv[])
       else
       {
          read_daisy_3 (1, daisy_mp);
+         parse_smil_3 ();
          strncpy (daisy_version, "3", 2);
       } // if
    } // if (! discinfo);
