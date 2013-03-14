@@ -101,3 +101,30 @@ Samuel Thibault <sthibault@debian.org>
         Thanks to Osvaldo La Rosa <aldo.nospam@scarlet.be>
         and also available in Spanish.
         Thanks to Hanna Tulleken <hannatulleken@gmail.com>
+7.3	Norwegian version translated by Ellen <ellenrohaan@hotmail.com>
+	Hungarian version translated by Hammer Attila <hammera@pickup.hu>
+	The function realname() is not needed anymore
+8.0	Daisy-player now also can play Audio-CD's.
+	The cd will be "mounted" using gvfs.
+	The "cddbget" tool will be used to fetch Audio-CD information.
+
+	   CDDB_get was written by Armin Obersteiner <armin@xos.net>.
+
+	The *.wav "files" will be played using the sox library.
+	Currently the "files" are played with sox_flow_effects(),
+	but I want to use sox_read() and sox_write() instead of
+	sox_flow_effects(), sothat the tempo effect can be used while playing.
+	But:
+
+	   e = sox_create_effect (sox_find_effect ("tempo"));
+	   args[0] = tempo, sox_effect_options (e, 1, args);
+	   sox_add_effect (chain, e, &sox_in->signal, &sox_in->signal);
+
+	only works with sox_flow_effects().
+
+	Does anyone know how to set effects in conjunction with sox_read()
+	and sox_write()???
+8.0.1	The files error.wav and error.txt are dropped.
+	Introduced the option -c for an alternative cdrom-device.
+	Introduced the option -n to disable the use of cddbget.
+	Daisy-player will test if there is a cd-drive.

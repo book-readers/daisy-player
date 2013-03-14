@@ -1,5 +1,5 @@
 /* header file for daisy-player and eBook-speaker
- *  Copyright (C) 2012 J. Lemmens
+ *  Copyright (C) 2013 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -19,8 +19,8 @@
 #define _GNU_SOURCE
 
 #include <stdio.h>
-#include <unistd.h>
 #include <string.h>
+#include <unistd.h>
 #include <strings.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -37,46 +37,53 @@
 #include <sox.h>
 #include <errno.h>
 #include <time.h>
+#include <sys/mount.h>
+#include <sys/ioctl.h>
+#include <linux/cdrom.h>
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
-#include <sys/mount.h>
 
 #define max_phrase_len 500000
+#define MAX_CMD 512
+#define MAX_STR 256
+#define MAX_TAG 1024
 
 typedef struct daisy
 {
    int playorder, x, y, screen, n_phrases;
    float begin, duration;
-   char smil_file[255], anchor[255], label[255], class[100];
+   char smil_file[MAX_STR], anchor[MAX_STR], class[MAX_STR];
+   char label[max_phrase_len];
    int level, page_number;
-   char daisy_mp[100]; // discinfo
+   char daisy_mp[MAX_STR]; // discinfo
+   char filename[MAX_STR]; // Audio-CD
 } daisy_t;
 
 typedef struct my_attribute
 {
-   char class[100],
-        clip_begin[100],
-        clip_end[100],
-        content[100],
-        dc_format[100],
-        dc_title[100],
-        dtb_depth[100],
-        dtb_totalPageCount[100],
-        href[255],
-        http_equiv[100],
-        id[100],
-        idref[100],
-        media_type[100],
-        name[100],
-        ncc_depth[100],
-        ncc_maxPageNormal[100],
-        ncc_totalTime[100],
-        number[100],
-        playorder[100],
-        src[255],
-        smilref[255],
-        toc[100],
-        value[100];
+   char class[MAX_STR],
+        clip_begin[MAX_STR],
+        clip_end[MAX_STR],
+        content[MAX_STR],
+        dc_format[MAX_STR],
+        dc_title[MAX_STR],
+        dtb_depth[MAX_STR],
+        dtb_totalPageCount[MAX_STR],
+        href[MAX_STR],
+        http_equiv[MAX_STR],
+        id[MAX_STR],
+        idref[MAX_STR],
+        media_type[MAX_STR],
+        name[MAX_STR],
+        ncc_depth[MAX_STR],
+        ncc_maxPageNormal[MAX_STR],
+        ncc_totalTime[MAX_STR],
+        number[MAX_STR],
+        playorder[MAX_STR],
+        src[MAX_STR],
+        smilref[MAX_STR],
+        toc[MAX_STR],
+        value[MAX_STR];
 } my_attribute_t;
 
 void playfile (char *, char *);
@@ -103,7 +110,6 @@ void kill_player ();
 void go_to_page_number ();
 void select_next_output_device ();
 void browse ();
-void usage (char *);
 char *sort_by_playorder ();
 void read_out_eBook (const char *);
 const char *read_eBook (char *);

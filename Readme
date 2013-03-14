@@ -1,8 +1,10 @@
 Daisy-player - A parser to play Daisy CD's with Linux
-(C)2003-2012 J. Lemmens
+(C)2003-2013 J. Lemmens
 
 DESCRIPTION
 Daisy-player reads a DAISY-CD and plays its audio-files.
+Daisy-player also CAN PLAY Audio-cd's and tries to fetch info using cddbget.
+The Audio-CD will be "mounted" using gvfs.
 
 REQUIREMENTS
 Be sure the following extra packages exist on your system:
@@ -12,10 +14,20 @@ Be sure the following extra packages exist on your system:
    libxml2
    madplay
    gettext
-   language-pack-nl
-   language-pack-de
+   udisks
    language-pack-af
+   language-pack-de
+   language-pack-es
    language-pack-fr
+   language-pack-hu
+   language-pack-nb
+   language-pack-nl
+   gvfs
+   gvfs-backends
+   gvfs-bin
+   gvfs-daemons
+   gvfs-fuse
+   libcddb-get-perl
 
 The following packages are needed to make the manual and the html document:
 
@@ -32,11 +44,7 @@ following files:
 - COPYING: copyright information.
 - daisy-player.c: source code
 - daisy3.c: source code
-- daisy-player.af.po: translations for afrikaans
-- daisy-player.de.po: translations for the german language
 - daisy-player.desktop: file for the graphical interface
-- daisy-player.fr.po: translations for the french language
-- daisy-player.nl.po: translations for the dutch language
 - daisy-player.txt: manual page in ASCII format
 - error.txt: information about error.wav
 - error.wav: soundfile will be played when an error occured
@@ -44,6 +52,7 @@ following files:
 - install.sh script to install daisy-player
 - License: The text of the GPL version 3 license of daisy-player
 - Makefile: needed to compile from source
+- po/daisy-player.??.po: translations
 - Readme: the text you are reading now.
 - TODO: things to do.
 
@@ -75,9 +84,6 @@ of that item.
 Daisy-player plays the audio on the default sound device.
 
 For keyboard navigation, plese press 'h' or '?'.
-
-Daisy-player is multilingual. The following languages are currently supported:
-english, german, afrikaans, dutch and french.
 
 Enjoy
 

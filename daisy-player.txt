@@ -1,17 +1,20 @@
 NAME
-daisy-player - player for DAISY Digital Talking Books
+daisy-player - player for DAISY Digital Talking Books or Audio-CD's
 SYNOPSIS
-daisy-player [directory_with_a_Daisy-structure] [-d ALSA_sound_device]
+daisy-player [directory_with_a_Daisy-structure] [-c cdrom_device] [-d ALSA_sound_device] [-n]
 DESCRIPTION
 Daisy-player reads a Daisy-CD and plays the audio-files.
 DAISY versions 2.02 and 3 are currently supported, as well as volumes with multiple books.
 
-A list of items on the Daisy-CD will appear. Press <ENTER> to start playing. When reading of an item has finished, daisy-player will play the next item and the cursor will automatically skip to that item, so that an attached braille-terminal will display the name of that item.
+Daisy-player also can play Audio-CD's and tries to get CD-information from a cddb-database.
 
-Daisy-player supports the following languages: english, german, afrikaans, french, spanish and dutch.
+A list of items on the Daisy-CD or Audio-CD will appear. Press <ENTER> to start playing. When reading of an item has finished, daisy-player will play the next item and the cursor will automatically skip to that item, so that an attached braille-terminal will display the name of that item.
+
 OPTIONS
 directory_with_a_Daisy-structure  One could also give a directory with a daisy structure as argument to daisy-player.
--d ALSA sound device  Daisy-player will play on this sound device. Default is "default".
+-c cdrom_device  Use DEVICE as the CD device. DEVICE is the device special file name of the CD-ROM device. The default is /dev/sr0.
+-d ALSA_sound_device  Daisy-player will play on this sound device. Default is "hw:0".
+-n  Don't fetch cddb-information of an Audio-CD.
 SCREEN
 The name and version of this program and the name of the author will be displayed left aligned at the top of the screen. The name of the current loaded book will be displayed right aligned.
 
@@ -49,9 +52,19 @@ U               increase playing speed
 FILES
 ~/.daisy-player/  This directory contains the bookmarks. Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level, each on a own line.
 ~/.daisy-player.rc  This file contains the name of the desired audio device and the desired playing speed.
+SEE ALSO
+gvfsd(1), gvfs-mount(1), gvfsd-fuse(1), cddbget(1)
+BUGS
+For some reason sometimes gvfs does nothing. You than will get the following message:
+
+(null): No such file or directory
+
+The problem is solved when I restart the computer.
+
+Anyone knows the solution?
 AUTHOR
 Jos Lemmens <jos@jlemmens.nl>
 COPYRIGHT
-Copyright (C)2003-2012 Jos Lemmens <jos@jlemmens.nl>
+Copyright (C)2003-2013 Jos Lemmens <jos@jlemmens.nl>
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program (see the file COPYING); if not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
