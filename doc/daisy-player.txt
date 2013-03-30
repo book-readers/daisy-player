@@ -1,7 +1,7 @@
 NAME
 daisy-player - player for DAISY Digital Talking Books or Audio-CD's
 SYNOPSIS
-daisy-player [directory_with_a_Daisy-structure] [-c cdrom_device] [-d ALSA_sound_device] [-n]
+daisy-player [directory_with_a_Daisy-structure] [-c cdrom_device] [-d ALSA_sound_device] [-n | -y]
 DESCRIPTION
 Daisy-player reads a Daisy-CD and plays the audio-files.
 DAISY versions 2.02 and 3 are currently supported, as well as volumes with multiple books.
@@ -14,7 +14,8 @@ OPTIONS
 directory_with_a_Daisy-structure  One could also give a directory with a daisy structure as argument to daisy-player.
 -c cdrom_device  Use DEVICE as the CD device. DEVICE is the device special file name of the CD-ROM device. The default is /dev/sr0.
 -d ALSA_sound_device  Daisy-player will play on this sound device. Default is "hw:0".
--n  Don't fetch cddb-information of an Audio-CD.
+-n  Don't fetch cddb-information of an Audio-CD from the internet.
+-y  Fetch cddb-information of an Audio-CD from the internet.
 SCREEN
 The name and version of this program and the name of the author will be displayed left aligned at the top of the screen. The name of the current loaded book will be displayed right aligned.
 
@@ -49,19 +50,13 @@ p               place a bookmark
 q               quit daisy-player. The playing-point will be saved as bookmark.
 s               stop playing
 U               increase playing speed
+NOTES
+When playing an Audio-CD time-viewing is not very accurate. Also skip-left and skip-right does not work very well, sorry.
 FILES
 ~/.daisy-player/  This directory contains the bookmarks. Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level, each on a own line.
 ~/.daisy-player.rc  This file contains the name of the desired audio device and the desired playing speed.
 SEE ALSO
-gvfsd(1), gvfs-mount(1), gvfsd-fuse(1), cddbget(1)
-BUGS
-For some reason sometimes gvfs does nothing. You than will get the following message:
-
-(null): No such file or directory
-
-The problem is solved when I restart the computer.
-
-Anyone knows the solution?
+cddbget(1)
 AUTHOR
 Jos Lemmens <jos@jlemmens.nl>
 COPYRIGHT

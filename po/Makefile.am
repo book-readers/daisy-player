@@ -1,0 +1,1 @@
+localedir = $(datadir)/locale

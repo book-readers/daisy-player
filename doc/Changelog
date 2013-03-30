@@ -128,3 +128,9 @@ Samuel Thibault <sthibault@debian.org>
 	Introduced the option -c for an alternative cdrom-device.
 	Introduced the option -n to disable the use of cddbget.
 	Daisy-player will test if there is a cd-drive.
+8.0.2	cd-drive test now works, I hope :)
+	cd_dev and cddb_flag in .daisy-player.rc file.
+	set the CD speed at 4 so it makes less noise
+8.1     
+	gvfs has been dropped.
+	daisy-player now uses the cdio library.

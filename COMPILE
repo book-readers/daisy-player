@@ -4,11 +4,11 @@ To compile daisy-player, be sure the following extra packages are installed:
    libsox-dev
    libxml2-dev
 
-Give the following command:
+Give the following commands:
 
+   $ ./configure
    $ make
 
-run the script install.sh, as user root, to install daisy-player onto
-your system:
+As root:
 
-   # ./install.sh
+   # make install

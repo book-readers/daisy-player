@@ -4,7 +4,6 @@ Daisy-player - A parser to play Daisy CD's with Linux
 DESCRIPTION
 Daisy-player reads a DAISY-CD and plays its audio-files.
 Daisy-player also CAN PLAY Audio-cd's and tries to fetch info using cddbget.
-The Audio-CD will be "mounted" using gvfs.
 
 REQUIREMENTS
 Be sure the following extra packages exist on your system:
@@ -22,11 +21,8 @@ Be sure the following extra packages exist on your system:
    language-pack-hu
    language-pack-nb
    language-pack-nl
-   gvfs
-   gvfs-backends
-   gvfs-bin
-   gvfs-daemons
-   gvfs-fuse
+   libcdio-cdda1
+   libcdio-paranoia1
    libcddb-get-perl
 
 The following packages are needed to make the manual and the html document:

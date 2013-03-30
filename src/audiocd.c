@@ -17,19 +17,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */               
 
-#include "daisy.h"
-#include <dirent.h>
+#include "src/daisy.h"
 
 char tag[MAX_TAG], label[max_phrase_len];
 extern char cd_dev[];
 extern char daisy_title[], bookmark_title[], sound_dev[];
-int current, displaying, total_items, max_y, total_time, cddb_flag;
+int current, displaying, total_items, max_y, cddb_flag;
 extern daisy_t daisy[];
 pid_t player_pid, daisy_player_pid;
-float speed;
-sox_format_t *sox_in, *sox_out;
+float speed, total_time;
 
 int get_tag_or_label (xmlTextReaderPtr);
+extern FILE *jos;
 
 float calc_track_time (char *file)
 {
@@ -55,7 +54,7 @@ void get_cddb_info ()
       fflush (stdout);
       _exit (1);
    } // if
-   snprintf (cd, MAX_STR, "cddbget -c %s -I -d", cd_dev);
+   snprintf (cd, MAX_STR, "cddbget -c %s -I -d 2> /dev/null", cd_dev);
    r = popen (cd, "r");
    str = malloc (len + 1);
    i = 0;
@@ -85,41 +84,30 @@ void get_cddb_info ()
             *strchr (daisy[i].label, '\n') = 0;
          if (strchr (daisy[i].label, '\r'))
             *strchr (daisy[i].label, '\r') = 0;
+         daisy[i].label[64 - daisy[i].x] = 0;
          i++;
       } // if
    } // while
    fclose (r);
 } // get_cddb_info
 
-void get_toc_audiocd (char *line)
+void get_toc_audiocd (char *dev)
 {
    char *dir;
-   struct dirent **namelist;
+   CdIo_t *cd;
+   track_t first_track;
 
-   dir = strrchr (line, (int) ' ') + 1;
-   *strchr (dir, (int) '\n') = 0;
-   switch (chdir (dir))
-   {
-   int e;
-
-   case -1:
-      e = errno;
-      endwin ();
-      beep ();
-      printf ("%s: %s\n", dir, strerror (e));
-      fflush (stdout);
-      _exit (1);
-   } // switch
    current = displaying = 0;
-   total_items = scandir (".", &namelist, NULL, alphasort) - 2;
-   total_time = 0;
+   cd = cdio_open (dev, DRIVER_UNKNOWN);
+   total_items = cdio_get_num_tracks (cd);
+   first_track = cdio_get_first_track_num (cd);
    for (current = 0; current < total_items; current++)
    {
       snprintf (daisy[current].label, 15, "Track %2d", current + 1);
       snprintf (daisy[current].filename, MAX_STR - 1,
-                "%s/Track %d.wav", dir, current + 1);
-      daisy[current].duration = calc_track_time (daisy[current].filename);
-      total_time += daisy[current].duration;
+                "%s/Track %d.wav", dir, current + 1); // jos
+      daisy[current].first_lsn = cdio_get_track_lsn (cd,
+                                                     first_track + current);
       if (displaying == max_y)
          displaying = 1;
       daisy[current].x = 1;
@@ -127,48 +115,17 @@ void get_toc_audiocd (char *line)
       daisy[current].y = current - daisy[current].screen * max_y;
       displaying++;
    } // for
+   for (current = 0; current < total_items; current++)
+   {
+      daisy[current].last_lsn = daisy[current + 1].first_lsn;
+      daisy[current].duration =
+               (daisy[current].last_lsn - daisy[current].first_lsn) / 75;
+   } // for
+   daisy[--current].last_lsn = cdio_get_track_lsn (cd, CDIO_CDROM_LEADOUT_TRACK);
+   daisy[current].duration =
+               (daisy[current].last_lsn - daisy[current].first_lsn) / 75;
+   total_time = (daisy[current].last_lsn - daisy[0].first_lsn) / 75;
+   cdio_destroy (cd);
    if (cddb_flag != 'n')
       get_cddb_info ();
 } // get_toc_audiocd
-
-void playcd (int current)
-{
-   switch (player_pid = fork ())
-   {
-   case -1:
-      endwin ();
-      beep ();
-      puts ("fork()");
-      fflush (stdout);
-      _exit (1);
-   case 0: // child
-      break;
-   default: // parent
-      return;
-   } // switch
-   setsid ();
-
-   char str[MAX_STR + 1];
-
-   snprintf (str, MAX_STR, "%f", speed);
-   playfile (daisy[current].filename, str);
-   _exit (0);
-
-/***** not implemented yet
-
-   char str[MAX_STR + 1];
-
-   sox_globals.verbosity = 0;
-   sox_format_init ();
-   if (! (sox_in = sox_open_read (daisy[current].filename, NULL, NULL, NULL)))
-      _exit (-1);
-   while (! (sox_out = sox_open_write (sound_dev, &sox_in->signal,
-          NULL, "alsa", NULL, NULL)))
-   {
-      strncpy (sound_dev, "hw:0", MAX_STR - 1);
-      save_rc ();
-      if (sox_out)
-         sox_close (sox_out);
-   } // while
-***************************************************************************/
-} // playcd

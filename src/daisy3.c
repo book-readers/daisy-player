@@ -16,22 +16,23 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "daisy.h"
+#include "src/daisy.h"
 
 extern struct my_attribute my_attribute;
 extern int current, displaying, max_y, total_items, current_page_number;
 int phrase_nr, tts_no, level, depth, total_time, audiocd;
 extern float speed;
 extern char daisy_title[], bookmark_title[], prog_name[];
-extern char tag[], label[], sound_dev[];
+extern char tag[], label[], sound_dev[], cd_dev[], cddb_flag;
 extern char daisy_version[], daisy_mp[], opf_name[], ncx_name[], NCC_HTML[];
 float clip_begin, clip_end;
 int total_pages;
 char ncc_totalTime[MAX_STR];
 char daisy_language[MAX_STR];
-daisy_t daisy[2000];
+extern daisy_t daisy[];
 
 void parse_ncx (char *);
+extern FILE *jos;
 
 float read_time (char *p)
 {
@@ -84,7 +85,6 @@ void get_clips (char *orig_begin, char *end)
 
 void get_attributes (xmlTextReaderPtr reader)
 {
-
    char attr[MAX_STR];
 
    snprintf (attr, MAX_STR - 1, "%s", (char*)
@@ -194,6 +194,14 @@ void get_attributes (xmlTextReaderPtr reader)
        xmlTextReaderGetAttribute (reader, (const xmlChar *) "sound_dev"));
    if (strcmp (attr, "(null)"))
       snprintf (sound_dev, MAX_STR, "%s", attr);
+   snprintf (attr, MAX_STR - 1, "%s", (char*)
+       xmlTextReaderGetAttribute (reader, (const xmlChar *) "cd_dev"));
+   if (strcmp (attr, "(null)"))
+      snprintf (cd_dev, MAX_STR, "%s", attr);
+   snprintf (attr, MAX_STR - 1, "%s", (char*)
+       xmlTextReaderGetAttribute (reader, (const xmlChar *) "cddb_flag"));
+   if (strcmp (attr, "(null)"))
+      cddb_flag = (char) attr[0];
    snprintf (attr, MAX_STR - 1, "%s", (char*)
        xmlTextReaderGetAttribute (reader, (const xmlChar *) "speed"));
    if (strcmp (attr, "(null)"))
@@ -543,11 +551,13 @@ void parse_xml (char *name)
             continue;
          strncpy (daisy[current].smil_file,
                   xml_name, MAX_STR - 1);
+// jos                  my_attribute.smilref, MAX_STR - 1);
          if (strchr (my_attribute.smilref, '#'))
          {
             strncpy (daisy[current].anchor,
                      strchr (my_attribute.smilref, '#') + 1,
                      MAX_STR - 1);
+// jos            *strchr (my_attribute.smilref, '#') = 0;
          } // if
          do
          {
