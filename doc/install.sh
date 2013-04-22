@@ -7,7 +7,7 @@ txt2man -p doc/daisy-player.txt > man/daisy-player.1
 man2html man/daisy-player.1 | tail -n +3 > doc/daisy-player.html
 
 # extract gettext strings from source
-xgettext src/*.c -o doc/daisy-player.pot
+xgettext src/*.c -o po/daisy-player.pot
 
 # create .mo files
 

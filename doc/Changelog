@@ -131,6 +131,8 @@ Samuel Thibault <sthibault@debian.org>
 8.0.2	cd-drive test now works, I hope :)
 	cd_dev and cddb_flag in .daisy-player.rc file.
 	set the CD speed at 4 so it makes less noise
-8.1     
+8.1
 	gvfs has been dropped.
 	daisy-player now uses the cdio library.
+8.1.1	Audio-CD's are played now with the sox "cdda" type.
+	Add MCN to names of bookmarks for better identification. (Audio-CD)

@@ -45,6 +45,7 @@
 #include <cdio/cdio.h>
 #include <cdio/cdda.h>
 #include <cdio/paranoia.h>
+#include <cdio/disc.h>
 
 #define max_phrase_len 500000
 #define MAX_CMD 512

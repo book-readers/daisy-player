@@ -20,43 +20,78 @@
 
 pid_t player_pid;
 extern daisy_t daisy[];
+sox_format_t *sox_in, *sox_out;
+extern char sound_dev[];
 
-static void put_num (long int num, int fd, int bytes)
+void view_screen ();
+
+void playcdda (char *in_file, char *out_file, char *type, char *tempo)
 {
-  unsigned int i;
-  unsigned char c;
-  int ret;
+   sox_effects_chain_t *effects_chain;
+   sox_effect_t *e;
+   char *args[MAX_STR], str[MAX_STR];
 
-  for (i=0; bytes--; i++)
-  {
-    c = (num >> (i<<3)) & 0xff;
-    ret = write (fd, &c, 1);
-  } // if
-  ret = ret;
-} // put_num
+   sox_globals.verbosity = 0;
+   sox_globals.stdout_in_use_by = NULL;
+   sox_init ();
+   sox_in = sox_open_read (in_file, NULL, NULL, "cdda");
+   if (sox_in == NULL)
+   {
+      endwin ();
+      printf ("sox_open_read\n");
+      beep ();
+      kill (getppid (), SIGKILL);
+   } // if
+   while ((sox_out = sox_open_write (out_file, &sox_in->signal,
+                         NULL, type, NULL, NULL)) == NULL)
+   {
+      strncpy (sound_dev, "hw:0", MAX_STR - 1);
+      save_rc ();
+      if (sox_out)
+         sox_close (sox_out);
+   } // while
+   sox_in->encoding.encoding = SOX_ENCODING_SIGN2;
+   sox_in->encoding.bits_per_sample = 16;
+   sox_in->encoding.reverse_bytes = sox_option_no;
+   effects_chain = sox_create_effects_chain
+                 (&sox_in->encoding, &sox_out->encoding);
 
-#define writestr(fd, s) \
-  write(fd, s, sizeof(s) - 1)  /* Subtract 1 for trailing '\0'. */
+   e = sox_create_effect (sox_find_effect ("input"));
+   args[0] = (char *) sox_in, sox_effect_options (e, 1, args);
+   sox_add_effect (effects_chain, e, &sox_in->signal, &sox_in->signal);
 
-void write_WAV_header (int fd, int32_t i_bytecount)
+   e = sox_create_effect (sox_find_effect ("tempo"));
+   args[0] = tempo, sox_effect_options (e, 1, args);
+   sox_add_effect (effects_chain, e, &sox_in->signal, &sox_in->signal);
+
+   snprintf (str, MAX_STR - 1, "%lf", sox_out->signal.rate);
+   e = sox_create_effect (sox_find_effect ("rate"));
+   args[0] = str, sox_effect_options (e, 1, args);
+   sox_add_effect (effects_chain, e, &sox_in->signal, &sox_in->signal);
+
+   snprintf (str, MAX_STR - 1, "%i", sox_out->signal.channels);
+   e = sox_create_effect (sox_find_effect ("channels"));
+   args[0] = str, sox_effect_options (e, 1, args);
+   sox_add_effect (effects_chain, e, &sox_in->signal, &sox_in->signal);
+
+   e = sox_create_effect (sox_find_effect ("output"));
+   args[0] = (char *) sox_out, sox_effect_options (e, 1, args);
+   sox_add_effect (effects_chain, e, &sox_in->signal, &sox_out->signal);
+
+   sox_flow_effects (effects_chain, NULL, NULL);
+   sox_delete_effects_chain (effects_chain);
+   sox_close (sox_out);
+   sox_close (sox_in);
+   sox_quit ();
+} // playcdda
+
+char *get_mcn (char *cd_dev)
 {
-   int ret;
+   CdIo_t *p_cdio;
 
-  /* quick and dirty */
-  ret = writestr(fd, "RIFF");     /*  0-3 */
-  put_num(i_bytecount+44-8, fd, 4);     /*  4-7 */
-  ret = writestr(fd, "WAVEfmt "); /*  8-15 */
-  put_num(16, fd, 4);                   /* 16-19 */
-  put_num(1, fd, 2);                    /* 20-21 */
-  put_num(2, fd, 2);                    /* 22-23 */
-  put_num(44100, fd, 4);                /* 24-27 */
-  put_num(44100 * 2 * 2, fd, 4);            /* 28-31 */
-  put_num(4, fd, 2);                    /* 32-33 */
-  put_num(16, fd, 2);                   /* 34-35 */
-  ret = writestr(fd, "data");     /* 36-39 */
-  put_num(i_bytecount, fd, 4);          /* 40-43 */
-  ret = ret;
-} // write_WAV_header
+   p_cdio = cdio_open (cd_dev, DRIVER_UNKNOWN);
+   return cdio_get_mcn (p_cdio);
+} // get_mcn
 
 void paranoia (char *cd_dev, lsn_t first_lsn, lsn_t last_lsn, int fd)
 {
@@ -71,14 +106,14 @@ void paranoia (char *cd_dev, lsn_t first_lsn, lsn_t last_lsn, int fd)
       endwin ();
       beep ();
       printf ("Unable to identify audio CD disc.\n");
-      _exit (0);
+      kill (getppid (), SIGKILL);
    } // if
    if (cdda_open (drv) != 0)
    {
       endwin ();
       beep ();
       printf ("Unable to open disc.\n");
-      _exit (0);
+      kill (getppid (), SIGKILL);
    } // if
 
    cdrom_paranoia_t *par;
@@ -87,7 +122,6 @@ void paranoia (char *cd_dev, lsn_t first_lsn, lsn_t last_lsn, int fd)
    par = paranoia_init (drv);
    paranoia_modeset (par, PARANOIA_MODE_FULL^PARANOIA_MODE_NEVERSKIP);
    paranoia_seek (par, first_lsn, SEEK_SET);
-   write_WAV_header (fd, (last_lsn - first_lsn + 1) * CDIO_CD_FRAMESIZE_RAW);
    for (cursor = first_lsn; cursor <= last_lsn; cursor++)
    {
       int16_t *p_readbuf;
@@ -102,7 +136,8 @@ void paranoia (char *cd_dev, lsn_t first_lsn, lsn_t last_lsn, int fd)
    ret = ret;
 } // paranoia
 
-pid_t play_track (char *cd_dev, lsn_t from, lsn_t to, float speed)
+pid_t play_track (char *cd_dev, char *out_file, char *type,
+                  lsn_t from, lsn_t to, float speed)
 {
    switch (player_pid = fork ())
    {
@@ -111,7 +146,7 @@ pid_t play_track (char *cd_dev, lsn_t from, lsn_t to, float speed)
       beep ();
       puts ("fork()");
       fflush (stdout);
-      _exit (1);
+      kill (getppid (), SIGKILL);
    case 0: // child
       break;
    default: // parent
@@ -136,7 +171,7 @@ pid_t play_track (char *cd_dev, lsn_t from, lsn_t to, float speed)
       snprintf (path, MAX_STR, "/dev/fd/%d", pipefd[0]);
       snprintf (str, MAX_STR, "%f", speed);
       fcntl (pipefd[0], F_SETPIPE_SZ, 1024000);
-      playfile (path, str);
+      playcdda (path, out_file, type, str);
       close (pipefd[0]);
       _exit (0);
    }

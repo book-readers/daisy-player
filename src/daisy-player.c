@@ -18,7 +18,7 @@
 
 #include "src/daisy.h"
 
-#define DAISY_PLAYER_VERSION "8.1"
+#define DAISY_PLAYER_VERSION "8.2"
 
 int discinfo = 0, displaying = 0, phrase_nr, tts_no;
 int playing, just_this_item, current_playorder = 1, audiocd;
@@ -38,12 +38,12 @@ char sound_dev[MAX_STR], daisy_mp[MAX_STR], cd_dev[MAX_STR];
 char ncx_name[MAX_STR], opf_name[MAX_STR];
 char current_audio_file[MAX_STR];
 time_t seconds;
-float played_time, start_time;
+float start_time;
 float read_time (char *);
 daisy_t daisy[2000];
 my_attribute_t my_attribute;
 int depth, total_pages;
-sox_format_t *sox_in, *sox_out;
+extern sox_format_t *sox_in, *sox_out;
 size_t sample_size;
 
 void parse_smil_3 ();
@@ -55,8 +55,11 @@ void get_page_number_3 (xmlTextReaderPtr);
 void open_smil_file (char *, char *);
 void read_daisy_3 (char *);
 void get_toc_audiocd (char *);
-pid_t play_track (char *, lsn_t, lsn_t, float);
+pid_t play_track (char *, char *, char *, lsn_t, lsn_t, float);
 void paranoia (char *, lsn_t, lsn_t, int);
+void playcdda (char *, char *, char *, char *);
+char *get_mcn (char *);
+void set_drive_speed (char *, int);
 
 void playfile (char *filename, char *tempo)
 {
@@ -66,8 +69,7 @@ void playfile (char *filename, char *tempo)
 
    sox_globals.verbosity = 0;
    sox_init ();
-   sox_in = sox_open_read (filename, NULL, NULL, "wav");
-                // force wav in case of audiocd
+   sox_in = sox_open_read (filename, NULL, NULL, NULL);
    if (sox_in == NULL)
    {
       endwin ();
@@ -135,8 +137,8 @@ void put_bookmark ()
    pw = getpwuid (geteuid ());
    snprintf (str, MAX_STR - 1, "%s/.daisy-player", pw->pw_dir);
    mkdir (str, 0755);
-   snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s",
-             pw->pw_dir, bookmark_title);
+   snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s.MCN_%s",
+             pw->pw_dir, bookmark_title, get_mcn (cd_dev));
    if (! (writer = xmlNewTextWriterFilename (str, 0)))
       return;
    xmlTextWriterStartDocument (writer, NULL, NULL, NULL);
@@ -147,8 +149,12 @@ void put_bookmark ()
    else
       xmlTextWriterWriteFormatAttribute
          (writer, BAD_CAST "item", "%d", current);
-   xmlTextWriterWriteFormatAttribute
-      (writer, BAD_CAST "clip-begin", "%f", clip_begin);
+   if (audiocd == 0)
+      xmlTextWriterWriteFormatAttribute
+         (writer, BAD_CAST "clip-begin", "%f", clip_begin);
+   else
+      xmlTextWriterWriteFormatAttribute
+         (writer, BAD_CAST "seconds", "%d", (int) (time (NULL) - seconds));
    xmlTextWriterWriteFormatAttribute (writer, BAD_CAST "level", "%d", level);
    xmlTextWriterEndElement (writer);
    xmlTextWriterEndDocument (writer);
@@ -166,8 +172,8 @@ void get_bookmark ()
    pw = getpwuid (geteuid ());
    if (! *bookmark_title)
       return;
-   snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s",
-             pw->pw_dir, bookmark_title);
+   snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s.MCN_%s",
+             pw->pw_dir, bookmark_title, get_mcn (cd_dev));
    doc = xmlRecoverFile (str);
    if (! (local = xmlReaderWalker (doc)))
    {
@@ -189,9 +195,10 @@ void get_bookmark ()
    displaying = playing = current;
    if (audiocd == 1)
    {
-      player_pid = play_track (cd_dev, daisy[current].first_lsn,
-                                       daisy[current].last_lsn, speed );
-      seconds = time (NULL);
+      player_pid = play_track (cd_dev, sound_dev, "alsa",
+            daisy[current].first_lsn + (seconds * 75),
+            daisy[total_items - 1].last_lsn, speed);
+      seconds = time (NULL) - seconds;
       return;
    } // if
    get_clips (my_attribute.clip_begin, my_attribute.clip_end);
@@ -537,7 +544,6 @@ void play_now ()
    if (playing == -1)
       return;
    seconds = time (NULL);
-   played_time += clip_end - clip_begin;
    start_time = clip_begin;
    switch (player_pid = fork ())
    {
@@ -596,7 +602,7 @@ void open_smil_file (char *smil_file, char *anchor)
 } // open_smil_file
 
 void pause_resume ()
-{
+{        
    if (playing > -1)
    {
       playing = -1;
@@ -624,8 +630,8 @@ void pause_resume ()
 
          start = (lsn_t) (start_time + (float) (time (NULL) - seconds) * 75) +
                  daisy[playing].first_lsn;
-         player_pid =
-                play_track (cd_dev, start, daisy[playing].last_lsn, speed);
+         player_pid = play_track (cd_dev, sound_dev, "alsa",
+                            start, daisy[total_items - 1].last_lsn, speed);
       } // if
    } // if
 } // pause_resume
@@ -640,18 +646,13 @@ void write_wav (char *outfile)
 
    if (audiocd == 1)
    {
-      int fd;
+      pid_t pid;
 
-      fd = open (cd_dev, O_RDONLY | O_NONBLOCK);
-      ioctl (fd, CDROM_SELECT_SPEED, 48);
-      close (fd);
-      fd = open (str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-      paranoia (cd_dev, daisy[current].first_lsn,
-                        daisy[current].last_lsn, fd);
-      close (fd);
-      fd = open (cd_dev, O_RDONLY | O_NONBLOCK);
-      ioctl (fd, CDROM_SELECT_SPEED, 4);
-      close (fd);
+      set_drive_speed (cd_dev, 100); // fastest
+      pid = play_track (cd_dev, str, "wav", daisy[current].first_lsn,
+                        daisy[current].last_lsn, 1);
+      while (kill (pid, 0) == 0);
+      set_drive_speed (cd_dev, 4);
       return;
    } // if
 
@@ -667,13 +668,15 @@ void write_wav (char *outfile)
   sox_close (in);
   sox_close (out);
 } // write_wav
-
+         
 void store_to_disk ()
 {
    char str[MAX_STR];
-   int i;
+   int i, pause_flag;
 
-   pause_resume ();
+   pause_flag = playing;
+   if (pause_flag > -1)
+      pause_resume ();
    wclear (screenwin);
    snprintf (str, MAX_STR - 1, "%s.wav", daisy[current].label);
    wprintw (screenwin,
@@ -684,7 +687,8 @@ void store_to_disk ()
       if (str[i] == '/')
          str[i] = '-';
    write_wav (str);
-   pause_resume ();
+   if (pause_flag > -1)
+      pause_resume ();
    view_screen ();
 } // store_to_disk
 
@@ -715,11 +719,18 @@ void help ()
    waddstr (screenwin, gettext ("\n/               - search for a label\n"));
    waddstr (screenwin, gettext ("d               - store current item to disk\n"));
    waddstr (screenwin, gettext ("D               - decrease playing speed\n"));
-   waddstr (screenwin, gettext ("f               - find the currently playing item and place the cursor there\n"));
-   waddstr (screenwin, gettext ("g               - go to page number (if any)\n"));
+   waddstr (screenwin, gettext (
+"f               - find the currently playing item and place the cursor there\n"));
+   if (audiocd == 0)
+      waddstr (screenwin,
+            gettext ("g               - go to page number (if any)\n"));
+   else
+      waddstr (screenwin,
+            gettext ("g               - go to time in this song (MM:SS)\n"));
    waddstr (screenwin, gettext ("h or ?          - give this help\n"));
    waddstr (screenwin, gettext ("j               - just play current item\n"));
-   waddstr (screenwin, gettext ("l               - switch to next level\n"));
+   waddstr (screenwin,
+          gettext ("l               - switch to next level\n"));
    waddstr (screenwin, gettext ("L               - switch to previous level\n"));
    waddstr (screenwin, gettext ("n               - search forwards\n"));
    waddstr (screenwin, gettext ("N               - search backwards\n"));
@@ -791,8 +802,8 @@ void play_clip ()
 
       pw = getpwuid (geteuid ());
       quit_daisy_player ();
-      snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s", pw->pw_dir,
-                bookmark_title);
+      snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s.MCN_%s", pw->pw_dir,
+                bookmark_title, get_mcn (cd_dev));
       unlink (str);
       _exit (0);
    } // if
@@ -1042,9 +1053,7 @@ void quit_daisy_player ()
    unlink (tmp_wav);
 
 // reset the CD speed
-   int fd = open (cd_dev, O_RDONLY | O_NONBLOCK);
-   ioctl (fd, CDROM_SELECT_SPEED, 0);
-   close (fd);
+   set_drive_speed (cd_dev, 100);
 } // quit_daisy_player
 
 void search (int start, char mode)
@@ -1118,8 +1127,12 @@ void search (int start, char mode)
       if (audiocd == 0)
          open_smil_file (daisy[current].smil_file, daisy[current].anchor);
       else
-         player_pid = play_track (cd_dev, daisy[current].first_lsn,
-                daisy[current].last_lsn, speed);
+      {
+         seconds = time (NULL);
+         player_pid = play_track (cd_dev, sound_dev, "alsa",
+                daisy[current].first_lsn, daisy[total_items - 1].last_lsn,
+                speed);
+      } // if
    }
    else
    {
@@ -1132,12 +1145,17 @@ void search (int start, char mode)
       {
          skip_left ();
          skip_right ();
+      }
+      else
+      {
+         playing = -1;
+         pause_resume ();
       } // if
    } // if
 } // search
 
 void go_to_page_number ()
-{
+{      
    char filename[MAX_STR], *anchor = 0;
    char pn[15], href[MAX_STR], prev_href[MAX_STR];
 
@@ -1267,6 +1285,29 @@ void go_to_page_number ()
    } // if (strcasestr (daisy_version, "3"))
 } // go_to_page_number
 
+void go_to_time ()
+{
+   char time_str[10];
+   int secs;
+
+   kill (player_pid, SIGKILL);
+   player_pid = -2;
+   mvwaddstr (titlewin, 1, 0, "----------------------------------------");
+   waddstr (titlewin, "----------------------------------------");
+   mvwprintw (titlewin, 1, 0, gettext ("Go to time (MM:SS): "));
+   echo ();
+   wgetnstr (titlewin, time_str, 5);
+   noecho ();
+   view_screen ();
+   secs = (time_str[0] - 48) * 600 + (time_str[1] - 48)* 60 +
+             (time_str[3] - 48) * 10 + (time_str[4] - 48);
+   player_pid = play_track (cd_dev, sound_dev, "alsa",
+                      daisy[current].first_lsn + (secs * 75),
+                      daisy[total_items - 1].last_lsn, speed);
+   seconds = time (NULL) - secs;
+   playing = displaying = current;
+} // go_to_time
+
 void select_next_output_device ()
 {
    FILE *r;
@@ -1325,7 +1366,7 @@ void select_next_output_device ()
 } // select_next_output_device
 
 void browse ()
-{
+{      
    int old_screen;
    char str[MAX_STR];
    sox_sample_t  *sox_buf;
@@ -1336,7 +1377,7 @@ void browse ()
    view_screen ();
    nodelay (screenwin, TRUE);
    wmove (screenwin, daisy[current].y, daisy[current].x);
-   if (audiocd)
+   if (audiocd == 1)
    {
       depth = 1;
       view_screen ();
@@ -1359,7 +1400,7 @@ void browse ()
       signal (SIGCHLD, player_ended);
       switch (wgetch (screenwin))
       {
-      case 13:
+      case 13: // ENTER
          just_this_item = -1;
          view_screen ();
          playing = displaying = current;
@@ -1388,17 +1429,18 @@ void browse ()
          {
             if (audiocd == 1)
             {
-               player_pid = play_track (cd_dev, daisy[current].first_lsn,
-                      daisy[current].last_lsn, speed );
+               player_pid = play_track (cd_dev, sound_dev, "alsa",
+                   daisy[current].first_lsn, daisy[total_items - 1].last_lsn,
+                   speed);
                seconds = time (NULL);
-            }
-            else
+            } // if
+            if (audiocd == 0)
             {
                open_smil_file (daisy[current].smil_file,
                                daisy[current].anchor);
             } // if
          } // if
-         played_time = start_time = 0;
+         start_time = 0;
          break;
       case '/':
          if (discinfo)
@@ -1462,7 +1504,7 @@ void browse ()
       case 'g':
          if (audiocd == 1)
          {
-            beep ();
+            go_to_time ();
             break;
          } // if
          if (total_pages)
@@ -1489,7 +1531,10 @@ void browse ()
             skip_right ();
          } // if
          if (audiocd == 1)
+         {
+            playing = -1;
             pause_resume ();
+         } // if
          break;
       }
       case 'j':
@@ -1510,10 +1555,10 @@ void browse ()
             just_this_item = displaying = playing = current;
             kill (player_pid, SIGKILL);
             player_pid = -2;
-            if (audiocd)
+            if (audiocd == 1)
             {
-               player_pid = play_track (cd_dev, daisy[current].first_lsn,
-                      daisy[current].last_lsn, speed);
+               player_pid = play_track (cd_dev, sound_dev, "alsa", 
+                   daisy[current].first_lsn, daisy[current].last_lsn, speed);
             }
             else
                open_smil_file (daisy[current].smil_file, daisy[current].anchor);
@@ -1575,7 +1620,10 @@ void browse ()
             skip_right ();
          } // if
          if (audiocd == 1)
+         {
+            playing = -1;
             pause_resume ();
+         } // if
          break;
       case 'p':
          put_bookmark ();
@@ -1623,8 +1671,8 @@ void browse ()
             kill (player_pid, SIGKILL);
             start = (lsn_t) (start_time + (float) (time (NULL) -
                      seconds) * 75) + daisy[playing].first_lsn + 75;
-            player_pid =
-                play_track (cd_dev, start, daisy[playing].last_lsn, speed);
+            player_pid = play_track (cd_dev, sound_dev, "alsa",
+                           start, daisy[total_items - 1].last_lsn, speed);
          } // if
          break;
       case KEY_LEFT:
@@ -1638,8 +1686,8 @@ void browse ()
             kill (player_pid, SIGKILL);
             start = (lsn_t) (start_time + (float) (time (NULL) -
                      seconds) * 75) + daisy[playing].first_lsn - 600;
-            player_pid =
-                play_track (cd_dev, start, daisy[playing].last_lsn, speed);
+            player_pid = play_track (cd_dev, sound_dev, "alsa",
+                            start, daisy[total_items - 1].last_lsn, speed);
          } // if
          break;
       case KEY_NPAGE:
@@ -1679,10 +1727,13 @@ void browse ()
          speed += 0.1;
          if (audiocd == 1)
          {
-            seconds = time (NULL);
             kill (player_pid, SIGKILL);
-            player_pid = play_track (cd_dev, daisy[playing].first_lsn,
-                   daisy[playing].last_lsn, speed);
+            lsn_t start;
+
+            start = (lsn_t) (start_time + (float) (time (NULL) - seconds) * 75) +
+                    daisy[playing].first_lsn;
+            player_pid = play_track (cd_dev, sound_dev, "alsa",
+                            start, daisy[total_items - 1].last_lsn, speed);
             break;
          } // if
          skip_left ();
@@ -1698,10 +1749,13 @@ void browse ()
          speed -= 0.1;
          if (audiocd == 1)
          {
-            seconds = time (NULL);
             kill (player_pid, SIGKILL);
-            player_pid = play_track (cd_dev, daisy[playing].first_lsn,
-                     daisy[playing].last_lsn, speed);     
+            lsn_t start;
+
+            start = (lsn_t) (start_time + (float) (time (NULL) - seconds) * 75) +
+                 daisy[playing].first_lsn;
+            player_pid = play_track (cd_dev, sound_dev, "alsa",
+                            start, daisy[total_items - 1].last_lsn, speed);
             break;
          } // if
          skip_left ();
@@ -1714,9 +1768,12 @@ void browse ()
          if (audiocd == 1)
          {
             kill (player_pid, SIGKILL);
-            seconds = time (NULL);
-            player_pid = play_track (cd_dev, daisy[playing].first_lsn,
-                                daisy[playing].last_lsn, speed);     
+            lsn_t start;
+
+            start = (lsn_t) (start_time + (float) (time (NULL) - seconds) * 75) +
+                 daisy[playing].first_lsn;
+            player_pid = play_track (cd_dev, sound_dev, "alsa",
+                            start, daisy[total_items - 1].last_lsn, speed);
             break;
          } // if
          kill (player_pid, SIGKILL);
@@ -1736,8 +1793,10 @@ void browse ()
 
       if (playing > -1 && audiocd == 1)
       {
-         if (kill (player_pid, 0) != 0)
+         if (start_time + (float) (time (NULL) - seconds) >
+             daisy[playing].duration)
          {
+            start_time = 0;
             current = displaying = ++playing;
             if (current >= total_items)
             {
@@ -1745,21 +1804,21 @@ void browse ()
 
                pw = getpwuid (geteuid ());
                quit_daisy_player ();
-               snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s",
-                         pw->pw_dir, bookmark_title);
+               snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s.MCN_%s",
+                         pw->pw_dir, bookmark_title, get_mcn (cd_dev));
                unlink (str);
                _exit (0);
             } // if
-            if (just_this_item == -1)
-               player_pid = play_track (cd_dev, daisy[current].first_lsn, 
-                      daisy[current].last_lsn, speed);
-            else
+            if (just_this_item > -1)
+            {
+               kill (player_pid, SIGKILL);
                playing = just_this_item = -1;
+            } // if
             view_screen ();
             seconds = time (NULL);
          } // if
          view_time ();
-      } // if                     
+      } // if
 
       fd_set rfds;
       struct timeval tv;
@@ -1951,9 +2010,7 @@ int main (int argc, char *argv[])
    } // if
 
 // set the CD speed so it makes less noise
-   int fd = open (cd_dev, O_RDONLY | O_NONBLOCK);
-   ioctl (fd, CDROM_SELECT_SPEED, 4);
-   close (fd);
+   set_drive_speed (cd_dev, 4);
 
    printf (gettext ("Scanning for a Daisy CD..."));
    audiocd = 0;

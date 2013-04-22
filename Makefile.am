@@ -1,2 +1,2 @@
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = doc man po src
+SUBDIRS = doc man src po

@@ -30,9 +30,9 @@ int total_pages;
 char ncc_totalTime[MAX_STR];
 char daisy_language[MAX_STR];
 extern daisy_t daisy[];
+time_t seconds;
 
 void parse_ncx (char *);
-extern FILE *jos;
 
 float read_time (char *p)
 {
@@ -155,6 +155,8 @@ void get_attributes (xmlTextReaderPtr reader)
       {
          snprintf (daisy_title, MAX_STR - 1, "%s", content);
          snprintf (bookmark_title, MAX_STR - 1, "%s", content);
+         if (strchr (bookmark_title, '/'))
+            *strchr (bookmark_title, '/') = '-';
       } // if
 /* don't use it
       if (strcasestr (name, "dtb:depth"))
@@ -186,6 +188,10 @@ void get_attributes (xmlTextReaderPtr reader)
        xmlTextReaderGetAttribute (reader, (const xmlChar *) "phrase"));
    if (strcmp (attr, "(null)"))
       phrase_nr = atoi ((char *) attr);
+   snprintf (attr, MAX_STR - 1, "%s", (char*)
+       xmlTextReaderGetAttribute (reader, (const xmlChar *) "seconds"));
+   if (strcmp (attr, "(null)"))
+      seconds = atoi (attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
           xmlTextReaderGetAttribute (reader, (const xmlChar *) "smilref"));
    if (strcmp (attr, "(null)"))
@@ -551,13 +557,11 @@ void parse_xml (char *name)
             continue;
          strncpy (daisy[current].smil_file,
                   xml_name, MAX_STR - 1);
-// jos                  my_attribute.smilref, MAX_STR - 1);
          if (strchr (my_attribute.smilref, '#'))
          {
             strncpy (daisy[current].anchor,
                      strchr (my_attribute.smilref, '#') + 1,
                      MAX_STR - 1);
-// jos            *strchr (my_attribute.smilref, '#') = 0;
          } // if
          do
          {
@@ -617,6 +621,8 @@ void parse_manifest (char *name, char *id_ptr)
          } while (strcasecmp (tag, "/dc:title") != 0);
          strncpy (daisy_title, label, MAX_STR - 1);
          strncpy (bookmark_title, label, MAX_STR - 1);
+         if (strchr (bookmark_title, '/'))
+            *strchr (bookmark_title, '/') = '-';
       } // if dc:title
    } while (strcasecmp (tag, "manifest") != 0);
    while (1)
@@ -690,6 +696,8 @@ void parse_opf (char *name)
          } while (! *label);
          strncpy (daisy_title, label, MAX_STR - 1);
          strncpy (bookmark_title, label, MAX_STR - 1);
+         if (strchr (bookmark_title, '/'))
+            *strchr (bookmark_title, '/') = '-';
       } // if dc:title
       if (strcasecmp (my_attribute.media_type,
                       "application/x-dtbook+xml") == 0)
@@ -729,9 +737,17 @@ void read_daisy_3 (char *daisy_mp)
    int ret;
 
    snprintf (cmd, MAX_CMD - 1, "find -iname \"*.ncx\" -print0");
+   *path = 0;
    r = popen (cmd, "r");
    ret = fread (path, MAX_STR - 1, 1, r);
    fclose (r);
+   if (*path == 0)
+   {
+      endwin ();
+      printf (gettext ("\nNo DAISY-CD or Audio-cd found\n"));
+      beep ();
+      _exit (0);
+   } // if
    strncpy (ncx_name, basename (path), MAX_STR - 1);
    strncpy (NCC_HTML, ncx_name, MAX_STR - 1);
    snprintf (daisy_mp, MAX_STR - 1, "%s/%s",
@@ -836,6 +852,8 @@ void parse_ncx (char *name)
          } while (! *label);
          strncpy (daisy_title, label, MAX_STR - 1);
          strncpy (bookmark_title, label, MAX_STR - 1);
+         if (strchr (bookmark_title, '/'))
+            *strchr (bookmark_title, '/') = '-';
       } // if (strcasecmp (tag, "docTitle") == 0)
       if (strcasecmp (tag, "docAuthor") == 0)
       {

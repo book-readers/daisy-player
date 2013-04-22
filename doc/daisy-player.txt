@@ -38,7 +38,8 @@ d               store current item to disk
 D               decrease playing speed
 e               stop playing and eject
 f               find the currently playing item and place the cursor there
-g               go to page number (if any)
+g (DAISY-CD)    go to page number (if any)
+g (Audio-CD)    go to time in this song (MM:SS)
 h or ?          give this help
 j               just play current item and place a "J" at the first column.
 l               switch to next level

@@ -23,12 +23,12 @@ char tag[MAX_TAG], label[max_phrase_len];
 extern char cd_dev[];
 extern char daisy_title[], bookmark_title[], sound_dev[];
 int current, displaying, total_items, max_y, cddb_flag;
-extern daisy_t daisy[];
+extern daisy_t daisy[];                   
 pid_t player_pid, daisy_player_pid;
 float speed, total_time;
+extern sox_effects_chain_t *effects_chain;
 
 int get_tag_or_label (xmlTextReaderPtr);
-extern FILE *jos;
 
 float calc_track_time (char *file)
 {
@@ -79,6 +79,12 @@ void get_cddb_info ()
       } // if
       if (strcasestr (str, "TTITLE"))
       {
+         char l[MAX_STR + 1];
+
+         snprintf (l, MAX_STR, "TTITLE%d=", i);
+// some titles are spanned over more lines
+         if (strstr (str, l) == NULL)
+            continue;
          strncpy (daisy[i].label, strchr (str, '=') + 1, max_phrase_len - 1);
          if (strchr (daisy[i].label, '\n'))
             *strchr (daisy[i].label, '\n') = 0;
@@ -105,7 +111,7 @@ void get_toc_audiocd (char *dev)
    {
       snprintf (daisy[current].label, 15, "Track %2d", current + 1);
       snprintf (daisy[current].filename, MAX_STR - 1,
-                "%s/Track %d.wav", dir, current + 1); // jos
+                "%s/Track %d.wav", dir, current + 1);
       daisy[current].first_lsn = cdio_get_track_lsn (cd,
                                                      first_track + current);
       if (displaying == max_y)
@@ -129,3 +135,12 @@ void get_toc_audiocd (char *dev)
    if (cddb_flag != 'n')
       get_cddb_info ();
 } // get_toc_audiocd
+
+void set_drive_speed (char *dev, int drive_speed)
+{
+   CdIo_t *cd;
+
+   cd = cdio_open (dev, DRIVER_UNKNOWN);
+   cdio_set_speed (cd, drive_speed);
+   cdio_destroy (cd);
+} // set_drive_speed
