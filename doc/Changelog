@@ -136,3 +136,7 @@ Samuel Thibault <sthibault@debian.org>
 	daisy-player now uses the cdio library.
 8.1.1	Audio-CD's are played now with the sox "cdda" type.
 	Add MCN to names of bookmarks for better identification. (Audio-CD)
+8.2	'g' command in Audio_CD's. Skip to a time in current song.
+	No more silence between Audio-CD tracks.
+8.3	Better checking for cd-drive and soundcard permissions.
+	Better support for Audio cd's.

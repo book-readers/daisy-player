@@ -1,0 +1,4 @@
+     ../src/audiocd.c \
+     ../src/daisy-player.c \
+     ../src/daisy3.c \
+     ../src/paranoia.c

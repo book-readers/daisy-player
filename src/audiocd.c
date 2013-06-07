@@ -20,7 +20,7 @@
 #include "src/daisy.h"
 
 char tag[MAX_TAG], label[max_phrase_len];
-extern char cd_dev[];
+extern char cd_dev[];       
 extern char daisy_title[], bookmark_title[], sound_dev[];
 int current, displaying, total_items, max_y, cddb_flag;
 extern daisy_t daisy[];                   
@@ -30,14 +30,6 @@ extern sox_effects_chain_t *effects_chain;
 
 int get_tag_or_label (xmlTextReaderPtr);
 
-float calc_track_time (char *file)
-{
-   struct stat buf;
-
-   stat (file, &buf);
-   return buf.st_size / 44100 / 2 / 2;
-} // calc_track_time
-
 void get_cddb_info ()
 {
    FILE *r;
@@ -45,15 +37,6 @@ void get_cddb_info ()
    char *str = NULL, cd[MAX_STR + 1];
    int i;
 
-   if (access ("/usr/bin/cddbget", F_OK) == -1)
-   {
-      endwin ();
-      beep ();
-      printf (gettext ("\nDaisy-player needs the \"cddbget\" programme.\n"));
-      printf (gettext ("Please install it and try again.\n"));
-      fflush (stdout);
-      _exit (1);
-   } // if
    snprintf (cd, MAX_STR, "cddbget -c %s -I -d 2> /dev/null", cd_dev);
    r = popen (cd, "r");
    str = malloc (len + 1);
@@ -104,7 +87,13 @@ void get_toc_audiocd (char *dev)
    track_t first_track;
 
    current = displaying = 0;
-   cd = cdio_open (dev, DRIVER_UNKNOWN);
+   dir = "";
+   if ((cd = cdio_open (dev, DRIVER_UNKNOWN)) == NULL)
+   {     
+      endwin ();
+      beep ();
+      _exit (0);
+   } // if
    total_items = cdio_get_num_tracks (cd);
    first_track = cdio_get_first_track_num (cd);
    for (current = 0; current < total_items; current++)

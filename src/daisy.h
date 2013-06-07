@@ -37,9 +37,7 @@
 #include <sox.h>
 #include <errno.h>
 #include <time.h>
-#include <sys/mount.h>
 #include <sys/ioctl.h>
-#include <linux/cdrom.h>
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
 #include <cdio/cdio.h>
@@ -91,7 +89,6 @@ typedef struct my_attribute
         value[MAX_STR];
 } my_attribute_t;
 
-void playfile (char *, char *);
 void put_bookmark ();
 void get_bookmark ();
 void get_tag ();

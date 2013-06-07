@@ -191,7 +191,11 @@ void get_attributes (xmlTextReaderPtr reader)
    snprintf (attr, MAX_STR - 1, "%s", (char*)
        xmlTextReaderGetAttribute (reader, (const xmlChar *) "seconds"));
    if (strcmp (attr, "(null)"))
+   {
       seconds = atoi (attr);
+      if (seconds < 0)
+         seconds = 0;
+   } // if
    snprintf (attr, MAX_STR - 1, "%s", (char*)
           xmlTextReaderGetAttribute (reader, (const xmlChar *) "smilref"));
    if (strcmp (attr, "(null)"))
@@ -280,9 +284,15 @@ int get_tag_or_label (xmlTextReaderPtr local_reader)
                 (char *) xmlTextReaderName (local_reader));
       return 1;
    case XML_READER_TYPE_TEXT:
+   {
+      int x;
+
       strncpy (label, (char *) xmlTextReaderConstValue (local_reader),
                       max_phrase_len);
+      for (x = strlen (label) - 1; x >= 0 && isspace (label[x]); x--)
+         label[x] = 0;
       return 1;
+   }
    case XML_READER_TYPE_ENTITY_REFERENCE:
    case XML_READER_TYPE_DOCUMENT_TYPE:
    case XML_READER_TYPE_SIGNIFICANT_WHITESPACE:
@@ -291,7 +301,7 @@ int get_tag_or_label (xmlTextReaderPtr local_reader)
       return 1;
    } // switch
    return 0;
-} // get_tag_or_label                       
+} // get_tag_or_label
 
 void parse_text_file (char *text_file)
 // page-number

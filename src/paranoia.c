@@ -1,4 +1,5 @@
-/*
+/* paranoia.c
+ *
  *  Copyright (C) 2013 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -20,88 +21,30 @@
 
 pid_t player_pid;
 extern daisy_t daisy[];
-sox_format_t *sox_in, *sox_out;
-extern char sound_dev[];
+extern char sound_dev[], tmp_wav[];
+int sector_ptr;
+int pipefd[2];
+cdrom_paranoia_t *par;
+cdrom_drive_t *drv;
+CdIo_t *p_cdio;
+lsn_t lsn_cursor;
 
 void view_screen ();
-
-void playcdda (char *in_file, char *out_file, char *type, char *tempo)
-{
-   sox_effects_chain_t *effects_chain;
-   sox_effect_t *e;
-   char *args[MAX_STR], str[MAX_STR];
-
-   sox_globals.verbosity = 0;
-   sox_globals.stdout_in_use_by = NULL;
-   sox_init ();
-   sox_in = sox_open_read (in_file, NULL, NULL, "cdda");
-   if (sox_in == NULL)
-   {
-      endwin ();
-      printf ("sox_open_read\n");
-      beep ();
-      kill (getppid (), SIGKILL);
-   } // if
-   while ((sox_out = sox_open_write (out_file, &sox_in->signal,
-                         NULL, type, NULL, NULL)) == NULL)
-   {
-      strncpy (sound_dev, "hw:0", MAX_STR - 1);
-      save_rc ();
-      if (sox_out)
-         sox_close (sox_out);
-   } // while
-   sox_in->encoding.encoding = SOX_ENCODING_SIGN2;
-   sox_in->encoding.bits_per_sample = 16;
-   sox_in->encoding.reverse_bytes = sox_option_no;
-   effects_chain = sox_create_effects_chain
-                 (&sox_in->encoding, &sox_out->encoding);
-
-   e = sox_create_effect (sox_find_effect ("input"));
-   args[0] = (char *) sox_in, sox_effect_options (e, 1, args);
-   sox_add_effect (effects_chain, e, &sox_in->signal, &sox_in->signal);
-
-   e = sox_create_effect (sox_find_effect ("tempo"));
-   args[0] = tempo, sox_effect_options (e, 1, args);
-   sox_add_effect (effects_chain, e, &sox_in->signal, &sox_in->signal);
-
-   snprintf (str, MAX_STR - 1, "%lf", sox_out->signal.rate);
-   e = sox_create_effect (sox_find_effect ("rate"));
-   args[0] = str, sox_effect_options (e, 1, args);
-   sox_add_effect (effects_chain, e, &sox_in->signal, &sox_in->signal);
-
-   snprintf (str, MAX_STR - 1, "%i", sox_out->signal.channels);
-   e = sox_create_effect (sox_find_effect ("channels"));
-   args[0] = str, sox_effect_options (e, 1, args);
-   sox_add_effect (effects_chain, e, &sox_in->signal, &sox_in->signal);
-
-   e = sox_create_effect (sox_find_effect ("output"));
-   args[0] = (char *) sox_out, sox_effect_options (e, 1, args);
-   sox_add_effect (effects_chain, e, &sox_in->signal, &sox_out->signal);
-
-   sox_flow_effects (effects_chain, NULL, NULL);
-   sox_delete_effects_chain (effects_chain);
-   sox_close (sox_out);
-   sox_close (sox_in);
-   sox_quit ();
-} // playcdda
+void playfile (char *, char *, char *, char *, char *);
 
 char *get_mcn (char *cd_dev)
 {
    CdIo_t *p_cdio;
 
-   p_cdio = cdio_open (cd_dev, DRIVER_UNKNOWN);
+   if ((p_cdio = cdio_open (cd_dev, DRIVER_UNKNOWN)) == NULL)
+      return "_";
    return cdio_get_mcn (p_cdio);
-} // get_mcn
+} // get_mcn                     
 
-void paranoia (char *cd_dev, lsn_t first_lsn, lsn_t last_lsn, int fd)
+void init_paranoia (char *cd_dev)
 {
-   cdrom_drive_t *drv = NULL;
-   CdIo_t *p_cdio;
-   int ret;
-
    p_cdio = cdio_open (cd_dev, DRIVER_UNKNOWN);
-   drv = cdio_cddap_identify_cdio (p_cdio, 0, NULL);
-   if (! drv)
+   if (! (drv = cdio_cddap_identify_cdio (p_cdio, 0, NULL)))
    {
       endwin ();
       beep ();
@@ -115,66 +58,47 @@ void paranoia (char *cd_dev, lsn_t first_lsn, lsn_t last_lsn, int fd)
       printf ("Unable to open disc.\n");
       kill (getppid (), SIGKILL);
    } // if
-
-   cdrom_paranoia_t *par;
-   lsn_t cursor;;
-
-   par = paranoia_init (drv);
-   paranoia_modeset (par, PARANOIA_MODE_FULL^PARANOIA_MODE_NEVERSKIP);
-   paranoia_seek (par, first_lsn, SEEK_SET);
-   for (cursor = first_lsn; cursor <= last_lsn; cursor++)
+   if (pipe (pipefd) == -1)
    {
-      int16_t *p_readbuf;
+      int e;
 
-      p_readbuf = paranoia_read (par, NULL);
-      if (! p_readbuf)
-         break;
-      ret = write (fd, p_readbuf, CDIO_CD_FRAMESIZE_RAW);
-   } // for
-   paranoia_free (par);
-   cdda_close (drv);
-   ret = ret;
-} // paranoia
-
-pid_t play_track (char *cd_dev, char *out_file, char *type,
-                  lsn_t from, lsn_t to, float speed)
-{
-   switch (player_pid = fork ())
-   {
-   case -1:
+      e = errno;
       endwin ();
       beep ();
-      puts ("fork()");
-      fflush (stdout);
+      printf ("pipe: %s\n", strerror (e));
       kill (getppid (), SIGKILL);
-   case 0: // child
-      break;
-   default: // parent
-      return player_pid;
-   } // switch
+   } // if
+   par = paranoia_init (drv);
+   paranoia_modeset (par, PARANOIA_MODE_FULL ^ PARANOIA_MODE_NEVERSKIP);
+} // init_paranoia
 
-   int pipefd[2], ret;
+pid_t play_track (char *cd_dev, char *out_file, char *type,
+                  lsn_t from, float speed)
+{
+   int ret;
 
-   ret = pipe (pipefd);
-   switch (fork ())
+   cdio_paranoia_free (par);
+   init_paranoia (cd_dev);
+   switch (player_pid = fork ())
    {
    case 0: /* Child reads from pipe */
-      close(pipefd[0]);          // Close unused read end
-      paranoia (cd_dev, from, to, pipefd[1]);
-      close(pipefd[1]);          // Reader will see EOF
-      _exit (0);
-   default:
    {
       char path[MAX_STR + 1], str[MAX_STR + 1];
 
       close (pipefd[1]);     /* don't need this in child */
+#ifdef F_SETPIPE_SZ
+      fcntl (pipefd[0], F_SETPIPE_SZ, 1024000);
+#endif
       snprintf (path, MAX_STR, "/dev/fd/%d", pipefd[0]);
       snprintf (str, MAX_STR, "%f", speed);
-      fcntl (pipefd[0], F_SETPIPE_SZ, 1024000);
-      playcdda (path, out_file, type, str);
+      playfile (path, "cdda", out_file, type, str);
       close (pipefd[0]);
       _exit (0);
    }
+   default:
+      paranoia_seek (par, from, SEEK_SET);
+      lsn_cursor = from;
+      return player_pid;
    } // switch
    ret = ret;
 } // play_track

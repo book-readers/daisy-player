@@ -24,47 +24,20 @@ Be sure the following extra packages exist on your system:
    libcdio-cdda1
    libcdio-paranoia1
    libcddb-get-perl
+   tex-common
 
 The following packages are needed to make the manual and the html document:
 
    txt2man
    man2html
 
-FILES
-Download and unpack the file 'daisy-player-<version>.tar.bz2'.
-In the created directory 'daisy-player-<version>' you'll find the
-following files:
-
-- Changelog: Changes made in the previous versions
-- COMPILE: Information about how to compile and install daisy-player
-- COPYING: copyright information.
-- daisy-player.c: source code
-- daisy3.c: source code
-- daisy-player.desktop: file for the graphical interface
-- daisy-player.txt: manual page in ASCII format
-- error.txt: information about error.wav
-- error.wav: soundfile will be played when an error occured
-- icons: directory containing icons
-- install.sh script to install daisy-player
-- License: The text of the GPL version 3 license of daisy-player
-- Makefile: needed to compile from source
-- po/daisy-player.??.po: translations
-- Readme: the text you are reading now.
-- TODO: things to do.
-
-INSTALLATION
-As user 'root' on the command line, run the install.sh script to
-install the package:
-
-   # ./install.sh
-
 USAGE
-As a mortal user, put a DAISY-cd in your cd-player and,
+As a mortal user, put a DAISY-cd or an Audio-cd in your cd-player and,
 on the command line, give:
 
    $ daisy-player
 
-This starts reading the DAISY-CD and printing the content on
+This starts reading the cd and printing the content on
 the screen. After giving an [ENTER], playing the audio files starts.
 
 One could also give a directory with a daisy

@@ -3,6 +3,9 @@ To compile daisy-player, be sure the following extra packages are installed:
    libncursesw5-dev
    libsox-dev
    libxml2-dev
+   libcdio-dev
+   libcdio-cdda-dev
+   libcdio-paranoia-dev
 
 Give the following commands:
 
@@ -12,3 +15,10 @@ Give the following commands:
 As root:
 
    # make install
+
+NOTE:
+
+In the playfile() function, the typedef enum sox_option_no is used. This
+is for Ubuntu.
+To compile this package in Debian, use the typedef enum SOX_OPTION_NO.
+See sox.h.

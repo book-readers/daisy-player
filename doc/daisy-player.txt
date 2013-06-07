@@ -52,7 +52,7 @@ q               quit daisy-player. The playing-point will be saved as bookmark.
 s               stop playing
 U               increase playing speed
 NOTES
-When playing an Audio-CD time-viewing is not very accurate. Also skip-left and skip-right does not work very well, sorry.
+When playing an Audio-CD skip-left and skip-right react a little late. The same for commands like 'U', 'D' and HOME.
 FILES
 ~/.daisy-player/  This directory contains the bookmarks. Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level, each on a own line.
 ~/.daisy-player.rc  This file contains the name of the desired audio device and the desired playing speed.

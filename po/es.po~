@@ -1,0 +1,441 @@
+# message catalog file for daisy-player - spanish version
+#
+# Copyright (C) 2003-2013 J. Lemmens
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation; either version 2 of the License, or (at your
+# option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+# Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# translated by Hanna Tulleken <hannatulleken@gmail.com>
+msgid ""
+msgstr ""
+"Project-Id-Version: gettext 0.11.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-01 22:37+0200\n"
+"PO-Revision-Date: 2013-01-29 15:06+0200\n"
+"Last-Translator: Hanna Tulleken <hannatulleken@gmail.com>\n"
+"Language-Team: Hanna Tulleken <hannatulleken@gmail.com>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/audiocd.c:52
+#, c-format
+msgid ""
+"\n"
+"Daisy-player needs the \"cddbget\" programme.\n"
+msgstr ""
+
+#: ../src/audiocd.c:53 ../src/daisy-player.c:2010
+#, c-format
+msgid "Please install it and try again.\n"
+msgstr ""
+
+# 33
+#: ../src/daisy-player.c:239 ../src/daisy-player.c:262
+#: ../src/daisy-player.c:330 ../src/daisy-player.c:476
+#: ../src/daisy-player.c:1187 ../src/daisy-player.c:1244
+#: ../src/daisy-player.c:1894 ../src/daisy-player.c:1919
+#: ../src/daisy-player.c:2155 ../src/daisy3.c:312 ../src/daisy3.c:363
+#: ../src/daisy3.c:397 ../src/daisy3.c:464 ../src/daisy3.c:504
+#: ../src/daisy3.c:523 ../src/daisy3.c:594 ../src/daisy3.c:663
+#: ../src/daisy3.c:837
+#, c-format
+msgid ""
+"\n"
+"Cannot read %s\n"
+msgstr ""
+"\n"
+"No poder leer %s\n"
+
+# 5
+#: ../src/daisy-player.c:421
+msgid "'h' for help -"
+msgstr "'h' para ayudar"
+
+# 1
+#: ../src/daisy-player.c:423
+#, c-format
+msgid " %d pages "
+msgstr " %d páginas "
+
+# 3
+#: ../src/daisy-player.c:424
+#, c-format
+msgid " level: %d of %d "
+msgstr " nivel: %d of %d "
+
+# 4
+#: ../src/daisy-player.c:428
+#, c-format
+msgid " total length: %02d:%02d:%02d "
+msgstr " total longitud: %02d:%02d:%02d "
+
+# 38
+#: ../src/daisy-player.c:703
+msgid ""
+"\n"
+"These commands are available in this version:\n"
+msgstr ""
+"\n"
+"Estas orden estan disponibles en esta versión:\n"
+
+# 41
+#: ../src/daisy-player.c:706
+msgid "cursor down     - move cursor to the next item\n"
+msgstr "cursor abajo      - desplazar el cursor hasta el tema próximo\n"
+
+# 44
+#: ../src/daisy-player.c:707
+msgid "cursor up       - move cursor to the previous item\n"
+msgstr "cursor arriba     - desplazar el cursor para el tema anterior\n"
+
+# 43
+#: ../src/daisy-player.c:708
+msgid "cursor right    - skip to next phrase\n"
+msgstr "cursor derecho    - saltar para la frase próxima\n"
+
+# 42
+#: ../src/daisy-player.c:709
+msgid "cursor left     - skip to previous phrase\n"
+msgstr "cursor izquierdo  - saltar para la frase anterior\n"
+
+# 57
+#: ../src/daisy-player.c:710
+msgid "page-down       - view next page\n"
+msgstr "página            - abaja - ver página proxima\n"
+
+# 58
+#: ../src/daisy-player.c:711
+msgid "page-up         - view previous page\n"
+msgstr "página-ariba      - ver página anterior\n"
+
+# 46
+#: ../src/daisy-player.c:712
+msgid "enter           - start playing\n"
+msgstr "entrar            - empezar escuchar\n"
+
+# 62
+#: ../src/daisy-player.c:713
+msgid "space           - pause/resume playing\n"
+msgstr "espacio           - pausa/reanudar escuchar\n"
+
+# 50
+#: ../src/daisy-player.c:714
+msgid "home            - play on normal speed\n"
+msgstr "inicio            - escuchar a velocidad normal\n"
+
+# 23
+#: ../src/daisy-player.c:716
+msgid "Press any key for next page..."
+msgstr "Hacer clic cada tecla por la página proxima..."
+
+# 32
+#: ../src/daisy-player.c:721
+msgid ""
+"\n"
+"/               - search for a label\n"
+msgstr ""
+"\n"
+"/               - buscar por una etiqueta\n"
+
+# 45
+#: ../src/daisy-player.c:722
+msgid "d               - store current item to disk\n"
+msgstr "d               - almacenar el tema actual en disk\n"
+
+# 11
+#: ../src/daisy-player.c:723
+msgid "D               - decrease playing speed\n"
+msgstr "D               - disminuir velocidad de escuchar\n"
+
+# 47
+#: ../src/daisy-player.c:725
+msgid ""
+"f               - find the currently playing item and place the cursor "
+"there\n"
+msgstr ""
+"f               - encontrar el item escuchando y poner el cursor allí\n"
+
+# 48
+#: ../src/daisy-player.c:728
+msgid "g               - go to page number (if any)\n"
+msgstr "g               - ir para página número (cuando hay)\n"
+
+# 48
+#: ../src/daisy-player.c:731
+#, fuzzy
+msgid "g               - go to time in this song (MM:SS)\n"
+msgstr "g               - ir para página número (cuando hay)\n"
+
+# 49
+#: ../src/daisy-player.c:732
+msgid "h or ?          - give this help\n"
+msgstr "h o ?           - dar esta ayuda\n"
+
+# 51
+#: ../src/daisy-player.c:733
+msgid "j               - just play current item\n"
+msgstr "j               - solo escuchar el tema actual\n"
+
+# 52
+#: ../src/daisy-player.c:735
+msgid "l               - switch to next level\n"
+msgstr "l               - gambiar al nivél proxima\n"
+
+# 16
+#: ../src/daisy-player.c:736
+msgid "L               - switch to previous level\n"
+msgstr "L               - gambiar al nivél antes\n"
+
+# 53
+#: ../src/daisy-player.c:737
+msgid "n               - search forwards\n"
+msgstr "n               - buscar adelante\n"
+
+# 18
+#: ../src/daisy-player.c:738
+msgid "N               - search backwards\n"
+msgstr "N               - buscar atrás\n"
+
+# 55
+#: ../src/daisy-player.c:739
+msgid "o               - select next output sound device\n"
+msgstr "o               - seleccionar la proxima salida de medio sonido\n"
+
+# 56
+#: ../src/daisy-player.c:740
+msgid "p               - place a bookmark\n"
+msgstr "p               - poner una marcapágina\n"
+
+# 59
+#: ../src/daisy-player.c:741
+msgid "q               - quit daisy-player and place a bookmark\n"
+msgstr "q               - dejar daisy-player y poner una marcapágina\n"
+
+# 60
+#: ../src/daisy-player.c:742
+msgid "s               - stop playing\n"
+msgstr "s               - parar escuchar\n"
+
+# 29
+#: ../src/daisy-player.c:743
+msgid "U               - increase playing speed\n"
+msgstr "U               - acelerar velocidad de escuchar\n"
+
+# 37
+#: ../src/daisy-player.c:744
+msgid ""
+"\n"
+"Press any key to leave help..."
+msgstr ""
+"\n"
+"Hacer click alguna tecla para salir ayudar..."
+
+# 20
+#: ../src/daisy-player.c:980
+msgid "Please wait... -------------------------"
+msgstr "Por favor esperar... -------------------------"
+
+# 30
+#: ../src/daisy-player.c:1074
+msgid "What do you search? "
+msgstr "¿Qué buscas? "
+
+# 15
+#: ../src/daisy-player.c:1168
+msgid "Go to page number: "
+msgstr "Ir a página número: "
+
+#: ../src/daisy-player.c:1299
+msgid "Go to time (MM:SS): "
+msgstr ""
+
+# 34
+#: ../src/daisy-player.c:1326
+#, fuzzy
+msgid "Cannot read /proc/asound/cards"
+msgstr ""
+"\n"
+"No poder leer /proc/mounts."
+
+# 13
+#: ../src/daisy-player.c:1845 ../src/daisy-player.c:2003
+#, c-format
+msgid "Daisy-player - Version %s\n"
+msgstr "Daisy-player - Versión %s\n"
+
+# 39
+#: ../src/daisy-player.c:1847
+#, fuzzy, c-format
+msgid ""
+"\n"
+"Usage: %s [directory_with_a_Daisy-structure] "
+msgstr ""
+"\n"
+"Uso: %s [-l language] [directory with a Daisy-structure]\a\n"
+
+#: ../src/daisy-player.c:1849
+#, c-format
+msgid "[-c cdrom_device] [-d ALSA_sound_device] [-n | -y]\n"
+msgstr ""
+
+# 34
+#: ../src/daisy-player.c:1863
+msgid ""
+"\n"
+"Cannot read /proc/mounts."
+msgstr ""
+"\n"
+"No poder leer /proc/mounts."
+
+# 6
+#: ../src/daisy-player.c:2004
+msgid "A parser to play Daisy CD's with Linux"
+msgstr "Un analizador para escuchar Daisy CD"
+
+#: ../src/daisy-player.c:2009
+#, c-format
+msgid ""
+"\n"
+"Daisy-player needs the \"madplay\" programme.\n"
+msgstr ""
+
+#: ../src/daisy-player.c:2030
+#, c-format
+msgid "Scanning for a Daisy CD..."
+msgstr ""
+
+# 35
+#: ../src/daisy-player.c:2090
+msgid ""
+"\n"
+"Cannot use udisks command."
+msgstr ""
+"\n"
+"No poder usar udisks orden."
+
+# 36
+#: ../src/daisy-player.c:2120
+#, fuzzy
+msgid "No Daisy CD in drive."
+msgstr ""
+"\n"
+"No hay daisy-cd en el unidad."
+
+# 19
+#: ../src/daisy-player.c:2136
+#, c-format
+msgid "No such directory: %s\n"
+msgstr "No tal directorio: %s\n"
+
+# 12
+#: ../src/daisy-player.c:2197
+#, c-format
+msgid "Daisy-player - Version %s - (C)2013 J. Lemmens"
+msgstr "Daisy-player - Versión %s - (C)2013 J. Lemmens"
+
+# 22
+#: ../src/daisy-player.c:2208
+msgid "Press 'h' for help "
+msgstr "Hacer clic 'h' para ayudar "
+
+# 33
+#: ../src/daisy3.c:268
+#, fuzzy, c-format
+msgid ""
+"\n"
+"Cannot read\n"
+msgstr ""
+"\n"
+"No poder leer %s\n"
+
+#: ../src/daisy3.c:747
+#, c-format
+msgid ""
+"\n"
+"No DAISY-CD or Audio-cd found\n"
+msgstr ""
+
+# 2
+#~ msgid " (%2d of %2d)"
+#~ msgstr " (%2d o %2d)"
+
+# 7
+#~ msgid "Cannot find a daisy structure in %s"
+#~ msgstr "No poder encontrar una estructura de daisy en %s"
+
+# 8
+#~ msgid "Cannot find a daisy structure"
+#~ msgstr "No poder encontrar una estructura de daisy"
+
+# 9
+#~ msgid "Corrupt daisy structure %s\n"
+#~ msgstr "Corrupt estructura de daisy %s\n"
+
+# 10
+#~ msgid "Corrupt daisy structure!"
+#~ msgstr "Corrupt estructera de daisy!"
+
+# 14
+#~ msgid "Daisy-player can't handle this DTB."
+#~ msgstr "Daisy-player no puede emplear este DTB"
+
+# 17
+#~ msgid "Maybe a read-error occurred!"
+#~ msgstr "Posible se produjo un error-leer!"
+
+# 21
+#~ msgid "Please wait..."
+#~ msgstr "Por favor esperar..."
+
+# 24
+#~ msgid "Reading %s... "
+#~ msgstr "Leyendo %s... "
+
+# 25
+#~ msgid "Reading daisy structure..."
+#~ msgstr "Leyendo daisy estructura..."
+
+# 26
+#~ msgid "Something is wrong with %s\n"
+#~ msgstr "Alguna es incorrecto con %s\n"
+
+# 27
+#~ msgid "Something is wrong with the %s file\n"
+#~ msgstr "Alguna es incorrecto con el %s file\n"
+
+# 28
+#~ msgid "This is not possible!"
+#~ msgstr "Es imposible"
+
+# 31
+#~ msgid ""
+#~ "\n"
+#~ "%s: is not a sound device.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "%s: no es un medio sonido.\n"
+
+# 40
+#~ msgid "clip_end (%f) is smaller than clip_begin (%f).\n"
+#~ msgstr "clip_fin (%f) esta mas pequeño que clip_principio (%f).\n"
+
+# 54
+#~ msgid "n length: %d\n"
+#~ msgstr "n longitud: %d\n"
+
+# 61
+#~ msgid "s length: %d\n"
+#~ msgstr "s longitud: %d\n"
