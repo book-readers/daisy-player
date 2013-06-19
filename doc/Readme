@@ -11,6 +11,7 @@ Be sure the following extra packages exist on your system:
    libncursesw5
    libsox1b
    libxml2
+   libmagic1
    madplay
    gettext
    udisks
@@ -25,6 +26,7 @@ Be sure the following extra packages exist on your system:
    libcdio-paranoia1
    libcddb-get-perl
    tex-common
+   unzip
 
 The following packages are needed to make the manual and the html document:
 
@@ -40,10 +42,11 @@ on the command line, give:
 This starts reading the cd and printing the content on
 the screen. After giving an [ENTER], playing the audio files starts.
 
-One could also give a directory with a daisy
+One could also give a directory or a ZIP-file with a daisy
 structure as argument to daisy-player:
 
    $ daisy-player /home/jos/daisy_dir
+   $ daisy-player /home/jos/daisy.zip
 
 A list of items on the DAISY-CD will appear. Press <ENTER>
 to start playing. When reading of an item has finished, daisy-player will

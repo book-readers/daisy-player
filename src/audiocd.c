@@ -27,7 +27,8 @@ extern daisy_t daisy[];
 pid_t player_pid, daisy_player_pid;
 float speed, total_time;
 extern sox_effects_chain_t *effects_chain;
-
+CdIo_t *p_cdio;
+                
 int get_tag_or_label (xmlTextReaderPtr);
 
 void get_cddb_info ()
@@ -125,11 +126,7 @@ void get_toc_audiocd (char *dev)
       get_cddb_info ();
 } // get_toc_audiocd
 
-void set_drive_speed (char *dev, int drive_speed)
+void set_drive_speed (int drive_speed)
 {
-   CdIo_t *cd;
-
-   cd = cdio_open (dev, DRIVER_UNKNOWN);
-   cdio_set_speed (cd, drive_speed);
-   cdio_destroy (cd);
-} // set_drive_speed
+   cdio_set_speed (p_cdio, drive_speed);
+} // set_drive_speed                  

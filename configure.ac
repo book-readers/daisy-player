@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([daisy-player],[8.3],[jos@jlemmens.nl])
+AC_INIT([daisy-player], [8.3.5], [jos@jlemmens.nl])
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
@@ -24,6 +24,8 @@ AC_CHECK_LIB([cdio], [main])
 AC_CHECK_LIB([cdio_cdda], [main])
 # FIXME: Replace `main' with a function in `-lcdio_paranoia':
 AC_CHECK_LIB([cdio_paranoia], [main])
+# FIXME: Replace `main' with a function in `-lmagic':
+AC_CHECK_LIB([magic], [main])
 # FIXME: Replace `main' with a function in `-lncursesw':
 AC_CHECK_LIB([ncursesw], [main])
 # FIXME: Replace `main' with a function in `-lsox':
@@ -32,9 +34,7 @@ AC_CHECK_LIB([sox], [main])
 AC_CHECK_LIB([xml2], [main])
 
 # Checks for header files.
-AC_CHECK_HEADERS([libintl.h locale.h stdlib.h string.h])
-AC_CHECK_HEADERS([fcntl.h])
-AC_CHECK_HEADERS([sys/ioctl.h])
+AC_CHECK_HEADERS([fcntl.h libintl.h locale.h stdlib.h string.h strings.h sys/ioctl.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
@@ -48,12 +48,12 @@ AM_GNU_GETTEXT_VERSION(0.18.1)
 AC_FUNC_FORK
 AC_FUNC_MALLOC
 AC_FUNC_STRTOD
-AC_CHECK_FUNCS([atexit mkdir select setlocale strcasecmp strchr strdup strerror strrchr strstr])
+AC_CHECK_FUNCS([atexit ftruncate mkdir select setlocale strcasecmp strchr strdup strerror strrchr strstr])
 
 AC_CONFIG_FILES([Makefile
                  doc/Makefile
                  m4/Makefile
                  man/Makefile
-                 src/Makefile
-                 po/Makefile.in])
+                 po/Makefile.in
+                 src/Makefile])
 AC_OUTPUT

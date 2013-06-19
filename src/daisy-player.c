@@ -19,7 +19,7 @@
 
 #include "src/daisy.h"
 
-#define DAISY_PLAYER_VERSION "8.3"
+#define DAISY_PLAYER_VERSION "8.3.5"
 
 int discinfo = 0, displaying = 0, phrase_nr, tts_no;
 int playing, just_this_item, current_playorder = 1, audiocd;
@@ -61,15 +61,14 @@ void open_smil_file (char *, char *);
 void read_daisy_3 (char *);
 void get_toc_audiocd (char *);
 pid_t play_track (char *, char *, char *, lsn_t, float);
-char *get_mcn (char *);
-void set_drive_speed (char *, int);
-void init_paranoia (char *, lsn_t);
+char *get_mcn ();
+void set_drive_speed (int);
+void init_paranoia (char *);
 
 void playfile (char *in_file, char *in_type,
                char *out_file, char *out_type, char *tempo)
 {
-
-   sox_format_t *sox_in, *sox_out;
+   sox_format_t *sox_in, *sox_out;                         
    sox_effects_chain_t *chain;
    sox_effect_t *e;
    char *args[MAX_STR], str[MAX_STR];
@@ -94,7 +93,8 @@ void playfile (char *in_file, char *in_type,
       endwin ();
       strncpy (sound_dev, "hw:0", MAX_STR - 1);
       save_rc ();
-      printf ("\nNo permission to use the soundcard.\n");
+      printf ("\nNo permission to use the soundcard. X%sX speed %f %s\n",
+              out_file, speed, out_type);
       beep ();
       quit_daisy_player ();
       _exit (0);
@@ -103,10 +103,14 @@ void playfile (char *in_file, char *in_type,
    {
       sox_in->encoding.encoding = SOX_ENCODING_SIGN2;
       sox_in->encoding.bits_per_sample = 16;
-      const sox_version_info_t* info = sox_version_info ();
-      if (strcasecmp (info->distro, "Ubuntu") == 0)
+
+      int a, b;
+
+      a = SOX_LIB_VERSION_CODE >> 16;
+      b = (SOX_LIB_VERSION_CODE - (a << 16)) >> 8;
+      if (a >= 14 && b >= 4)
          sox_in->encoding.reverse_bytes = sox_option_no;
-//      if (strcasecmp (info->distro, "Debian") == 0)
+// libSoX version < 14.4 use:
 //         sox_in->encoding.reverse_bytes = SOX_OPTION_NO;
    } // if
 
@@ -161,8 +165,8 @@ void put_bookmark ()
    pw = getpwuid (geteuid ());
    snprintf (str, MAX_STR - 1, "%s/.daisy-player", pw->pw_dir);
    mkdir (str, 0755);
-   snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s.MCN_%s",
-             pw->pw_dir, bookmark_title, get_mcn (cd_dev));
+   snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s%s",
+             pw->pw_dir, bookmark_title, get_mcn ());
    if (! (writer = xmlNewTextWriterFilename (str, 0)))
       return;
    xmlTextWriterStartDocument (writer, NULL, NULL, NULL);
@@ -196,8 +200,8 @@ void get_bookmark ()
    pw = getpwuid (geteuid ());
    if (! *bookmark_title)
       return;
-   snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s.MCN_%s",
-             pw->pw_dir, bookmark_title, get_mcn (cd_dev));
+   snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s%s",
+             pw->pw_dir, bookmark_title, get_mcn ());
    doc = xmlRecoverFile (str);
    if (! (local = xmlReaderWalker (doc)))
    {
@@ -592,7 +596,7 @@ void play_now ()
 
    char tempo_str[15], cmd[MAX_CMD];
    setsid ();
-         
+
    view_page (my_attribute.id);
    lseek (tmp_wav_fd, SEEK_SET, 0);
    snprintf (cmd, MAX_CMD - 1, "madplay -Q %s -s %f -t %f -o wav:\"%s\"",
@@ -673,7 +677,7 @@ void write_wav (char *outfile)
    pw = getpwuid (geteuid ());
    snprintf (str, MAX_STR - 1, "%s/%s", pw->pw_dir, outfile);
 
-   set_drive_speed (cd_dev, 100); // fastest
+   set_drive_speed (100); // fastest
    if (audiocd == 1)
    {
       pid_t pid;
@@ -691,7 +695,7 @@ void write_wav (char *outfile)
          ret = ret;
       } while (++lsn_cursor <= daisy[current].last_lsn);
       kill (pid, SIGQUIT);
-      set_drive_speed (cd_dev, 4);
+      set_drive_speed (4);
       return;
    } // if
 
@@ -703,7 +707,7 @@ void write_wav (char *outfile)
              daisy[current].begin, daisy[current].duration, str);
    if (system (cmd) != 0)
       _exit (0);
-   set_drive_speed (cd_dev, 4);
+   set_drive_speed (4);
 } // write_wav
 
 void store_to_disk ()
@@ -839,8 +843,8 @@ void play_clip ()
 
       pw = getpwuid (geteuid ());
       quit_daisy_player ();
-      snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s.MCN_%s", pw->pw_dir,
-                bookmark_title, get_mcn (cd_dev));
+      snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s%s", pw->pw_dir,
+                bookmark_title, get_mcn ());
       unlink (str);
       _exit (0);
    } // if
@@ -1043,7 +1047,10 @@ void read_rc ()
    snprintf (str, MAX_STR - 1, "%s/.daisy-player.rc", pw->pw_dir);
    doc = xmlRecoverFile (str);
    if (! (reader = xmlReaderWalker (doc)))
+   {
+      strncpy (sound_dev, "hw:0", MAX_STR - 1);
       return;
+   } // if
    do
    {
       if (! get_tag_or_label (reader))
@@ -1088,7 +1095,7 @@ void quit_daisy_player ()
    save_rc ();
 
 // reset the CD speed
-   set_drive_speed (cd_dev, 100);
+   set_drive_speed (100);
    close (tmp_wav_fd);
 } // quit_daisy_player
 
@@ -1416,7 +1423,7 @@ void browse ()
       view_screen ();
    } // if
 
-   for (;;)      
+   for (;;)
    {
       signal (SIGCHLD, player_ended);
       switch (wgetch (screenwin))
@@ -1832,14 +1839,14 @@ void browse ()
       if (playing > -1 && audiocd == 1)
       {
          int ret; // drop return-code
-         int16_t *p_readbuf;    
+         int16_t *p_readbuf;
 
          if (! (p_readbuf = paranoia_read (par, NULL)))
             break;
          ret = write (pipefd[1], p_readbuf, CDIO_CD_FRAMESIZE_RAW);
          lsn_cursor++;
          ret = ret;
-         if (lsn_cursor >= daisy[playing].last_lsn)
+         if (lsn_cursor > daisy[playing].last_lsn)
          {
             start_time = 0;
             current = displaying = ++playing;
@@ -1850,8 +1857,8 @@ void browse ()
 
                pw = getpwuid (geteuid ());
                quit_daisy_player ();
-               snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s.MCN_%s",
-                         pw->pw_dir, bookmark_title, get_mcn (cd_dev));
+               snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s%s",
+                         pw->pw_dir, bookmark_title, get_mcn ());
                unlink (str);
                _exit (0);
             } // if
@@ -2019,7 +2026,15 @@ int main (int argc, char *argv[])
          cddb_flag = 'n';
          break;
       case 'y':
+      case 'j':
          cddb_flag = 'y';
+         switch (system ("cddbget -c null")) // if cddbget is installed
+         {
+         case 0:
+            break;
+         default:
+            cddb_flag = 'n';
+         } // switch
          break;
       default:
          usage (prog_name);
@@ -2063,18 +2078,98 @@ int main (int argc, char *argv[])
    } // if
 
 // set the CD speed so it makes less noise
-   set_drive_speed (cd_dev, 4);
+   set_drive_speed (4);
 
    printw (gettext ("Scanning for a Daisy CD..."));
    refresh ();
    audiocd = 0;
    if (argv[optind])
+// if there is an argument
    {
-      if (*argv[optind] == '/')
+// determine filetype
+      magic_t myt;
+
+      myt = magic_open (MAGIC_CONTINUE | MAGIC_SYMLINK);
+      magic_load (myt, NULL);
+      if (magic_file (myt, argv[optind]) == NULL)
+      {
+         int e;
+
+         e = errno;
+         endwin ();
+         printf ("%s: %s\n", argv[optind], strerror (e));
+         beep ();
+         fflush (stdout);
+         _exit (1);
+      } // if
+      if (strcasestr (magic_file (myt, argv[optind]), "directory"))
          strncpy (daisy_mp, argv[optind], MAX_STR - 1);
       else
-         snprintf (daisy_mp, MAX_STR - 1, "%s/%s",
-                   getenv ("PWD"), argv[optind]);
+      if (strcasestr (magic_file (myt, argv[optind]), "Zip archive"))
+      {
+         char *str, cmd[MAX_CMD];
+
+         str = strdup ("/tmp/daisy-player.XXXXXX");
+         if (! mkdtemp (str))
+         {
+            endwin ();
+            printf ("mkdtemp ()\n");
+            beep ();
+            fflush (stdout);
+            _exit (1);
+         } // if
+         if (system ("unzip -h > /dev/null") > 0)
+         {
+            endwin ();
+            beep ();
+            printf (gettext (
+                    "\nDaisy-player needs the \"unzip\" programme.\n"));
+            printf (gettext ("Please install it and try again.\n"));
+            fflush (stdout);
+            _exit (1);
+         } // if
+         snprintf (cmd, MAX_CMD - 1, "unzip -qq \"%s\" -d %s",
+                   argv[optind], str);
+         switch (system (cmd))
+         {
+         default:
+            break;
+         } // switch
+         wrefresh (screenwin);
+
+         DIR *dir;
+         struct dirent *dirent;
+         int entries = 0;
+
+         if (! (dir = opendir (str)))
+         {
+            endwin ();
+            beep ();
+            printf ("\n%s\n", strerror (errno));
+            fflush (stdout);
+            _exit (1);
+         } // if
+         while ((dirent = readdir (dir)) != NULL)
+         {
+            if (strcasecmp (dirent->d_name, ".") == 0 ||
+                strcasecmp (dirent->d_name, "..") == 0)
+               continue;
+            snprintf (daisy_mp, MAX_STR - 1, "%s/%s", str, dirent->d_name);
+            entries++;
+         } // while
+         if (entries > 1)
+            snprintf (daisy_mp, MAX_STR - 1, "%s", str);
+         closedir (dir);
+      } // if zip
+      else
+      {
+         endwin ();
+         printf (gettext ("\nNo DAISY-CD or Audio-cd found\n"));
+         beep ();
+         fflush (stdout);
+         _exit (1);
+      } // if
+
    }
    else
 // when no mount-point is given try to mount the cd
@@ -2130,12 +2225,12 @@ int main (int argc, char *argv[])
 // probably an Audio-CD
             audiocd = 1;
             printw (gettext ("\nFound an Audio-CD. "));
-             if (cddb_flag == 'y')
-                printw (gettext ("Get titles from freedb.freedb.org..."));
+            if (cddb_flag == 'y')
+               printw (gettext ("Get titles from freedb.freedb.org..."));
             refresh ();
             strncpy (bookmark_title, "Audio-CD", MAX_STR - 1);
             strncpy (daisy_title, "Audio-CD", MAX_STR - 1);
-            init_paranoia (cd_dev, 1);
+            init_paranoia (cd_dev);
             get_toc_audiocd (cd_dev);
             strncpy (daisy_mp, "/tmp", MAX_STR - 1);
             break;
@@ -2226,7 +2321,8 @@ int main (int argc, char *argv[])
    } // if audiocd == 0
    wattron (titlewin, A_BOLD);
    snprintf (str, MAX_STR - 1, gettext
-             ("Daisy-player - Version %s - (C)2013 J. Lemmens"), DAISY_PLAYER_VERSION);
+             ("Daisy-player - Version %s - (C)2013 J. Lemmens"), 
+             DAISY_PLAYER_VERSION);
    mvwprintw (titlewin, 0, 0, str);
    wrefresh (titlewin);
 

@@ -16,12 +16,12 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "src/daisy.h"
+#include "daisy.h"
 
 extern struct my_attribute my_attribute;
-extern int current, displaying, max_y, total_items, current_page_number;
-int phrase_nr, tts_no, level, depth, total_time, audiocd;
-extern float speed;
+int current, displaying, max_y, total_items, current_page_number;
+int phrase_nr, tts_no, level, depth, total_time, audiocd, total_phrases;
+float speed;
 extern char daisy_title[], bookmark_title[], prog_name[];
 extern char tag[], label[], sound_dev[], cd_dev[], cddb_flag;
 extern char daisy_version[], daisy_mp[], opf_name[], ncx_name[], NCC_HTML[];
@@ -33,6 +33,7 @@ extern daisy_t daisy[];
 time_t seconds;
 
 void parse_ncx (char *);
+void check_phrases ();
 
 float read_time (char *p)
 {
@@ -182,7 +183,7 @@ void get_attributes (xmlTextReaderPtr reader)
    } // if
    snprintf (attr, MAX_STR - 1, "%s", (char*)
        xmlTextReaderGetAttribute (reader, (const xmlChar *) "playorder"));
-   if (strcmp (attr, "(null)"))
+   if (strcmp (attr, "(null)"))                                  
       snprintf (my_attribute.playorder, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
        xmlTextReaderGetAttribute (reader, (const xmlChar *) "phrase"));
@@ -287,21 +288,34 @@ int get_tag_or_label (xmlTextReaderPtr local_reader)
    {
       int x;
 
-      strncpy (label, (char *) xmlTextReaderConstValue (local_reader),
+      x = 0;
+      while (1)
+      {
+         if (isspace (xmlTextReaderConstValue (local_reader)[x]))
+            x++;
+         else
+            break;
+      } // while
+      strncpy (label, (char *) xmlTextReaderConstValue (local_reader) + x,
                       max_phrase_len);
       for (x = strlen (label) - 1; x >= 0 && isspace (label[x]); x--)
          label[x] = 0;
+      for (x = 0; label[x] > 0; x++)
+         if (! isascii (label[x]))
+            label[x] = ' ';
       return 1;
    }
    case XML_READER_TYPE_ENTITY_REFERENCE:
    case XML_READER_TYPE_DOCUMENT_TYPE:
    case XML_READER_TYPE_SIGNIFICANT_WHITESPACE:
+//      snprintf (tag, MAX_TAG - 1, "/%s",
+//                (char *) xmlTextReaderName (local_reader));
       return 1;
    default:
       return 1;
    } // switch
    return 0;
-} // get_tag_or_label
+} // get_tag_or_label        
 
 void parse_text_file (char *text_file)
 // page-number
@@ -722,9 +736,12 @@ void parse_opf (char *name)
          if (*my_attribute.toc)
          {
             parse_ncx (ncx_name);
-            xmlTextReaderClose (opf);
-            xmlFreeDoc (doc);
-            return;
+            if (total_phrases > 0)
+            {
+               xmlTextReaderClose (opf);
+               xmlFreeDoc (doc);
+               return;
+            } // if
          } // if
          do
          {
@@ -778,50 +795,12 @@ void read_daisy_3 (char *daisy_mp)
    if (strcasecmp (prog_name, "eBook-speaker") == 0)
       parse_opf (opf_name);
    total_items = current;
-} // read_daisy_3        
-
-char *convert (char *s)
-{
-   int x = 0, n = 0;
-   static char new[MAX_STR];
-
-   do
-   {
-      if (s[x] == '%')
-      {
-         char hex[10];
-
-         x++;
-         hex[0] = '0';
-         hex[1] = 'x';
-         hex[2] = s[x++];
-         hex[3] = s[x++];
-         hex[4] = 0;
-         new[n++] = strtod (hex, NULL);
-      }
-      else
-         new[n++] = s[x++];
-   } while (s[x - 1]);
-   return new;
-} // convert
+} // read_daisy_3
 
 void get_label (int item, int indent)
 {
-   char *ptr;
-
-   ptr = label;
-   do
-   {
-// delete first spaces
-      if (isspace (*ptr))
-         ptr++;
-   } while (isspace (*ptr));
-   strncpy (daisy[item].label, ptr, MAX_STR - 1);
+   strncpy (daisy[item].label, label, MAX_STR - 1);
    daisy[item].label[64 - daisy[item].x] = 0;
-   ptr = daisy[item].label + strlen (daisy[item].label) - 1;
-   while (isspace (*ptr))
-// delete trailing spaces
-      *(ptr--) = 0;
    if (displaying == max_y)
       displaying = 1;
    if (strcasecmp (daisy[item].class, "pagenum") == 0)
@@ -881,8 +860,10 @@ void parse_ncx (char *name)
          daisy[current].page_number = 0;
          daisy[current].playorder = atoi (my_attribute.playorder);
          daisy[current].level = level;
+         if (daisy[current].level < 1)
+            daisy[current].level = 1;
          daisy[current].x = level + 2;
-         indent = daisy[current].x = (level - 1) * 3 + 1;
+         indent = (level - 1) * 3 + 1;
          strncpy (daisy[current].class, my_attribute.class, MAX_STR - 1);
          while (1)
          {
@@ -929,4 +910,8 @@ void parse_ncx (char *name)
    } // while
    xmlTextReaderClose (ncx);
    xmlFreeDoc (doc);
+   total_items = current;
+#ifdef EBOOK_SPEAKER
+   check_phrases ();
+#endif
 } // parse_ncx

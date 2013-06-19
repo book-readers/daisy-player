@@ -22,24 +22,25 @@
 pid_t player_pid;
 extern daisy_t daisy[];
 extern char sound_dev[], tmp_wav[];
-int sector_ptr;
-int pipefd[2];
+int sector_ptr, pipefd[2], audiocd;
 cdrom_paranoia_t *par;
 cdrom_drive_t *drv;
 CdIo_t *p_cdio;
 lsn_t lsn_cursor;
+char mcn[MAX_STR];
 
 void view_screen ();
 void playfile (char *, char *, char *, char *, char *);
 
-char *get_mcn (char *cd_dev)
+char *get_mcn ()
 {
-   CdIo_t *p_cdio;
-
-   if ((p_cdio = cdio_open (cd_dev, DRIVER_UNKNOWN)) == NULL)
-      return "_";
-   return cdio_get_mcn (p_cdio);
-} // get_mcn                     
+   if (audiocd == 1)
+   {
+      snprintf (mcn, MAX_STR, ".MCN_%s", cdio_get_mcn (p_cdio));
+      return mcn;;
+   } // if
+   return "";
+} // get_mcn
 
 void init_paranoia (char *cd_dev)
 {

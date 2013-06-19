@@ -3,7 +3,7 @@ SUBDIRS = man doc src po
 
 ACLOCAL_AMFLAGS = -I m4
 
-EXTRA_DIST = config.rpath m4/ChangeLog mkinstalldirs m4/Makefile.in src/gettext.h
+EXTRA_DIST = config.rpath m4/Makefile.in src/gettext.h doc/COMPILE doc/Changelog doc/License doc/Readme doc/daisy-player.* man/daisy-player.1
 
 check-gettext:
 	@if test x$(USE_NLS) != "xyes" ; then \

@@ -140,3 +140,5 @@ Samuel Thibault <sthibault@debian.org>
 	No more silence between Audio-CD tracks.
 8.3	Better checking for cd-drive and soundcard permissions.
 	Better support for Audio cd's.
+8.3.1	Crash when no ~/.daisy-player.rc: solved.
+	Daisy-player now also can read zip-files.

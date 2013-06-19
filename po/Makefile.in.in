@@ -96,7 +96,7 @@ CATALOGS = @CATALOGS@
 	mv t-$@ $@
 
 
-all: check-macro-version all-@USE_NLS@
+all: check-macro-version all-@USE_NLS@                        
 
 all-yes: stamp-po
 all-no:

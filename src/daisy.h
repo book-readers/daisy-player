@@ -44,8 +44,9 @@
 #include <cdio/cdda.h>
 #include <cdio/paranoia.h>
 #include <cdio/disc.h>
+#include <magic.h>
 
-#define max_phrase_len 500000
+#define max_phrase_len 50000
 #define MAX_CMD 512
 #define MAX_STR 256
 #define MAX_TAG 1024
@@ -119,4 +120,3 @@ void get_eBook_struct (int);
 void parse_smil ();
 void start_element (void *, const char *, const char **);
 void end_element (void *, const char *);
-char *convert (char *);
