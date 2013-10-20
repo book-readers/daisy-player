@@ -2,6 +2,7 @@
 Version=1.0
 Name=Daisy player
 Comment=Player for DAISY Books
+Keywords=braille; simple; audio book;
 Exec=daisy-player %f
 Icon=daisy-player
 Terminal=true

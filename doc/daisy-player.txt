@@ -1,7 +1,11 @@
 NAME
 daisy-player - player for DAISY Digital Talking Books or Audio-CD's
+
 SYNOPSIS
-daisy-player [directory_with_a_Daisy-structure | Daisy_book_in_ZIP_format] [-c cdrom_device] [-d ALSA_sound_device] [-n | -y]
+daisy-player [directory_with_a_Daisy-structure | 
+Daisy_book_in_ZIP_format] [-c cdrom_device] [-d ALSA_sound_device] 
+[-n | -y]
+
 DESCRIPTION
 Daisy-player reads a Daisy-CD and plays the audio-files.
 DAISY versions 2.02 and 3 are currently supported, as well as volumes with multiple books.
@@ -58,7 +62,7 @@ FILES
 ~/.daisy-player/  This directory contains the bookmarks. Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level, each on a own line.
 ~/.daisy-player.rc  This file contains the name of the desired audio device and the desired playing speed.
 SEE ALSO
-cddbget(1), unzip(1)
+cddbget(1), unar(1)
 AUTHOR
 Jos Lemmens <jos@jlemmens.nl>
 COPYRIGHT

@@ -34,6 +34,7 @@ time_t seconds;
 
 void parse_ncx (char *);
 void check_phrases ();
+extern void usage (char *);
 
 float read_time (char *p)
 {
@@ -235,7 +236,7 @@ void get_attributes (xmlTextReaderPtr reader)
       snprintf (my_attribute.value, MAX_STR - 1, "%s", attr);
 } // get_attributes
 
-int get_tag_or_label (xmlTextReaderPtr local_reader)
+int get_tag_or_label (xmlTextReaderPtr reader)
 {
    int type;
 
@@ -245,24 +246,29 @@ int get_tag_or_label (xmlTextReaderPtr local_reader)
    *my_attribute.playorder = * my_attribute.smilref = *my_attribute.src =
    *my_attribute.toc = 0, *my_attribute.value = 0;
 
-   if (! local_reader)
+   if (! reader)
       return 0;
-   switch (xmlTextReaderRead (local_reader))
+   switch (xmlTextReaderRead (reader))
    {
    case -1:
+   {
+      int e;
+
+      e = errno;
       endwin ();
-      printf ("%s\n", strerror (errno));
+      printf ("%s\n", strerror (e));
       printf ("Can't handle this DTB structure!\n");
       printf ("Don't know how to handle it yet, sorry. :-(\n");
       beep ();
       fflush (stdout);
       _exit (1);
+   }
    case 0:
       return 0;
    case 1:
       break;
    } // swwitch
-   type = xmlTextReaderNodeType (local_reader);
+   type = xmlTextReaderNodeType (reader);
    switch (type)
    {
    int n, i;
@@ -270,19 +276,19 @@ int get_tag_or_label (xmlTextReaderPtr local_reader)
    case -1:
       endwin ();
       beep ();
-      printf (gettext ("\nCannot read\n"));
+      printf (gettext ("\nCannot read type: %d\n"), type);
       fflush (stdout);
       _exit (1);
    case XML_READER_TYPE_ELEMENT:
-      strncpy (tag, (char *) xmlTextReaderConstName (local_reader),
+      strncpy (tag, (char *) xmlTextReaderConstName (reader),
                MAX_TAG - 1);
-      n = xmlTextReaderAttributeCount (local_reader);
+      n = xmlTextReaderAttributeCount (reader);
       for (i = 0; i < n; i++)
-         get_attributes (local_reader);
+         get_attributes (reader);
       return 1;
    case XML_READER_TYPE_END_ELEMENT:
       snprintf (tag, MAX_TAG - 1, "/%s",
-                (char *) xmlTextReaderName (local_reader));
+                (char *) xmlTextReaderName (reader));
       return 1;
    case XML_READER_TYPE_TEXT:
    {
@@ -291,12 +297,12 @@ int get_tag_or_label (xmlTextReaderPtr local_reader)
       x = 0;
       while (1)
       {
-         if (isspace (xmlTextReaderConstValue (local_reader)[x]))
+         if (isspace (xmlTextReaderConstValue (reader)[x]))
             x++;
          else
             break;
       } // while
-      strncpy (label, (char *) xmlTextReaderConstValue (local_reader) + x,
+      strncpy (label, (char *) xmlTextReaderConstValue (reader) + x,
                       max_phrase_len);
       for (x = strlen (label) - 1; x >= 0 && isspace (label[x]); x--)
          label[x] = 0;
@@ -309,7 +315,7 @@ int get_tag_or_label (xmlTextReaderPtr local_reader)
    case XML_READER_TYPE_DOCUMENT_TYPE:
    case XML_READER_TYPE_SIGNIFICANT_WHITESPACE:
 //      snprintf (tag, MAX_TAG - 1, "/%s",
-//                (char *) xmlTextReaderName (local_reader));
+//                (char *) xmlTextReaderName (reader));
       return 1;
    default:
       return 1;
@@ -321,6 +327,7 @@ void parse_text_file (char *text_file)
 // page-number
 {
    xmlTextReaderPtr textptr;
+   xmlDocPtr doc;
    char *anchor = 0;
 
    if (strchr (text_file, '#'))
@@ -328,7 +335,7 @@ void parse_text_file (char *text_file)
       anchor = strdup (strchr (text_file, '#') + 1);
       *strchr (text_file, '#') = 0;
    } // if
-   xmlDocPtr doc = xmlRecoverFile (text_file);
+   doc = xmlRecoverFile (text_file);
    if (! (textptr = xmlReaderWalker (doc)))
    {
       endwin ();
@@ -391,12 +398,20 @@ void get_page_number_3 (xmlTextReaderPtr reader)
    do
    {
       if (! get_tag_or_label (page))
+      {
+         xmlTextReaderClose (page);
+         xmlFreeDoc (doc);
          return;
+      } // if
    } while (strcasecmp (my_attribute.id, anchor) != 0);
    do
    {
       if (! get_tag_or_label (page))
+      {
+         xmlTextReaderClose (page);
+         xmlFreeDoc (doc);
          return;
+      } // if
    } while (! *label);
    xmlTextReaderClose (page);
    xmlFreeDoc (doc);
@@ -407,13 +422,14 @@ void parse_smil_3 ()
 {
    int x;
    xmlTextReaderPtr parse;
+   xmlDocPtr doc;
 
    total_time = 0;
    for (x = 0; x < total_items; x++)
    {
       if (*daisy[x].smil_file == 0)
          continue;
-      xmlDocPtr doc = xmlRecoverFile (daisy[x].smil_file);
+      doc = xmlRecoverFile (daisy[x].smil_file);
       if (! (parse = xmlReaderWalker (doc)))
       {
          endwin ();
@@ -608,7 +624,10 @@ void parse_manifest (char *name, char *id_ptr)
 
    id = strdup (id_ptr);
    if (! *id)
+   {
+      free (id);                   
       return;
+   } // if
    toc = strdup (my_attribute.toc);
    xmlDocPtr doc = xmlRecoverFile (name);
    if (! (manifest = xmlReaderWalker (doc)))
@@ -773,7 +792,8 @@ void read_daisy_3 (char *daisy_mp)
       endwin ();
       printf (gettext ("\nNo DAISY-CD or Audio-cd found\n"));
       beep ();
-      _exit (0);
+      fflush (stdout);
+      usage (prog_name);
    } // if
    strncpy (ncx_name, basename (path), MAX_STR - 1);
    strncpy (NCC_HTML, ncx_name, MAX_STR - 1);

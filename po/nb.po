@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2013-07-14 21:10+0200\n"
+"POT-Creation-Date: 2013-10-20 14:35+0200\n"
 "PO-Revision-Date: 2013-01-29 15:06+0200\n"
 "Last-Translator: Ellen <ellenrohaan@hotmail.com>\n"
 "Language-Team: Ellen <ellenrohaan@hotmail.com>\n"
@@ -30,12 +30,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/daisy-player.c:264 src/daisy-player.c:287 src/daisy-player.c:355
-#: src/daisy-player.c:508 src/daisy-player.c:1227 src/daisy-player.c:1284
-#: src/daisy-player.c:1929 src/daisy-player.c:1954 src/daisy-player.c:2282
-#: src/daisy3.c:336 src/daisy3.c:387 src/daisy3.c:421 src/daisy3.c:488
-#: src/daisy3.c:528 src/daisy3.c:547 src/daisy3.c:618 src/daisy3.c:687
-#: src/daisy3.c:826
+#: src/daisy-player.c:266 src/daisy-player.c:292 src/daisy-player.c:360
+#: src/daisy-player.c:513 src/daisy-player.c:1232 src/daisy-player.c:1290
+#: src/daisy-player.c:1939 src/daisy-player.c:1964 src/daisy-player.c:2346
+#: src/daisy3.c:343 src/daisy3.c:394 src/daisy3.c:437 src/daisy3.c:504
+#: src/daisy3.c:544 src/daisy3.c:563 src/daisy3.c:637 src/daisy3.c:706
+#: src/daisy3.c:846
 #, c-format
 msgid ""
 "\n"
@@ -44,26 +44,26 @@ msgstr ""
 "\n"
 "Kan ikke lese %s\n"
 
-#: src/daisy-player.c:453
+#: src/daisy-player.c:458
 msgid "'h' for help -"
 msgstr "'h' for hjelp -"
 
-#: src/daisy-player.c:455
-#, fuzzy, c-format
-msgid " %d pages "
-msgstr " %d sider"
-
-#: src/daisy-player.c:456
-#, fuzzy, c-format
-msgid " level: %d of %d "
-msgstr " nivå: %d of %d"
-
 #: src/daisy-player.c:460
-#, fuzzy, c-format
-msgid " total length: %02d:%02d:%02d "
-msgstr " total lengde: %02d:%02d:%02d"
+#, c-format
+msgid " %d pages "
+msgstr " %d sider "
 
-#: src/daisy-player.c:742
+#: src/daisy-player.c:461
+#, c-format
+msgid " level: %d of %d "
+msgstr " nivå: %d of %d "
+
+#: src/daisy-player.c:465
+#, c-format
+msgid " total length: %02d:%02d:%02d "
+msgstr " total lengde: %02d:%02d:%02d "
+
+#: src/daisy-player.c:747
 msgid ""
 "\n"
 "These commands are available in this version:\n"
@@ -71,47 +71,47 @@ msgstr ""
 "\n"
 "Disse kommandoer er tilgjengelig i denne versjon:\n"
 
-#: src/daisy-player.c:745
+#: src/daisy-player.c:750
 msgid "cursor down     - move cursor to the next item\n"
 msgstr "markør ned           - flytt markør til neste element\n"
 
-#: src/daisy-player.c:746
+#: src/daisy-player.c:751
 msgid "cursor up       - move cursor to the previous item\n"
 msgstr "markør opp           - flytt markør til forrige element\n"
 
-#: src/daisy-player.c:747
+#: src/daisy-player.c:752
 msgid "cursor right    - skip to next phrase\n"
 msgstr "markør til høyre     - hopp over til neste settning\n"
 
-#: src/daisy-player.c:748
+#: src/daisy-player.c:753
 msgid "cursor left     - skip to previous phrase\n"
 msgstr "markør til venstre   - hopp over til forrige settning\n"
 
-#: src/daisy-player.c:749
+#: src/daisy-player.c:754
 msgid "page-down       - view next page\n"
 msgstr "page-down            - viser neste side\n"
 
-#: src/daisy-player.c:750
+#: src/daisy-player.c:755
 msgid "page-up         - view previous page\n"
 msgstr "page-up              - viser forrige side\n"
 
-#: src/daisy-player.c:751
+#: src/daisy-player.c:756
 msgid "enter           - start playing\n"
 msgstr "enter                - begynner å spille\n"
 
-#: src/daisy-player.c:752
+#: src/daisy-player.c:757
 msgid "space           - pause/resume playing\n"
 msgstr "space                - pauserer/gjennopptar spilling\n"
 
-#: src/daisy-player.c:753
+#: src/daisy-player.c:758
 msgid "home            - play on normal speed\n"
 msgstr "home                 - spiller på normal tempo\n"
 
-#: src/daisy-player.c:755
+#: src/daisy-player.c:760
 msgid "Press any key for next page..."
 msgstr "Trykk en tilfeldig knapp for neste side..."
 
-#: src/daisy-player.c:760
+#: src/daisy-player.c:765
 msgid ""
 "\n"
 "/               - search for a label\n"
@@ -119,74 +119,74 @@ msgstr ""
 "\n"
 "/               - søker en etikett\n"
 
-#: src/daisy-player.c:761
+#: src/daisy-player.c:766
 msgid "d               - store current item to disk\n"
 msgstr "d               - oppbevarer gjeldende element til disk\n"
 
-#: src/daisy-player.c:762
+#: src/daisy-player.c:767
 msgid "D               - decrease playing speed\n"
 msgstr "D               - reduserer spille tempo\n"
 
-#: src/daisy-player.c:764
+#: src/daisy-player.c:769
 msgid ""
 "f               - find the currently playing item and place the cursor "
 "there\n"
 msgstr ""
 "f               - finner den spillende elementen og plasserer markøren der\n"
 
-#: src/daisy-player.c:767
+#: src/daisy-player.c:772
 msgid "g               - go to page number (if any)\n"
 msgstr "g               - går til sidenummer (hvis det finnes)\n"
 
-#: src/daisy-player.c:770
+#: src/daisy-player.c:775
 msgid "g               - go to time in this song (MM:SS)\n"
 msgstr "g               - går til tidspunkt i denne sangen (MM:SS)\n"
 
-#: src/daisy-player.c:771
+#: src/daisy-player.c:776
 msgid "h or ?          - give this help\n"
 msgstr "h or ?          - viser hjelp\n"
 
-#: src/daisy-player.c:772
+#: src/daisy-player.c:777
 msgid "j               - just play current item\n"
 msgstr "j               - spiller gjeldende element\n"
 
-#: src/daisy-player.c:774
+#: src/daisy-player.c:779
 msgid "l               - switch to next level\n"
 msgstr "l               - går til neste nivå\n"
 
-#: src/daisy-player.c:775
+#: src/daisy-player.c:780
 msgid "L               - switch to previous level\n"
 msgstr "L               - gå til forrige nivål\n"
 
-#: src/daisy-player.c:776
+#: src/daisy-player.c:781
 msgid "n               - search forwards\n"
 msgstr "n               - søker framover\n"
 
-#: src/daisy-player.c:777
+#: src/daisy-player.c:782
 msgid "N               - search backwards\n"
 msgstr "N               - søker omvendt\n"
 
-#: src/daisy-player.c:778
+#: src/daisy-player.c:783
 msgid "o               - select next output sound device\n"
 msgstr "o               - selekterer neste lydkart\n"
 
-#: src/daisy-player.c:779
+#: src/daisy-player.c:784
 msgid "p               - place a bookmark\n"
 msgstr "p               - lager en bokmerke\n"
 
-#: src/daisy-player.c:780
+#: src/daisy-player.c:785
 msgid "q               - quit daisy-player and place a bookmark\n"
 msgstr "q               - avslutter daisy-player og lager en bokmerke\n"
 
-#: src/daisy-player.c:781
+#: src/daisy-player.c:786
 msgid "s               - stop playing\n"
 msgstr "s               - stopper å spille\n"
 
-#: src/daisy-player.c:782
+#: src/daisy-player.c:787
 msgid "U               - increase playing speed\n"
 msgstr "U               - øker spille tempo\n"
 
-#: src/daisy-player.c:783
+#: src/daisy-player.c:788
 msgid ""
 "\n"
 "Press any key to leave help..."
@@ -194,49 +194,46 @@ msgstr ""
 "\n"
 "Trykk en tilfeldig knapp for å forlate hjelp..."
 
-#: src/daisy-player.c:1019
+#: src/daisy-player.c:1024
 msgid "Please wait... -------------------------"
 msgstr "Vennligst vent.. -------------------------"
 
-#: src/daisy-player.c:1115
-#, fuzzy
+#: src/daisy-player.c:1120
 msgid "What do you search? "
-msgstr "Hva søker du?"
+msgstr "Hva søker du? "
 
-#: src/daisy-player.c:1208
-#, fuzzy
+#: src/daisy-player.c:1213
 msgid "Go to page number: "
-msgstr "Gå til side nummer:"
+msgstr "Gå til side nummer: "
 
-#: src/daisy-player.c:1339
-#, fuzzy
+#: src/daisy-player.c:1345
 msgid "Go to time (MM:SS): "
-msgstr "Gå til tidspunktet (MM:SS):"
+msgstr "Gå til tidspunktet (MM:SS): "
 
-#: src/daisy-player.c:1365
+#: src/daisy-player.c:1371
 msgid "Cannot read /proc/asound/cards"
 msgstr "Kan ikke lese /proc/asound/cards"
 
-#: src/daisy-player.c:1880 src/daisy-player.c:2056
+#: src/daisy-player.c:1887 src/daisy-player.c:2069
 #, c-format
 msgid "Daisy-player - Version %s\n"
 msgstr "Daisy-player - Versjon %s\n"
 
-#: src/daisy-player.c:1882
-#, fuzzy, c-format
+#: src/daisy-player.c:1889
+#, c-format
 msgid ""
 "\n"
 "Usage: %s [directory_with_a_Daisy-structure] "
 msgstr ""
 "\n"
-"Forbruk: %s  [mappe_med_Daisy-struktur]"
+"Forbruk: %s  [mappe_med_Daisy-struktur] "
 
-#: src/daisy-player.c:1884
+#: src/daisy-player.c:1891
 #, c-format
 msgid "[-c cdrom_device] [-d ALSA_sound_device] [-n | -y]\n"
 msgstr "[-c cdrom_apparat] [-d ALSA_lyd_apparat] [-n | -y]\n"
 
-#: src/daisy-player.c:1898
+#: src/daisy-player.c:1906
 msgid ""
 "\n"
 "Cannot read /proc/mounts."
@@ -244,11 +241,25 @@ msgstr ""
 "\n"
 "Kan ikke lese /proc/mounts."
 
-#: src/daisy-player.c:2057
+#: src/daisy-player.c:2070
 msgid "A parser to play Daisy CD's with Linux\n"
 msgstr "Et program for å spille Daisy CD's med Linux\n"
 
-#: src/daisy-player.c:2062
+#: src/daisy-player.c:2075
+#, c-format
+msgid ""
+"\n"
+"Daisy-player needs the \"udisks\" programme.\n"
+msgstr ""
+"\n"
+"Daisy-player trenger \"udisks\" programmet.\n"
+
+#: src/daisy-player.c:2076 src/daisy-player.c:2085 src/daisy-player.c:2143
+#, c-format
+msgid "Please install it and try again.\n"
+msgstr "Vennligst installer og prøv igjen.\n"
+
+#: src/daisy-player.c:2084
 #, c-format
 msgid ""
 "\n"
@@ -257,25 +268,20 @@ msgstr ""
 "\n"
 "Daisy-player trenger \"madplay\" programmet.\n"
 
-#: src/daisy-player.c:2063 src/daisy-player.c:2127
-#, c-format
-msgid "Please install it and try again.\n"
-msgstr "Vennligst installer og prøv igjen.\n"
-
-#: src/daisy-player.c:2083
+#: src/daisy-player.c:2093
 msgid "Scanning for a Daisy CD..."
 msgstr "Søker etter en Daisy CD..."
 
-#: src/daisy-player.c:2126
+#: src/daisy-player.c:2142
 #, c-format
 msgid ""
 "\n"
-"Daisy-player needs the \"unzip\" programme.\n"
+"Daisy-player needs the \"unar\" programme.\n"
 msgstr ""
 "\n"
-"Daisy-player trenger \"unzip\" programmet.\n"
+"Daisy-player trenger \"unar\" programmet.\n"
 
-#: src/daisy-player.c:2167 src/daisy3.c:774
+#: src/daisy-player.c:2183 src/daisy3.c:793
 #, c-format
 msgid ""
 "\n"
@@ -284,7 +290,11 @@ msgstr ""
 "\n"
 "Ingen DAISY-CD eller Lyd-cd funnet\n"
 
-#: src/daisy-player.c:2212
+#: src/daisy-player.c:2228 src/daisy-player.c:2309
+msgid "No Daisy CD in drive."
+msgstr "Ingen Daisy-cd i spillern."
+
+#: src/daisy-player.c:2275
 msgid ""
 "\n"
 "Cannot use udisks command."
@@ -292,43 +302,44 @@ msgstr ""
 "\n"
 "Kan ikke bruke udisks kommando."
 
-#: src/daisy-player.c:2227
-#, fuzzy
+#: src/daisy-player.c:2289
 msgid ""
 "\n"
 "Found an Audio-CD. "
 msgstr ""
 "\n"
-"Funnet en Lyd-CD."
+"Funnet en Lyd-CD. "
 
-#: src/daisy-player.c:2229
+#: src/daisy-player.c:2291
 msgid "Get titles from freedb.freedb.org..."
 msgstr "Henter titler fra freedb.freedb.org..."
 
-#: src/daisy-player.c:2247
-msgid "No Daisy CD in drive."
-msgstr "Ingen Daisy-cd i spillern."
-
-#: src/daisy-player.c:2263
+#: src/daisy-player.c:2327
 #, c-format
 msgid "No such directory: %s\n"
 msgstr "Ikke en slik mappe: %s\n"
 
-#: src/daisy-player.c:2324
+#: src/daisy-player.c:2388
 #, c-format
 msgid "Daisy-player - Version %s - (C)2013 J. Lemmens"
 msgstr "Daisy-player - Versjon %s - (C)2013 J. Lemmens"
 
-#: src/daisy-player.c:2335
-#, fuzzy
+#: src/daisy-player.c:2399
 msgid "Press 'h' for help "
-msgstr "Trykk 'h' for hjelp"
+msgstr "Trykk 'h' for hjelp "
 
-#: src/daisy3.c:273
+#: src/daisy3.c:279
 #, c-format
 msgid ""
 "\n"
-"Cannot read\n"
+"Cannot read type: %d\n"
 msgstr ""
 "\n"
-"Kan ikke lese\n"
+"Kan ikke lese type: %d\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "Cannot read\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Kan ikke lese\n"
