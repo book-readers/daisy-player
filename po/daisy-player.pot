@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: daisy-player 8.4.1\n"
+"Project-Id-Version: daisy-player 8.4.5\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2013-10-20 14:35+0200\n"
+"POT-Creation-Date: 2013-12-11 18:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/daisy-player.c:266 src/daisy-player.c:292 src/daisy-player.c:360
-#: src/daisy-player.c:513 src/daisy-player.c:1232 src/daisy-player.c:1290
-#: src/daisy-player.c:1939 src/daisy-player.c:1964 src/daisy-player.c:2346
+#: src/daisy-player.c:513 src/daisy-player.c:1233 src/daisy-player.c:1291
+#: src/daisy-player.c:1939 src/daisy-player.c:1964 src/daisy-player.c:2348
 #: src/daisy3.c:343 src/daisy3.c:394 src/daisy3.c:437 src/daisy3.c:504
 #: src/daisy3.c:544 src/daisy3.c:563 src/daisy3.c:637 src/daisy3.c:706
 #: src/daisy3.c:846
@@ -176,23 +176,23 @@ msgstr ""
 msgid "Please wait... -------------------------"
 msgstr ""
 
-#: src/daisy-player.c:1120
+#: src/daisy-player.c:1121
 msgid "What do you search? "
 msgstr ""
 
-#: src/daisy-player.c:1213
+#: src/daisy-player.c:1214
 msgid "Go to page number: "
 msgstr ""
 
-#: src/daisy-player.c:1345
+#: src/daisy-player.c:1346
 msgid "Go to time (MM:SS): "
 msgstr ""
 
-#: src/daisy-player.c:1371
+#: src/daisy-player.c:1372
 msgid "Cannot read /proc/asound/cards"
 msgstr ""
 
-#: src/daisy-player.c:1887 src/daisy-player.c:2069
+#: src/daisy-player.c:1887 src/daisy-player.c:2067
 #, c-format
 msgid "Daisy-player - Version %s\n"
 msgstr ""
@@ -215,78 +215,78 @@ msgid ""
 "Cannot read /proc/mounts."
 msgstr ""
 
-#: src/daisy-player.c:2070
+#: src/daisy-player.c:2068
 msgid "A parser to play Daisy CD's with Linux\n"
 msgstr ""
 
-#: src/daisy-player.c:2075
+#: src/daisy-player.c:2073
 #, c-format
 msgid ""
 "\n"
 "Daisy-player needs the \"udisks\" programme.\n"
 msgstr ""
 
-#: src/daisy-player.c:2076 src/daisy-player.c:2085 src/daisy-player.c:2143
+#: src/daisy-player.c:2074 src/daisy-player.c:2083 src/daisy-player.c:2141
 #, c-format
 msgid "Please install it and try again.\n"
 msgstr ""
 
-#: src/daisy-player.c:2084
+#: src/daisy-player.c:2082
 #, c-format
 msgid ""
 "\n"
 "Daisy-player needs the \"madplay\" programme.\n"
 msgstr ""
 
-#: src/daisy-player.c:2093
+#: src/daisy-player.c:2091
 msgid "Scanning for a Daisy CD..."
 msgstr ""
 
-#: src/daisy-player.c:2142
+#: src/daisy-player.c:2140
 #, c-format
 msgid ""
 "\n"
 "Daisy-player needs the \"unar\" programme.\n"
 msgstr ""
 
-#: src/daisy-player.c:2183 src/daisy3.c:793
+#: src/daisy-player.c:2181 src/daisy3.c:793
 #, c-format
 msgid ""
 "\n"
 "No DAISY-CD or Audio-cd found\n"
 msgstr ""
 
-#: src/daisy-player.c:2228 src/daisy-player.c:2309
+#: src/daisy-player.c:2225 src/daisy-player.c:2311
 msgid "No Daisy CD in drive."
 msgstr ""
 
-#: src/daisy-player.c:2275
+#: src/daisy-player.c:2277
 msgid ""
 "\n"
 "Cannot use udisks command."
 msgstr ""
 
-#: src/daisy-player.c:2289
+#: src/daisy-player.c:2291
 msgid ""
 "\n"
 "Found an Audio-CD. "
 msgstr ""
 
-#: src/daisy-player.c:2291
+#: src/daisy-player.c:2293
 msgid "Get titles from freedb.freedb.org..."
 msgstr ""
 
-#: src/daisy-player.c:2327
+#: src/daisy-player.c:2329
 #, c-format
 msgid "No such directory: %s\n"
 msgstr ""
 
-#: src/daisy-player.c:2388
+#: src/daisy-player.c:2390
 #, c-format
 msgid "Daisy-player - Version %s - (C)2013 J. Lemmens"
 msgstr ""
 
-#: src/daisy-player.c:2399
+#: src/daisy-player.c:2401
 msgid "Press 'h' for help "
 msgstr ""
 

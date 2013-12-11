@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2013-10-20 14:35+0200\n"
+"POT-Creation-Date: 2013-12-11 18:42+0100\n"
 "PO-Revision-Date: 2013-01-29 15:06+0200\n"
 "Last-Translator: Willem van der Walt <wvdwalt@csir.co.za>>\n"
 "Language-Team: Willem van der Walt <wvdwalt@csir.co.za>\n"
@@ -32,8 +32,8 @@ msgstr ""
 
 # 33
 #: src/daisy-player.c:266 src/daisy-player.c:292 src/daisy-player.c:360
-#: src/daisy-player.c:513 src/daisy-player.c:1232 src/daisy-player.c:1290
-#: src/daisy-player.c:1939 src/daisy-player.c:1964 src/daisy-player.c:2346
+#: src/daisy-player.c:513 src/daisy-player.c:1233 src/daisy-player.c:1291
+#: src/daisy-player.c:1939 src/daisy-player.c:1964 src/daisy-player.c:2348
 #: src/daisy3.c:343 src/daisy3.c:394 src/daisy3.c:437 src/daisy3.c:504
 #: src/daisy3.c:544 src/daisy3.c:563 src/daisy3.c:637 src/daisy3.c:706
 #: src/daisy3.c:846
@@ -234,28 +234,28 @@ msgid "Please wait... -------------------------"
 msgstr "Wag asseblief... -----------------------"
 
 # 30
-#: src/daisy-player.c:1120
+#: src/daisy-player.c:1121
 msgid "What do you search? "
 msgstr "Wat soek u? "
 
 # 15
-#: src/daisy-player.c:1213
+#: src/daisy-player.c:1214
 msgid "Go to page number: "
 msgstr "Gaan na bladsynommer: "
 
-#: src/daisy-player.c:1345
+#: src/daisy-player.c:1346
 msgid "Go to time (MM:SS): "
 msgstr "gaan na tyd: (mm:ss): "
 
 # 34
-#: src/daisy-player.c:1371
+#: src/daisy-player.c:1372
 msgid "Cannot read /proc/asound/cards"
 msgstr ""
 "Kan nie /proc/asound/cards lees nie.\n"
 "Kan nie /proc/mounts lees nie."
 
 # 13
-#: src/daisy-player.c:1887 src/daisy-player.c:2069
+#: src/daisy-player.c:1887 src/daisy-player.c:2067
 #, c-format
 msgid "Daisy-player - Version %s\n"
 msgstr "Daisy-player - weergawe %s\n"
@@ -285,11 +285,11 @@ msgstr ""
 "Kan nie /proc/mounts lees nie."
 
 # 6
-#: src/daisy-player.c:2070
+#: src/daisy-player.c:2068
 msgid "A parser to play Daisy CD's with Linux\n"
 msgstr "'n program om Daisy CD's in Linux te speel\n"
 
-#: src/daisy-player.c:2075
+#: src/daisy-player.c:2073
 #, c-format
 msgid ""
 "\n"
@@ -298,12 +298,12 @@ msgstr ""
 "\n"
 "Daisy-player het die \"udisks\" program nodig.\n"
 
-#: src/daisy-player.c:2076 src/daisy-player.c:2085 src/daisy-player.c:2143
+#: src/daisy-player.c:2074 src/daisy-player.c:2083 src/daisy-player.c:2141
 #, c-format
 msgid "Please install it and try again.\n"
 msgstr "Installeer dit asseblief en probeer weer.\n"
 
-#: src/daisy-player.c:2084
+#: src/daisy-player.c:2082
 #, c-format
 msgid ""
 "\n"
@@ -312,11 +312,11 @@ msgstr ""
 "\n"
 "Daisy-player het die \"madplay\" program nodig.\n"
 
-#: src/daisy-player.c:2093
+#: src/daisy-player.c:2091
 msgid "Scanning for a Daisy CD..."
 msgstr "Besig om vir 'n DAISY CD te soek..."
 
-#: src/daisy-player.c:2142
+#: src/daisy-player.c:2140
 #, c-format
 msgid ""
 "\n"
@@ -325,7 +325,7 @@ msgstr ""
 "\n"
 "Daisy-player het die \"unar\" program nodig.\n"
 
-#: src/daisy-player.c:2183 src/daisy3.c:793
+#: src/daisy-player.c:2181 src/daisy3.c:793
 #, c-format
 msgid ""
 "\n"
@@ -335,12 +335,12 @@ msgstr ""
 "Geen DAISY CD of audio CD is gekry nie\n"
 
 # 36
-#: src/daisy-player.c:2228 src/daisy-player.c:2309
+#: src/daisy-player.c:2225 src/daisy-player.c:2311
 msgid "No Daisy CD in drive."
 msgstr "Daar is nie 'n daisy-cd in die CD speler nie."
 
 # 35
-#: src/daisy-player.c:2275
+#: src/daisy-player.c:2277
 msgid ""
 "\n"
 "Cannot use udisks command."
@@ -348,7 +348,7 @@ msgstr ""
 "\n"
 "Kan nie die udisks bevel gebruik nie."
 
-#: src/daisy-player.c:2289
+#: src/daisy-player.c:2291
 msgid ""
 "\n"
 "Found an Audio-CD. "
@@ -356,24 +356,24 @@ msgstr ""
 "\n"
 "Audio CD gekry"
 
-#: src/daisy-player.c:2291
+#: src/daisy-player.c:2293
 msgid "Get titles from freedb.freedb.org..."
 msgstr "besig om tietels vanaf freedb.freedb.org te kry..."
 
 # 19
-#: src/daisy-player.c:2327
+#: src/daisy-player.c:2329
 #, c-format
 msgid "No such directory: %s\n"
 msgstr "Directory %s bestaan nie\n"
 
 # 12
-#: src/daisy-player.c:2388
+#: src/daisy-player.c:2390
 #, c-format
 msgid "Daisy-player - Version %s - (C)2013 J. Lemmens"
 msgstr "Daisy-player - weergawe %s - (C)2013 J. Lemmens"
 
 # 22
-#: src/daisy-player.c:2399
+#: src/daisy-player.c:2401
 msgid "Press 'h' for help "
 msgstr "Druk 'h' vir hulp "
 

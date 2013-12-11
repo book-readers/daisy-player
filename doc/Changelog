@@ -149,3 +149,17 @@ Samuel Thibault <sthibault@debian.org>
 	only ".zip" files.
 8.4.1   Added setlocale (LC_ALL, getenv ("LANGUAGE")); and
 	setlocale (LC_ALL, getenv ("LANG"));
+8.4.2	-   setlocale (LC_ALL, getenv ("LC_ALL"));
+	-   setlocale (LC_ALL, getenv ("LANGUAGE"));
+	-   setlocale (LC_ALL, getenv ("LANG"));
+	+   setlocale (LC_ALL, "");
+	In 8.4.1 two lines were accidentally deleted:
+
+	   str = (char *) malloc (MAX_STR);
+	   s = MAX_STR - 1;
+
+	are introduced again.
+8.4.3	setlocale (LC_NUMERIC, "C"); added to force a decimal point
+	independently of the used language.
+8.4.4	Updated hungarian translation
+8.4.5	new polish translation
