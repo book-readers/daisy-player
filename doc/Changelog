@@ -163,3 +163,9 @@ Samuel Thibault <sthibault@debian.org>
 	independently of the used language.
 8.4.4	Updated hungarian translation
 8.4.5	new polish translation
+8.5	Better support for volumes with multiple daisy-books (discinfo.html)
+8.5.1	Start daisy-player with a volume with multiple daisy-books.
+	(discinfo.html). After quiting daisy-player the terminal is locked.
+	This occured when daisy-player was started from a bash shell.
+	When started from a tcsh shell there was no problem.
+	Solved.

@@ -8,7 +8,7 @@ To compile daisy-player, be sure the following extra packages are installed:
    libcdio-paranoia-dev
    libmagic-dev
 
-Give the following commands:
+Give the following commands:        
 
    $ ./configure
    $ make

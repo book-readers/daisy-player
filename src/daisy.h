@@ -1,5 +1,5 @@
 /* header file for daisy-player and eBook-speaker
- *  Copyright (C) 2013 J. Lemmens
+ *  Copyright (C)2014 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
