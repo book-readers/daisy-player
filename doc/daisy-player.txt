@@ -62,7 +62,7 @@ FILES
 ~/.daisy-player/  This directory contains the bookmarks. Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level, each on a own line.
 ~/.daisy-player.rc  This file contains the name of the desired audio device and the desired playing speed.
 SEE ALSO
-cddbget(1), unar(1)
+cddbget(1), unar(1), eject(1), udisksctl(1)
 AUTHOR
 Jos Lemmens <jos@jlemmens.nl>
 COPYRIGHT

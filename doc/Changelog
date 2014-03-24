@@ -169,3 +169,8 @@ Samuel Thibault <sthibault@debian.org>
 	This occured when daisy-player was started from a bash shell.
 	When started from a tcsh shell there was no problem.
 	Solved.
+8.5.2	Added option "-s" to the tempo effect of sox. This causes
+	smoother sound by very low tempo.
+8.6	Time viewing depends on the playing speed.
+	How faster the playing speed, shorter times are shown. And vv.
+	The udisks package has been dropped in favor of the udisks2 package.

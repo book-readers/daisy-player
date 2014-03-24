@@ -1,14 +1,13 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])             
-AC_INIT([daisy-player], [8.5.1], [jos@jlemmens.nl])
+AC_PREREQ([2.69])
+AC_INIT([daisy-player], [8.6], [jos@jlemmens.nl], [], [www.jlemmens.nl])
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
-AC_PROG_CXX
 AC_PROG_AWK
 AC_PROG_CC
 AC_PROG_CPP
@@ -16,6 +15,13 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_RANLIB
+AC_PROG_CXX
+AC_PROG_OBJC
+AC_PROG_OBJCXX
+AC_PROG_MKDIR_P
+AM_PROG_AS
+AM_PROG_GCJ
+#AM_PROG_UPC
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lcdio':
@@ -48,7 +54,7 @@ AM_GNU_GETTEXT_VERSION(0.18.1)
 AC_FUNC_FORK
 AC_FUNC_MALLOC
 AC_FUNC_STRTOD
-AC_CHECK_FUNCS([atexit ftruncate mkdir select setlocale strcasecmp strchr strdup strerror strrchr strstr])
+AC_CHECK_FUNCS([atexit ftruncate mkdir  select setlocale strcasecmp strchr strdup strerror strrchr strstr])
 AC_CHECK_FUNCS([isascii])
 
 AC_CONFIG_FILES([Makefile

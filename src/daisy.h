@@ -1,4 +1,4 @@
-/* header file for daisy-player and eBook-speaker
+/* header file for daisy-player
  *  Copyright (C)2014 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -38,8 +38,8 @@
 #include <errno.h>
 #include <time.h>
 #include <sys/ioctl.h>
-#include <libxml/xmlreader.h>
-#include <libxml/xmlwriter.h>
+#include <libxml2/libxml/xmlreader.h>
+#include <libxml2/libxml/xmlwriter.h>
 #include <cdio/cdio.h>
 #include <cdio/cdda.h>
 #include <cdio/paranoia.h>
@@ -90,27 +90,28 @@ typedef struct my_attribute
         value[MAX_STR];
 } my_attribute_t;
 
-void get_tag ();
-void get_page_number ();
-void view_screen ();
-void player_ended ();
-void play_now ();
-void pause_resume ();
-void help ();
-void previous_item ();
-void next_item ();
-void skip_right ();
-void read_rc ();
-void get_label (int, int);
-void save_rc ();
-void kill_player ();
-void go_to_page_number ();
-void select_next_output_device ();
-void browse ();
-char *sort_by_playorder ();
-void read_out_eBook (const char *);
-const char *read_eBook (char *);
-void get_eBook_struct (int);
-void parse_smil ();
-void start_element (void *, const char *, const char **);
-void end_element (void *, const char *);
+typedef struct misc
+{
+   int discinfo, playing, just_this_item, audiocd, current_page_number;
+   int current, max_y, max_x, total_items, level, displaying;
+   int phrase_nr, tts_no, depth, total_phrases, total_pages;
+   int pipefd[2], tmp_wav_fd;
+   float speed, total_time;
+   float clip_begin, clip_end, start_time;
+   xmlTextReaderPtr reader;
+   pid_t daisy_player_pid, player_pid;
+   char NCC_HTML[MAX_STR], ncc_totalTime[MAX_STR];
+   char daisy_version[MAX_STR], daisy_title[MAX_STR], daisy_language[MAX_STR];
+   char daisy_mp[MAX_STR];
+   char tag[MAX_TAG], label[max_phrase_len];
+   char bookmark_title[MAX_STR], search_str[MAX_STR];
+   char *wd, cd_dev[MAX_STR], sound_dev[MAX_STR];
+   char cddb_flag, opf_name[MAX_STR], ncx_name[MAX_STR];
+   char current_audio_file[MAX_STR], tmp_wav[MAX_STR + 1], mcn[MAX_STR];
+   time_t seconds;
+   WINDOW *screenwin, *titlewin;
+   cdrom_paranoia_t *par;
+   cdrom_drive_t *drv;
+   CdIo_t *p_cdio;
+   lsn_t lsn_cursor;
+} misc_t;

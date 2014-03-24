@@ -19,47 +19,40 @@
 
 #include "src/daisy.h"
 
-pid_t player_pid;
 extern daisy_t daisy[];
-extern char sound_dev[], tmp_wav[];
-int sector_ptr, pipefd[2], audiocd;
-cdrom_paranoia_t *par;
-cdrom_drive_t *drv;
-CdIo_t *p_cdio;
-lsn_t lsn_cursor;
-char mcn[MAX_STR];
+extern misc_t misc;
 
 void view_screen ();
 void playfile (char *, char *, char *, char *, char *);
 
 char *get_mcn ()
 {
-   if (audiocd == 1)
+   if (misc.audiocd == 1)
    {
-      snprintf (mcn, MAX_STR, ".MCN_%s", cdio_get_mcn (p_cdio));
-      return mcn;;
+      snprintf (misc.mcn, MAX_STR, ".MCN_%s", cdio_get_mcn (misc.p_cdio));
+      return misc.mcn;
    } // if
    return "";
 } // get_mcn
 
-void init_paranoia (char *cd_dev)
+void init_paranoia ()
 {
-   p_cdio = cdio_open (cd_dev, DRIVER_UNKNOWN);
-   if (! (drv = cdio_cddap_identify_cdio (p_cdio, 0, NULL)))
+   misc.p_cdio = cdio_open (misc.cd_dev, DRIVER_UNKNOWN);
+   if (! (misc.drv = cdio_cddap_identify_cdio (misc.p_cdio, 0, NULL)))
    {
       endwin ();
       beep ();
       printf ("Unable to identify audio CD disc.\n");
       kill (getppid (), SIGKILL);
    } // if
-   if (cdda_open (drv) != 0)
+   if (cdda_open (misc.drv) != 0)
    {
       endwin ();
       beep ();
       printf ("Unable to open disc.\n");
       kill (getppid (), SIGKILL);
    } // if
-   if (pipe (pipefd) == -1)
+   if (pipe (misc.pipefd) == -1)
    {
       int e;
 
@@ -69,37 +62,34 @@ void init_paranoia (char *cd_dev)
       printf ("pipe: %s\n", strerror (e));
       kill (getppid (), SIGKILL);
    } // if
-   par = paranoia_init (drv);
-   paranoia_modeset (par, PARANOIA_MODE_FULL ^ PARANOIA_MODE_NEVERSKIP);
+   misc.par = paranoia_init (misc.drv);
+   paranoia_modeset (misc.par, PARANOIA_MODE_FULL ^ PARANOIA_MODE_NEVERSKIP);
 } // init_paranoia
 
-pid_t play_track (char *cd_dev, char *out_file, char *type,
-                  lsn_t from, float speed)
+pid_t play_track (char *out_file, char *type,
+                  lsn_t from)
 {
-   int ret;
-
-   cdio_paranoia_free (par);
-   init_paranoia (cd_dev);
-   switch (player_pid = fork ())
+   cdio_paranoia_free (misc.par);
+   init_paranoia ();
+   switch (misc.player_pid = fork ())
    {
    case 0: /* Child reads from pipe */
    {
       char path[MAX_STR + 1], str[MAX_STR + 1];
 
-      close (pipefd[1]);     /* don't need this in child */
+      close (misc.pipefd[1]);     /* don't need this in child */
 #ifdef F_SETPIPE_SZ
-      fcntl (pipefd[0], F_SETPIPE_SZ, 1024000);
+      fcntl (misc.pipefd[0], F_SETPIPE_SZ, 1024000);
 #endif
-      snprintf (path, MAX_STR, "/dev/fd/%d", pipefd[0]);
-      snprintf (str, MAX_STR, "%f", speed);
+      snprintf (path, MAX_STR, "/dev/fd/%d", misc.pipefd[0]);
+      snprintf (str, MAX_STR, "%f", misc.speed);
       playfile (path, "cdda", out_file, type, str);
-      close (pipefd[0]);
+      close (misc.pipefd[0]);
       _exit (0);
    }
    default:
-      paranoia_seek (par, from, SEEK_SET);
-      lsn_cursor = from;
-      return player_pid;
+      paranoia_seek (misc.par, from, SEEK_SET);
+      misc.lsn_cursor = from;
+      return misc.player_pid;
    } // switch
-   ret = ret;
-} // play_track
+} // play_track                      
