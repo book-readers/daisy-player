@@ -174,3 +174,12 @@ Samuel Thibault <sthibault@debian.org>
 8.6	Time viewing depends on the playing speed.
 	How faster the playing speed, shorter times are shown. And vv.
 	The udisks package has been dropped in favor of the udisks2 package.
+8.6.1	All global variables deleted.
+	daisy-player now only uses loacal variables
+	The daisy_t struct array now only gets the number of needed
+	elements. Older versions got staticly 2000 elements.
+8.6.2	Daisy-player crashed on systems without an cd player.
+	Solved!
+8.6.3	Now really, I hope
+8.7	Introduced new option "-i". when this option is detected,
+	the bookmark file will be ignored.

@@ -2,8 +2,8 @@ NAME
 daisy-player - player for DAISY Digital Talking Books or Audio-CD's
 
 SYNOPSIS
-daisy-player [directory_with_a_Daisy-structure | 
-Daisy_book_in_ZIP_format] [-c cdrom_device] [-d ALSA_sound_device] 
+daisy-player [directory_with_a_Daisy-structure |
+Daisy_book_in_ZIP_format] [-c cdrom_device] [-d ALSA_sound_device] [-i]
 [-n | -y]
 
 DESCRIPTION
@@ -19,6 +19,7 @@ directory_with_a_Daisy-structure  One could also give a directory with a daisy s
 Daisy_book_in_ZIP_format  One could also give a file in ZIP-format with a daisy structure as  argument to daisy-player.
 -c cdrom_device  Use DEVICE as the CD device. DEVICE is the device special file name of the CD-ROM device. The default is /dev/sr0.
 -d ALSA_sound_device  Daisy-player will play on this sound device. Default is "hw:0".
+-i  Ignore reading of the bookmark.
 -n  Don't fetch cddb-information of an Audio-CD from the internet.
 -y  Fetch cddb-information of an Audio-CD from the internet.
 SCREEN

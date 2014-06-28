@@ -46,24 +46,24 @@
 #include <cdio/disc.h>
 #include <magic.h>
 
-#define max_phrase_len 50000
+#define MAX_PHRASE_LEN 2000
 #define MAX_CMD 512
 #define MAX_STR 256
 #define MAX_TAG 1024
 
-typedef struct daisy
+typedef struct Daisy
 {
    int playorder, x, y, screen, n_phrases;
    float begin, duration;
    char smil_file[MAX_STR], anchor[MAX_STR], class[MAX_STR];
-   char label[max_phrase_len];
+   char label[MAX_PHRASE_LEN];
    int level, page_number;
    char daisy_mp[MAX_STR]; // discinfo
    char filename[MAX_STR]; // Audio-CD
    lsn_t first_lsn, last_lsn;
 } daisy_t;
 
-typedef struct my_attribute
+typedef struct My_attribute
 {
    char class[MAX_STR],
         clip_begin[MAX_STR],
@@ -90,10 +90,10 @@ typedef struct my_attribute
         value[MAX_STR];
 } my_attribute_t;
 
-typedef struct misc
+typedef struct Misc
 {
-   int discinfo, playing, just_this_item, audiocd, current_page_number;
-   int current, max_y, max_x, total_items, level, displaying;
+   int discinfo, playing, just_this_item, current_page_number;
+   int current, max_y, max_x, total_items, level, displaying, ignore_bookmark;
    int phrase_nr, tts_no, depth, total_phrases, total_pages;
    int pipefd[2], tmp_wav_fd;
    float speed, total_time;
@@ -103,7 +103,7 @@ typedef struct misc
    char NCC_HTML[MAX_STR], ncc_totalTime[MAX_STR];
    char daisy_version[MAX_STR], daisy_title[MAX_STR], daisy_language[MAX_STR];
    char daisy_mp[MAX_STR];
-   char tag[MAX_TAG], label[max_phrase_len];
+   char tag[MAX_TAG], label[MAX_PHRASE_LEN];
    char bookmark_title[MAX_STR], search_str[MAX_STR];
    char *wd, cd_dev[MAX_STR], sound_dev[MAX_STR];
    char cddb_flag, opf_name[MAX_STR], ncx_name[MAX_STR];
@@ -113,5 +113,34 @@ typedef struct misc
    cdrom_paranoia_t *par;
    cdrom_drive_t *drv;
    CdIo_t *p_cdio;
+   int cd_type;
    lsn_t lsn_cursor;
 } misc_t;
+
+extern void save_rc (misc_t *);
+extern char *get_mcn (misc_t *);
+extern int get_tag_or_label (misc_t *, my_attribute_t *,
+                                    xmlTextReaderPtr);
+extern void get_label (misc_t *, daisy_t *, int);
+extern void parse_ncx (misc_t *, my_attribute_t *, daisy_t *, char *);
+extern void usage ();
+extern pid_t play_track (misc_t *, char *, char *, lsn_t);
+extern void get_clips (misc_t *, char *, char *);
+extern void open_smil_file (misc_t *, my_attribute_t *, char *, char *);
+extern void play_now (misc_t *misc, my_attribute_t *my_attribute,
+                      daisy_t *daisy);
+extern void get_page_number_3 (misc_t *, my_attribute_t *);
+extern void skip_left (misc_t *, my_attribute_t *, daisy_t *);
+extern void skip_right (misc_t *);
+extern void set_drive_speed (misc_t *, int);
+extern void quit_daisy_player (misc_t *);
+extern void read_daisy_3 (misc_t *, my_attribute_t *, daisy_t *);
+void parse_smil_3 (misc_t *, my_attribute_t *, daisy_t *);
+extern float read_time (char *);
+extern void init_paranoia (misc_t *);
+extern void get_toc_audiocd (misc_t *, daisy_t *);
+extern void playfile (misc_t *, char *, char *, char *, char *, char *);
+extern void view_screen (misc_t *, daisy_t *);
+extern daisy_t *create_daisy_struct (misc_t *, my_attribute_t *);
+extern daisy_t *get_number_of_tracks (misc_t *);
+extern void failure (char *, int);
