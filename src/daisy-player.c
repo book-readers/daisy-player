@@ -761,7 +761,9 @@ void help (misc_t *misc, daisy_t *daisy)
             gettext ("g               - go to time in this song (MM:SS)\n"));
    else
       waddstr (misc->screenwin,
-               gettext ("g               - go to page number (if any)\n"));
+            gettext ("g               - go to time in this item (MM:SS)\n"));
+   waddstr (misc->screenwin,
+            gettext ("G               - go to page number (if any)\n"));
    waddstr (misc->screenwin, gettext ("h or ?          - give this help\n"));
    waddstr (misc->screenwin, gettext ("j               - just play current item\n"));
    waddstr (misc->screenwin,
@@ -1339,7 +1341,7 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
    } // if (strcasestr (misc->daisy_version, "3"))
 } // go_to_page_number
 
-void go_to_time (misc_t *misc, daisy_t *daisy)
+void go_to_time (misc_t *misc, daisy_t *daisy, my_attribute_t *my_attribute)
 {
    char time_str[10];
    int secs;
@@ -1354,22 +1356,49 @@ void go_to_time (misc_t *misc, daisy_t *daisy)
       echo ();
       wgetnstr (misc->titlewin, time_str, 5);
       noecho ();
-      if (strlen (time_str) != 5)
-         beep ();
-      else
+      if (strlen (time_str) == 0 || strlen (time_str) == 5)
+      {
+         if (strlen (time_str) == 0)
+            beep ();
          break;
+      }
+      else
+         beep ();
    } // while
    view_screen (misc, daisy);
-   secs = (time_str[0] - 48) * 600 + (time_str[1] - 48)* 60 +
+   if (strlen (time_str) == 0)
+      secs = 0;
+   else
+      secs = (time_str[0] - 48) * 600 + (time_str[1] - 48)* 60 +
              (time_str[3] - 48) * 10 + (time_str[4] - 48);
    if (secs >= daisy[misc->current].duration)
    {
       beep ();
-      go_to_time (misc, daisy);
+      secs = 0;
    } // if
-   misc->player_pid = play_track (misc, misc->sound_dev, "alsa",
-                      daisy[misc->current].first_lsn + (secs * 75));
-   misc->seconds = time (NULL) - secs;
+   if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
+   {
+      misc->player_pid = play_track (misc, misc->sound_dev, "alsa",
+                         daisy[misc->current].first_lsn + (secs * 75));
+      misc->seconds = time (NULL) - secs;
+   }
+   else
+   {
+      misc->clip_begin = 0;
+      open_smil_file (misc, my_attribute, daisy[misc->current].smil_file,
+                      daisy[misc->current].anchor);
+      do
+      {
+         if (! get_tag_or_label (misc, my_attribute, misc->reader))
+            break;
+         if (strcasecmp (misc->tag, "audio") == 0)
+         {
+            get_clips (misc, my_attribute->clip_begin,
+                       my_attribute->clip_end);
+         } // if
+      } while (misc->clip_begin < secs);
+      skip_left (misc, my_attribute, daisy);
+   } // if
    misc->playing = misc->displaying = misc->current;
 } // go_to_time
 
@@ -1575,11 +1604,9 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          view_screen (misc, daisy);
          break;
       case 'g':
-         if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
-         {
-            go_to_time (misc, daisy);
-            break;
-         } // if
+         go_to_time (misc, daisy, my_attribute);
+         break;
+      case 'G':
          if (misc->total_pages)
             go_to_page_number (misc, my_attribute, daisy);
          else
