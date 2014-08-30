@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2014-08-29 21:28+0200\n"
+"POT-Creation-Date: 2014-09-04 16:36+0200\n"
 "PO-Revision-Date: 2013-01-29 15:06+0200\n"
 "Last-Translator: Willem van der Walt <wvdwalt@csir.co.za>>\n"
 "Language-Team: Willem van der Walt <wvdwalt@csir.co.za>\n"
@@ -248,7 +248,7 @@ msgstr "Gaan na bladsynommer: "
 
 #: src/daisy-player.c:1355
 msgid "Go to time (MM:SS): "
-msgstr "gaan na tyd: (mm:ss): "
+msgstr "Gaan na tyd: (mm:ss): "
 
 # 34
 #: src/daisy-player.c:1415
@@ -258,10 +258,10 @@ msgstr ""
 "Kan nie /proc/mounts lees nie."
 
 # 13
-#: src/daisy-player.c:1960 src/daisy-player.c:2142
+#: src/daisy-player.c:1960 src/daisy-player.c:2142 src/daisy-player.c:2389
 #, c-format
-msgid "Daisy-player - Version %s\n"
-msgstr "Daisy-player - weergawe %s\n"
+msgid "Daisy-player - Version %s %s"
+msgstr "Daisy-player - weergawe %s %s"
 
 # 39
 #: src/daisy-player.c:1962
@@ -287,6 +287,8 @@ msgstr ""
 "\n"
 "Kan nie /proc/mounts lees nie."
 
+# 13
+# 13
 # 6
 #: src/daisy-player.c:2143
 msgid "A parser to play Daisy CD's with Linux\n"
@@ -322,14 +324,8 @@ msgstr ""
 msgid "Get titles from freedb.freedb.org..."
 msgstr "besig om tietels vanaf freedb.freedb.org te kry..."
 
-# 12
-#: src/daisy-player.c:2390
-#, c-format
-msgid "Daisy-player - Version %s - (C)2014 J. Lemmens"
-msgstr "Daisy-player - weergawe %s - (C)2014 J. Lemmens"
-
 # 22
-#: src/daisy-player.c:2404
+#: src/daisy-player.c:2403
 msgid "Press 'h' for help "
 msgstr "Druk 'h' vir hulp "
 
@@ -342,54 +338,3 @@ msgid ""
 msgstr ""
 "\n"
 "Kan nie type %d lees nie\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"unar\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player het die \"unar\" program nodig.\n"
-
-#~ msgid "Please install it and try again.\n"
-#~ msgstr "Installeer dit asseblief en probeer weer.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"eject\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player het die \"eject\" program nodig.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"madplay\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player het die \"madplay\" program nodig.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"udisksctl\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player het die \"udisksctl\" program nodig.\n"
-
-# 35
-#~ msgid ""
-#~ "\n"
-#~ "Cannot use udisksctl command."
-#~ msgstr ""
-#~ "\n"
-#~ "Kan nie die udisksctl bevel gebruik nie."
-
-# 19
-#~ msgid "No such directory: %s\n"
-#~ msgstr "Directory %s bestaan nie\n"
-
-# 33
-#~ msgid ""
-#~ "\n"
-#~ "Cannot read\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Kan nie %s lees nie\n"

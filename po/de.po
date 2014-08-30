@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2014-08-29 21:28+0200\n"
+"POT-Creation-Date: 2014-09-04 16:36+0200\n"
 "PO-Revision-Date: 2013-01-29 15:06+0200\n"
 "Last-Translator: Klaus Knopper <knopper@knopper.net>\n"
 "Language-Team: Klaus Knopper <knopper@knopper.net>\n"
@@ -258,10 +258,10 @@ msgid "Cannot read /proc/asound/cards"
 msgstr "Kann /proc/mounts nicht lesen"
 
 # 13
-#: src/daisy-player.c:1960 src/daisy-player.c:2142
+#: src/daisy-player.c:1960 src/daisy-player.c:2142 src/daisy-player.c:2389
 #, c-format
-msgid "Daisy-player - Version %s\n"
-msgstr "Daisy-player - Version %s\n"
+msgid "Daisy-player - Version %s %s"
+msgstr "Daisy-player - Version %s %s"
 
 # 39
 #: src/daisy-player.c:1962
@@ -322,14 +322,8 @@ msgstr ""
 msgid "Get titles from freedb.freedb.org..."
 msgstr "Holen Titel von freedb.freedb.org..."
 
-# 12
-#: src/daisy-player.c:2390
-#, c-format
-msgid "Daisy-player - Version %s - (C)2014 J. Lemmens"
-msgstr "Daisy-player - Version %s - (C)2014 J. Lemmens"
-
 # 22
-#: src/daisy-player.c:2404
+#: src/daisy-player.c:2403
 msgid "Press 'h' for help "
 msgstr "'h' für Hilfe drücken"
 
@@ -342,99 +336,3 @@ msgid ""
 msgstr ""
 "\n"
 "Kann type: %d nicht lesen\n"
-
-# 48
-#~ msgid "G               - go to time in this item (MM:SS)\n"
-#~ msgstr "G            - zur Seitenzahl gehen (falls vorhanden)\n"
-
-# 35
-#~ msgid ""
-#~ "\n"
-#~ "Cannot use udisksctl command."
-#~ msgstr ""
-#~ "\n"
-#~ "Kann udisksctl Befehl nicht verwenden."
-
-# 19
-#~ msgid "No such directory: %s\n"
-#~ msgstr "Kein solches Verzeichnis: %s\n"
-
-# 33
-#~ msgid ""
-#~ "\n"
-#~ "Cannot read\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Kann nicht lesen\n"
-
-# 2
-#~ msgid " (%2d of %2d)"
-#~ msgstr " (%2d von %2d)"
-
-# 7
-#~ msgid "Cannot find a daisy structure in %s"
-#~ msgstr "Kann keine Daisy-struktur finden in %s"
-
-# 8
-#~ msgid "Cannot find a daisy structure"
-#~ msgstr "Kann keine Daisy-struktur finden"
-
-# 9
-#~ msgid "Corrupt daisy structure %s\n"
-#~ msgstr "Kaputte Daisy-Struktur %s\n"
-
-# 10
-#~ msgid "Corrupt daisy structure!"
-#~ msgstr "Kaputte Daisy-Struktur!"
-
-# 14
-#~ msgid "Daisy-player can't handle this DTB."
-#~ msgstr "Daisy-player kann diesem DTB nicht lesen."
-
-# 17
-#~ msgid "Maybe a read-error occurred!"
-#~ msgstr "Möglicherweise trat ein Lesefehler auf!"
-
-# 21
-#~ msgid "Please wait..."
-#~ msgstr "Bitte warten..."
-
-# 24
-#~ msgid "Reading %s... "
-#~ msgstr "%s gelesen... "
-
-# 25
-#~ msgid "Reading daisy structure..."
-#~ msgstr "Daisy-Struktur wird gelesen..."
-
-# 26
-#~ msgid "Something is wrong with %s\n"
-#~ msgstr "Etwas stimmt nicht mit %s\n"
-
-# 27
-#~ msgid "Something is wrong with the %s file\n"
-#~ msgstr "Etwas stimmt nicht mit der Datei %s\n"
-
-# 28
-#~ msgid "This is not possible!"
-#~ msgstr "Dieses ist nicht möchlich."
-
-# 31
-#~ msgid ""
-#~ "\n"
-#~ "%s: is not a sound device.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "%s: ist kein sound device.\n"
-
-# 40
-#~ msgid "clip_end (%f) is smaller than clip_begin (%f).\n"
-#~ msgstr "clip_end (%f) ist kleiner als clip_begin (%f).\n"
-
-# 54
-#~ msgid "n length: %d\n"
-#~ msgstr "n Länge: %d\n"
-
-# 61
-#~ msgid "s length: %d\n"
-#~ msgstr "s Länge: %d\n"

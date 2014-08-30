@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2014-08-29 21:28+0200\n"
+"POT-Creation-Date: 2014-09-04 16:36+0200\n"
 "PO-Revision-Date: 2013-01-29 15:06+0200\n"
 "Last-Translator: Patryk Doering <http://www.rekinet.pl>\n"
 "Language-Team: Patryk Doering <http://www.rekinet.pl>Language: pl\n"
@@ -217,10 +217,10 @@ msgstr "Idź do czasu (mm:ss): "
 msgid "Cannot read /proc/asound/cards"
 msgstr "Nie można odczytać /proc/asound/cards "
 
-#: src/daisy-player.c:1960 src/daisy-player.c:2142
+#: src/daisy-player.c:1960 src/daisy-player.c:2142 src/daisy-player.c:2389
 #, c-format
-msgid "Daisy-player - Version %s\n"
-msgstr "Daisy-player - Wersja %s \n"
+msgid "Daisy-player - Version %s %s"
+msgstr "Daisy-player - Wersja %s %s"
 
 #: src/daisy-player.c:1962
 #, c-format
@@ -279,12 +279,7 @@ msgstr ""
 msgid "Get titles from freedb.freedb.org..."
 msgstr "Pobierz tytuły z freedb.freedb.org... "
 
-#: src/daisy-player.c:2390
-#, c-format
-msgid "Daisy-player - Version %s - (C)2014 J. Lemmens"
-msgstr "Daisy-player - Wersja %s - (C)2014 J. Lemmens "
-
-#: src/daisy-player.c:2404
+#: src/daisy-player.c:2403
 msgid "Press 'h' for help "
 msgstr "Naciśnij 'h' jeśli potrzebujesz pomocy "
 
@@ -296,44 +291,3 @@ msgid ""
 msgstr ""
 "\n"
 "Nie można odczytać typ: %d\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"unar\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player potrzebuje program \"unar\".\n"
-
-#~ msgid "Please install it and try again.\n"
-#~ msgstr "Proszę zainstalować go i spróbuj ponownie. \n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"eject\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player potrzebuje program \"eject\".\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"madplay\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player potrzebuje program \"madplay\" .\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"udisksctl\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player potrzebuje program \"udisksctl\".\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Cannot use udisksctl command."
-#~ msgstr ""
-#~ "\n"
-#~ "Nie można użyć polecenia udisksctl. "
-
-#~ msgid "No such directory: %s\n"
-#~ msgstr "Nie ma takiego katalogu: %s \n"

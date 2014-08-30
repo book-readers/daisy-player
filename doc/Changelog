@@ -194,3 +194,4 @@ Samuel Thibault <sthibault@debian.org>
 9.0	Introduced time searching in Daisy-books with the 'g' command.
 	Like time searching when an audio-CD is found.
 	The command to go to a page number now is 'G'.
+9.1	Updated the man-page.

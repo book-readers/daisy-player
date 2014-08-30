@@ -30,10 +30,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: daisy-player 9.0\n"
+"Project-Id-Version: daisy-player 9.1\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2014-08-29 21:28+0200\n"
-"PO-Revision-Date: 2014-08-29 21:28+0200\n"
+"POT-Creation-Date: 2014-09-04 16:36+0200\n"
+"PO-Revision-Date: 2014-09-04 16:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@boldquot\n"
@@ -230,10 +230,10 @@ msgstr "Go to time (MM:SS): "
 msgid "Cannot read /proc/asound/cards"
 msgstr "Cannot read /proc/asound/cards"
 
-#: src/daisy-player.c:1960 src/daisy-player.c:2142
+#: src/daisy-player.c:1960 src/daisy-player.c:2142 src/daisy-player.c:2389
 #, c-format
-msgid "Daisy-player - Version %s\n"
-msgstr "Daisy-player - Version %s\n"
+msgid "Daisy-player - Version %s %s"
+msgstr "Daisy-player - Version %s %s"
 
 #: src/daisy-player.c:1962
 #, c-format
@@ -290,12 +290,7 @@ msgstr ""
 msgid "Get titles from freedb.freedb.org..."
 msgstr "Get titles from freedb.freedb.org..."
 
-#: src/daisy-player.c:2390
-#, c-format
-msgid "Daisy-player - Version %s - (C)2014 J. Lemmens"
-msgstr "Daisy-player - Version %s - (C)2014 J. Lemmens"
-
-#: src/daisy-player.c:2404
+#: src/daisy-player.c:2403
 msgid "Press 'h' for help "
 msgstr "Press ‘[1mh[0m’ for help "
 
