@@ -736,24 +736,38 @@ void help (misc_t *misc, daisy_t *daisy)
    waddstr (misc->screenwin, gettext ("\nThese commands are available in this version:\n"));
    waddstr (misc->screenwin, "========================================");
    waddstr (misc->screenwin, "========================================\n\n");
-   waddstr (misc->screenwin, gettext ("cursor down     - move cursor to the next item\n"));
-   waddstr (misc->screenwin, gettext ("cursor up       - move cursor to the previous item\n"));
-   waddstr (misc->screenwin, gettext ("cursor right    - skip to next phrase\n"));
-   waddstr (misc->screenwin, gettext ("cursor left     - skip to previous phrase\n"));
-   waddstr (misc->screenwin, gettext ("page-down       - view next page\n"));
-   waddstr (misc->screenwin, gettext ("page-up         - view previous page\n"));
-   waddstr (misc->screenwin, gettext ("enter           - start playing\n"));
-   waddstr (misc->screenwin, gettext ("space           - pause/resume playing\n"));
-   waddstr (misc->screenwin, gettext ("home            - play on normal speed\n"));
+   waddstr (misc->screenwin,
+            gettext ("cursor down,2   - move cursor to the next item\n"));
+   waddstr (misc->screenwin,
+            gettext ("cursor up,8     - move cursor to the previous item\n"));
+   waddstr (misc->screenwin,
+            gettext ("cursor right,6  - skip to next phrase\n"));
+   waddstr (misc->screenwin,
+            gettext ("cursor left,4   - skip to previous phrase\n"));
+   waddstr (misc->screenwin,
+            gettext ("page-down,3     - view next page\n"));
+   waddstr (misc->screenwin,
+            gettext ("page-up,9       - view previous page\n"));
+   waddstr (misc->screenwin,
+            gettext ("enter           - start playing\n"));
+   waddstr (misc->screenwin,
+            gettext ("space,0         - pause/resume playing\n"));
+   waddstr (misc->screenwin,
+            gettext ("home,*          - play on normal speed\n"));
    waddstr (misc->screenwin, "\n");
    waddstr (misc->screenwin, gettext ("Press any key for next page..."));
    nodelay (misc->screenwin, FALSE);
    wgetch (misc->screenwin);
    nodelay (misc->screenwin, TRUE);
    wclear (misc->screenwin);
-   waddstr (misc->screenwin, gettext ("\n/               - search for a label\n"));
-   waddstr (misc->screenwin, gettext ("d               - store current item to disk\n"));
-   waddstr (misc->screenwin, gettext ("D               - decrease playing speed\n"));
+   waddstr (misc->screenwin,
+            gettext ("\n/               - search for a label\n"));
+   waddstr (misc->screenwin,
+            gettext ("d               - store current item to disk\n"));
+   waddstr (misc->screenwin,
+            gettext ("D,-             - decrease playing speed\n"));
+   waddstr (misc->screenwin, gettext (
+            "e,.             - quit daisy-player, place a bookmark and eject\n"));
    waddstr (misc->screenwin, gettext (
 "f               - find the currently playing item and place the cursor there\n"));
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
@@ -764,8 +778,10 @@ void help (misc_t *misc, daisy_t *daisy)
             gettext ("g               - go to time in this item (MM:SS)\n"));
    waddstr (misc->screenwin,
             gettext ("G               - go to page number (if any)\n"));
-   waddstr (misc->screenwin, gettext ("h or ?          - give this help\n"));
-   waddstr (misc->screenwin, gettext ("j               - just play current item\n"));
+   waddstr (misc->screenwin,
+            gettext ("h,?             - give this help\n"));
+   waddstr (misc->screenwin, 
+            gettext ("j,5             - just play current item\n"));
    waddstr (misc->screenwin,
           gettext ("l               - switch to next level\n"));
    waddstr (misc->screenwin, gettext ("L               - switch to previous level\n"));
@@ -773,9 +789,11 @@ void help (misc_t *misc, daisy_t *daisy)
    waddstr (misc->screenwin, gettext ("N               - search backwards\n"));
    waddstr (misc->screenwin, gettext ("o               - select next output sound device\n"));
    waddstr (misc->screenwin, gettext ("p               - place a bookmark\n"));
-   waddstr (misc->screenwin, gettext ("q               - quit daisy-player and place a bookmark\n"));
+   waddstr (misc->screenwin,
+   gettext ("q               - quit daisy-player and place a bookmark\n"));
    waddstr (misc->screenwin, gettext ("s               - stop playing\n"));
-   waddstr (misc->screenwin, gettext ("U               - increase playing speed\n"));
+   waddstr (misc->screenwin,
+            gettext ("U,+             - increase playing speed\n"));
    waddstr (misc->screenwin, gettext ("\nPress any key to leave help..."));
    nodelay (misc->screenwin, FALSE);
    wgetch (misc->screenwin);
@@ -1512,7 +1530,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
             misc->player_pid = play_track (misc, misc->sound_dev, "alsa",
                 daisy[misc->current].first_lsn);
             misc->seconds = time (NULL);
-         } 
+         }
          else
          {
             open_smil_file (misc, my_attribute, daisy[misc->current].smil_file,
@@ -1870,7 +1888,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          break;
       case KEY_HOME:
       case '*':
-      case '7':
+      case '7':   
          misc->speed = 1;
          if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
          {

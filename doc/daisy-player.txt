@@ -30,33 +30,33 @@ The second row of the screen will display the number of pages of the current loa
 The next rows will display the title of the item, the first page of the item within brackets (if there are pages) and the playing time. Items in higher levels will be indented. (Three spaces each level.) When "just playing this item" is active, a "J" will be viewed at the first column of that item.
 CONTROL KEYS
 Daisy-player recognizes the following keyboard-commands:
-cursor down     move cursor to the next item
-cursor up       move cursor to the previous item
-cursor right    skip to next phrase
-cursor left     skip to previous phrase
-page-down       view next screen
-page-up         view previous screen
+cursor down,2   move cursor to the next item
+cursor up,8     move cursor to the previous item
+cursor right,6  skip to next phrase
+cursor left,4   skip to previous phrase
+page-down,3     view next screen
+page-up,9       view previous screen
 enter           Start playing
-space           pause/resume playing
-home            play on normal speed
+space,0         pause/resume playing
+home,*          play on normal speed
 /               search for a label
 d               store current item to disk
-D               decrease playing speed
-e               stop playing and eject
+D,-             decrease playing speed
+e,.             stop playing and eject
 f               find the currently playing item and place the cursor there
 g               go to time in this item or song (MM:SS)
 G (DAISY-CD)    go to page number (if any)
-h or ?          give this help             
-j               just play current item and place a "J" at the first column.
+h,?             give this help
+j,5             just play current item and place a "J" at the first column.
 l               switch to next level
 L               switch to previous level
 n               search forewards
-N               search backwards                                          
+N               search backwards
 o               select next output sound device
 p               place a bookmark
 q               quit daisy-player. The playing-point will be saved as bookmark.
 s               stop playing
-U               increase playing speed
+U,+             increase playing speed
 NOTES
 When playing an Audio-CD skip-left and skip-right react a little late. The same for commands like 'U', 'D' and HOME.
 FILES
