@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of daisy-player</TITLE>
 </HEAD><BODY>
 <H1>daisy-player</H1>
-Section: Linux Reference Manual (1)<BR>Updated: 05 september 2014<BR><A HREF="#index">Index</A>
+Section: Linux Reference Manual (1)<BR>Updated: 20 december 2014<BR><A HREF="#index">Index</A>
 <A HREF="/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -193,6 +193,9 @@ increase playing speed
 <A NAME="lbAH">&nbsp;</A>
 <H2>NOTES</H2>
 
+Daisy-player uses the sox-library and the ALSA sound-driver for audio-output. On some systems <B>daisy-player</B> quits with the message that the soundcard cannot be used. I don't know how to solve this problem yet, sorry.
+<P>
+
 When playing an Audio-CD skip-left and skip-right react a little late. The same for commands like 'U', 'D' and HOME.
 <A NAME="lbAI">&nbsp;</A>
 <H2>FILES</H2>
@@ -201,11 +204,11 @@ When playing an Audio-CD skip-left and skip-right react a little late. The same 
 <DT><B>~/.daisy-player</B>/
 
 <DD>
-This directory contains the bookmarks. Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level, each on a own line.
+This directory contains the bookmarks in XML-format. . Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level.
 <DT><B>~/.daisy-player.rc</B>
 
 <DD>
-This file contains the name of the desired audio device and the desired playing speed.
+This file, in XML-format, contains the name of the desired audio device and the desired playing speed.
 </DL>
 <A NAME="lbAJ">&nbsp;</A>
 <H2>SEE ALSO</H2>
@@ -243,6 +246,6 @@ This program is free software; you can redistribute it and/or modify it under th
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 09:36:03 GMT, September 05, 2014
+Time: 18:07:23 GMT, December 20, 2014
 </BODY>
 </HTML>

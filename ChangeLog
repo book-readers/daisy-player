@@ -1,3 +1,8 @@
+2014-10-03  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* m4/po.m4: Upgrade to gettext-0.18.3.
+	* configure.ac (AM_GNU_GETTEXT_VERSION): Bump to 0.18.3.
+
 2013-05-11  gettextize  <bug-gnu-gettext@gnu.org>
 
 	* Makefile.am (EXTRA_DIST): Add config.rpath.

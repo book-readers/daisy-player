@@ -46,6 +46,16 @@
 #include <cdio/disc.h>
 #include <magic.h>
 
+#undef PACKAGE
+#undef PACKAGE_BUGREPORT
+#undef PACKAGE_NAME
+#undef PACKAGE_STRING
+#undef PACKAGE_TARNAME
+#undef PACKAGE_URL
+#undef PACKAGE_VERSION
+#undef VERSION
+#include "config.h"
+
 #define MAX_PHRASE_LEN 2000
 #define MAX_CMD 512
 #define MAX_STR 256
@@ -144,3 +154,4 @@ extern void view_screen (misc_t *, daisy_t *);
 extern daisy_t *create_daisy_struct (misc_t *, my_attribute_t *);
 extern daisy_t *get_number_of_tracks (misc_t *);
 extern void failure (char *, int);
+extern void put_bookmark (misc_t *);
