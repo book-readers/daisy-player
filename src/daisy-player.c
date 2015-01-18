@@ -1,6 +1,6 @@
 /* daisy-player - A parser to play Daisy cd's.
  *
- *  Copyright (C)2003-2014 J. Lemmens
+ *  Copyright (C)2003-2015 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -151,7 +151,7 @@ void get_bookmark (misc_t *misc, my_attribute_t *my_attribute,
       return;
    snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s%s",
              pw->pw_dir, misc->bookmark_title, get_mcn (misc));
-   local_doc = xmlRecoverFile (str);
+   local_doc = htmlReadFile (str, NULL, htmlParserOptions);
    if (! (local_reader = xmlReaderWalker (local_doc)))
    {
       xmlFreeDoc (local_doc);
@@ -210,7 +210,8 @@ void get_page_number_2 (misc_t *misc, my_attribute_t *my_attribute,
    xmlTextReaderPtr page;
    xmlDocPtr doc;
 
-   doc = xmlRecoverFile (daisy[misc->playing].smil_file);
+   doc = htmlReadFile (daisy[misc->playing].smil_file, NULL, 
+                       htmlParserOptions);
    if (! (page = xmlReaderWalker (doc)))
    {
       int e;
@@ -228,7 +229,7 @@ void get_page_number_2 (misc_t *misc, my_attribute_t *my_attribute,
       {
          free (id1);
          return;
-      } // if
+      } // if                     
    } while (strcasecmp (my_attribute->id, id1) != 0);
    do
    {
@@ -238,7 +239,7 @@ void get_page_number_2 (misc_t *misc, my_attribute_t *my_attribute,
    id2 = strdup (my_attribute->id);
    xmlTextReaderClose (page);
    xmlFreeDoc (doc);
-   doc = xmlRecoverFile (misc->NCC_HTML);
+   doc = htmlReadFile (misc->NCC_HTML, NULL, htmlParserOptions);
    if (! (page = xmlReaderWalker (doc)))
    {
       int e;
@@ -308,7 +309,8 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
    {
       if (*daisy[x].smil_file == 0)
          continue;
-      xmlDocPtr doc = xmlRecoverFile (daisy[x].smil_file);
+      xmlDocPtr doc = htmlReadFile (daisy[x].smil_file, NULL, 
+                                    htmlParserOptions);
       if (! (parse = xmlReaderWalker (doc)))
       {
          int e;
@@ -438,7 +440,8 @@ void view_screen (misc_t *misc, daisy_t *daisy)
    for (i = 0; daisy[i].screen != daisy[misc->current].screen; i++);
    do
    {
-      mvwprintw (misc->screenwin, daisy[i].y, daisy[i].x + 1, daisy[i].label);
+      mvwprintw (misc->screenwin, daisy[i].y, daisy[i].x + 1,
+                 "%s", daisy[i].label);
       x = strlen (daisy[i].label) + daisy[i].x;
       if (x / 2 * 2 != x)
          wprintw (misc->screenwin, " ");
@@ -474,9 +477,9 @@ void read_daisy_2 (misc_t *misc, my_attribute_t *my_attribute,
 // function for daisy 2.02
    int indent = 0, found_page_normal = 0;
    xmlTextReaderPtr ncc;
-   xmlDocPtr doc;
+   xmlDocPtr doc = NULL;
 
-   if ((doc = xmlRecoverFile (misc->NCC_HTML)) == NULL)
+   if ((doc = htmlReadFile (misc->NCC_HTML, NULL, htmlParserOptions)) == NULL)
       failure ("read_daisy_2 ()", errno);
    if (! (ncc = xmlReaderWalker (doc)))
    {
@@ -487,6 +490,7 @@ void read_daisy_2 (misc_t *misc, my_attribute_t *my_attribute,
       snprintf (str, MAX_STR, gettext ("Cannot read %s"), misc->NCC_HTML);
       failure (str, e);
    } // if
+
    misc->current = misc->displaying = 0;
    while (1)
    {
@@ -572,6 +576,8 @@ void play_now (misc_t *misc, my_attribute_t *my_attribute,
    } // switch
 
    char tempo_str[15], cmd[MAX_CMD];
+   int err;
+
    setsid ();
 
    view_page (misc, my_attribute, daisy);
@@ -579,8 +585,14 @@ void play_now (misc_t *misc, my_attribute_t *my_attribute,
    snprintf (cmd, MAX_CMD - 1, "madplay -Q %s -s %f -t %f -o wav:\"%s\"",
                   misc->current_audio_file, misc->clip_begin,
                   misc->clip_end - misc->clip_begin, misc->tmp_wav);
-   if (system (cmd) != 0)
-      _exit (0);
+   if ((err = system (cmd)) != 0)
+   {
+      endwin ();
+      beep ();
+      printf ("\n%s: %s\n", cmd, strerror (err));
+      printf ("Is madplay installed?");
+      kill (misc->daisy_player_pid, SIGTERM);
+   } // if
    snprintf (tempo_str, 10, "%lf", misc->speed);
    playfile (misc, misc->tmp_wav, "wav", misc->sound_dev, "alsa", tempo_str);
    _exit (0);
@@ -595,7 +607,7 @@ void open_smil_file (misc_t *misc, my_attribute_t *my_attribute,
       return;
    if (*smil_file == 0)
       return;
-   local_doc = xmlRecoverFile (smil_file);
+   local_doc = htmlReadFile (smil_file, NULL, htmlParserOptions);
    if (! (misc->reader = xmlReaderWalker (local_doc)))
    {
       int e;
@@ -1075,7 +1087,7 @@ void read_rc (misc_t *misc, my_attribute_t *my_attribute)
 
    pw = getpwuid (geteuid ());
    snprintf (str, MAX_STR - 1, "%s/.daisy-player.rc", pw->pw_dir);
-   doc = xmlRecoverFile (str);
+   doc = htmlReadFile (str, NULL, htmlParserOptions);
    if (! (reader = xmlReaderWalker (doc)))
    {
       strncpy (misc->sound_dev, "hw:0", MAX_STR - 1);
@@ -1256,7 +1268,7 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
    if (strcasestr (misc->daisy_version, "2.02"))
    {
       xmlTextReaderClose (misc->reader);
-      xmlDocPtr doc = xmlRecoverFile (misc->NCC_HTML);
+      xmlDocPtr doc = htmlReadFile (misc->NCC_HTML, NULL, htmlParserOptions);
       if (! (misc->reader = xmlReaderWalker (doc)))
       {
          int e;
@@ -1315,7 +1327,7 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
       char *anchor = 0;
 
       xmlTextReaderClose (misc->reader);
-      xmlDocPtr doc = xmlRecoverFile (misc->NCC_HTML);
+      xmlDocPtr doc = htmlReadFile (misc->NCC_HTML, NULL, htmlParserOptions);
       if (! (misc->reader = xmlReaderWalker (doc)))
       {
          int e;
@@ -1547,7 +1559,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          break;
       case '/':
          if (misc->discinfo)
-         {
+         {                                                                     
             beep ();
             break;
          } // if
@@ -1978,7 +1990,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
 void usage ()
 {
    printf (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "\n");
-   puts ("(C)2003-2014 J. Lemmens");
+   puts ("(C)2003-2015 J. Lemmens");
    printf (gettext ("%sUsage: %s [directory_with_a_Daisy-structure] "),
            "\n", PACKAGE);
    printf ("%s\n", gettext ("[-c cdrom_device] [-d ALSA_sound_device]"));
@@ -2021,7 +2033,7 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
    xmlTextReaderPtr di, ncc;
    xmlDocPtr doc;
 
-   doc = xmlRecoverFile (discinfo_html);
+   doc = htmlReadFile (discinfo_html, NULL, htmlParserOptions);
    if (! (di = xmlReaderWalker (doc)))
    {
       int e;
@@ -2047,7 +2059,8 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
       if (strcasecmp (misc->tag, "a") == 0)
       {
          strncpy (daisy[misc->current].filename, my_attribute->href, MAX_STR - 1);
-         xmlDocPtr doc = xmlRecoverFile (daisy[misc->current].filename);
+         xmlDocPtr doc = htmlReadFile (daisy[misc->current].filename,
+                                       NULL, htmlParserOptions);
          if (! (ncc = xmlReaderWalker (doc)))
          {
             int e;
@@ -2160,7 +2173,7 @@ int main (int argc, char *argv[])
       failure ("No curses", errno);
    fclose (stderr);
    getmaxyx (misc.screenwin, misc.max_y, misc.max_x);
-   printw ("(C)2003-2014 J. Lemmens\n");
+   printw ("(C)2003-2015 J. Lemmens\n");
    printw (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "");
    printw ("\n");
    printw (gettext ("A parser to play Daisy CD's with Linux"));
@@ -2362,7 +2375,7 @@ int main (int argc, char *argv[])
          {
             xmlDocPtr doc;
 
-            doc = xmlRecoverFile (misc.NCC_HTML);
+            doc = htmlReadFile (misc.NCC_HTML, NULL, htmlParserOptions);
             if (! (misc.reader = xmlReaderWalker (doc)))
             {
                int e;
@@ -2375,6 +2388,9 @@ int main (int argc, char *argv[])
             } // if
             while (1)
             {
+               if (*misc.bookmark_title)
+               // if misc.bookmark_title already is set
+                  break;
                if (! get_tag_or_label (&misc, &my_attribute, misc.reader))
                   break;
                if (strcasecmp (misc.tag, "title") == 0)
@@ -2383,15 +2399,6 @@ int main (int argc, char *argv[])
                      break;
                   if (*misc.label)
                   {
-                     int x;
-
-                     for (x = strlen (misc.label) - 1; x >= 0; x--)
-                     {
-                        if (isspace (misc.label[x]))
-                           misc.label[x] = 0;
-                        else
-                           break;
-                     } // for
                      strncpy (misc.bookmark_title, misc.label, MAX_STR - 1);
                      break;
                   } // if
@@ -2411,7 +2418,7 @@ int main (int argc, char *argv[])
 
    wattron (misc.titlewin, A_BOLD);
    snprintf (str, MAX_STR - 1, gettext ("Daisy-player - Version %s %s"),
-             PACKAGE_VERSION, " - (C)2014 J. Lemmens");
+             PACKAGE_VERSION, " - (C)2015 J. Lemmens");
    mvwprintw (misc.titlewin, 0, 0, str);
    wrefresh (misc.titlewin);
 

@@ -1,5 +1,5 @@
 /* daisy3.c - functions to insert daisy3 info into a struct.
- *  Copyright (C)2014 J. Lemmens
+ *  Copyright (C)2015 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -61,7 +61,7 @@ daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute)
    } // if
    pclose (p);
    items = 0;
-   doc = xmlRecoverFile (path);
+   doc = htmlReadFile (path, NULL, htmlParserOptions);
    ncx = xmlReaderWalker (doc);
    while (1)
    {
@@ -292,9 +292,10 @@ int get_tag_or_label (misc_t *misc, my_attribute_t *my_attribute,
    int type;
 
    *misc->tag =  *misc->label = 0;
-   *my_attribute->class = *my_attribute->clip_begin = *my_attribute->clip_end =
-   *my_attribute->href = *my_attribute->id = *my_attribute->media_type =
-   *my_attribute->playorder = * my_attribute->smilref = *my_attribute->src =
+   *my_attribute->class = *my_attribute->clip_begin =
+   *my_attribute->clip_end = *my_attribute->href = *my_attribute->id =
+   *my_attribute->media_type = *my_attribute->playorder =
+   * my_attribute->smilref = *my_attribute->src =
    *my_attribute->toc = *my_attribute->value = 0;
 
    if (reader == NULL)
@@ -346,8 +347,9 @@ int get_tag_or_label (misc_t *misc, my_attribute_t *my_attribute,
             break;
       } // while
       strncpy (misc->label, (char *) xmlTextReaderConstValue (reader) + x,
-                      MAX_PHRASE_LEN);
-      for (x = strlen (misc->label) - 1; x >= 0 && isspace (misc->label[x]); x--)
+               MAX_PHRASE_LEN);
+      for (x = strlen (misc->label) - 1;
+           x >= 0 && isspace (misc->label[x]); x--)
          misc->label[x] = 0;
       for (x = 0; misc->label[x] > 0; x++)
          if (! isascii (misc->label[x]))
@@ -379,7 +381,7 @@ void parse_text_file (misc_t *misc, my_attribute_t *my_attribute,
       anchor = strdup (strchr (text_file, '#') + 1);
       *strchr (text_file, '#') = 0;
    } // if
-   doc = xmlRecoverFile (text_file);
+   doc = htmlReadFile (text_file, NULL, htmlParserOptions);
    if (! (textptr = xmlReaderWalker (doc)))
    {
       endwin ();
@@ -432,7 +434,7 @@ void get_page_number_3 (misc_t *misc, my_attribute_t *my_attribute)
       anchor = strdup (strchr (my_attribute->src, '#') + 1);
       *strchr (my_attribute->src, '#') = 0;
    } // if
-   doc = xmlRecoverFile (my_attribute->src);
+   doc = htmlReadFile (my_attribute->src, NULL, htmlParserOptions);
    if (! (page = xmlReaderWalker (doc)))
    {
       endwin ();
@@ -478,7 +480,7 @@ void parse_smil_3 (misc_t *misc, my_attribute_t *my_attribute,
    {
       if (*daisy[x].smil_file == 0)
          continue;
-      doc = xmlRecoverFile (daisy[x].smil_file);
+      doc = htmlReadFile (daisy[x].smil_file, NULL, htmlParserOptions);
       if (! (parse = xmlReaderWalker (doc)))
       {
          endwin ();
@@ -548,7 +550,8 @@ void parse_content (misc_t *misc, my_attribute_t *my_attribute,
                strchr (daisy[misc->current].smil_file, '#') + 1, MAX_STR - 1);
       *strchr (daisy[misc->current].smil_file, '#') = 0;
    } // if
-   xmlDocPtr doc = xmlRecoverFile (daisy[misc->current].smil_file);
+   xmlDocPtr doc = htmlReadFile (daisy[misc->current].smil_file, 
+                        NULL, htmlParserOptions);
    if (! (content = xmlReaderWalker (doc)))
    {
       endwin ();
@@ -592,7 +595,7 @@ void parse_xml (misc_t *misc, my_attribute_t *my_attribute,
    char xml_name[MAX_STR];
 
    strncpy (xml_name, name, MAX_STR - 1);
-   xmlDocPtr doc = xmlRecoverFile (misc->ncx_name);
+   xmlDocPtr doc = htmlReadFile (misc->ncx_name, NULL, htmlParserOptions);
    if (! (xml = xmlReaderWalker (doc)))
    {
       endwin ();
@@ -613,7 +616,7 @@ void parse_xml (misc_t *misc, my_attribute_t *my_attribute,
    xmlTextReaderClose (xml);
    xmlFreeDoc (doc);
 
-   doc = xmlRecoverFile (xml_name);
+   doc = htmlReadFile (xml_name, NULL, htmlParserOptions);
    if (! (xml = xmlReaderWalker (doc)))
    {
       endwin ();
@@ -690,7 +693,7 @@ void parse_manifest (misc_t *misc, my_attribute_t *my_attribute,
       return;
    } // if
    toc = strdup (my_attribute->toc);
-   xmlDocPtr doc = xmlRecoverFile (name);
+   xmlDocPtr doc = htmlReadFile (name, NULL, htmlParserOptions);
    if (! (manifest = xmlReaderWalker (doc)))
    {
       endwin ();
@@ -821,7 +824,7 @@ void parse_ncx (misc_t *misc, my_attribute_t *my_attribute,
    xmlTextReaderPtr ncx;
    xmlDocPtr doc;
 
-   doc = xmlRecoverFile (name);
+   doc = htmlReadFile (name, NULL, htmlParserOptions);
    if (! (ncx = xmlReaderWalker (doc)))
    {
       endwin ();

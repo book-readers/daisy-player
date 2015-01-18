@@ -204,3 +204,5 @@ Samuel Thibault <sthibault@debian.org>
 	AO default will be used instead.
 	Added an Swedish translation.
 	Updated the Spanish translation.
+10.0	Updated the French translation.
+	Entities like &aring; = å are now correctly displayed

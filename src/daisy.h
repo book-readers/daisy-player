@@ -1,5 +1,5 @@
 /* header file for daisy-player
- *  Copyright (C)2014 J. Lemmens
+ *  Copyright (C)2015 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -38,8 +38,9 @@
 #include <errno.h>
 #include <time.h>
 #include <sys/ioctl.h>
-#include <libxml2/libxml/xmlreader.h>
-#include <libxml2/libxml/xmlwriter.h>
+#include <libxml/xmlreader.h>
+#include <libxml/xmlwriter.h>
+#include <libxml/HTMLparser.h>
 #include <cdio/cdio.h>
 #include <cdio/cdda.h>
 #include <cdio/paranoia.h>
@@ -60,6 +61,8 @@
 #define MAX_CMD 512
 #define MAX_STR 256
 #define MAX_TAG 1024
+#define htmlParserOptions HTML_PARSE_RECOVER | HTML_PARSE_NOERROR | \
+        HTML_PARSE_NOWARNING | HTML_PARSE_NOBLANKS
 
 typedef struct Daisy
 {
@@ -113,8 +116,10 @@ typedef struct Misc
    char NCC_HTML[MAX_STR], ncc_totalTime[MAX_STR];
    char daisy_version[MAX_STR], daisy_title[MAX_STR], daisy_language[MAX_STR];
    char daisy_mp[MAX_STR];
-   char tag[MAX_TAG], label[MAX_PHRASE_LEN];
-   char bookmark_title[MAX_STR], search_str[MAX_STR];
+   char tag[MAX_TAG];
+   char label[MAX_PHRASE_LEN];
+   char bookmark_title[MAX_STR];
+   char search_str[MAX_STR];
    char *wd, cd_dev[MAX_STR], sound_dev[MAX_STR];
    char cddb_flag, opf_name[MAX_STR], ncx_name[MAX_STR];
    char current_audio_file[MAX_STR], tmp_wav[MAX_STR + 1], mcn[MAX_STR];
