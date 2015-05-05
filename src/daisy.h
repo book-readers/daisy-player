@@ -66,7 +66,7 @@
 
 typedef struct Daisy
 {
-   int playorder, x, y, screen, n_phrases;
+   int playorder, x, y, screen;
    float begin, duration;
    char smil_file[MAX_STR], anchor[MAX_STR], class[MAX_STR];
    char label[MAX_PHRASE_LEN];
@@ -109,6 +109,8 @@ typedef struct Misc
    int current, max_y, max_x, total_items, level, displaying, ignore_bookmark;
    int phrase_nr, tts_no, depth, total_phrases, total_pages;
    int pipefd[2], tmp_wav_fd;
+   int pause_resume_playing;
+   float pause_resume_clip_begin;
    float speed, total_time;
    float clip_begin, clip_end, start_time;
    xmlTextReaderPtr reader;
@@ -129,7 +131,7 @@ typedef struct Misc
    cdrom_drive_t *drv;
    CdIo_t *p_cdio;
    int cd_type;
-   lsn_t lsn_cursor;
+   lsn_t lsn_cursor, pause_resume_lsn_cursor;
 } misc_t;
 
 extern void save_rc (misc_t *);

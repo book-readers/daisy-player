@@ -1,3 +1,2 @@
-- daisy3 books. "New_Zealand"
 - A new effect to set volume with "amixer sset Master playback 80%"
 - 'd' command writes the pllaying item to disk, not the item with the cursor.
