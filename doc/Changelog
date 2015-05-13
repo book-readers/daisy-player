@@ -221,5 +221,10 @@ Samuel Thibault <sthibault@debian.org>
 	   xmlTextReaderGetAttribute (reader, (const xmlChar *) "clipBegin")
 	But that doesn't work anymore. Daisy-player now uses
 	   xmlTextReaderGetAttribute (reader, (const xmlChar *) "clipbegin")
-	I think it is not handy that this library now makes defference 
+	I think it is not handy that this library now makes defference
 	between upercase and lowercase characters.
+10.2.3	Time viewing while playing was corrupt in the last version.
+	Solved.
+	The problem about libxml2.so.2 I mentioned in 10.2.2 is solved.
+	For one reason or another it works again. I don't know what
+	happened, sorry
