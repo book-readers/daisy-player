@@ -1,5 +1,5 @@
 /* audiocd.c - handle Audio-CD's
-
+ *
  *  Copyright (C)2015 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -57,7 +57,7 @@ void get_cddb_info (misc_t *misc, daisy_t *daisy)
 // some titles are spanned over more lines
          if (strstr (str, l) == NULL)
             continue;
-         strncpy (daisy[i].label, strchr (str, '=') + 1, MAX_PHRASE_LEN - 1);
+         strncpy (daisy[i].label, strchr (str, '=') + 1, 80);
          if (strchr (daisy[i].label, '\n'))
             *strchr (daisy[i].label, '\n') = 0;
          if (strchr (daisy[i].label, '\r'))

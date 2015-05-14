@@ -155,7 +155,7 @@ void get_bookmark (misc_t *misc, my_attribute_t *my_attribute,
       return;
    snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s%s",
              pw->pw_dir, misc->bookmark_title, get_mcn (misc));
-   local_doc = htmlReadFile (str, NULL, htmlParserOptions);
+   local_doc = xmlRecoverFile (str);
    if (! (local_reader = xmlReaderWalker (local_doc)))
    {
       xmlFreeDoc (local_doc);
@@ -214,8 +214,7 @@ void get_page_number_2 (misc_t *misc, my_attribute_t *my_attribute,
    xmlTextReaderPtr page;
    xmlDocPtr doc;
 
-   doc = htmlReadFile (daisy[misc->playing].smil_file, NULL, 
-                       htmlParserOptions);
+   doc = xmlRecoverFile (daisy[misc->playing].smil_file);
    if (! (page = xmlReaderWalker (doc)))
    {
       int e;
@@ -243,7 +242,7 @@ void get_page_number_2 (misc_t *misc, my_attribute_t *my_attribute,
    id2 = strdup (my_attribute->id);
    xmlTextReaderClose (page);
    xmlFreeDoc (doc);
-   doc = htmlReadFile (misc->NCC_HTML, NULL, htmlParserOptions);
+   doc = xmlRecoverFile (misc->NCC_HTML);
    if (! (page = xmlReaderWalker (doc)))
    {
       int e;
@@ -314,8 +313,7 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
    {
       if (*daisy[x].smil_file == 0)
          continue;
-      xmlDocPtr doc = htmlReadFile (daisy[x].smil_file, NULL, 
-                                    htmlParserOptions);
+      xmlDocPtr doc = xmlRecoverFile (daisy[x].smil_file);
       if (! (parse = xmlReaderWalker (doc)))
       {
          int e;
@@ -491,7 +489,7 @@ void read_daisy_2 (misc_t *misc, my_attribute_t *my_attribute,
    xmlTextReaderPtr ncc;
    xmlDocPtr doc = NULL;
 
-   if ((doc = htmlReadFile (misc->NCC_HTML, NULL, htmlParserOptions)) == NULL)
+   if ((doc = xmlRecoverFile (misc->NCC_HTML)) == NULL)
       failure ("read_daisy_2 ()", errno);
    if (! (ncc = xmlReaderWalker (doc)))
    {
@@ -620,7 +618,7 @@ void open_smil_file (misc_t *misc, my_attribute_t *my_attribute,
       return;
    if (*smil_file == 0)
       return;
-   local_doc = htmlReadFile (smil_file, NULL, htmlParserOptions);
+   local_doc = xmlRecoverFile (smil_file);
    if (! (misc->reader = xmlReaderWalker (local_doc)))
    {
       int e;
@@ -1090,7 +1088,7 @@ void read_rc (misc_t *misc, my_attribute_t *my_attribute)
 
    pw = getpwuid (geteuid ());
    snprintf (str, MAX_STR - 1, "%s/.daisy-player.rc", pw->pw_dir);
-   doc = htmlReadFile (str, NULL, htmlParserOptions);
+   doc = xmlRecoverFile (str);
    if (! (reader = xmlReaderWalker (doc)))
    {
       strncpy (misc->sound_dev, "hw:0", MAX_STR - 1);
@@ -1267,7 +1265,7 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
    if (strcasestr (misc->daisy_version, "2.02"))
    {
       xmlTextReaderClose (misc->reader);
-      xmlDocPtr doc = htmlReadFile (misc->NCC_HTML, NULL, htmlParserOptions);
+      xmlDocPtr doc = xmlRecoverFile (misc->NCC_HTML);
       if (! (misc->reader = xmlReaderWalker (doc)))
       {
          int e;
@@ -1326,7 +1324,7 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
       char *anchor = 0;
 
       xmlTextReaderClose (misc->reader);
-      xmlDocPtr doc = htmlReadFile (misc->NCC_HTML, NULL, htmlParserOptions);
+      xmlDocPtr doc = xmlRecoverFile (misc->NCC_HTML);
       if (! (misc->reader = xmlReaderWalker (doc)))
       {
          int e;
@@ -1500,6 +1498,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
 
    misc->current = 0;
    misc->pause_resume_playing = misc->just_this_item = -1;
+   misc->label_len = 0;
    get_bookmark (misc, my_attribute, daisy);
    view_screen (misc, daisy);
    nodelay (misc->screenwin, TRUE);
@@ -2024,7 +2023,7 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
    xmlTextReaderPtr di, ncc;
    xmlDocPtr doc;
 
-   doc = htmlReadFile (discinfo_html, NULL, htmlParserOptions);
+   doc = xmlRecoverFile (discinfo_html);
    if (! (di = xmlReaderWalker (doc)))
    {
       int e;
@@ -2050,8 +2049,7 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
       if (strcasecmp (misc->tag, "a") == 0)
       {
          strncpy (daisy[misc->current].filename, my_attribute->href, MAX_STR - 1);
-         xmlDocPtr doc = htmlReadFile (daisy[misc->current].filename,
-                                       NULL, htmlParserOptions);
+         xmlDocPtr doc = xmlRecoverFile (daisy[misc->current].filename);
          if (! (ncc = xmlReaderWalker (doc)))
          {
             int e;
@@ -2077,7 +2075,7 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
             if (! get_tag_or_label (misc, my_attribute, di))
                break;
          } while (! *misc->label);
-         strncpy (daisy[misc->current].label, misc->label, MAX_STR - 1);
+         strncpy (daisy[misc->current].label, misc->label, 80);
          strncpy (daisy[misc->current].daisy_mp, dirname (daisy[misc->current].filename),
                   MAX_STR - 1);
          daisy[misc->current].level = 1;
@@ -2363,7 +2361,7 @@ int main (int argc, char *argv[])
          {
             xmlDocPtr doc;
 
-            doc = htmlReadFile (misc.NCC_HTML, NULL, htmlParserOptions);
+            doc = xmlRecoverFile (misc.NCC_HTML);
             if (! (misc.reader = xmlReaderWalker (doc)))
             {
                int e;

@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([daisy-player],[10.2.3],[jos@jlemmens.nl],[],[www.jlemmens.nl])
+AC_INIT([daisy-player],[10.2.4],[jos@jlemmens.nl],[],[www.jlemmens.nl])
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])

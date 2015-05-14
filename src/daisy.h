@@ -57,19 +57,16 @@
 #undef VERSION
 #include "config.h"
 
-#define MAX_PHRASE_LEN 2000
 #define MAX_CMD 512
 #define MAX_STR 256
 #define MAX_TAG 1024
-#define htmlParserOptions HTML_PARSE_RECOVER | HTML_PARSE_NOERROR | \
-        HTML_PARSE_NOWARNING | HTML_PARSE_NOBLANKS
 
 typedef struct Daisy
 {
    int playorder, x, y, screen;
    float begin, duration;
    char smil_file[MAX_STR], anchor[MAX_STR], class[MAX_STR];
-   char label[MAX_PHRASE_LEN];
+   char label[100];
    int level, page_number;
    char daisy_mp[MAX_STR]; // discinfo
    char filename[MAX_STR]; // Audio-CD
@@ -119,7 +116,8 @@ typedef struct Misc
    char daisy_version[MAX_STR], daisy_title[MAX_STR], daisy_language[MAX_STR];
    char daisy_mp[MAX_STR];
    char tag[MAX_TAG];
-   char label[MAX_PHRASE_LEN];
+   char *label;
+   int label_len;
    char bookmark_title[MAX_STR];
    char search_str[MAX_STR];
    char *wd, cd_dev[MAX_STR], sound_dev[MAX_STR];
