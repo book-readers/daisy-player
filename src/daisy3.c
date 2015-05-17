@@ -247,6 +247,8 @@ void get_attributes (misc_t *misc, my_attribute_t *my_attribute,
       misc->elapsed_seconds = atoi (attr);
       if (misc->elapsed_seconds < 0)
          misc->elapsed_seconds = 0;
+      if (misc->elapsed_seconds >= misc->total_time)
+         misc->elapsed_seconds = 0;
    } // if
    snprintf (attr, MAX_STR - 1, "%s", (char*)
           xmlTextReaderGetAttribute (reader, BAD_CAST "smilref"));

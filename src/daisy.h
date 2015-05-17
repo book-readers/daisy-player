@@ -57,6 +57,7 @@
 #undef VERSION
 #include "config.h"
 
+// jos #define MAX_PHRASE_LEN 2000
 #define MAX_CMD 512
 #define MAX_STR 256
 #define MAX_TAG 1024

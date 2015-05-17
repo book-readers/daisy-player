@@ -231,3 +231,5 @@ Samuel Thibault <sthibault@debian.org>
 10.2.4	Now I know what happened. The problem occured only in DAISY version 3.
 	But I tested daisy-player on DAISY version 2.2. I messed up the
 	two versions, stupid me!
+10.2.4.1
+	Little bug in time viewing for Audio CD's solved.
