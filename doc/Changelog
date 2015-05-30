@@ -233,3 +233,6 @@ Samuel Thibault <sthibault@debian.org>
 	two versions, stupid me!
 10.2.4.1
 	Little bug in time viewing for Audio CD's solved.
+10.3	Daisy-player only worked on a cd with ISO9660 filesystem.
+	Now it also works on cd's with a Universal Disk Format (UDF) 
+	filesystem.

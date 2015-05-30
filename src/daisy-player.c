@@ -2004,14 +2004,16 @@ char *get_mount_point (misc_t *misc)
 
    if (! (proc = fopen ("/proc/mounts", "r")))
       failure (gettext ("Cannot read /proc/mounts."), errno);
-   do
+   while (1)
    {
       str = malloc (len + 1);
       if (getline (&str, &len, proc) == -1)
          break;
-   } while (! strcasestr (str, "iso9660"));
+      if (strcasestr (str, "iso9660") || strcasestr (str, "udf"))
+         break;
+   } // while
    fclose (proc);
-   if (strcasestr (str, "iso9660"))
+   if (strcasestr (str, "iso9660") || strcasestr (str, "udf"))
    {
       strncpy (misc->daisy_mp, strchr (str, ' ') + 1, MAX_STR - 1);
       *strchr (misc->daisy_mp, ' ') = 0;
@@ -2175,8 +2177,7 @@ int main (int argc, char *argv[])
    printw (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "");
    printw ("\n");
    printw (gettext ("A parser to play Daisy CD's with Linux"));
-    printw ("\n");
-
+   printw ("\n");
    printw (gettext ("Scanning for a Daisy CD..."));
    refresh ();
    if (argv[optind])
