@@ -1,2 +1,2 @@
-- A new effect to set volume with "amixer sset Master playback 80%"
-- 'd' command writes the pllaying item to disk, not the item with the cursor.
+- time-viewing starts on 00:00 when next page starts in daisy 3 files
+- command d - take into account the current level

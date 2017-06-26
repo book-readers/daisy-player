@@ -1,0 +1,45 @@
+Variables:
+
+Each item of a Daisy-CD is read into the array struct daisy.
+Each element of this array has the following variables:
+
+playorder	The playing-order.
+x, y		The screen-position of the element.
+screen		The screen-number of the element.
+begin		The start-time of the element in the audio-file.
+duration	The duration (in seconds) of this element.
+smil_file	The name of the smil_file on the cd.
+anchor		The start-point of the element in the smil_file.
+label		The label of the element.
+level		The level of the element.
+page_number`	The element starts on this page.
+daisy_mp	The mount-point of the Daisy-CD.
+filename	A temporary name for an Audio-CD.
+first_lsn	The start of a track on an Audio-CD.
+last_lsn	The end of a track on an Audio-CD.
+
+The struct My_attribute contains the attributes of tags in the smil_files.
+
+The struct Misc contains global variables.
+
+Functions:
+
+First read preferences from $PWD/.daisy-player.xml. read_xml().
+Set current locale.
+Read command-line options.
+Set two ncurses windows titlewin and screenwin.
+The function create_daisy_struct() determines the number of elements
+needed in the array daisy.
+If argument is an daisy-file or there is a Daisy-CD, read information
+into the struct daisy.
+If it is Daisy 2.02 read data with function fill_daisy_struct_2().
+If it is Daisy 3 read data with function read_daisy_3().
+If it is an Audio-CD handle it with the function get_number_of_tracks().
+
+The function browse() will handle keyh-board commands.
+ENTER starts playing. Each element of the array daisy contains the name of
+the smil_file and the anchor which points to the start of this
+item in the audio-file. The audio-file is played with the sox library.
+The sox library is too slow for finding the startpoint in the audio-file. So
+the utilityh madplay is used for cutting out the clip and it is written
+to a temporary WAV-file. Playing itself is done by sox.

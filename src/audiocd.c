@@ -1,6 +1,6 @@
 /* audiocd.c - handle Audio-CD's
  *
- *  Copyright (C)2015 J. Lemmens
+ *  Copyright (C)2017 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -17,18 +17,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "src/daisy.h"
+#include "daisy.h"
 
 void get_cddb_info (misc_t *misc, daisy_t *daisy)
 {
    FILE *r;
-   size_t len = MAX_STR;
+   size_t len = 0;
    char *str = NULL, cd[MAX_STR + 1];
    int i;
 
    snprintf (cd, MAX_STR, "cddbget -c %s -I -d 2> /dev/null", misc->cd_dev);
    r = popen (cd, "r");
-   str = malloc (len + 1);
    i = 0;
    while (1)
    {
@@ -62,7 +61,8 @@ void get_cddb_info (misc_t *misc, daisy_t *daisy)
             *strchr (daisy[i].label, '\n') = 0;
          if (strchr (daisy[i].label, '\r'))
             *strchr (daisy[i].label, '\r') = 0;
-         daisy[i].label[64 - daisy[i].x] = 0;
+         if (strlen (daisy[i].label) - daisy[i].x >= 65)
+            daisy[i].label[64 - daisy[i].x] = 0;
          i++;
       } // if
    } // while

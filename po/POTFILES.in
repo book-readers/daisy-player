@@ -1,6 +1,8 @@
 # List of source files which contain translatable strings.
 
 src/audiocd.c
-src/daisy-player.c
+src/common.c
+src/daisy2.02.c
 src/daisy3.c
+src/daisy-player.c
 src/paranoia.c

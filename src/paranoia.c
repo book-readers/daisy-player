@@ -65,25 +65,25 @@ pid_t play_track (misc_t *misc, char *out_file, char *type,
 {
    cdio_paranoia_free (misc->par);
    init_paranoia (misc);
-   switch (misc->player_pid = fork ())
+   switch (misc->cdda_pid = fork ())
    {
    case 0: /* Child reads from pipe */
    {
-      char path[MAX_STR + 1], str[MAX_STR + 1];
+      char path[MAX_STR + 1];
 
       close (misc->pipefd[1]);     /* don't need this in child */
 #ifdef F_SETPIPE_SZ
       fcntl (misc->pipefd[0], F_SETPIPE_SZ, 1024000);
 #endif
       snprintf (path, MAX_STR, "/dev/fd/%d", misc->pipefd[0]);
-      snprintf (str, MAX_STR, "%f", misc->speed);
-      playfile (misc, path, "cdda", out_file, type, str);
+      snprintf (misc->str, MAX_STR, "%f", misc->speed);
+      playfile (misc, path, "cdda", out_file, type, misc->str);
       close (misc->pipefd[0]);
       _exit (0);
    }
    default:
       paranoia_seek (misc->par, from, SEEK_SET);
       misc->lsn_cursor = from;
-      return misc->player_pid;
+      return misc->cdda_pid;
    } // switch
-} // play_track                      
+} // play_track
