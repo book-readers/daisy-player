@@ -927,8 +927,8 @@ void fill_xml_anchor_opf (misc_t *misc, my_attribute_t *my_attribute,
                   htmlDocPtr doc;
                   xmlTextReaderPtr smil;
 
-                  if (! (doc = htmlParseFile (daisy[misc->current].xml_file,
-                                      "UTF-8")))
+                  if (! (doc =
+                       htmlParseFile (daisy[misc->current].xml_file, "UTF-8")))
                      failure (misc, daisy[misc->current].xml_file, errno);
                   if ((smil = xmlReaderWalker (doc)) == NULL)
                      failure (misc, daisy[misc->current].xml_file, errno);
@@ -999,8 +999,7 @@ void fill_xml_anchor_opf (misc_t *misc, my_attribute_t *my_attribute,
          } // if
          daisy[misc->current].clips_file =
             strdup(real_name (misc, daisy[misc->current].clips_file));
-         if (! (doc = htmlParseFile (daisy[misc->current].clips_file,
-                         "UTF-8")))
+         if (! (doc = htmlParseFile (daisy[misc->current].clips_file, "UTF-8")))
             failure (misc, daisy[misc->current].clips_file, errno);
          if ((smil = xmlReaderWalker (doc)) == NULL)
             failure (misc, daisy[misc->current].clips_file, errno);

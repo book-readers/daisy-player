@@ -250,3 +250,7 @@ Samuel Thibault <sthibault@debian.org>
 	"*.ncx" and "*.opf" files.
 	man/Makefile.am changes.
 	Finnish translation by Jani Kinnunen <janikinnunen340@gmail.com>.
+10.4.1	es.po was mixed up with fi.po.
+10.5	daisy-player crashed when no cd device couldn't be found.
+10.5.1	htmlParseFile gave some strange errors in the function load_xml(),
+	so it is replaced by xmlRecoverFile.                               

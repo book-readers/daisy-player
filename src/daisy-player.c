@@ -424,7 +424,7 @@ void open_clips_file (misc_t *misc, my_attribute_t *my_attribute,
 
       e = errno;
       snprintf (str, MAX_STR, "htmlParseFile (%s)", clips_file);
-      failure (misc,  str, e);
+      failure (misc,  str, e);                                
    } // if
    if (! (misc->reader = xmlReaderWalker (misc->doc)))
    {
@@ -831,7 +831,7 @@ void change_level (misc_t *misc, my_attribute_t *my_attribute,
    wmove (misc->screenwin, daisy[misc->current].y, daisy[misc->current].x);
 } // change_level
 
-void read_preferences (misc_t *misc, my_attribute_t *my_attribute)
+void load_xml (misc_t *misc, my_attribute_t *my_attribute)
 {
 // read the preferences from $PWD/.daisy-player.xml
    char str[MAX_STR];
@@ -841,11 +841,7 @@ void read_preferences (misc_t *misc, my_attribute_t *my_attribute)
 
    pw = getpwuid (geteuid ());
    snprintf (str, MAX_STR - 1, "%s/.daisy-player.xml", pw->pw_dir);
-   if ((doc = htmlParseFile (str, "UTF-8")) == NULL)
-   {
-      strncpy (misc->sound_dev, "hw:0", MAX_STR - 1);
-      return;
-   } // if
+   doc = xmlRecoverFile (str);
    if (! (reader = xmlReaderWalker (doc)))
    {
       strncpy (misc->sound_dev, "hw:0", MAX_STR - 1);
@@ -855,12 +851,14 @@ void read_preferences (misc_t *misc, my_attribute_t *my_attribute)
    {
       if (! get_tag_or_label (misc, my_attribute, reader))
          break;
+      if (xmlTextReaderIsEmptyElement (reader))
+         continue;
    } while (strcasecmp (misc->tag, "prefs") != 0);
    xmlTextReaderClose (reader);
    xmlFreeDoc (doc);
    if (misc->cddb_flag != 'n' && misc->cddb_flag != 'y')
       misc->cddb_flag = 'y';
-} // read_preferences
+} // load_xml
 
 void save_xml (misc_t *misc)
 {
@@ -1725,11 +1723,12 @@ int main (int argc, char *argv[])
    misc.total_time = 0;
    *misc.daisy_title = 0;
    *misc.ncc_html = 0;
-   strncpy (misc.cd_dev, "/dev/sr0", 15);
+   strncpy (misc.cd_dev, "/dev/sr0", MAX_STR - 1);
    usr_action.sa_handler = player_ended;
    usr_action.sa_flags = 0;
    sigaction (SIGCHLD, &usr_action, NULL);
-   read_preferences (&misc, &my_attribute);
+   *misc.xmlversion = 0;
+   load_xml (&misc, &my_attribute);
    if (! setlocale (LC_ALL, ""))
       failure (&misc, "setlocale ()", errno);
    if (! setlocale (LC_NUMERIC, "C"))
@@ -1746,7 +1745,7 @@ int main (int argc, char *argv[])
       switch (opt)
       {
       case 'c':
-         strncpy (misc.cd_dev, optarg, 15);
+         strncpy (misc.cd_dev, optarg, MAX_STR - 1);
          break;
       case 'd':
          strncpy (misc.sound_dev, optarg, 15);
@@ -1905,7 +1904,39 @@ int main (int argc, char *argv[])
    {
       time_t start;
       CdIo_t *cd;
+      struct stat buf;
 
+      if (access (misc.cd_dev, R_OK) == -1)
+      {
+         int e;
+
+         e = errno;
+         endwin ();
+         printf (gettext ("Daisy-player - Version %s %s"),
+                          PACKAGE_VERSION, "\n");
+         puts ("(C)2003-2017 J. Lemmens");
+         beep ();
+         remove_tmp_dir (&misc);
+         snprintf (misc.str, MAX_STR, gettext ("Cannot read %s"),
+                   misc.cd_dev);
+         printf ("\n%s: %s\n", misc.str, strerror (e));
+         fflush (stdout);
+         _exit (-1);
+      } // if
+      if (stat (misc.cd_dev, &buf) == -1)
+         failure (&misc, misc.cd_dev, errno);
+      if (((buf.st_mode & S_IFMT) == S_IFBLK) != 1)
+      {
+         endwin ();
+         printf (gettext ("Daisy-player - Version %s %s"),
+                          PACKAGE_VERSION, "\n");
+         puts ("(C)2003-2017 J. Lemmens");
+         beep ();
+         remove_tmp_dir (&misc);
+         printf ("\n%s is not a cd device\n", misc.cd_dev);
+         fflush (stdout);
+         _exit (-1);
+      } // if
       snprintf (misc.cmd, MAX_CMD, "eject -tp %s", misc.cd_dev);
       switch (system (misc.cmd))
       {

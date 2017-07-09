@@ -41,9 +41,6 @@
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
 #include <libxml/HTMLparser.h>
-#include <libxml/parserInternals.h>
-#include <libxml/entities.h>
-#include <libxml/catalog.h>
 #include <cdio/cdio.h>
 #include <cdio/cdda.h>
 #include <cdio/paranoia.h>

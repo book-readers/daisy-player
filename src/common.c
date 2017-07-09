@@ -19,16 +19,16 @@
 
 #include "daisy.h"
 
-char *find_index_file (misc_t *misc, char *name, char *search_str)
+char *get_dir_content (misc_t *misc, char *dir_name, char *search_str)
 {
    char *found;
    DIR *dir;
    struct dirent *entry;
 
-   if (strcasestr (name, search_str) && *search_str)
-      return name;
-   if (! (dir = opendir (name)))
-      failure (misc, name, errno);
+   if (strcasestr (dir_name, search_str) && *search_str)
+      return dir_name;
+   if (! (dir = opendir (dir_name)))
+      failure (misc, dir_name, errno);
    if (! (entry = readdir (dir)))
       failure (misc, "readdir ()", errno);
    do
@@ -38,8 +38,8 @@ char *find_index_file (misc_t *misc, char *name, char *search_str)
          continue;
       if (strcasestr (entry->d_name, search_str) && *search_str)
       {
-         found = malloc (strlen (name) + strlen (entry->d_name) + 5);
-         sprintf (found, "%s/%s\n", name, entry->d_name);
+         found = malloc (strlen (dir_name) + strlen (entry->d_name) + 5);
+         sprintf (found, "%s/%s\n", dir_name, entry->d_name);
          found[strlen (found) - 1] = 0;
          closedir (dir);
          return found;
@@ -51,17 +51,17 @@ char *find_index_file (misc_t *misc, char *name, char *search_str)
          if (strcmp (entry->d_name, ".") == 0 ||
              strcmp (entry->d_name, "..") == 0)
             continue;
-         path = malloc (strlen (name) + strlen (entry->d_name) + 10);
-         sprintf (path, "%s/%s", name, entry->d_name);
+         path = malloc (strlen (dir_name) + strlen (entry->d_name) + 10);
+         sprintf (path, "%s/%s", dir_name, entry->d_name);
          found = malloc (MAX_STR);
-         strcpy (found, find_index_file (misc, path, search_str));
+         strcpy (found, get_dir_content (misc, path, search_str));
          if (strcasestr (found, search_str) && *search_str)
             return found;
          free (path);
       } // if
    } while ((entry = readdir (dir)));
    return "";
-} // find_index_file
+} // get_dir_content
 
 char *get_real_name (misc_t *misc, char *dir, char *name)
 {
@@ -151,10 +151,6 @@ void skip_left (misc_t *misc, my_attribute_t *my_attribute,
       misc->prev_id = strdup (misc->current_id);
       prev_id = misc->prev_id;
    } // if
-#endif
-
-   just = misc->just_this_item;
-#ifdef DAISY_PLAYER
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
       return;
 #endif
@@ -163,6 +159,7 @@ void skip_left (misc_t *misc, my_attribute_t *my_attribute,
       beep ();
       return;
    } // if
+   just = misc->just_this_item;
    if (misc->player_pid > -1)
    {
       while (kill (misc->player_pid, SIGKILL) != 0);
@@ -173,7 +170,7 @@ void skip_left (misc_t *misc, my_attribute_t *my_attribute,
    if (misc->doc)
       xmlFreeDoc (misc->doc);
    misc->current = misc->displaying = misc->playing;
-   misc->current_page_number = daisy[misc->playing].page_number;
+   misc->current_page_number = daisy[misc->current].page_number;
 #ifdef DAISY_PLAYER
    if (strcmp (daisy[misc->playing].first_id, misc->audio_id) == 0)
 #endif
@@ -272,7 +269,8 @@ void skip_left (misc_t *misc, my_attribute_t *my_attribute,
 #endif
 #ifdef EBOOK_SPEAKER
    misc->player_pid = -2;
-   go_to_phrase (misc, my_attribute, daisy, misc->phrase_nr - 1);
+   go_to_phrase (misc, my_attribute, daisy, misc->current,
+                 misc->phrase_nr - 1);
    misc->just_this_item = just;
 #endif
 } // skip_left
@@ -406,15 +404,15 @@ void find_index_names (misc_t *misc)
 {
    *misc->ncc_html = 0;
    strncpy (misc->ncc_html,
-            find_index_file (misc, misc->daisy_mp, "ncc.html"),
+            get_dir_content (misc, misc->daisy_mp, "ncc.html"),
             MAX_STR - 1);
    *misc->ncx_name = 0;
    strncpy (misc->ncx_name,
-            find_index_file (misc, misc->daisy_mp, ".ncx"),
+            get_dir_content (misc, misc->daisy_mp, ".ncx"),
             MAX_STR - 1);
    *misc->opf_name = 0;
    strncpy (misc->opf_name,
-            find_index_file (misc, misc->daisy_mp, ".opf"),
+            get_dir_content (misc, misc->daisy_mp, ".opf"),
             MAX_STR - 1);
 } // find_index_names
 
@@ -938,10 +936,12 @@ void get_attributes (misc_t *misc, my_attribute_t *my_attribute,
              xmlTextReaderGetAttribute (ptr, (const xmlChar *) "cd_dev"));
    if (strcmp (attr, "(null)"))
       strncpy (misc->cd_dev, attr, MAX_STR - 1);
+#ifdef DAISY_PLAYER
    snprintf (attr, MAX_STR - 1, "%s", (char *)
            xmlTextReaderGetAttribute (ptr, (const xmlChar *) "cddb_flag"));
    if (strcmp (attr, "(null)"))
       misc->cddb_flag = (char) attr[0];
+#endif      
    snprintf (attr, MAX_STR - 1, "%s", (char *)
              xmlTextReaderGetAttribute (ptr, (const xmlChar *) "speed"));
    if (strcmp (attr, "(null)"))
