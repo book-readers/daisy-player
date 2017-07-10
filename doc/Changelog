@@ -253,4 +253,5 @@ Samuel Thibault <sthibault@debian.org>
 10.4.1	es.po was mixed up with fi.po.
 10.5	daisy-player crashed when no cd device couldn't be found.
 10.5.1	htmlParseFile gave some strange errors in the function load_xml(),
-	so it is replaced by xmlRecoverFile.                               
+	so it is replaced by xmlRecoverFile.
+10.5.2	When playback is paused, wait for playback is really stopped.

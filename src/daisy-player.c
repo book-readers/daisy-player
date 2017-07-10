@@ -529,6 +529,7 @@ void pause_resume (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
       misc->playing = -1;
       misc->pause_resume_lsn_cursor = misc->lsn_cursor;
       kill (misc->player_pid, SIGKILL);
+      while (kill (misc->player_pid, 0) == 0);
       if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
          misc->player_pid = -2;
       return;
