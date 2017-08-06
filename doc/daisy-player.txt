@@ -38,11 +38,11 @@ cursor right,6  skip to next phrase
 cursor left,4   skip to previous phrase
 page-down,3     view next screen
 page-up,9       view previous screen
-enter           Start playing         
+enter           Start playing
 space,0         pause/resume playing
 home,*          play on normal speed
 /               search for a label
-d               store current item to disk
+d               store current item to disk (Take into account the selected level)
 D,-             decrease playing speed
 e,.             stop playing and eject
 f               find the currently playing item and place the cursor there

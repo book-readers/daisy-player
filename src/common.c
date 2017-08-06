@@ -19,6 +19,26 @@
 
 #include "daisy.h"
 
+void set_volume (misc_t *misc)
+{
+   snd_mixer_t *handle;
+   snd_mixer_selem_id_t *sid;
+   snd_mixer_elem_t *elem;
+
+   if (snd_mixer_open (&handle, 0) != 0)
+      failure (misc, "snd_mixer_open", errno);
+   snd_mixer_attach (handle, misc->sound_dev);
+   snd_mixer_selem_register (handle, NULL, NULL);
+   snd_mixer_load (handle);
+   snd_mixer_selem_id_alloca (&sid);
+   snd_mixer_selem_id_set_index (sid, 0);
+   snd_mixer_selem_id_set_name (sid, "Master");
+   if ((elem = snd_mixer_find_selem (handle, sid)) == NULL)
+      return;
+   snd_mixer_selem_set_playback_volume_all (elem, misc->volume);
+   snd_mixer_close (handle);
+} // set_volume
+
 char *get_dir_content (misc_t *misc, char *dir_name, char *search_str)
 {
    char *found;
@@ -138,143 +158,6 @@ void failure (misc_t *misc, char *str, int e)
    _exit (-1);
 } // failure
 
-void skip_left (misc_t *misc, my_attribute_t *my_attribute,
-                daisy_t *daisy)
-{
-   int just;
-#ifdef DAISY_PLAYER
-   char *prev_id;
-
-   prev_id = misc->prev_id;
-   if (*prev_id == 0)
-   {
-      misc->prev_id = strdup (misc->current_id);
-      prev_id = misc->prev_id;
-   } // if
-   if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
-      return;
-#endif
-   if (misc->playing < 0)
-   {
-      beep ();
-      return;
-   } // if
-   just = misc->just_this_item;
-   if (misc->player_pid > -1)
-   {
-      while (kill (misc->player_pid, SIGKILL) != 0);
-      misc->player_pid = -2;
-   } // if
-   if (misc->reader)
-      xmlTextReaderClose (misc->reader);
-   if (misc->doc)
-      xmlFreeDoc (misc->doc);
-   misc->current = misc->displaying = misc->playing;
-   misc->current_page_number = daisy[misc->current].page_number;
-#ifdef DAISY_PLAYER
-   if (strcmp (daisy[misc->playing].first_id, misc->audio_id) == 0)
-#endif
-#ifdef EBOOK_SPEAKER
-   if (misc->phrase_nr == 1)
-#endif
-   {
-      if (misc->playing == 0)
-      {
-         beep ();
-         misc->current = misc->displaying = misc->playing;
-         unlink (misc->tmp_wav);
-         unlink ("old.wav");
-         misc->current_page_number = daisy[misc->playing].page_number;
-#ifdef DAISY_PLAYER
-         open_clips_file (misc, my_attribute, daisy[misc->playing].clips_file,
-                          daisy[misc->playing].clips_anchor);
-         misc->current_id = strdup (daisy[misc->playing].first_id);
-#endif
-#ifdef EBOOK_SPEAKER
-         open_text_file (misc, my_attribute, daisy[misc->playing].xml_file,
-                         daisy[misc->playing].anchor);
-         misc->phrase_nr = 0;
-         misc->player_pid = -2;
-#endif
-         view_screen (misc, daisy);
-         return;
-      } // if misc->playing == 0
-
-      if (misc->just_this_item > -1 &&
-          daisy[misc->playing].level  == misc->level)
-      {
-         beep ();
-         misc->current = misc->displaying = misc->playing;
-         misc->playing = misc->just_this_item = -1;
-         view_screen (misc, daisy);
-         wmove (misc->screenwin, daisy[misc->current].y,
-                daisy[misc->current].x);
-         return;
-      } // if
-
-// go to previous item
-      misc->current = misc->displaying = --misc->playing;
-#ifdef DAISY_PLAYER
-      open_clips_file (misc, my_attribute, daisy[misc->playing].clips_file,
-                       daisy[misc->playing].clips_anchor);
-      misc->current_id = strdup (daisy[misc->playing].first_id);
-      while (1)
-      {
-         if (strcmp (daisy[misc->playing].last_id, misc->audio_id) == 0)
-            break;
-         get_next_clips (misc, my_attribute, daisy);
-      } // while
-      start_playing (misc, daisy);
-#endif
-#ifdef EBOOK_SPEAKER
-      open_text_file (misc, my_attribute,
-               daisy[misc->playing].xml_file, daisy[misc->playing].anchor);
-      misc->phrase_nr = 0;
-      while (1)
-      {
-         if (! get_tag_or_label (misc, my_attribute, misc->reader))
-            return;
-         if (strcasecmp (misc->tag, "pagenum") == 0 ||
-             strcasecmp (my_attribute->class, "pagenum") == 0)
-         {
-            parse_page_number (misc, my_attribute, misc->reader);
-         } // if
-         if (! *misc->label)
-            continue;
-         if (misc->phrase_nr++ == daisy[misc->playing].n_phrases - 2)
-            break;
-      } // while
-      start_playing (misc, my_attribute, daisy);
-#endif
-      view_screen (misc, daisy);
-      return;
-   } // go to previous item
-
-#ifdef DAISY_PLAYER
-   open_clips_file (misc, my_attribute, daisy[misc->playing].clips_file,
-                    daisy[misc->playing].clips_anchor);
-   while (1)
-   {
-      if (strcmp (misc->current_id, prev_id) == 0)
-      {
-         misc->current = misc->displaying = misc->playing;
-         misc->just_this_item = just;
-         start_playing (misc, daisy);
-         view_screen (misc, daisy);
-         return;
-      } // if
-      misc->prev_id = strdup (misc->audio_id);
-      get_next_clips (misc, my_attribute, daisy);
-   } // while
-#endif
-#ifdef EBOOK_SPEAKER
-   misc->player_pid = -2;
-   go_to_phrase (misc, my_attribute, daisy, misc->current,
-                 misc->phrase_nr - 1);
-   misc->just_this_item = just;
-#endif
-} // skip_left
-
 void playfile (misc_t *misc, char *in_file, char *in_type,
                char *out_file, char *out_type, char *tempo)
 {
@@ -364,12 +247,6 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
       args[0] = "-s";
    args[1] = tempo;
    sox_effect_options (e, 2, args);
-   sox_add_effect (chain, e, &sox_in->signal, &sox_in->signal);
-
-   e = sox_create_effect (sox_find_effect ("vol"));
-   snprintf (misc->str, MAX_STR, "%lf", misc->volume);
-   args[0] = misc->str;
-   sox_effect_options (e, 1, args);
    sox_add_effect (chain, e, &sox_in->signal, &sox_in->signal);
 
    e = sox_create_effect (sox_find_effect ("rate"));
@@ -653,6 +530,15 @@ daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute)
    if (strlen (misc->opf_name) < 4)
       *misc->opf_name = 0;
 
+   if (*misc->ncc_html == 0 && *misc->ncx_name == 0 && *misc->opf_name == 0)
+   {
+      beep ();
+      endwin ();
+      printf ("%s\n", gettext (
+        "This book has no audio. Play this book with eBook-speaker"));
+      _exit (0);
+   } // if
+
 // count items in opf
    misc->items_in_opf = 0;
    doc = htmlParseFile (misc->opf_name, "UTF-8");
@@ -768,11 +654,7 @@ void clear_tmp_dir (misc_t *misc)
    {
 // Be sure not to remove wrong files
       snprintf (misc->cmd, MAX_CMD - 1, "rm -rf %s/*", misc->tmp_dir);
-      switch (system (misc->cmd))
-      {
-      default:
-         break;
-      } // switch
+      switch (system (misc->cmd));
    } // if
 } // clear_tmp_dir
 
@@ -1031,7 +913,10 @@ int get_tag_or_label (misc_t *misc, my_attribute_t *my_attribute,
          get_attributes (misc, my_attribute, reader);
 #ifdef DAISY_PLAYER
       if (strcasecmp (misc->tag, "audio") == 0)
+      {
+         misc->prev_id = strdup (misc->audio_id);
          misc->audio_id = strdup (misc->current_id);
+      } // if
 #endif
       return 1;
    case XML_READER_TYPE_END_ELEMENT:

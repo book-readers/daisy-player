@@ -1,5 +1,7 @@
 docdir = $(datadir)/doc/@PACKAGE@
-doc_DATA = ABOUT-NLS COMPILE COPYING Changelog License Readme TODO \
-           daisy-player.desktop daisy-player.menu daisy-player.png \
-           daisy-player.txt
+doc_DATA = ABOUT-NLS Changelog COMPILE COPYING daisy-player.description \
+           daisy-player.desktop daisy-player.html daisy-player.menu \
+           daisy-player.png daisy-player.txt License Makefile.am \
+           Makefile.in Readme TODO
+
 dist_html_DATA = daisy-player.html

@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <strings.h>
+#define __STDC_WANT_IEC_60559_BFP_EXT__
 #include <stdlib.h>
 #include <ctype.h>
 #include <sys/types.h>
@@ -46,6 +47,8 @@
 #include <cdio/paranoia.h>
 #include <cdio/disc.h>
 #include <magic.h>
+#include <alsa/asoundlib.h>
+#include <alsa/mixer.h>
 
 #undef PACKAGE
 #undef PACKAGE_BUGREPORT
@@ -111,8 +114,8 @@ typedef struct Misc
    int pipefd[2], tmp_wav_fd, has_audio_tag;
    int pause_resume_playing;
    char *pause_resume_id, *prev_id, *current_id, *audio_id;
-   float speed, total_time, volume;
-   float clip_begin, clip_end;
+   float speed, total_time, clip_begin, clip_end;
+   long min_vol, max_vol, volume;
    htmlDocPtr doc;
    xmlTextReaderPtr reader;
    pid_t player_pid, cdda_pid;
@@ -184,3 +187,5 @@ extern void remove_tmp_dir (misc_t *);
 extern void make_tmp_dir (misc_t *);
 extern char *find_index_name (misc_t *, char *);
 extern void select_next_output_device (misc_t *, my_attribute_t *, daisy_t *);
+extern void set_volume (misc_t *);
+extern int madplay (char *, char *, char *, char *);
