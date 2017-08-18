@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2017-08-06 19:57+0200\n"
+"POT-Creation-Date: 2017-08-18 14:54+0200\n"
 "PO-Revision-Date: 2013-12-09 11:06+0200\n"
 "Last-Translator: JimmiXzSq <jimos45812rt1@hotmail.com>\n"
 "Language-Team: JimmiXzSq <jimos45812rt1@hotmail.com>\n"
@@ -55,24 +55,24 @@ msgid "Please try to play this book with daisy-player"
 msgstr ""
 "Kérjük, próbálja meg játszani ezt a könyvet a daisy-player segítségével"
 
-#: src/common.c:905
+#: src/common.c:901
 #, c-format
 msgid "Cannot read type: %d"
 msgstr "Nem lehet olvasni a típus: %d"
 
-#: src/common.c:982
+#: src/common.c:978
 msgid "Go to page number:"
 msgstr "Ugrás az oldalszámra:"
 
-#: src/common.c:1000
+#: src/common.c:996
 msgid "Please wait..."
 msgstr "Kérlek várj..."
 
-#: src/common.c:1060
+#: src/common.c:1056
 msgid "Select a soundcard:"
 msgstr "VÃ¡lasszon hangkÃ¡rtya:"
 
-#: src/common.c:1062
+#: src/common.c:1058
 msgid "Cannot read /proc/asound/cards"
 msgstr "A /proc/asound/cards fÃ¡jl nem olvashatÃ³."
 

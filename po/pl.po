@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2017-08-06 19:57+0200\n"
+"POT-Creation-Date: 2017-08-18 14:54+0200\n"
 "PO-Revision-Date: 2013-01-29 15:06+0200\n"
 "Last-Translator: Patryk Doering <http://www.rekinet.pl>\n"
 "Language-Team: Patryk Doering <http://www.rekinet.pl>Language: pl\n"
@@ -54,24 +54,24 @@ msgstr "Ta książka nie ma dźwięku.  Zagraj w tę książkę z eBook-speakere
 msgid "Please try to play this book with daisy-player"
 msgstr "Staraj się zagrać w tę książkę z daisy-player"
 
-#: src/common.c:905
+#: src/common.c:901
 #, c-format
 msgid "Cannot read type: %d"
 msgstr "Nie można odczytać typ: %d"
 
-#: src/common.c:982
+#: src/common.c:978
 msgid "Go to page number:"
 msgstr "Idź do strony numer:"
 
-#: src/common.c:1000
+#: src/common.c:996
 msgid "Please wait..."
 msgstr "Proszę czekać..."
 
-#: src/common.c:1060
+#: src/common.c:1056
 msgid "Select a soundcard:"
 msgstr "Wybierz kartę dźwiękową:"
 
-#: src/common.c:1062
+#: src/common.c:1058
 msgid "Cannot read /proc/asound/cards"
 msgstr "Nie można odczytać /proc/asound/cards "
 

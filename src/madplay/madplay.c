@@ -111,7 +111,8 @@ void die(char const *message, ...)
  * NAME:	parse_time()
  * DESCRIPTION:	parse a time specification string
  */
-static int parse_time (mad_timer_t *timer, char const *str)
+static
+int parse_time(mad_timer_t *timer, char const *str)
 {
   mad_timer_t time, accum = mad_timer_zero;
   signed long decimal;
@@ -150,7 +151,7 @@ static int parse_time (mad_timer_t *timer, char const *str)
     }
     while (*str >= '0' && *str <= '9');
 
-    if (*str == '.') 
+    if (*str == '.')
     {
       char const *ptr;
 
@@ -199,17 +200,18 @@ static int parse_time (mad_timer_t *timer, char const *str)
  * NAME:	get_time()
  * DESCRIPTION:	parse a time value or die
  */
-static mad_timer_t get_time (char const *str, int positive, char const *name)
+static
+mad_timer_t get_time(char const *str, int positive, char const *name)
 {
   mad_timer_t time;
 
-  if (parse_time (&time, str) == -1)
+  if (parse_time(&time, str) == -1)
     die(_("invalid %s specification \"%s\""), name, str);
 
-  if (positive && mad_timer_sign (time) <= 0)
+  if (positive && mad_timer_sign(time) <= 0)
     die(_("%s must be positive"), name);
 
-  return time;                   
+  return time;
 }
 
 /*
@@ -242,17 +244,14 @@ int madplay (char *in_file, char *begin, char *duration, char *out_file)
 
   /* main processing */
 
-  if (player.options & PLAYER_OPTION_CROSSFADE)
-  {
+  if (player.options & PLAYER_OPTION_CROSSFADE) {
     if (!(player.options & PLAYER_OPTION_GAP))
       warn(_("cross-fade ignored without gap"));
-    else
-      if (mad_timer_sign(player.gap) >= 0)
-        warn(_("cross-fade ignored without negative gap"));
+    else if (mad_timer_sign(player.gap) >= 0)
+      warn(_("cross-fade ignored without negative gap"));
   }
 
-  if (player.output.replay_gain & PLAYER_RGAIN_ENABLED)
-  {
+  if (player.output.replay_gain & PLAYER_RGAIN_ENABLED) {
     if (player.options & PLAYER_OPTION_IGNOREVOLADJ)
       warn(_("volume adjustment ignored with Replay Gain enabled"));
     else
@@ -267,7 +266,7 @@ int madplay (char *in_file, char *begin, char *duration, char *out_file)
 
   /* make stop time absolute */
   if (player.options & PLAYER_OPTION_TIMED)
-    mad_timer_add (&player.global_stop, player.global_start);
+    mad_timer_add(&player.global_stop, player.global_start);
   /* run the player */
 
   if (player_run (&player) == -1)
@@ -275,7 +274,7 @@ int madplay (char *in_file, char *begin, char *duration, char *out_file)
 
   /* finish up */
 
-  player_finish (&player);
+  player_finish(&player);
 
   return result;
-} // madplay
+}

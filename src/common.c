@@ -34,7 +34,7 @@ void set_volume (misc_t *misc)
    snd_mixer_selem_id_set_index (sid, 0);
    snd_mixer_selem_id_set_name (sid, "Master");
    if ((elem = snd_mixer_find_selem (handle, sid)) == NULL)
-      return;
+      failure (misc, "No ALSA device found", errno);
    snd_mixer_selem_set_playback_volume_all (elem, misc->volume);
    snd_mixer_close (handle);
 } // set_volume
@@ -585,11 +585,7 @@ daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute)
    misc->total_items = misc->items_in_ncx;
    if (misc->items_in_opf > misc->items_in_ncx)
       misc->total_items = misc->items_in_opf;
-   switch (chdir (misc->daisy_mp))
-   {
-   default:
-      break;
-   } // switch
+   switch (chdir (misc->daisy_mp));
 #ifdef EBOOK_SPEAKER
    snprintf (misc->eBook_speaker_txt, MAX_STR,
              "%s/eBook-speaker.txt", misc->daisy_mp);

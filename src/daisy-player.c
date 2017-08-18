@@ -1784,7 +1784,7 @@ int main (int argc, char *argv[])
    misc.ignore_bookmark = 0;
    *misc.bookmark_title = 0;
    misc.current_id = strdup ("");
-   misc.prev_id = misc.audio_id = strdup (""); 
+   misc.prev_id = misc.audio_id = strdup ("");
    misc.total_time = 0;
    *misc.daisy_title = 0;
    *misc.ncc_html = 0;
@@ -1803,21 +1803,6 @@ int main (int argc, char *argv[])
    bindtextdomain (PACKAGE, str);
    make_tmp_dir (&misc);
    start_wd = strdup (get_current_dir_name ());
-   if (snd_mixer_open (&handle, 0) != 0)
-      failure (&misc, "snd_mixer_open", errno);
-   snd_mixer_attach (handle, misc.sound_dev);
-   snd_mixer_selem_register (handle, NULL, NULL);
-   snd_mixer_load (handle);
-   snd_mixer_selem_id_alloca (&sid);
-   snd_mixer_selem_id_set_index (sid, 0);
-   snd_mixer_selem_id_set_name (sid, "Master");
-   if ((elem = snd_mixer_find_selem (handle, sid)) == NULL)
-      failure (&misc, "snd_mixer_find_selem", errno);
-   snd_mixer_selem_get_playback_volume_range (elem,
-                                              &misc.min_vol, &misc.max_vol);
-   cid = 0;
-   snd_mixer_selem_get_playback_volume (elem, cid, &misc.volume);
-   snd_mixer_close (handle);
    opterr = 0;
    misc.use_OPF = misc.use_NCX = 0;
    while ((opt = getopt (argc, argv, "c:d:ijnyON")) != -1)
@@ -1860,7 +1845,22 @@ int main (int argc, char *argv[])
          usage ();
       } // switch
    } // while
-   initscr ();
+   if (snd_mixer_open (&handle, 0) != 0)
+      failure (&misc, "No ALSA sound device found", errno);
+   snd_mixer_attach (handle, misc.sound_dev);
+   snd_mixer_selem_register (handle, NULL, NULL);
+   snd_mixer_load (handle);
+   snd_mixer_selem_id_alloca (&sid);
+   snd_mixer_selem_id_set_index (sid, 0);
+   snd_mixer_selem_id_set_name (sid, "Master");
+   if ((elem = snd_mixer_find_selem (handle, sid)) == NULL)
+      failure (&misc, "No ALSA sound device found", errno);
+   snd_mixer_selem_get_playback_volume_range (elem,
+                                              &misc.min_vol, &misc.max_vol);
+   cid = 0;
+   snd_mixer_selem_get_playback_volume (elem, cid, &misc.volume);
+   snd_mixer_close (handle);
+   initscr ();                                             
    if (! (misc.titlewin = newwin (2, 80,  0, 0)) ||
        ! (misc.screenwin = newwin (23, 80, 2, 0)))
       failure (&misc, "No curses", errno);

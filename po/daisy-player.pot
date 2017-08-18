@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: daisy-player 10.6\n"
+"Project-Id-Version: daisy-player 10.6.1\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2017-08-06 19:57+0200\n"
+"POT-Creation-Date: 2017-08-18 14:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,24 +40,24 @@ msgstr ""
 msgid "Please try to play this book with daisy-player"
 msgstr ""
 
-#: src/common.c:905
+#: src/common.c:901
 #, c-format
 msgid "Cannot read type: %d"
 msgstr ""
 
-#: src/common.c:982
+#: src/common.c:978
 msgid "Go to page number:"
 msgstr ""
 
-#: src/common.c:1000
+#: src/common.c:996
 msgid "Please wait..."
 msgstr ""
 
-#: src/common.c:1060
+#: src/common.c:1056
 msgid "Select a soundcard:"
 msgstr ""
 
-#: src/common.c:1062
+#: src/common.c:1058
 msgid "Cannot read /proc/asound/cards"
 msgstr ""
 

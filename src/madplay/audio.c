@@ -44,26 +44,23 @@ static struct audio_dither left_dither, right_dither;
  * NAME:	audio_output()
  * DESCRIPTION: choose an audio output module from a specifier pathname
  */
-audio_ctlfunc_t *audio_output (char const **path)
+audio_ctlfunc_t *audio_output(char const **path)
 {
   char const *ext;
   unsigned int i;
 
-  struct map
-  {
+  struct map {
     char const *name;
     audio_ctlfunc_t *module;
   };
 
-  struct map const prefixes[] =
-  {
+  struct map const prefixes[] = {
     { "cdda", audio_cdda },
     { "wave", audio_wave },
     { "wav",  audio_wave }
   };
 
-  struct map const extensions[] =
-  {
+  struct map const extensions[] = {
     { "cdr",  audio_cdda },
     { "cda",  audio_cdda },
     { "cdda", audio_cdda },
@@ -79,10 +76,9 @@ audio_ctlfunc_t *audio_output (char const **path)
     type  = *path;
     *path = ext + 1;
 
-    for (i = 0; i < sizeof (prefixes) / sizeof (prefixes[0]); ++i)
-    {
-      if (strncasecmp (type, prefixes[i].name, ext - type) == 0 &&
-	  strlen (prefixes[i].name) == (size_t) (ext - type))
+    for (i = 0; i < sizeof(prefixes) / sizeof(prefixes[0]); ++i) {
+      if (strncasecmp(type, prefixes[i].name, ext - type) == 0 &&
+	  strlen(prefixes[i].name) == (size_t) (ext - type))
 	return prefixes[i].module;
     }
 
@@ -93,16 +89,14 @@ audio_ctlfunc_t *audio_output (char const **path)
   /* check for file extension specifier */
 
   ext = strrchr(*path, '.');
-  if (ext)
-  {
+  if (ext) {
     ++ext;
 
-    for (i = 0; i < sizeof(extensions) / sizeof(extensions[0]); ++i) 
-    {
+    for (i = 0; i < sizeof(extensions) / sizeof(extensions[0]); ++i) {
       if (strcasecmp(ext, extensions[i].name) == 0)
 	return extensions[i].module;
-    } // for
-  } // if
+    }
+  }
 
   return 0;
 }
@@ -111,11 +105,10 @@ audio_ctlfunc_t *audio_output (char const **path)
  * NAME:	audio_control_init()
  * DESCRIPTION:	initialize an audio control structure
  */
-void audio_control_init (union audio_control *control,
+void audio_control_init(union audio_control *control,
 			enum audio_command command)
 {
-  switch (control->command = command)
-  {
+  switch (control->command = command) {
   case AUDIO_COMMAND_INIT:
     control->init.path = 0;
     break;
@@ -136,8 +129,8 @@ void audio_control_init (union audio_control *control,
 
   case AUDIO_COMMAND_FINISH:
     break;
-  } // switch
-} // audio_control_init
+  }
+}
 
 /*
  * NAME:	clip()

@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2017-08-06 19:57+0200\n"
+"POT-Creation-Date: 2017-08-18 14:54+0200\n"
 "PO-Revision-Date: 2013-01-29 15:06+0200\n"
 "Last-Translator: Oscar Gonzalez Gallegos <ventas@prediomix.com>\n"
 "Language-Team: Oscar Gonzalez Gallegos <ventas@prediomix.com>\n"
@@ -54,24 +54,24 @@ msgstr "Este libro no contiene audio."
 msgid "Please try to play this book with daisy-player"
 msgstr "Por favor, intenta reproducir este libro con daisy-player"
 
-#: src/common.c:905
+#: src/common.c:901
 #, c-format
 msgid "Cannot read type: %d"
 msgstr "No poder leer: %d"
 
-#: src/common.c:982
+#: src/common.c:978
 msgid "Go to page number:"
 msgstr "Ir a página número:"
 
-#: src/common.c:1000
+#: src/common.c:996
 msgid "Please wait..."
 msgstr "Por favor espera..."
 
-#: src/common.c:1060
+#: src/common.c:1056
 msgid "Select a soundcard:"
 msgstr "seleccionar una tarjeta de sonido:"
 
-#: src/common.c:1062
+#: src/common.c:1058
 msgid "Cannot read /proc/asound/cards"
 msgstr "No se puede leer /proc/asound/cards"
 
