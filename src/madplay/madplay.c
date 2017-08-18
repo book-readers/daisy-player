@@ -117,7 +117,7 @@ int parse_time(mad_timer_t *timer, char const *str)
   mad_timer_t time, accum = mad_timer_zero;
   signed long decimal;
   unsigned long seconds, fraction, fracpart;
-  int minus;
+  int minus = 0;
 
   while (isspace((unsigned char) *str))
     ++str;
@@ -133,6 +133,7 @@ int parse_time(mad_timer_t *timer, char const *str)
 
     case '+':
       ++str;
+      break;
     default:
       minus = 0;
     }
