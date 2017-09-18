@@ -1924,7 +1924,8 @@ int main (int argc, char *argv[])
          puts ("(C)2003-2017 J. Lemmens");
          beep ();
          remove_tmp_dir (&misc);
-         failure (&misc, argv[optind], e);
+         printf ("%s: %s\n", argv[optind], strerror (e));
+         _exit (1);
       } // if
 
 // determine filetype
