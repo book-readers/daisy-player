@@ -1,20 +1,20 @@
 AUTOMAKE_OPTIONS = foreign
+
 AM_CFLAGS = -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
             -Wunused-function -Wuninitialized -Winit-self -fno-common \
             -g -I /usr/include/libxml2/ -O3 \
             --param=ssp-buffer-size=4 -Wformat -Werror=format-security \
             -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
-AM_LDFLAGS = -l ncursesw -l sox -l xml2 -l cdio -l cdio_cdda \
-             -l cdio_paranoia -l magic -l asound -l mad
 
 bin_PROGRAMS = daisy-player
 
-ldadd =                 $(depend) @LTLIBINTL@
+ldadd = $(depend) @LTLIBINTL@
 
-DEPENDENCIES =          $(depend) \
-LDADD =			$(ldadd)
+DEPENDENCIES = $(depend)
 
-CLEANFILES =		$(EXTRA_PROGRAMS)
+LDADD =	$(ldadd)
+
+CLEANFILES = $(EXTRA_PROGRAMS)
 
 libtool: $(LIBTOOL_DEPS)
 	$(SHELL) ./config.status --recheck

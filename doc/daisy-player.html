@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of daisy-player</TITLE>
 </HEAD><BODY>
 <H1>daisy-player</H1>
-Section: Linux Reference Manual (1)<BR>Updated: 22 September 2017<BR><A HREF="#index">Index</A>
+Section: Linux Reference Manual (1)<BR>Updated: 04 October 2017<BR><A HREF="#index">Index</A>
 <A HREF="/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -15,7 +15,7 @@ Section: Linux Reference Manual (1)<BR>Updated: 22 September 2017<BR><A HREF="#i
 
 <PRE>
 <B>daisy-player</B> [<I>directory_with_a_Daisy-structure</I> |
-Daisy_book_archive] [<B>-c</B> <I>cdrom_device</I>] [<B>-d</B> <I>ALSA_sound_device</I>] [<B>-h</B>]
+Daisy_book_archive] [<B>-c</B> <I>cdrom_device</I>] [<B>-d</B> <I>pulseaudio_sound_device</I>] [<B>-h</B>]
 [<B>-i</B>] [<B>-n</B> | <B>-y</B>]
 
 </PRE>
@@ -49,14 +49,14 @@ One could also give a file in ZIP-format with a daisy structure as  argument to 
 
 <DD>
 Use DEVICE as the CD device. DEVICE is the device special file name of the CD-ROM device. The default is /dev/sr0.
-<DT><B>-d</B> <I>ALSA_sound_device</I>
+<DT><B>-d</B> <I>pulseaudio_sound_device</I>
 
 <DD>
-Daisy-player will play on this sound device. Default is &quot;hw:0&quot;.
+Daisy-player will play on this sound device. Default is &quot;0&quot;. (The first soundcard)
 <DT><B>-h</B>
 
 <DD>
-Display this help and exit.                       
+Display this help and exit.
 <DT><B>-i</B>
 
 <DD>
@@ -128,7 +128,7 @@ search for a label
 <DT><B>d</B>
 
 <DD>
-store current item to disk (Take into account the selected level)
+store current item to disk. (Take into account the selected level)
 <DT><B>D,-</B>
 
 <DD>
@@ -205,7 +205,10 @@ decrease playback volume
 <A NAME="lbAH">&nbsp;</A>
 <H2>NOTES</H2>
 
-Daisy-player uses the sox-library and the ALSA sound-driver for audio-output. On some systems <B>daisy-player</B> quits with the message that the soundcard cannot be used. I don't know how to solve this problem yet, sorry.
+On some soundcards (especially onboard cards) the alsa driver only can play one file at a time. <B>daisy-player</B> crashes sometimes on these cards. From this version on the pulseaudio sound-driver will be used instead. The pulseaudio sound system has no problems with these cards.
+<P>
+
+I don't know how to play with pulseaudio in the C function sox_open_write (). For now, the external command sox will be used instead.
 <P>
 
 When playing an Audio-CD skip-left and skip-right react a little late. The same for commands like 'U', 'D' and HOME.
@@ -217,6 +220,14 @@ When playing an Audio-CD skip-left and skip-right react a little late. The same 
 
 <DD>
 for the XML2 library.
+<DT><B>Robert Leslie &lt;<A HREF="mailto:rob@mars.org">rob@mars.org</A>&gt;</B>
+
+<DD>
+for the MPEG audio decoder (madplay).
+<DT><B>Chris Bagwell &lt;<A HREF="mailto:cbagwell@users.sourceforge.net">cbagwell@users.sourceforge.net</A>&gt;</B>
+
+<DD>
+for sox.
 </DL>
 <P>
 
@@ -229,7 +240,7 @@ Kim Nilsson &lt;<A HREF="mailto:kim.nilsson@no-substitute.com">kim.nilsson@no-su
 
 <DD>
 This directory contains the bookmarks in XML-format. . Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level.
-<DT><B>~/.daisy-player.rc</B>
+<DT><B>~/.daisy-player.xml</B>
 
 <DD>
 This file, in XML-format, contains the name of the desired audio device and the desired playing speed.
@@ -237,7 +248,7 @@ This file, in XML-format, contains the name of the desired audio device and the 
 <A NAME="lbAK">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
-<B><A HREF="/cgi-bin/man/man2html?1+cddbget">cddbget</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+unar">unar</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+eject">eject</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+udisksctl">udisksctl</A></B>(1)
+<B><A HREF="/cgi-bin/man/man2html?1+cddbget">cddbget</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+unar">unar</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+eject">eject</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+udisksctl">udisksctl</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+sox">sox</A></B>(1)
 <A NAME="lbAL">&nbsp;</A>
 <H2>AUTHOR</H2>
 
@@ -271,6 +282,6 @@ This program is free software; you can redistribute it and/or modify it under th
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 14:57:13 GMT, September 22, 2017
+Time: 14:46:21 GMT, October 04, 2017
 </BODY>
 </HTML>

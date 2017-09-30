@@ -35,7 +35,7 @@
 #include <pwd.h>
 #include <locale.h>
 #include <libintl.h>
-#include <sox.h>
+// #include <sox.h>
 #include <errno.h>
 #include <time.h>
 #include <sys/ioctl.h>
@@ -73,7 +73,7 @@ typedef struct Daisy
    char class[MAX_STR], label[100];
    char first_id[MAX_STR + 1], last_id[MAX_STR + 1];
    int level, page_number;
-   char daisy_mp[MAX_STR]; // discinfo
+   char daisy_mp[MAX_STR]; // discinfo  
    char filename[MAX_STR]; // Audio-CD
    lsn_t first_lsn, last_lsn;
 } daisy_t;
@@ -189,3 +189,4 @@ extern char *find_index_name (misc_t *, char *);
 extern void select_next_output_device (misc_t *, my_attribute_t *, daisy_t *);
 extern void set_volume (misc_t *);
 extern int madplay (char *, char *, char *, char *);
+extern void kill_player (misc_t *);

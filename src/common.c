@@ -21,13 +21,15 @@
 
 void set_volume (misc_t *misc)
 {
+   char dev[5];
    snd_mixer_t *handle;
    snd_mixer_selem_id_t *sid;
    snd_mixer_elem_t *elem;
 
    if (snd_mixer_open (&handle, 0) != 0)
       failure (misc, "snd_mixer_open", errno);
-   snd_mixer_attach (handle, misc->sound_dev);
+   snprintf (dev, 3, "hw:%s", misc->sound_dev);
+   snd_mixer_attach (handle, dev);
    snd_mixer_selem_register (handle, NULL, NULL);
    snd_mixer_load (handle);
    snd_mixer_selem_id_alloca (&sid);
@@ -161,6 +163,36 @@ void failure (misc_t *misc, char *str, int e)
 void playfile (misc_t *misc, char *in_file, char *in_type,
                char *out_file, char *out_type, char *tempo)
 {
+/*
+   This function goes wrong with pulseaudio. I can't find the solution.
+   For now, the external command sox will be used instead.
+*/
+
+   char *cmd;
+
+   fclose (stdin);
+   fclose (stdout);
+   fclose (stderr);
+   if (strcmp (in_type, "cdda") == 0)
+   {
+      cmd = malloc (strlen (in_type) + strlen (in_file) +
+                    strlen (out_type) + strlen (out_file) + 50);
+      sprintf (cmd, "sox -t cdda -L \"%s\" -t %s \"%s\" tempo -m %s",
+               in_file, out_type, out_file, tempo);
+   }
+   else
+   {
+      cmd = malloc (strlen (in_type) + strlen (in_file) +
+                    strlen (out_type) + strlen (out_file) + 50);
+      sprintf (cmd, "sox -t %s \"%s\" -t %s \"%s\" tempo -s %s",
+               in_type, in_file, out_type, out_file, tempo);
+   } // if
+   switch (system (cmd));
+   free (cmd);
+   unlink (in_file);
+   unlink (misc->tmp_wav);
+
+/*
    sox_format_t *sox_in, *sox_out;
    sox_effects_chain_t *chain;
    sox_effect_t *e;
@@ -182,14 +214,12 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
       kill (0, SIGTERM);
    } // if
    if ((sox_out = sox_open_write (out_file, &sox_in->signal,
-                                  NULL, out_type, NULL, NULL)) == NULL)
+       NULL, out_type, NULL, NULL)) == NULL)
    {
-      {
-         beep ();
-         endwin ();
-         printf ("\n%s: %s\n", out_file, strerror (EBUSY));
-         kill (0, SIGTERM);
-      } // if
+      beep ();
+      endwin ();
+      printf ("\n%s: %s\n", out_file, strerror (EBUSY));
+      kill (0, SIGTERM);
    } // if
    if (strcmp (in_type, "cdda") == 0)
    {
@@ -204,7 +234,9 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
    args[0] = (char *) sox_in, sox_effect_options (e, 1, args);
    sox_add_effect (chain, e, &sox_in->signal, &sox_in->signal);
 
-/* Don't use the sox trim effect. It works nice, but is far too slow
+/ *
+   Don't use the sox trim effect. It works nice, but is far too slow.
+   Use madplay instead.
    char str2[MAX_STR];
    snprintf (str,  MAX_STR - 1, "%f", misc->clip_begin);
    snprintf (str2, MAX_STR - 1, "%f", misc->clip_end - misc->clip_begin);
@@ -213,7 +245,7 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
    args[1] = str2;
    sox_effect_options (e, 2, args);
    sox_add_effect (chain, e, &sox_in->signal, &sox_in->signal);
-*/
+* /
 
    e = sox_create_effect (sox_find_effect ("tempo"));
 #ifdef DAISY_PLAYER
@@ -247,7 +279,8 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
    unlink (in_file);
    sox_quit ();
    unlink (misc->tmp_wav);
-} // playfile
+*/
+} // playfile    
 
 void player_ended ()
 {
@@ -422,12 +455,14 @@ int get_page_number_3 (misc_t *misc, my_attribute_t *my_attribute)
 
 void kill_player (misc_t *misc)
 {
-   kill (misc->player_pid, SIGKILL);
+   while (killpg (misc->player_pid, SIGHUP) == 0);
 #ifdef EBOOK_SPEAKER
    unlink (misc->eBook_speaker_txt);
    unlink (misc->tmp_wav);
 #endif
 #ifdef DAISY_PLAYER
+   if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
+      while (killpg (misc->cdda_pid, SIGKILL) == 0);
    unlink (misc->tmp_wav);
 #endif
 } // kill_player
@@ -941,7 +976,7 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
 {
    char pn[15];
 
-   while (kill (misc->player_pid, SIGKILL) == 0);
+   kill_player (misc);
 #ifdef DAISY_PLAYER
    if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
       misc->player_pid = -2;
@@ -1030,8 +1065,7 @@ void select_next_output_device (misc_t *misc, my_attribute_t *my_attribute,
    char *list[10], *trash;
 
    playing= misc->playing;
-   if (playing > -1)
-      pause_resume (misc, my_attribute, daisy);
+   pause_resume (misc, my_attribute, daisy);
    wclear (misc->screenwin);
    wprintw (misc->screenwin, "\n%s\n\n", gettext ("Select a soundcard:"));
    if (! (r = fopen ("/proc/asound/cards", "r")))
@@ -1057,7 +1091,7 @@ void select_next_output_device (misc_t *misc, my_attribute_t *my_attribute,
       switch (wgetch (misc->screenwin))
       {
       case 13: //
-         snprintf (misc->sound_dev, MAX_STR - 1, "hw:%i", y - 3);
+         snprintf (misc->sound_dev, MAX_STR - 1, "%d", y - 3);
          view_screen (misc, daisy);
          nodelay (misc->screenwin, TRUE);
          if (playing > -1)
