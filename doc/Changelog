@@ -272,3 +272,4 @@ Samuel Thibault <sthibault@debian.org>
 	I don't know how to play with pulseaudio in the C function
 	sox_open_write ().,
 	For now, the external command sox will be used instead.
+11.1	 store to disk works.
