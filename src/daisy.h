@@ -187,6 +187,7 @@ extern void remove_tmp_dir (misc_t *);
 extern void make_tmp_dir (misc_t *);
 extern char *find_index_name (misc_t *, char *);
 extern void select_next_output_device (misc_t *, my_attribute_t *, daisy_t *);
+extern void get_volume (misc_t *);
 extern void set_volume (misc_t *);
 extern int madplay (char *, char *, char *, char *);
 extern void kill_player (misc_t *);

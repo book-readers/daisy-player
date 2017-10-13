@@ -272,4 +272,6 @@ Samuel Thibault <sthibault@debian.org>
 	I don't know how to play with pulseaudio in the C function
 	sox_open_write ().,
 	For now, the external command sox will be used instead.
-11.1	 store to disk works.
+11.1	store to disk now works.
+11.2	Altering the playback volume only worked on the first soundcard.
+	Now playback volume works on all found cards.
