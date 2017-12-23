@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])                                               
-AC_INIT([daisy-player],[11.2],[jos@jlemmens.nl],[],[www.jlemmens.nl])
+AC_INIT([daisy-player],[11.3],[jos@jlemmens.nl],[],[www.jlemmens.nl])
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
@@ -28,7 +28,12 @@ AC_CHECK_LIB([cdio], [main])
 # FIXME: Replace `main' with a function in `-lid3':
 AC_CHECK_LIB([id3], [main])
 # FIXME: Replace `main' with a function in `-lid3tag':
-AC_CHECK_LIB([id3tag], [main])
+AC_CHECK_LIB(id3tag, id3_tag_parse, :, [
+        AC_MSG_ERROR([libid3tag was not found
+*** You must first install libid3tag before you can build this package.
+*** If libid3tag is already installed, you may need to use the LDFLAGS
+*** environment variable to specify its installed location, e.g. -L<dir>.])
+], [-lz])
 # FIXME: Replace `main' with a function in `-lcdio_cdda':
 AC_CHECK_LIB([cdio_cdda], [main])
 # FIXME: Replace `main' with a function in `-lcdio_paranoia':
@@ -38,19 +43,15 @@ AC_CHECK_LIB([magic], [main])
 # FIXME: Replace `main' with a function in `-lncursesw':
 AC_CHECK_LIB([ncursesw], [main])
 # FIXME: Replace `main' with a function in `-lsox':
-#AC_CHECK_LIB([sox], [main])                      
+#AC_CHECK_LIB([sox], [main])
 # FIXME: Replace `main' with a function in `-lxml2':
 AC_CHECK_LIB([xml2], [main])
 # FIXME: Replace `main' with a function in `-lasound':
 AC_CHECK_LIB([asound], [main])
 # FIXME: Replace `main' with a function in `-lmad':
-AC_CHECK_LIB(id3tag, id3_tag_parse, :, [
-        AC_MSG_ERROR([libid3tag was not found
-*** You must first install libid3tag before you can build this package.
-*** If libid3tag is already installed, you may need to use the LDFLAGS
-*** environment variable to specify its installed location, e.g. -L<dir>.])
-], [-lz])
 AC_CHECK_LIB([mad], [main])
+
+AC_CHECK_HEADERS([cdio/paranoia/cdda.h])
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h libintl.h locale.h stdlib.h string.h strings.h \

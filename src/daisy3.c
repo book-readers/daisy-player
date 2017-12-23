@@ -212,8 +212,8 @@ void fill_xml_anchor_ncx (misc_t *misc, my_attribute_t *my_attribute,
                        (strchr (daisy[misc->current].xml_file, '#') + 1);
                   *strchr (daisy[misc->current].xml_file, '#') = 0;
                } // if
-               daisy[misc->current].xml_file =
-                  strdup (real_name (misc, daisy[misc->current].xml_file));
+               daisy[misc->current].xml_file = strdup
+                    (convert_URL_name (misc, daisy[misc->current].xml_file));
                doc = htmlParseFile (daisy[misc->current].xml_file, "UTF-8");
                if (! (content = xmlReaderWalker (doc)))
                {
@@ -269,8 +269,8 @@ void fill_xml_anchor_ncx (misc_t *misc, my_attribute_t *my_attribute,
                             (strchr (daisy[misc->current].xml_file, '#') + 1);
                         *strchr (daisy[misc->current].xml_file, '#') = 0;
                      } // if
-                     daisy[misc->current].xml_file =
-                        strdup (real_name (misc, daisy[misc->current].xml_file));
+                     daisy[misc->current].xml_file = strdup
+                     (convert_URL_name (misc, daisy[misc->current].xml_file));
                      break;
                   } // if
                } // while
@@ -304,7 +304,7 @@ void parse_content (misc_t *misc, my_attribute_t *my_attribute,
       *strchr (daisy[misc->current].clips_file, '#') = 0;
    } // if
    daisy[misc->current].clips_file =
-      strdup (real_name (misc, daisy[misc->current].clips_file));
+      strdup (convert_URL_name (misc, daisy[misc->current].clips_file));
    if (! (doc = htmlParseFile (daisy[misc->current].clips_file, "UTF-8")))
       failure (misc, daisy[misc->current].clips_file, errno);
 #endif
@@ -403,7 +403,7 @@ void parse_text (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
                 daisy[misc->current].xml_file);
       failure (misc, str, e);
    } // if
-
+                                             
    daisy[misc->current].level = 1;
    while (1)
    {
@@ -531,7 +531,7 @@ void parse_href (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
             *strchr (daisy[misc->current].xml_file, '#') = 0;
          } // if
          daisy[misc->current].xml_file =
-            strdup (real_name (misc, daisy[misc->current].xml_file));
+            strdup (convert_URL_name (misc, daisy[misc->current].xml_file));
          parse_text (misc, my_attribute, daisy);
          xmlTextReaderClose (href);
          xmlFreeDoc (doc);
@@ -621,7 +621,7 @@ void parse_href (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
                   *strchr (daisy[misc->current].xml_file, '#') = 0;
                } // if
                daisy[misc->current].xml_file =
-                  strdup (real_name (misc, daisy[misc->current].xml_file));
+                  strdup (convert_URL_name (misc, daisy[misc->current].xml_file));
                xmlTextReaderClose (href);
                xmlFreeDoc (doc);
                return;
@@ -675,7 +675,7 @@ void parse_manifest (misc_t *misc, my_attribute_t *my_attribute,
             *strchr (daisy[misc->current].xml_file, '#') = 0;
          } // if
          daisy[misc->current].xml_file =
-            strdup (real_name (misc, daisy[misc->current].xml_file));
+            strdup (convert_URL_name (misc, daisy[misc->current].xml_file));
          parse_href (misc, my_attribute, daisy);
 #ifdef DAISY_PLAYER
          daisy[misc->current].clips_file =
@@ -790,7 +790,7 @@ void parse_smil_3 (misc_t *misc, my_attribute_t *my_attribute,
    strcat (daisy[misc->current].clips_file, "/");
    strcat (daisy[misc->current].clips_file, my_attribute->href);
    daisy[misc->current].clips_file =
-      strdup (real_name (misc, daisy[misc->current].clips_file));
+      strdup (convert_URL_name (misc, daisy[misc->current].clips_file));
    if (! (doc = htmlParseFile (daisy[misc->current].clips_file, "UTF-8")))
       failure (misc, daisy[misc->current].clips_file, errno);
    if (! (smil = xmlReaderWalker (doc)))
@@ -829,7 +829,7 @@ void parse_smil_3 (misc_t *misc, my_attribute_t *my_attribute,
             *strchr (daisy[misc->current].xml_file, '#') = 0;
          } // if
          daisy[misc->current].xml_file =
-            strdup (real_name (misc, daisy[misc->current].xml_file));
+            strdup (convert_URL_name (misc, daisy[misc->current].xml_file));
       } // if
       if (! *daisy[misc->current].first_id)
       {
@@ -922,7 +922,7 @@ void fill_xml_anchor_opf (misc_t *misc, my_attribute_t *my_attribute,
                   *strchr (daisy[misc->current].xml_file, '#') = 0;
                } // if
                daisy[misc->current].xml_file =
-                  strdup (real_name (misc, daisy[misc->current].xml_file));
+                  strdup (convert_URL_name (misc, daisy[misc->current].xml_file));
 // if it is a smil
                {
                   htmlDocPtr doc;
@@ -962,7 +962,7 @@ void fill_xml_anchor_opf (misc_t *misc, my_attribute_t *my_attribute,
                            *strchr (daisy[misc->current].xml_file, '#') = 0;
                         } // if
                         daisy[misc->current].xml_file = strdup
-                           (real_name (misc, daisy[misc->current].xml_file));
+                           (convert_URL_name (misc, daisy[misc->current].xml_file));
                         break;
                      } // if
                   } // while
@@ -999,7 +999,7 @@ void fill_xml_anchor_opf (misc_t *misc, my_attribute_t *my_attribute,
             *strchr (daisy[misc->current].clips_file, '#') = 0;
          } // if
          daisy[misc->current].clips_file =
-            strdup(real_name (misc, daisy[misc->current].clips_file));
+            strdup(convert_URL_name (misc, daisy[misc->current].clips_file));
          if (! (doc = htmlParseFile (daisy[misc->current].clips_file, "UTF-8")))
             failure (misc, daisy[misc->current].clips_file, errno);
          if ((smil = xmlReaderWalker (doc)) == NULL)
@@ -1019,8 +1019,7 @@ void fill_xml_anchor_opf (misc_t *misc, my_attribute_t *my_attribute,
                daisy[misc->current].xml_file = malloc
                  (strlen (misc->daisy_mp) + strlen (my_attribute->src) + 5);
                strcpy (daisy[misc->current].xml_file, misc->daisy_mp);
-               strcat (daisy[misc->current].xml_file, "/");
-               strcat (daisy[misc->current].xml_file, my_attribute->src);
+               strcat (daisy[misc->current].xml_file, "/");               strcat (daisy[misc->current].xml_file, my_attribute->src);
                daisy[misc->current].anchor = strdup ("");
                if (strchr (daisy[misc->current].xml_file, '#'))
                {
@@ -1029,7 +1028,7 @@ void fill_xml_anchor_opf (misc_t *misc, my_attribute_t *my_attribute,
                   *strchr (daisy[misc->current].xml_file, '#') = 0;
                } // if
                daisy[misc->current].xml_file =
-                  strdup (real_name (misc, daisy[misc->current].xml_file));
+                  strdup (convert_URL_name (misc, daisy[misc->current].xml_file));
                parse_text (misc, my_attribute, daisy);
                break;
             } // if

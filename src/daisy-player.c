@@ -1,6 +1,6 @@
 /* daisy-player
  *
- * Copyright (C)2003-2017 J. Lemmens
+ * Copyright (C)2003-2018 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -170,7 +170,7 @@ void get_bookmark (misc_t *misc, my_attribute_t *my_attribute,
    pause_resume (misc, my_attribute, daisy);
    pause_resume (misc, my_attribute, daisy);
    view_screen (misc, daisy);
-} // get_bookmark        
+} // get_bookmark
 
 void get_next_clips (misc_t *misc, my_attribute_t *my_attribute,
                     daisy_t *daisy)
@@ -182,7 +182,8 @@ void get_next_clips (misc_t *misc, my_attribute_t *my_attribute,
       eof = 1 - get_tag_or_label (misc, my_attribute, misc->reader);
       if (strcasecmp (misc->tag, "audio") == 0)
       {
-         misc->current_audio_file = real_name (misc, my_attribute->src);
+         misc->current_audio_file =
+                         convert_URL_name (misc, my_attribute->src);
          get_clips (misc, my_attribute);
          return;
       } // if
@@ -419,7 +420,7 @@ void open_clips_file (misc_t *misc, my_attribute_t *my_attribute,
 
       e = errno;
       snprintf (str, MAX_STR, "htmlParseFile (%s)", clips_file);
-      failure (misc,  str, e);                                
+      failure (misc,  str, e);
    } // if
    if (! (misc->reader = xmlReaderWalker (misc->doc)))
    {
@@ -431,7 +432,7 @@ void open_clips_file (misc_t *misc, my_attribute_t *my_attribute,
       failure (misc, str, e);
    } // if
 
-   if (*anchor == 0)
+   if (*anchor == 0)                                    
       return;
 
 // skip to anchor
@@ -447,7 +448,7 @@ void open_clips_file (misc_t *misc, my_attribute_t *my_attribute,
 void write_wav (misc_t *misc, my_attribute_t *my_attribute,
                 daisy_t *daisy, char *label)
 {
-   char *in_file, *out_file, *out_cdr, *complete_cdr, *cmd;
+   char *out_file, *out_cdr, *complete_cdr, *cmd;
    struct passwd *pw;
    int old_playing, old_displaying, old_current, old_just_this_item;
    char begin[20], duration[20];
@@ -458,7 +459,7 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
    sprintf (out_file, "%s/%s.wav", pw->pw_dir, label);
    while (access (out_file, R_OK) == 0)
    {
-      out_file = realloc (out_file, 5);
+      out_file = realloc (out_file, strlen (out_file) + 5);
       strcat (out_file, ".wav");
    } // while
 
@@ -498,7 +499,6 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
    complete_cdr = malloc (strlen (misc->tmp_dir) + 20);
    sprintf (complete_cdr, "%s/complete.cdr", misc->tmp_dir);
    w = open (complete_cdr, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
-   in_file = malloc (0);
    while (1)
    {
 #define BUF_SIZE 8192
@@ -511,12 +511,17 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
       get_next_clips (misc, my_attribute, daisy);
       snprintf (begin, 20, "%f", daisy[misc->current].begin);
       snprintf (duration, 20, "%f", daisy[misc->current].duration);
-      in_file = realloc (in_file,
-          strlen (misc->daisy_mp) + strlen (misc->current_audio_file) + 5);
-      sprintf (in_file, "%s/%s", misc->daisy_mp, misc->current_audio_file);
-      if (access (in_file, R_OK) != 0)
-         failure (misc, in_file, errno);
-      madplay (in_file, begin, duration, out_cdr);
+      if (access (misc->current_audio_file, R_OK) == -1)
+      {
+         int e;
+
+         e= errno;
+         endwin ();
+         beep ();
+         printf ("%s: %s\n", misc->current_audio_file, strerror (e));
+         _exit (0);
+      } // if
+      madplay (misc->current_audio_file, begin, duration, out_cdr);
       r = open (out_cdr, O_RDONLY);
       while ((in = read (r, &buffer, BUF_SIZE)) > 0)
       {
@@ -536,7 +541,6 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
    cmd = malloc (strlen (complete_cdr) + strlen (out_file) + 50);
    sprintf (cmd, "sox -t cdr \"%s\" -t wav \"%s\"", complete_cdr,  out_file);
    switch (system (cmd));
-   free (in_file);
    free (out_file);
    free (out_cdr);
    free (complete_cdr);
@@ -777,7 +781,7 @@ void calculate_times_3 (misc_t *misc, my_attribute_t *my_attribute,
             break;
 // get misc->clip_begin
          if (strcasecmp (misc->tag, "audio") == 0)
-         {                                 
+         {
             misc->has_audio_tag = 1;
             get_clips (misc, my_attribute);
             daisy[x].begin = misc->clip_begin;
@@ -805,7 +809,7 @@ void calculate_times_3 (misc_t *misc, my_attribute_t *my_attribute,
                   daisy[x].duration += misc->clip_end - misc->clip_begin;
                } // IF
             } // while
-            if (x < misc->total_items - 1 && *daisy[x + 1].clips_anchor)
+            if (x < misc->total_items - 1 && *daisy[x + 1].clips_anchor)     
                if (strcasecmp
                            (my_attribute->id, daisy[x + 1].clips_anchor) == 0)
                   break;
@@ -1642,7 +1646,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
 void usage (int e)
 {
    printf (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "\n");
-   puts ("(C)2003-2017 J. Lemmens\n");
+   puts ("(C)2003-2018 J. Lemmens\n");
    printf (gettext
     ("Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"),
     PACKAGE);
@@ -1742,7 +1746,7 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
                break;
          } while (! *misc->label);
          *daisy[misc->current].label = 0;
-         strncpy (daisy[misc->current].daisy_mp, 
+         strncpy (daisy[misc->current].daisy_mp,
                   dirname (daisy[misc->current].filename), MAX_STR - 1);
          daisy[misc->current].level = 1;
          daisy[misc->current].x = 0;
@@ -1767,7 +1771,7 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
 } // handle_discinfo
 
 int main (int argc, char *argv[])
-{
+{          
    int opt;
    char str[MAX_STR], DISCINFO_HTML[MAX_STR], *start_wd;
    char *c_opt, *d_opt, cddb_opt;
@@ -1876,7 +1880,7 @@ int main (int argc, char *argv[])
       failure (&misc, "No curses", errno);
    fclose (stderr);
    getmaxyx (misc.screenwin, misc.max_y, misc.max_x);
-   printw ("(C)2003-2017 J. Lemmens\n");
+   printw ("(C)2003-2018 J. Lemmens\n");
    printw (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "");
    printw ("\n");
    printw (gettext ("A parser to play Daisy CD's with Linux"));
@@ -1897,7 +1901,7 @@ int main (int argc, char *argv[])
          endwin ();
          printf (gettext ("Daisy-player - Version %s %s"),
                  PACKAGE_VERSION, "\n");
-         puts ("(C)2003-2017 J. Lemmens");
+         puts ("(C)2003-2018 J. Lemmens");
          beep ();
          remove_tmp_dir (&misc);
          printf ("%s: %s\n", argv[optind], strerror (e));
@@ -1962,7 +1966,7 @@ int main (int argc, char *argv[])
 
          if (! (dir = opendir (misc.tmp_dir)))
             failure (&misc, misc.tmp_dir, errno);
-         while ((dirent = readdir (dir)) != NULL)
+         while ((dirent = readdir (dir)) != NULL)         
          {
             if (strcasecmp (dirent->d_name, ".") == 0 ||
                 strcasecmp (dirent->d_name, "..") == 0)
@@ -2001,7 +2005,7 @@ int main (int argc, char *argv[])
          endwin ();
          printf (gettext ("Daisy-player - Version %s %s"),
                           PACKAGE_VERSION, "\n");
-         puts ("(C)2003-2017 J. Lemmens");
+         puts ("(C)2003-2018 J. Lemmens");
          beep ();
          remove_tmp_dir (&misc);
          snprintf (misc.str, MAX_STR, gettext ("Cannot read %s"),
@@ -2017,7 +2021,7 @@ int main (int argc, char *argv[])
          endwin ();
          printf (gettext ("Daisy-player - Version %s %s"),
                           PACKAGE_VERSION, "\n");
-         puts ("(C)2003-2017 J. Lemmens");
+         puts ("(C)2003-2018 J. Lemmens");
          beep ();
          remove_tmp_dir (&misc);
          printf ("\n%s is not a cd device\n", misc.cd_dev);
@@ -2116,7 +2120,7 @@ int main (int argc, char *argv[])
       } while (misc.cd_type == -1);
    } // if use misc.cd_dev
    keypad (misc.screenwin, TRUE);
-   meta (misc.screenwin,       TRUE);
+   meta (misc.screenwin, TRUE);
    nonl ();
    noecho ();
    misc.player_pid = -2;
@@ -2223,7 +2227,7 @@ int main (int argc, char *argv[])
 
    wattron (misc.titlewin, A_BOLD);
    snprintf (str, MAX_STR - 1, gettext (
-        "Daisy-player - Version %s - (C)2017 J. Lemmens"), PACKAGE_VERSION);
+        "Daisy-player - Version %s - (C)2018 J. Lemmens"), PACKAGE_VERSION);
    mvwprintw (misc.titlewin, 0, 0, str);
    wrefresh (misc.titlewin);
 
@@ -2238,7 +2242,7 @@ int main (int argc, char *argv[])
    wprintw (misc.titlewin, "----------------------------------------");
    mvwprintw (misc.titlewin, 1, 0, "%s ", gettext ("Press 'h' for help"));
    misc.level = 1;
-   *misc.search_str = 0;
+   misc.search_str = misc.path_name = strdup ("");
    snprintf (misc.tmp_wav, MAX_STR, "%s/daisy-player.wav", misc.tmp_dir);
    if ((misc.tmp_wav_fd = mkstemp (misc.tmp_wav)) == 01)
       failure (&misc, "mkstemp ()", errno);

@@ -1,5 +1,5 @@
 /* header file for daisy-player
- *  Copyright (C)2017 J. Lemmens
+ *  Copyright (C)2018 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -43,12 +43,18 @@
 #include <libxml/xmlwriter.h>
 #include <libxml/HTMLparser.h>
 #include <cdio/cdio.h>
-#include <cdio/cdda.h>
-#include <cdio/paranoia.h>
+#ifdef HAVE_CDIO_PARANOIA_CDDA_H
+   #include <cdio/paranoia/cdda.h>
+   #include <cdio/paranoia/paranoia.h>
+#else
+   #include <cdio/cdda.h>
+   #include <cdio/paranoia.h>
+#endif
 #include <cdio/disc.h>
 #include <magic.h>
 #include <alsa/asoundlib.h>
 #include <alsa/mixer.h>
+#include <fnmatch.h>
 
 #undef PACKAGE
 #undef PACKAGE_BUGREPORT
@@ -126,7 +132,7 @@ typedef struct Misc
    char tag[MAX_TAG], *label;
    int label_len;
    char bookmark_title[MAX_STR];
-   char search_str[MAX_STR + 1];
+   char *search_str, *path_name;
    char cd_dev[MAX_STR], sound_dev[MAX_STR];
    char cddb_flag, opf_name[MAX_STR], ncx_name[MAX_STR];
    char use_ncx, use_opf;
@@ -180,7 +186,7 @@ extern void put_bookmark (misc_t *);
 extern void parse_page_number (misc_t *, my_attribute_t *, xmlTextReaderPtr);
 extern void fill_daisy_struct_2 (misc_t *, my_attribute_t *, daisy_t *);
 extern void fill_page_numbers (misc_t *, daisy_t *, my_attribute_t *);
-extern char *real_name (misc_t *, char *);
+extern char *convert_URL_name (misc_t *, char *);
 extern void go_to_page_number (misc_t *, my_attribute_t *, daisy_t *);
 extern void parse_smil_3 (misc_t *, my_attribute_t *, daisy_t *);
 extern void remove_tmp_dir (misc_t *);
@@ -191,3 +197,4 @@ extern void get_volume (misc_t *);
 extern void set_volume (misc_t *);
 extern int madplay (char *, char *, char *, char *);
 extern void kill_player (misc_t *);
+extern void get_path_name (misc_t *, char *, char *);
