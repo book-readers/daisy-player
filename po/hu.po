@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2018-01-05 22:18+0100\n"
+"POT-Creation-Date: 2018-01-27 17:13+0100\n"
 "PO-Revision-Date: 2013-12-09 11:06+0200\n"
 "Last-Translator: JimmiXzSq <jimos45812rt1@hotmail.com>\n"
 "Language-Team: JimmiXzSq <jimos45812rt1@hotmail.com>\n"
@@ -31,39 +31,39 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/common.c:328 src/common.c:404 src/daisy2.02.c:45 src/daisy2.02.c:200
+#: src/common.c:230 src/common.c:306 src/daisy2.02.c:45 src/daisy2.02.c:200
 #: src/daisy3.c:156 src/daisy3.c:225 src/daisy3.c:322 src/daisy3.c:402
 #: src/daisy3.c:502 src/daisy3.c:655 src/daisy3.c:712 src/daisy3.c:803
-#: src/daisy3.c:879 src/daisy3.c:1098 src/daisy3.c:1228 src/daisy-player.c:760
+#: src/daisy3.c:879 src/daisy3.c:1099 src/daisy3.c:1229 src/daisy-player.c:760
 #: src/daisy-player.c:1701 src/daisy-player.c:1730 src/daisy-player.c:2011
 #: src/daisy-player.c:2157
 #, c-format
 msgid "Cannot read %s"
 msgstr "A(z) %s nem olvashatÃ³"
 
-#: src/common.c:685
+#: src/common.c:587
 msgid "Please try to play this book with daisy-player"
 msgstr ""
 "Kérjük, próbálja meg játszani ezt a könyvet a daisy-player segítségével"
 
-#: src/common.c:1015
+#: src/common.c:917
 #, c-format
 msgid "Cannot read type: %d"
 msgstr "Nem lehet olvasni a típus: %d"
 
-#: src/common.c:1093
+#: src/common.c:995
 msgid "Go to page number:"
 msgstr "Ugrás az oldalszámra:"
 
-#: src/common.c:1111
+#: src/common.c:1013
 msgid "Please wait..."
 msgstr "Kérlek várj..."
 
-#: src/common.c:1170
+#: src/common.c:1072
 msgid "Select a soundcard:"
 msgstr "VÃ¡lasszon hangkÃ¡rtya:"
 
-#: src/common.c:1172
+#: src/common.c:1074
 msgid "Cannot read /proc/asound/cards"
 msgstr "A /proc/asound/cards fÃ¡jl nem olvashatÃ³."
 
@@ -75,7 +75,7 @@ msgstr "Ez a kÃ¶nyv nincs hang.  JÃ¡tszani ezt a kÃ¶nyvet eBook-speaker"
 msgid "No items found. Try option \"-N\"."
 msgstr "jicLbQdR"
 
-#: src/daisy3.c:1208
+#: src/daisy3.c:1209
 msgid "No items found. Try option \"-O\"."
 msgstr "iihdprvBoJep"
 
@@ -132,7 +132,7 @@ msgstr "ENTER          - a lejÃ¡tszÃ¡s megkezdÃ©se"
 
 #: src/daisy-player.c:645
 msgid "space,0         - pause/resume playing"
-msgstr "SZÃKÃZ,0       - a lejÃ¡tszÃ¡s szÃ¼neteltetÃ©se Ã©s folytatÃ¡sa"
+msgstr "SZÃKÃZ,0     - a lejÃ¡tszÃ¡s szÃ¼neteltetÃ©se Ã©s folytatÃ¡sa"
 
 #: src/daisy-player.c:647
 msgid "home,*          - play on normal speed"
@@ -161,9 +161,7 @@ msgstr "e,.   - kilÃ©p daisy-player, beletenni egy kÃ¶nyvjelzÅt, Ã©s ki
 #: src/daisy-player.c:663
 msgid ""
 "f               - find the currently playing item and place the cursor there"
-msgstr ""
-"f     - az aktuÃ¡lisan jÃ¡tszott elem helyÃ©nek megkeresÃ©se, Ã©s        a "
-"kurzor elhelyezÃ©se az elem helyÃ©re"
+msgstr "f     - keresse meg az éppen lejátszott elemet és helyezze a kurzort"
 
 #: src/daisy-player.c:666
 msgid "g               - go to time in this song (MM:SS)"
@@ -295,9 +293,9 @@ msgid "Get titles from freedb.freedb.org..."
 msgstr "A szÃ¡mcÃ­mek lekÃ©rÃ©se a freedb.freedb.org kiszolgÃ¡lÃ³rÃ³l..."
 
 #: src/daisy-player.c:2230
-#, fuzzy, c-format
+#, c-format
 msgid "Daisy-player - Version %s - (C)2018 J. Lemmens"
-msgstr "Daisy-player - %s verziÃ³ - (C)2017 J. Lemmens"
+msgstr "Daisy-player - %s verziÃ³ - (C)2018 J. Lemmens"
 
 #: src/daisy-player.c:2243
 msgid "Press 'h' for help"

@@ -18,6 +18,10 @@
 
 #define _GNU_SOURCE
 
+#ifdef HAVE_CONFIG_H
+  #include "config.h"
+#endif
+
 #include <string.h>
 #include <libgen.h>
 #include <stdio.h>
@@ -35,7 +39,7 @@
 #include <pwd.h>
 #include <locale.h>
 #include <libintl.h>
-// #include <sox.h>
+#include <sox.h>
 #include <errno.h>
 #include <time.h>
 #include <sys/ioctl.h>

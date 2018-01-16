@@ -199,12 +199,13 @@ void fill_daisy_struct_2 (misc_t *misc, my_attribute_t *my_attribute,
       e = errno;
       snprintf (misc->str, MAX_STR, gettext ("Cannot read %s"), misc->ncc_html);
       failure (misc, misc->str, e);
-   } // if
+   } // if                           
 
    for (misc->current = 0; misc->current < misc->total_items;
         misc->current++)
    {
       *daisy[misc->current].label = 0;
+      daisy[misc->current].clips_file = strdup ("");
       daisy[misc->current].page_number = 0;
 #ifdef DAISY_PLAYER
       *daisy[misc->current].class = 0;

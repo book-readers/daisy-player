@@ -1771,7 +1771,7 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
 } // handle_discinfo
 
 int main (int argc, char *argv[])
-{          
+{
    int opt;
    char str[MAX_STR], DISCINFO_HTML[MAX_STR], *start_wd;
    char *c_opt, *d_opt, cddb_opt;
