@@ -37,7 +37,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 bin_PROGRAMS = madtest
 
-EXTRA_DIST = ABOUT-NL aclocal.m4 am ar-lib autom4te.cache CHANGES \
+EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib autom4te.cache CHANGES \
              compile config.guess config.h config.h.in config.status \
              config.sub configure configure.ac COPYING COPYRIGHT \
              CREDITS depcomp INSTALL install-sh m4 Makefile.am \

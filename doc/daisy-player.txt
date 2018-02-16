@@ -17,8 +17,8 @@ A list of items on the Daisy-CD or Audio-CD will appear. Press <ENTER> to start 
 OPTIONS
 directory_with_a_Daisy-structure  One could also give a directory with a daisy structure as argument to daisy-player.
 Daisy_book_in_ZIP_format  One could also give a file in ZIP-format with a daisy structure as  argument to daisy-player.
--c cdrom_device  Use DEVICE as the CD device. DEVICE is the device special file name of the CD-ROM device. The default is /dev/sr0.
--d pulseaudio_sound_device  Daisy-player will play on this sound device. Default is "0". (The first soundcard)
+-c cdrom_device  Use DEVICE as the CD device. DEVICE is the device special file name of the CD-ROM device. The default is /dev/sr0. Be sure the user is a member of the group cdrom.
+-d pulseaudio_sound_device  Daisy-player will play on this sound device. Default is "0". (The first soundcard).  Be sure the user is a member of the group audio.
 -h  Display this help and exit.
 -i  Ignore reading of the bookmarks.
 -n  Don't fetch cddb-information of an Audio-CD from the internet.
@@ -84,7 +84,7 @@ FILES
 ~/.daisy-player.xml  This file, in XML-format, contains the name of the desired audio device and the desired playing speed.
 
 SEE ALSO
-cddbget(1), unar(1), eject(1), udisksctl(1), sox(1)
+cddbget(1), unar(1), eject(1), udisksctl(1), sox(1), pulseaudio(1)
 AUTHOR
 Jos Lemmens <jos@jlemmens.nl>
 COPYRIGHT

@@ -820,7 +820,7 @@ void get_attributes (misc_t *misc, my_attribute_t *my_attribute,
    snprintf (attr, MAX_STR - 1, "%s", (char *)
            xmlTextReaderGetAttribute (ptr, (const xmlChar *) "sound_dev"));
    if (strcmp (attr, "(null)"))
-      strncpy (misc->sound_dev, attr, MAX_STR - 1);
+      misc->sound_dev = strdup (attr);
    snprintf (attr, MAX_STR - 1, "%s", (char *)
         xmlTextReaderGetAttribute (ptr, (const xmlChar *) "ocr_language"));
    if (strcmp (attr, "(null)"))
@@ -1093,7 +1093,8 @@ void select_next_output_device (misc_t *misc, my_attribute_t *my_attribute,
       switch (wgetch (misc->screenwin))
       {
       case 13: //
-         snprintf (misc->sound_dev, MAX_STR - 1, "%d", y - 3);
+         misc->sound_dev = malloc (3);
+         snprintf (misc->sound_dev, 3, "%d", y - 3);
          view_screen (misc, daisy);
          nodelay (misc->screenwin, TRUE);
          if (playing > -1)

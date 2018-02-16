@@ -31,6 +31,8 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
    misc->current = 0;
    while (1)
    {
+      if (! daisy[misc->current].clips_file)
+         continue;
       if (*daisy[misc->current].clips_file == 0)
          continue;
       if (! (doc = htmlParseFile (daisy[misc->current].clips_file, "UTF-8")))
@@ -199,7 +201,7 @@ void fill_daisy_struct_2 (misc_t *misc, my_attribute_t *my_attribute,
       e = errno;
       snprintf (misc->str, MAX_STR, gettext ("Cannot read %s"), misc->ncc_html);
       failure (misc, misc->str, e);
-   } // if                           
+   } // if
 
    for (misc->current = 0; misc->current < misc->total_items;
         misc->current++)
