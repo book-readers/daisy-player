@@ -279,3 +279,7 @@ Samuel Thibault <sthibault@debian.org>
 	(ISO9660 fs is case-insensitive by default)
 11.3.1	Added a Czech translation
 11.3.2	Convert ALSA devicename into pulseaudio devicename.
+11.3.3	Another polish translation added.
+11.4	Another French translation added.
+	The external command sox is no longer needed.
+	daisy-player now uses the sox library.

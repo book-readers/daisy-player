@@ -20,7 +20,6 @@ libtool: $(LIBTOOL_DEPS)
 	$(SHELL) ./config.status --recheck
 
 .c.s:
-	cd madplay && ./configure && make
 	$(COMPILE) -S $<
 
 again:
@@ -30,7 +29,7 @@ again:
 .PHONY: profile again
 
 daisy_player_SOURCES = daisy.h audiocd.c paranoia.c common.c daisy2.02.c \
-                       daisy3.c daisy-player.c \
+                       daisy3.c daisy-player.c playfile.c \
                        madplay/global.h madplay/madplay.c madplay/audio.c \
                        madplay/version.h madplay/audio.h \
                        madplay/crc.c madplay/version.c madplay/tag.c \

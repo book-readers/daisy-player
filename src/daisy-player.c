@@ -18,7 +18,7 @@
  */
 
 #include "daisy.h"
-
+          
 void put_bookmark (misc_t *misc)
 {
    xmlTextWriterPtr writer;
@@ -404,7 +404,8 @@ void start_playing (misc_t *misc, daisy_t *daisy)
    madplay (misc->current_audio_file, begin, duration, misc->tmp_wav);
    snprintf (tempo_str, 10, "%lf", misc->speed);
    misc->player_pid = setpgrp ();
-   playfile (misc, misc->tmp_wav, "wav", misc->sound_dev, "pulseaudio", tempo_str);
+   playfile (misc, misc->tmp_wav, "wav", misc->sound_dev, "pulseaudio",
+             tempo_str);
    _exit (0);
 } // start_playing
 
@@ -448,7 +449,7 @@ void open_clips_file (misc_t *misc, my_attribute_t *my_attribute,
 void write_wav (misc_t *misc, my_attribute_t *my_attribute,
                 daisy_t *daisy, char *label)
 {
-   char *out_file, *out_cdr, *complete_cdr, *cmd;
+   char *out_file, *out_cdr, *complete_cdr;
    struct passwd *pw;
    int old_playing, old_displaying, old_current, old_just_this_item;
    char begin[20], duration[20];
@@ -536,15 +537,11 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
          break;
       misc->current += 1;
    } // while
-   close (w);
-//   playfile (misc, complete_cdr, "cdr", out_file, "wav", "1");
-   cmd = malloc (strlen (complete_cdr) + strlen (out_file) + 50);
-   sprintf (cmd, "sox -t cdr \"%s\" -t wav \"%s\"", complete_cdr,  out_file);
-   switch (system (cmd));
+   close (w);        
+   playfile (misc, complete_cdr, "cdr", out_file, "wav", "1");
    free (out_file);
    free (out_cdr);
    free (complete_cdr);
-   free (cmd);
    misc->playing = old_playing;
    misc->displaying = old_displaying;
    misc->current= old_current;
@@ -1777,7 +1774,6 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
 
 int main (int argc, char *argv[])
 {
-
    int opt;
    char str[MAX_STR], DISCINFO_HTML[MAX_STR], *start_wd;
    char *c_opt, *d_opt, cddb_opt;
@@ -1806,8 +1802,6 @@ int main (int argc, char *argv[])
    *misc.xmlversion = 0;
 // If option '-h' exit before load_xml ()
    make_tmp_dir (&misc);
-   if (access ("/usr/bin/sox", R_OK) != 0)
-      failure (&misc, "daisy-player needs the sox package.", errno);
    misc.sound_dev = strdup ("0");
    misc.cddb_flag = 'y';
    if (! setlocale (LC_ALL, ""))
@@ -1823,7 +1817,7 @@ int main (int argc, char *argv[])
    c_opt = d_opt = NULL;
    cddb_opt = 0;
    while ((opt = getopt (argc, argv, "c:d:hijnyON")) != -1)
-   {
+   {                                           
       switch (opt)
       {
       case 'c':

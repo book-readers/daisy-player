@@ -104,36 +104,6 @@ void failure (misc_t *misc, char *str, int e)
    _exit (-1);
 } // failure
 
-void playfile (misc_t *misc, char *in_file, char *in_type,
-               char *out_file, char *out_type, char *tempo)
-{
-   char *cmd;
-
-   fclose (stdin);
-   fclose (stdout);
-   fclose (stderr);
-#ifdef DAISY_PLAYER
-   if (strcmp (in_type, "cdda") == 0)
-   {
-      cmd = malloc (strlen (in_type) + strlen (in_file) +
-                    strlen (out_type) + strlen (out_file) + 50);
-      sprintf (cmd, "sox -t cdda -L \"%s\" -t %s \"%s\" tempo -m %s",
-               in_file, out_type, out_file, tempo);
-   }
-   else
-#endif
-   {
-      cmd = malloc (strlen (in_type) + strlen (in_file) +
-                    strlen (out_type) + strlen (out_file) + 50);
-      sprintf (cmd, "sox -t %s \"%s\" -t %s \"%s\" tempo -s %s",
-               in_type, in_file, out_type, out_file, tempo);
-   } // if
-   switch (system (cmd));
-   free (cmd);
-   unlink (in_file);
-   unlink (misc->tmp_wav);
-} // playfile
-
 void player_ended ()
 {
    wait (NULL);
@@ -600,10 +570,12 @@ daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute)
       misc->total_items = misc->items_in_opf;
    switch (chdir (misc->daisy_mp));
 #ifdef EBOOK_SPEAKER
+/* jos
    snprintf (misc->eBook_speaker_txt, MAX_STR,
              "%s/eBook-speaker.txt", misc->daisy_mp);
    snprintf (misc->tmp_wav, MAX_STR,
              "%s/eBook-speaker.wav", misc->daisy_mp);
+jos */
 #endif
    if (misc->total_items == 0)
       misc->total_items = 1;
