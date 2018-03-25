@@ -48,7 +48,6 @@
 #include <libxml/HTMLparser.h>
 #include <cdio/cdio.h>
 #ifdef HAVE_CDIO_PARANOIA_CDDA_H
-   #include <cdio/paranoia/cdda.h>
    #include <cdio/paranoia/paranoia.h>
 #else
    #include <cdio/cdda.h>

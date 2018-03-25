@@ -18,7 +18,7 @@
  */
 
 #include "daisy.h"
-          
+
 void put_bookmark (misc_t *misc)
 {
    xmlTextWriterPtr writer;
@@ -551,6 +551,8 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
 
 void pause_resume (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
 {
+   if (misc->playing < 0 && misc->pause_resume_playing < 0)
+      return;
    if (misc->playing > -1)
    {
       misc->pause_resume_playing = misc->playing;
@@ -569,8 +571,6 @@ void pause_resume (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
                                      misc->pause_resume_lsn_cursor - 75 * 4);
       return;
    } // if
-   if (misc->playing < 0)
-      return;
    open_clips_file (misc, my_attribute, daisy[misc->playing].clips_file,
                     daisy[misc->playing].clips_anchor);
    while (1)
@@ -1406,6 +1406,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
             misc->player_pid = -2;
          misc->playing = misc->just_this_item = -1;
+         misc->pause_resume_playing = -1;
          view_screen (misc, daisy);
          wmove (misc->screenwin, daisy[misc->current].y,
                                  daisy[misc->current].x);

@@ -171,7 +171,7 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
 
 void get_label_2 (misc_t *misc, daisy_t *daisy, int indent)
 {
-   strncpy (daisy[misc->current].label, misc->label, 80);
+   strncpy (daisy[misc->current].label, misc->label, COLS);
    if (misc->displaying == misc->max_y)
       misc->displaying = 1;
    if (*daisy[misc->current].class)

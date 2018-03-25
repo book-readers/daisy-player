@@ -283,3 +283,5 @@ Samuel Thibault <sthibault@debian.org>
 11.4	Another French translation added.
 	The external command sox is no longer needed.
 	daisy-player now uses the sox library.
+11.4.1	Little mistake in "THANKS TO" solved. (manual)
+	pause_resume() function improvements.
