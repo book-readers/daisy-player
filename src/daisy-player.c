@@ -303,7 +303,7 @@ void view_time (misc_t *misc, daisy_t *daisy)
 
 void view_screen (misc_t *misc, daisy_t *daisy)
 {
-   int i, x, x2;
+   int i, x, x2,  hours, minutes, seconds;
    float time;
 
    mvwprintw (misc->titlewin, 1, 0,
@@ -322,9 +322,9 @@ void view_screen (misc_t *misc, daisy_t *daisy)
             misc->level, misc->depth);
    wprintw (misc->titlewin, " ");
    time = misc->total_time / misc->speed;
-   int hours   = time / 3600;
-   int minutes = (time - hours * 3600) / 60;
-   int seconds = time - (hours * 3600 + minutes * 60);
+   hours   = time / 3600;
+   minutes = (time - hours * 3600) / 60;
+   seconds = time - (hours * 3600 + minutes * 60);
    mvwprintw (misc->titlewin, 1, 47, " ");
    wprintw (misc->titlewin, gettext ("total length: %02d:%02d:%02d"),
               hours, minutes,seconds);
@@ -373,7 +373,7 @@ void view_screen (misc_t *misc, daisy_t *daisy)
    wrefresh (misc->screenwin);
    view_page (misc, daisy);
    view_time (misc, daisy);
-} // view_screen
+} // view_screen         
 
 void start_playing (misc_t *misc, daisy_t *daisy)
 {
@@ -394,8 +394,7 @@ void start_playing (misc_t *misc, daisy_t *daisy)
       return;
    } // switch
 
-   char tempo_str[15];
-   char begin[20], duration[20];
+   char tempo_str[15], begin[20], duration[20];
 
    view_page (misc, daisy);
    lseek (misc->tmp_wav_fd, SEEK_SET, 0);
@@ -403,7 +402,6 @@ void start_playing (misc_t *misc, daisy_t *daisy)
    snprintf (duration, 20, "%f", misc->clip_end - misc->clip_begin);
    madplay (misc->current_audio_file, begin, duration, misc->tmp_wav);
    snprintf (tempo_str, 10, "%lf", misc->speed);
-   misc->player_pid = setpgrp ();
    playfile (misc, misc->tmp_wav, "wav", misc->sound_dev, "pulseaudio",
              tempo_str);
    _exit (0);
@@ -924,6 +922,9 @@ void quit_daisy_player (misc_t *misc, daisy_t *daisy)
    unlink (misc->tmp_wav);
    puts ("");
    remove_tmp_dir (misc);
+   snprintf (misc->cmd, MAX_CMD,
+             "udisksctl unmount -b %s --force > /dev/null", misc->cd_dev);
+   system (misc->cmd);
 } // quit_daisy_player
 
 void search (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy,

@@ -31,6 +31,8 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
    misc->current = 0;
    while (1)
    {
+      if (misc->current == misc->total_items)
+         break;
       if (! daisy[misc->current].clips_file)
          continue;
       if (*daisy[misc->current].clips_file == 0)
@@ -248,7 +250,7 @@ void fill_daisy_struct_2 (misc_t *misc, my_attribute_t *my_attribute,
                break;
          } while (strcasecmp (misc->tag, "a") != 0);
          daisy[misc->current].clips_file = malloc
-                  (strlen (misc->daisy_mp) + strlen (my_attribute->href) + 3);
+                  (strlen (misc->daisy_mp) + strlen (my_attribute->href) + 5);
          strcpy (daisy[misc->current].clips_file, misc->daisy_mp);
          strcat (daisy[misc->current].clips_file, "/");
          strcat (daisy[misc->current].clips_file, my_attribute->href);
