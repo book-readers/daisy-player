@@ -19,57 +19,6 @@
 
 #include "daisy.h"
 
-
-void get_volume (misc_t *misc)
-{
-   char dev[MAX_STR + 10];
-   snd_mixer_t *handle;
-   snd_mixer_selem_id_t *sid;
-   snd_mixer_elem_t *elem;
-
-   if (snd_mixer_open (&handle, atoi (misc->sound_dev)) != 0)
-   {
-      failure (misc, "snd_mixer_open", errno);
-   } // if
-   sprintf (dev, "hw:%s", misc->sound_dev);
-   snd_mixer_attach (handle, dev);
-   snd_mixer_selem_register (handle, NULL, NULL);
-   snd_mixer_load (handle);
-   snd_mixer_selem_id_alloca (&sid);
-   snd_mixer_selem_id_set_index (sid, 0);
-   snd_mixer_selem_id_set_name (sid, "Master");
-   if ((elem = snd_mixer_find_selem (handle, sid)) == NULL)
-   {
-      failure (misc, "No ALSA device found\n", errno);
-   } // if   
-   snd_mixer_selem_get_playback_volume_range (elem,
-      &misc->min_vol, &misc->max_vol);
-   snd_mixer_selem_get_playback_volume (elem, atoi (misc->sound_dev), &misc->volume);
-   snd_mixer_close (handle);
-} // get_volume
-
-void set_volume (misc_t *misc)
-{
-   char dev[MAX_STR + 10];
-   snd_mixer_t *handle;
-   snd_mixer_selem_id_t *sid;
-   snd_mixer_elem_t *elem;
-
-   if (snd_mixer_open (&handle, atoi (misc->sound_dev)) != 0)
-      failure (misc, "snd_mixer_open", errno);
-   sprintf (dev, "hw:%s", misc->sound_dev);
-   snd_mixer_attach (handle, dev);
-   snd_mixer_selem_register (handle, NULL, NULL);
-   snd_mixer_load (handle);
-   snd_mixer_selem_id_alloca (&sid);
-   snd_mixer_selem_id_set_index (sid, 0);
-   snd_mixer_selem_id_set_name (sid, "Master");
-   if ((elem = snd_mixer_find_selem (handle, sid)) == NULL)
-      failure (misc, "No ALSA device found", errno);
-   snd_mixer_selem_set_playback_volume_all (elem, misc->volume);
-   snd_mixer_close (handle);
-} // set_volume
-
 char *convert_URL_name (misc_t *misc, char *file)
 {
    int i, j;
@@ -103,10 +52,10 @@ void failure (misc_t *misc, char *str, int e)
 {
    endwin ();
    beep ();
-   fprintf (stderr, "\n\n%s: %s\n", str, strerror (e));
+   printf ("\n\n%s: %s\n", str, strerror (e));
    fflush (stdout);
    remove_tmp_dir (misc);
-   _exit (-1);
+   kill (misc->player_pid * -1, SIGTERM);
 } // failure
 
 void player_ended ()
@@ -355,8 +304,13 @@ void skip_right (misc_t *misc, daisy_t *daisy)
    kill_player (misc);
 } // skip_right
 
+#ifdef DAISY_PLAYER
 int handle_ncc_html (misc_t *misc, my_attribute_t *my_attribute,
                      daisy_t *daisy)
+#endif
+#ifdef EBOOK_SPEAKER
+   int handle_ncc_html (misc_t *misc, my_attribute_t *my_attribute)
+#endif
 {
 // lookfor "ncc.html"
    htmlDocPtr doc;
@@ -501,8 +455,13 @@ void create_ncc_html (misc_t *misc)
    free (namelist);
 } // create_ncc_html
 
+#ifdef DAISY_PLAYER
 daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute,
                           daisy_t *daisy)
+#endif
+#ifdef EBOOK_SPEAKER
+daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute)
+#endif
 {
    htmlDocPtr doc;
    xmlTextReaderPtr ptr;
@@ -515,7 +474,12 @@ daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute,
 // lookfor "ncc.html"
    if (*misc->ncc_html)
    {
+#ifdef DAISY_PLAYER
       misc->total_items = handle_ncc_html (misc, my_attribute, daisy);
+#endif
+#ifdef EBOOK_SPEAKER
+      misc->total_items = handle_ncc_html (misc, my_attribute);
+#endif
       return calloc (misc->total_items + 1, sizeof (daisy_t));
    } // if ncc.html
 
@@ -534,7 +498,12 @@ daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute,
    if (*misc->ncc_html == 0 && *misc->ncx_name == 0 && *misc->opf_name == 0)
    {
       create_ncc_html (misc);
+#ifdef DAISY_PLAYER
       misc->total_items = handle_ncc_html (misc, my_attribute, daisy);
+#endif
+#ifdef EBOOK_SPEAKER
+      misc->total_items = handle_ncc_html (misc, my_attribute);
+#endif
       return (daisy_t *) calloc (misc->total_items + 1, sizeof (daisy_t));
    } // if
 
@@ -585,14 +554,6 @@ daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute,
    if (misc->items_in_opf > misc->items_in_ncx)
       misc->total_items = misc->items_in_opf;
    switch (chdir (misc->daisy_mp));
-#ifdef EBOOK_SPEAKER
-/* jos
-   snprintf (misc->eBook_speaker_txt, MAX_STR,
-             "%s/eBook-speaker.txt", misc->daisy_mp);
-   snprintf (misc->tmp_wav, MAX_STR,
-             "%s/eBook-speaker.wav", misc->daisy_mp);
-jos */
-#endif
    return (daisy_t *) calloc (misc->total_items + 1, sizeof (daisy_t));
 } // create_daisy_struct
 
@@ -804,9 +765,9 @@ void get_attributes (misc_t *misc, my_attribute_t *my_attribute,
    if (strcmp (attr, "(null)"))
       strncpy (my_attribute->smilref, attr, MAX_STR - 1);
    snprintf (attr, MAX_STR - 1, "%s", (char *)
-           xmlTextReaderGetAttribute (ptr, (const xmlChar *) "sound_dev"));
+           xmlTextReaderGetAttribute (ptr, (const xmlChar *) "pulseaudio_device"));
    if (strcmp (attr, "(null)"))
-      misc->sound_dev = strdup (attr);
+      misc->pulseaudio_device = strdup (attr);
    snprintf (attr, MAX_STR - 1, "%s", (char *)
         xmlTextReaderGetAttribute (ptr, (const xmlChar *) "ocr_language"));
    if (strcmp (attr, "(null)"))
@@ -1044,33 +1005,75 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
    } // while
 } // go_to_page_number
 
-void select_next_output_device (misc_t *misc, my_attribute_t *my_attribute,
-                                daisy_t *daisy)
+void select_next_output_device (misc_t *misc, daisy_t *daisy)
 {
-   FILE *r;
-   int n, y, playing;
+   FILE *p;
+   int n, y;
    size_t bytes;
-   char *list[10], *trash;
+   char *card;
 
-   playing= misc->playing;
-   pause_resume (misc, my_attribute, daisy);
    wclear (misc->screenwin);
    wprintw (misc->screenwin, "\n%s\n\n", gettext ("Select a soundcard:"));
-   if (! (r = fopen ("/proc/asound/cards", "r")))
-      failure (misc, gettext ("Cannot read /proc/asound/cards"), errno);
+   p = popen ("/usr/bin/pacmd list-cards", "r");
    for (n = 0; n < 10; n++)
    {
-      list[n] = (char *) malloc (1000);
-      bytes = getline (&list[n], &bytes, r);
+      int m;
+
+      misc->pulseaudio_device = malloc (10);
+      sprintf (misc->pulseaudio_device, "%d", n);
+      do
+      {
+         card = NULL;
+         bytes = 0;
+         bytes = getline (&card, &bytes, p);
+         if ((int) bytes == -1)
+         {
+            card = NULL;
+            break;
+         } // if
+      } while (strcasestr (card, "index:") == NULL);
+
+      while (1)
+      {
+         card = NULL;
+         bytes = 0;
+         bytes = getline (&card, &bytes, p);
+         if ((int) bytes == -1)
+         {
+            card = NULL;
+            break;
+         } // if
+         if (strcasestr (card, "device.vendor.name"))
+         {
+            for (m = 0; m < (int) strlen (card); m++)
+               if (card[m] == '=')
+                  break;
+            card += m + 3;
+            if (strlen (card) > 2)
+               card[strlen (card) - 2] = 0;
+            wprintw (misc->screenwin, "   %d %s ", n, card);
+            wrefresh (misc->screenwin);
+            continue;
+         } // if
+
+         if (strcasestr (card, "device.product.name"))
+         {
+            for (m = 0; m < (int) strlen (card); m++)
+               if (card[m] == '=')
+                  break;
+            card += m + 3;
+            if (strlen (card) > 2)
+               card[strlen (card) - 2] = 0;
+            wprintw (misc->screenwin, "%s\n", card);
+            wrefresh (misc->screenwin);
+            break;
+         } // if
+      } // while
       if ((int) bytes == -1)
          break;
-      trash = (char *) malloc (1000);
-      bytes = getline (&trash, &bytes, r);
-      free (trash);
-      wprintw (misc->screenwin, "   %s", list[n]);
-      free (list[n]);
    } // for
-   fclose (r);
+   wrefresh (misc->screenwin);
+   fclose (p);
    y = 3;
    nodelay (misc->screenwin, FALSE);
    for (;;)
@@ -1079,12 +1082,10 @@ void select_next_output_device (misc_t *misc, my_attribute_t *my_attribute,
       switch (wgetch (misc->screenwin))
       {
       case 13: //
-         misc->sound_dev = malloc (3);
-         snprintf (misc->sound_dev, 3, "%d", y - 3);
+         misc->pulseaudio_device = malloc (10);
+         snprintf (misc->pulseaudio_device, 3, "%d", y - 3);
          view_screen (misc, daisy);
          nodelay (misc->screenwin, TRUE);
-         if (playing > -1)
-            pause_resume (misc, my_attribute, daisy);
          return;
       case KEY_DOWN:
          if (++y == n + 3)
@@ -1095,11 +1096,8 @@ void select_next_output_device (misc_t *misc, my_attribute_t *my_attribute,
             y = n + 2;
          break;
       default:
-         view_screen (misc, daisy);
-         nodelay (misc->screenwin, TRUE);
-         if (playing > -1)
-            pause_resume (misc, my_attribute, daisy);
-         return;
+         beep ();
+         break;
       } // switch
    } // for
 } // select_next_output_device

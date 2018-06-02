@@ -402,8 +402,8 @@ void start_playing (misc_t *misc, daisy_t *daisy)
    snprintf (duration, 20, "%f", misc->clip_end - misc->clip_begin);
    madplay (misc->current_audio_file, begin, duration, misc->tmp_wav);
    snprintf (tempo_str, 10, "%lf", misc->speed);
-   playfile (misc, misc->tmp_wav, "wav", misc->sound_dev, "pulseaudio",
-             tempo_str);
+   playfile (misc, misc->tmp_wav, "wav", misc->pulseaudio_device,
+             "pulseaudio", tempo_str);
    _exit (0);
 } // start_playing
 
@@ -481,7 +481,6 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
       } while (++misc->lsn_cursor <= daisy[misc->current].last_lsn);
       if (misc->par)
          paranoia_free (misc->par);
-// The .wav file is not correctly closed; I don't know the solution, sorry.
       free (out_file);
       kill (pid, SIGQUIT);
       return;
@@ -535,7 +534,7 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
          break;
       misc->current += 1;
    } // while
-   close (w);        
+   close (w);
    playfile (misc, complete_cdr, "cdr", out_file, "wav", "1");
    free (out_file);
    free (out_cdr);
@@ -551,6 +550,8 @@ void pause_resume (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
 {
    if (misc->playing < 0 && misc->pause_resume_playing < 0)
       return;
+   if (*misc->pulseaudio_device == 0)
+      select_next_output_device (misc, daisy);
    if (misc->playing > -1)
    {
       misc->pause_resume_playing = misc->playing;
@@ -565,7 +566,7 @@ void pause_resume (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
    misc->lsn_cursor = misc->pause_resume_lsn_cursor;
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
    {
-      misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
+      misc->player_pid = play_track (misc, misc->pulseaudio_device, "pulseaudio",
                                      misc->pause_resume_lsn_cursor - 75 * 4);
       return;
    } // if
@@ -867,10 +868,7 @@ void load_xml (misc_t *misc, my_attribute_t *my_attribute)
    snprintf (str, MAX_STR - 1, "%s/.daisy-player.xml", pw->pw_dir);
    doc = xmlRecoverFile (str);
    if (! (reader = xmlReaderWalker (doc)))
-   {
-      strncpy (misc->sound_dev, "0", MAX_STR - 1);
       return;
-   } // if
    do
    {
       if (! get_tag_or_label (misc, my_attribute, reader))
@@ -897,7 +895,7 @@ void save_xml (misc_t *misc)
    xmlTextWriterStartDocument (writer, NULL, NULL, NULL);
    xmlTextWriterStartElement (writer, BAD_CAST "prefs");
    xmlTextWriterWriteFormatAttribute
-      (writer, BAD_CAST "sound_dev", "%s", misc->sound_dev);
+      (writer, BAD_CAST "pulseaudio_device", "%s", misc->pulseaudio_device);
    xmlTextWriterWriteFormatAttribute (writer, BAD_CAST "speed", "%lf",
                                       misc->speed);
    xmlTextWriterWriteFormatAttribute
@@ -922,6 +920,8 @@ void quit_daisy_player (misc_t *misc, daisy_t *daisy)
    unlink (misc->tmp_wav);
    puts ("");
    remove_tmp_dir (misc);
+   if (misc->mounted_by_daisy_player == 0)
+      return;
    snprintf (misc->cmd, MAX_CMD,
              "udisksctl unmount -b %s --force > /dev/null", misc->cd_dev);
    system (misc->cmd);
@@ -1005,8 +1005,8 @@ void search (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy,
       if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
       {
          misc->elapsed_seconds = time (NULL);
-         misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
-                daisy[misc->current].first_lsn);
+         misc->player_pid = play_track (misc, misc->pulseaudio_device,
+                             "pulseaudio", daisy[misc->current].first_lsn);
       }
       else
          open_clips_file (misc, my_attribute, daisy[misc->current].clips_file,
@@ -1076,7 +1076,7 @@ void go_to_time (misc_t *misc, daisy_t *daisy, my_attribute_t *my_attribute)
    } // if
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
    {
-      misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
+      misc->player_pid = play_track (misc, misc->pulseaudio_device, "pulseaudio",
                          daisy[misc->current].first_lsn + (secs * 75));
       misc->elapsed_seconds = time (NULL) - secs;
       misc->prev_id = strdup (misc->current_id);
@@ -1176,11 +1176,8 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
    misc->pause_resume_playing = misc->just_this_item = -1;
    misc->label_len = 0;
    get_bookmark (misc, my_attribute, daisy);
-
-// convert ALSA device name into pulseaudio device name
-   if (strncmp (misc->sound_dev, "hw:", 3) == 0)
-      misc->sound_dev += 3;
-
+   if (*misc->pulseaudio_device == 0)
+      select_next_output_device (misc, daisy);
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
    {
       for (i = 0; i < misc->total_items; i++)
@@ -1189,8 +1186,8 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          daisy[i].page_number = 0;
       } // for
       misc->depth = 1;
-      misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
-                      daisy[misc->current].first_lsn + (misc->seconds * 75));
+      misc->player_pid = play_track (misc, misc->pulseaudio_device,
+         "pulseaudio", daisy[misc->current].first_lsn + (misc->seconds * 75));
       misc->elapsed_seconds = time (NULL) - misc->seconds;
    } // if
    view_screen (misc, daisy);
@@ -1205,7 +1202,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
       _exit (-1);
    } // if
 
-   for (;;)
+   for (;;) // forever
    {
       switch (wgetch (misc->screenwin))
       {
@@ -1226,23 +1223,23 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
             len = strlen (wd) + strlen ( PACKAGE) +
                   strlen (misc->daisy_mp) +
                   strlen (daisy[misc->current].daisy_mp) +
-                  strlen (misc->sound_dev) + 100;
+                  strlen (misc->pulseaudio_device) + 100;
             str = malloc (len);
             snprintf (str, len,
                       "cd \"%s\"; \"%s\" \"%s\"/\"%s\" -d %s",
                       wd, PACKAGE, misc->daisy_mp,
-                      daisy[misc->current].daisy_mp, misc->sound_dev);
+                      daisy[misc->current].daisy_mp, misc->pulseaudio_device);
             switch (system (str));
             snprintf (str, len,
                       "cd \"%s\"; \"%s\" \"%s\" -d %s\n", wd, PACKAGE,
-                      misc->daisy_mp, misc->sound_dev);
+                      misc->daisy_mp, misc->pulseaudio_device);
             switch (system (str));
             quit_daisy_player (misc, daisy);
             _exit (0);
          } // if
          if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
          {
-            misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
+            misc->player_pid = play_track (misc, misc->pulseaudio_device, "pulseaudio",
                 daisy[misc->current].first_lsn);
             misc->elapsed_seconds = time (NULL);
             break;
@@ -1340,7 +1337,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
             misc->player_pid = -2;
             if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
             {
-               misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
+               misc->player_pid = play_track (misc, misc->pulseaudio_device, "pulseaudio",
                    daisy[misc->current].first_lsn);
             }
             else
@@ -1393,7 +1390,16 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          search (misc, my_attribute, daisy, misc->current - 1, 'N');
          break;
       case 'o':
-         select_next_output_device (misc, my_attribute, daisy);
+         if (misc->playing > -1)
+         {
+            pause_resume (misc, my_attribute, daisy);
+            misc->player_pid = -2;
+            misc->playing = misc->just_this_item = -1;
+            view_screen (misc, daisy);
+         } // if
+         select_next_output_device (misc, daisy);
+         misc->playing = -1;
+         pause_resume (misc, my_attribute, daisy);
          break;
       case 'p':
          put_bookmark (misc);
@@ -1462,7 +1468,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
                   _exit (0);
                } // if
             } // if
-            misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
+            misc->player_pid = play_track (misc, misc->pulseaudio_device, "pulseaudio",
                                misc->lsn_cursor);
             break;
          } // if
@@ -1485,7 +1491,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
                   if (misc->lsn_cursor < daisy[misc->playing].first_lsn)
                      misc->lsn_cursor = daisy[misc->playing].first_lsn;
             } // if
-            misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
+            misc->player_pid = play_track (misc, misc->pulseaudio_device, "pulseaudio",
                         misc->lsn_cursor);
             break;
          } // if
@@ -1552,25 +1558,31 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          break;
       case 'v':
       case '1':
-         get_volume (misc);
-         if (misc->volume <= misc->min_vol)
+         switch (fork ())
          {
-            beep ();
+         case 0:
+            sprintf (misc->str, "pactl set-sink-volume %s ",
+                     misc->pulseaudio_device);
+            strcat (misc->str, "-5%");
+            system (misc->str);
+            _exit (0);
+         default:
             break;
-         } // if
-         misc->volume -= 1;
-         set_volume (misc);
+         } // switch
          break;
       case 'V':
       case '7':
-         get_volume (misc);
-         if (misc->volume >= misc->max_vol)
+         switch (fork ())
          {
-            beep ();
+         case 0:
+            sprintf (misc->str, "pactl set-sink-volume %s ",
+                     misc->pulseaudio_device);
+            strcat (misc->str, "+5%");
+            system (misc->str);
+            _exit (0);
+         default:
             break;
-         } // if
-         misc->volume += 1;
-         set_volume (misc);
+         } // switch
          break;
       default:
          beep ();
@@ -1654,7 +1666,7 @@ void usage (int e)
    printf (gettext
     ("Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"),
     PACKAGE);
-   printf ("\n%s ", gettext ("[-c cdrom_device] [-d pulseaudio_sound_device]"));
+   printf ("\n%s ", gettext ("[-c cdrom_device] [-d pulseaudio_pulseaudio_deviceice]"));
    printf ("[-h] [-i] [-n | -y]\n");
    fflush (stdout);
    _exit (e);
@@ -1677,8 +1689,7 @@ char *get_mount_point (misc_t *misc)
          break;
    } // while
    fclose (proc);
-   if (strcasestr (str, "iso9660") ||
-       strcasestr (str, "udf"))
+   if (strcasestr (str, "iso9660") || strcasestr (str, "udf"))
    {
       misc->daisy_mp = strdup (strchr (str, ' ') + 1);
       *strchr (misc->daisy_mp, ' ') = 0;
@@ -1776,6 +1787,7 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
 
 int main (int argc, char *argv[])
 {
+
    int opt;
    char str[MAX_STR], DISCINFO_HTML[MAX_STR], *start_wd;
    char *c_opt, *d_opt, cddb_opt;
@@ -1784,6 +1796,16 @@ int main (int argc, char *argv[])
    daisy_t *daisy;
    struct sigaction usr_action;
 
+   if (access ("/usr/bin/pacmd", X_OK) == -1)
+   {
+      int e;
+
+      e = errno;
+      printf ("\7\n\n%s: %s\n", gettext
+   ("Be sure the package pulseaudio-utils is installed onto your system."),
+              strerror (e));
+      _exit (0);
+   } // if
    daisy = NULL;
    misc.tmp_dir = misc.label = NULL;
    misc.speed = 1;
@@ -1802,10 +1824,10 @@ int main (int argc, char *argv[])
    usr_action.sa_flags = 0;
    sigaction (SIGCHLD, &usr_action, NULL);
    *misc.xmlversion = 0;
-// If option '-h' exit before load_xml ()
    make_tmp_dir (&misc);
-   misc.sound_dev = strdup ("0");
+   misc.pulseaudio_device = strdup ("");
    misc.cddb_flag = 'y';
+   misc.pause_resume_id = strdup ("");
    if (! setlocale (LC_ALL, ""))
       failure (&misc, "setlocale ()", errno);
    if (! setlocale (LC_NUMERIC, "C"))
@@ -1819,7 +1841,7 @@ int main (int argc, char *argv[])
    c_opt = d_opt = NULL;
    cddb_opt = 0;
    while ((opt = getopt (argc, argv, "c:d:hijnyON")) != -1)
-   {                                           
+   {
       switch (opt)
       {
       case 'c':
@@ -1827,8 +1849,8 @@ int main (int argc, char *argv[])
          c_opt = strdup (misc.cd_dev);
          break;
       case 'd':
-         misc.sound_dev = strdup (optarg);
-         d_opt = strdup (misc.sound_dev);
+         misc.pulseaudio_device = strdup (optarg);
+         d_opt = strdup (misc.pulseaudio_device);
          break;
       case 'h':
          free (start_wd);
@@ -1863,7 +1885,7 @@ int main (int argc, char *argv[])
          misc.use_OPF = 1;
          break;
       default:
-         beep ();             
+         beep ();
          remove_tmp_dir (&misc);
          usage (1);
       } // switch
@@ -1873,7 +1895,7 @@ int main (int argc, char *argv[])
    if (c_opt)
       strncpy (misc.cd_dev, c_opt, MAX_STR - 1);
    if (d_opt)
-      misc.sound_dev = strdup (d_opt);
+      misc.pulseaudio_device = strdup (d_opt);
    if (cddb_opt)
       misc.cddb_flag = cddb_opt;
    initscr ();
@@ -1889,7 +1911,7 @@ int main (int argc, char *argv[])
    printw ("\n");
    printw (gettext ("Scanning for a Daisy CD..."));
    refresh ();
-   misc.total_pages = 0;
+   misc.total_pages = misc.mounted_by_daisy_player = 0;
 
    if (argv[optind])
 // if there is an argument
@@ -1968,7 +1990,7 @@ int main (int argc, char *argv[])
 
          if (! (dir = opendir (misc.tmp_dir)))
             failure (&misc, misc.tmp_dir, errno);
-         while ((dirent = readdir (dir)) != NULL)         
+         while ((dirent = readdir (dir)) != NULL)
          {
             if (strcasecmp (dirent->d_name, ".") == 0 ||
                 strcasecmp (dirent->d_name, "..") == 0)
@@ -2076,21 +2098,24 @@ int main (int argc, char *argv[])
          case CDIO_DISC_MODE_CD_MIXED:
          {
             endwin ();
-            do
-// if not found a mounted cd, try to mount one
+            if (get_mount_point (&misc) == NULL)
             {
-               if (time (NULL) - start >= 10)
+// if not found a mounted cd, try to mount one
+               do
                {
-                  endwin ();
-                  printf ("%s\n", gettext ("No Daisy CD in drive."));
-                  remove_tmp_dir (&misc);
-                  _exit (0);
-               } // if
-               snprintf (misc.cmd, MAX_CMD,
+                  if (time (NULL) - start >= 10)
+                  {
+                     endwin ();
+                     printf ("%s\n", gettext ("No Daisy CD in drive."));
+                     remove_tmp_dir (&misc);
+                     _exit (0);
+                  } // if
+                  snprintf (misc.cmd, MAX_CMD,
                          "udisksctl mount -b %s > /dev/null", misc.cd_dev);
-               switch (system (misc.cmd));
-               get_mount_point (&misc);
-            } while (! get_mount_point (&misc));
+                  switch (system (misc.cmd));
+                  misc.mounted_by_daisy_player = 1;
+               } while (get_mount_point (&misc) == NULL);
+            } // if
             misc.titlewin = newwin (2, 80,  0, 0);
             misc.screenwin = newwin (23, 80, 2, 0);
             break;
@@ -2248,6 +2273,9 @@ int main (int argc, char *argv[])
    snprintf (misc.tmp_wav, MAX_STR, "%s/daisy-player.wav", misc.tmp_dir);
    if ((misc.tmp_wav_fd = mkstemp (misc.tmp_wav)) == 01)
       failure (&misc, "mkstemp ()", errno);
+   misc.pause_resume_playing = -1;
+   if (misc.ignore_bookmark)
+      select_next_output_device (&misc, daisy);
    browse (&misc, &my_attribute, daisy, start_wd);
    return 0;
 } // main

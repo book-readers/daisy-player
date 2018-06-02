@@ -286,3 +286,6 @@ Samuel Thibault <sthibault@debian.org>
 11.4.1	Little mistake in "THANKS TO" solved. (manual)
 	pause_resume() function improvements.
 11.4.2	unmount daisy-cd before quiting.
+11.5	Drop the use of ALSA.
+	Alter volume using the pulseaudio pactl utility.
+	Only unmount cd if daisy-player has mounted it by itself.

@@ -1,10 +1,10 @@
 AUTOMAKE_OPTIONS = foreign
 
 AM_CFLAGS = -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
-            -Wunused-function -Wuninitialized -Winit-self -fno-common \
             -g -I /usr/include/libxml2/ -O3 \
             --param=ssp-buffer-size=4 -Wformat -Werror=format-security \
-            -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
+            -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\" \
+            -fkeep-static-functions
 
 bin_PROGRAMS = daisy-player
 
@@ -20,7 +20,9 @@ libtool: $(LIBTOOL_DEPS)
 	$(SHELL) ./config.status --recheck
 
 .c.s:
-	$(COMPILE) -S $<
+	(cd madplay && make)
+	(cd pulseaudio/ && make)
+	$(COMPILE) -S $<                   
 
 again:
 	$(MAKE) clean
@@ -38,6 +40,7 @@ daisy_player_SOURCES = daisy.h audiocd.c paranoia.c common.c daisy2.02.c \
                        madplay/crc.h madplay/gettext.h madplay/resample.h \
                        madplay/rgain.c \
                        madplay/filter.c madplay/player.h \
-                       madplay/filter.h madplay/audio_cdda.c
+                       madplay/filter.h madplay/audio_cdda.c 
+#                       pulseaudio/utils/pactl.c
 
 localedir = $(datadir)/locale

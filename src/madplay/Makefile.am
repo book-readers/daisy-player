@@ -21,7 +21,7 @@
 ## so by contacting the author: Robert Leslie <rob@mars.org>
 ##
 ## $Id: Makefile.am,v 1.36 2004/02/23 21:34:53 rob Exp $
-##                        
+##
 
 AUTOMAKE_OPTIONS = foreign
 
@@ -29,7 +29,8 @@ AM_CFLAGS = -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
             -Wunused-function -Wuninitialized -Winit-self -fno-common \
             -I /usr/include/libxml2/ -O3 \
             --param=ssp-buffer-size=4 -Wformat -Werror=format-security \
-            -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
+            -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\" \
+            -flto=3 -fkeep-static-functions
 
 DIST_SUBDIRS =	 m4
 
@@ -50,6 +51,7 @@ madtest_SOURCES = global.h madplay.c gettext.h version.c resample.c \
                   filter.c tag.c crc.c rgain.c player.h player.c \
                   version.h resample.h filter.h tag.h crc.h rgain.h \
                   audio_cdda.c $(default_audio) madtest.c
+
 madtest_DEPENDENCIES = $(depend_audio) $(DEPENDENCIES)
 madtest_LDADD = $(ldadd_audio) $(LDADD) $(ldadd_libid3tag)
 
@@ -76,7 +78,7 @@ profile: madtest
 	gprof madtest | less
 
 .c.s:
-	$(COMPILE) -S $<
+	$(COMPILE) -S $< -fwhole-program
 
 again:
 	$(MAKE) clean

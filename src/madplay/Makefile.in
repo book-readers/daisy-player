@@ -345,7 +345,8 @@ AM_CFLAGS = -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
             -Wunused-function -Wuninitialized -Winit-self -fno-common \
             -I /usr/include/libxml2/ -O3 \
             --param=ssp-buffer-size=4 -Wformat -Werror=format-security \
-            -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
+            -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\" \
+            -flto=3 -fkeep-static-functions
 
 DIST_SUBDIRS = m4
 ACLOCAL_AMFLAGS = -I m4
@@ -941,7 +942,7 @@ profile: madtest
 	gprof madtest | less
 
 .c.s:
-	$(COMPILE) -S $<
+	$(COMPILE) -S $< -fwhole-program
 
 again:
 	$(MAKE) clean
