@@ -1666,7 +1666,8 @@ void usage (int e)
    printf (gettext
     ("Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"),
     PACKAGE);
-   printf ("\n%s ", gettext ("[-c cdrom_device] [-d pulseaudio_pulseaudio_deviceice]"));
+   printf ("\n%s ",
+           gettext ("[-c cdrom_device] [-d pulseaudio_sound_device]"));
    printf ("[-h] [-i] [-n | -y]\n");
    fflush (stdout);
    _exit (e);
@@ -1787,7 +1788,6 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
 
 int main (int argc, char *argv[])
 {
-
    int opt;
    char str[MAX_STR], DISCINFO_HTML[MAX_STR], *start_wd;
    char *c_opt, *d_opt, cddb_opt;

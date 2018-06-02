@@ -21,9 +21,8 @@ libtool: $(LIBTOOL_DEPS)
 
 .c.s:
 	(cd madplay && make)
-	(cd pulseaudio/ && make)
-	$(COMPILE) -S $<                   
-
+	$(COMPILE) -S $<
+                                                   
 again:
 	$(MAKE) clean
 	$(MAKE)
@@ -40,7 +39,6 @@ daisy_player_SOURCES = daisy.h audiocd.c paranoia.c common.c daisy2.02.c \
                        madplay/crc.h madplay/gettext.h madplay/resample.h \
                        madplay/rgain.c \
                        madplay/filter.c madplay/player.h \
-                       madplay/filter.h madplay/audio_cdda.c 
-#                       pulseaudio/utils/pactl.c
+                       madplay/filter.h madplay/audio_cdda.c
 
 localedir = $(datadir)/locale
