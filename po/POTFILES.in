@@ -1,9 +1,11 @@
-# List of source files which contain translatable strings.
+# List of source files containing translatable strings.
+# Copyright (C) 1995 Free Software Foundation, Inc.
 
-src/audiocd.c
+# Common library files
+
+# Package source files
+
 src/common.c
 src/daisy2.02.c
 src/daisy3.c
 src/daisy-player.c
-src/paranoia.c
-src/playfile.c

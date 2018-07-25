@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([daisy-player], [11.5.1], [jos@jlemmens.nl], [], [www.jlemmens.nl])
+AC_INIT([daisy-player], [11.6], [jos@jlemmens.nl], [], [www.jlemmens.nl])
 AM_INIT_AUTOMAKE([subdir-objects])                 
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
@@ -175,7 +175,7 @@ AC_ARG_ENABLE(profiling, AS_HELP_STRING([--enable-profiling],[generate profiling
     esac
 ])
 
-AC_ARG_ENABLE(debugging, AS_HELP_STRING([--enable-debugging],[enable diagnostic debugging support])
+AC_ARG_ENABLE(debugging, AS_HELP_STRING([--enable-debugging],[enable diagnostic debugging support])
 AS_HELP_STRING([--disable-debugging],[do not enable debugging and use more optimization]),
 [
     case "$enableval" in
@@ -226,7 +226,15 @@ AC_OUTPUT
 dnl madplay stuff
 
 echo
-echo "configure madplay..."
+echo "Configure madplay..."
 echo
 
 (cd src/madplay && ./configure)
+
+dnl pulseaudio/pactl stuff
+
+echo
+echo "Configure pulseaudio/pactl..."
+echo
+
+(cd src/pulseaudio && ./configure)

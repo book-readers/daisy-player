@@ -60,10 +60,8 @@
 #undef PACKAGE_TARNAME
 #undef PACKAGE_URL
 #undef PACKAGE_VERSION
-#undef VERSION
-#ifdef HAVE_CONFIG_H
-   #include "config.h"
-#endif
+#undef VERSION     
+#include "config.h"
 
 #define MAX_CMD 512
 #define MAX_STR 256
@@ -198,3 +196,4 @@ extern int madplay (char *, char *, char *, char *);
 extern void kill_player (misc_t *);
 extern void get_path_name (misc_t *, char *, char *);
 extern long time (char *);
+extern void pactl (char *, char *);

@@ -1,14 +1,13 @@
 AUTOMAKE_OPTIONS = foreign
 
-AM_CFLAGS = -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
+AM_CFLAGS = -I . -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
             -g -I /usr/include/libxml2/ -O3 \
             --param=ssp-buffer-size=4 -Wformat -Werror=format-security \
-            -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\" \
-            -fkeep-static-functions
+            -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
 
 bin_PROGRAMS = daisy-player
 
-ldadd = $(depend) @LTLIBINTL@
+ldadd = $(depend) @LTLIBINTL@ -lpulse
 
 DEPENDENCIES = $(depend)
 
@@ -21,24 +20,24 @@ libtool: $(LIBTOOL_DEPS)
 
 .c.s:
 	(cd madplay && make)
+	(cd pulseaudio/src && make)
 	$(COMPILE) -S $<
-                                                   
-again:
+
+again:                    
 	$(MAKE) clean
 	$(MAKE)
 
 .PHONY: profile again
 
-daisy_player_SOURCES = daisy.h audiocd.c paranoia.c common.c daisy2.02.c \
-                       daisy3.c daisy-player.c playfile.c \
-                       madplay/global.h madplay/madplay.c madplay/audio.c \
-                       madplay/version.h madplay/audio.h \
+daisy_player_SOURCES = madplay/madplay.c madplay/audio.c \
                        madplay/crc.c madplay/version.c madplay/tag.c \
-                       madplay/rgain.h madplay/player.c \
-                       madplay/tag.h madplay/audio_wave.c madplay/resample.c \
-                       madplay/crc.h madplay/gettext.h madplay/resample.h \
-                       madplay/rgain.c \
-                       madplay/filter.c madplay/player.h \
-                       madplay/filter.h madplay/audio_cdda.c
+                       madplay/player.c madplay/audio_wave.c \
+                       madplay/resample.c madplay/rgain.c \
+                       madplay/filter.c madplay/audio_cdda.c \
+                       pulseaudio/src/core-util.c \
+                       pulseaudio/src/strbuf.c \
+                       pulseaudio/src/pactl.c \
+                       audiocd.c paranoia.c common.c daisy2.02.c \
+                       daisy3.c daisy-player.c playfile.c
 
 localedir = $(datadir)/locale

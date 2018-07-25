@@ -1558,32 +1558,20 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          break;
       case 'v':
       case '1':
-         switch (fork ())
+         if (fork () == 0)
          {
-         case 0:
-            sprintf (misc->str, "pactl set-sink-volume %s ",
-                     misc->pulseaudio_device);
-            strcat (misc->str, "-5%");
-            system (misc->str);
+            pactl (misc->pulseaudio_device, "-5%");
             _exit (0);
-         default:
-            break;
-         } // switch
+         } // if
          break;
       case 'V':
       case '7':
-         switch (fork ())
+         if (fork () == 0)
          {
-         case 0:
-            sprintf (misc->str, "pactl set-sink-volume %s ",
-                     misc->pulseaudio_device);
-            strcat (misc->str, "+5%");
-            system (misc->str);
+            pactl (misc->pulseaudio_device, "+5%");
             _exit (0);
-         default:
-            break;
-         } // switch
-         break;
+         } // if
+         break; 
       default:
          beep ();
          break;
@@ -1796,16 +1784,6 @@ int main (int argc, char *argv[])
    daisy_t *daisy;
    struct sigaction usr_action;
 
-   if (access ("/usr/bin/pacmd", X_OK) == -1)
-   {
-      int e;
-
-      e = errno;
-      printf ("\7\n\n%s: %s\n", gettext
-   ("Be sure the package pulseaudio-utils is installed onto your system."),
-              strerror (e));
-      _exit (0);
-   } // if
    daisy = NULL;
    misc.tmp_dir = misc.label = NULL;
    misc.speed = 1;

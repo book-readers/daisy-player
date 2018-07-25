@@ -134,8 +134,8 @@ CFLAGS = -g -O2
 CPP = gcc -E
 CPPFLAGS = 
 CXX = g++
-CXXDEPMODE = depmode=none
-CXXFLAGS = 
+CXXDEPMODE = depmode=gcc3
+CXXFLAGS = -g -O2
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -171,14 +171,14 @@ SET_MAKE =
 SHELL = /bin/bash
 STRIP = 
 VERSION = 0.15.2b
-YACC = yacc
+YACC = bison -y
 YFLAGS = 
 abs_builddir = /home/jos/src/own_stuff/daisy-player/src/madplay/m4
 abs_srcdir = /home/jos/src/own_stuff/daisy-player/src/madplay/m4
 abs_top_builddir = /home/jos/src/own_stuff/daisy-player/src/madplay
 abs_top_srcdir = /home/jos/src/own_stuff/daisy-player/src/madplay
 ac_ct_CC = gcc
-ac_ct_CXX = 
+ac_ct_CXX = g++
 am__include = include
 am__leading_dot = .
 am__quote = 

@@ -289,3 +289,5 @@ Samuel Thibault <sthibault@debian.org>
 11.5	Drop the use of ALSA.
 	Alter volume using the pulseaudio pactl utility.
 	Only unmount cd if daisy-player has mounted it by itself.
+11.6	The external command pactl is no longer needed.
+	pactl is now built-in.

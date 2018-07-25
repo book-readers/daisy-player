@@ -19,8 +19,8 @@ AC_REVISION([$Id: configure.ac,v 1.17 2004/02/23 21:34:53 rob Exp $])dnl
 
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([MPEG audio decoder and player],[0.15.2b],[rob@mars.org],[madtest])
-AC_PREREQ([2.69])
+AC_INIT([MPEG audio decoder and player], [0.15.2b], [rob@mars.org], [madtest])
+AC_PREREQ([2.69])                                                   
 
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_FILES([Makefile
@@ -128,13 +128,6 @@ ldadd_audio=""
 AC_SUBST(depend_audio)
 AC_SUBST(ldadd_audio)
 AC_MSG_CHECKING([for audio support])
-
-if test "$audio" = unknown
-then
-    AC_EGREP_CPP(waveOutOpen, [
-# include <mmsystem.h>
-], [audio="win32"; ldadd_audio="$ldadd_audio -lwinmm"])
-fi
 
 AC_MSG_RESULT($audio)
 

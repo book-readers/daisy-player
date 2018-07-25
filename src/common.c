@@ -570,7 +570,7 @@ void make_tmp_dir (misc_t *misc)
    misc->tmp_dir = strdup ("/tmp/" PACKAGE ".XXXXXX");
    if (! mkdtemp (misc->tmp_dir))
    {
-      int e;
+      int e;                                        
 
       e = errno;
       beep ();

@@ -166,8 +166,7 @@ DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(top_srcdir)/m4/Makefile.in ABOUT-NLS COPYING ChangeLog \
 	INSTALL ar-lib compile config.guess config.rpath config.sub \
-	depcomp install-sh ltmain.sh mdate-sh missing mkinstalldirs \
-	py-compile ylwrap
+	depcomp install-sh ltmain.sh missing mkinstalldirs ylwrap
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -352,45 +351,175 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = man doc po src/madplay src
+SUBDIRS = man doc po src
 ACLOCAL_AMFLAGS = -I m4
-EXTRA_DIST = config.rpath m4/Makefile.in src/gettext.h doc/COMPILE \
-             doc/Changelog doc/License doc/Readme doc/daisy-player.* \
-             man/daisy-player.1 icons/daisy-player.svg \
-             icons/48x48/daisy-player.png icons/72x72/daisy-player.png \
-             ltmain.sh \
-             src/madplay/ABOUT-NLS src/madplay/aclocal.m4 src/madplay/am \
-             src/madplay/ar-lib src/madplay/CHANGES src/madplay/compile \
-             src/madplay/config.guess src/madplay/config.h \
-             src/madplay/config.h.in src/madplay/config.status \
-             src/madplay/config.sub src/madplay/configure \
-             src/madplay/configure.ac src/madplay/configure.scan \
-             src/madplay/COPYING src/madplay/COPYRIGHT src/madplay/CREDITS \
-             src/madplay/depcomp src/madplay/INSTALL src/madplay/install-sh \
-             src/madplay/.libs src/madplay/m4 src/madplay/m4/ChangeLog \
-             src/madplay/m4/codeset.m4 src/madplay/m4/gettext.m4 \
-             src/madplay/m4/glibc21.m4 src/madplay/m4/iconv.m4 \
-             src/madplay/m4/intdiv0.m4 src/madplay/m4/intmax.m4 \
-             src/madplay/m4/inttypes_h.m4 src/madplay/m4/inttypes.m4 \
-             src/madplay/m4/inttypes-pri.m4 src/madplay/m4/isc-posix.m4 \
-             src/madplay/m4/lcmessage.m4 src/madplay/m4/lib-ld.m4 \
-             src/madplay/m4/lib-link.m4 src/madplay/m4/lib-prefix.m4 \
-             src/madplay/m4/longdouble.m4 src/madplay/m4/longlong.m4 \
-             src/madplay/m4/Makefile.am src/madplay/m4/Makefile.in \
-             src/madplay/m4/nls.m4 src/madplay/m4/po.m4 \
-             src/madplay/m4/printf-posix.m4 src/madplay/m4/progtest.m4 \
-             src/madplay/m4/signed.m4 src/madplay/m4/size_max.m4 \
-             src/madplay/m4/stdint_h.m4 src/madplay/m4/uintmax_t.m4 \
-             src/madplay/m4/ulonglong.m4 src/madplay/m4/wchar_t.m4 \
-             src/madplay/m4/wint_t.m4 src/madplay/m4/xsize.m4 \
+EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib ChangeLog compile \
+             config.guess config.sub \
+             config.h.in configure configure.ac COPYING \
+             doc/ABOUT-NLS doc/Changelog doc/COMPILE doc/COPYING \
+             doc/daisy-player.description doc/daisy-player.desktop \
+             doc/daisy-player.html doc/daisy-player.menu \
+             doc/daisy-player.png doc/daisy-player.txt doc/License \
+             doc/Makefile.am doc/Makefile.in doc/Readme doc/TODO \
+             icons INSTALL install-sh m4 \
+             Makefile.am Makefile.in man missing mkinstalldirs \
+             po/af.gmo \
+             po/af.po \
+             po/boldquot.sed \
+             po/ChangeLog \
+             po/cs.gmo \
+             po/cs.po \
+             po/daisy-player.pot \
+             po/de.gmo \
+             po/de.po \
+             po/en@boldquot.gmo \
+             po/en@boldquot.header \
+             po/en@boldquot.po \
+             po/en@quot.gmo \
+             po/en@quot.header \
+             po/en@quot.po \
+             po/es_ES.gmo \
+             po/es_ES.po \
+             po/es_GT.gmo \
+             po/es_GT.org \
+             po/es_GT.po \
+             po/es_GT.txt \
+             po/fi.gmo \
+             po/fi.po \
+             po/fr.gmo \
+             po/fr.po \
+             po/fr.po.chexkei \
+             po/fr.po.Osvaldo \
+             po/hu.gmo \
+             po/hu.Hammer_Attila.po \
+             po/hu.JimmiXzSq.po \
+             po/hu.po \
+             po/insert-header.sin \
+             po/LINGUAS \
+             po/Makefile \
+             po/Makefile.in \
+             po/Makefile.in.in \
+             po/Makevars \
+             po/Makevars.template \
+             po/messages.po \
+             po/ml.gmo \
+             po/ml.org \
+             po/ml.po \
+             po/nb.gmo \
+             po/nb.po \
+             po/nl.gmo \
+             po/nl.po \
+             po/pl.gmo \
+             po/pl.Patryk_Doering \
+             po/pl.po \
+             po/POTFILES \
+             po/POTFILES.in \
+             po/pt.gmo \
+             po/pt.po \
+             po/quot.sed \
+             po/remove-potcdate.sin \
+             po/Rules-quot \
+             po/sl.gmo \
+             po/sl.po \
+             po/sv.gmo \
+             po/sv.po \
+             src/daisy.h src/gettext.h \
+             src/madplay/ABOUT-NLS \
+             src/madplay/aclocal.m4 \
+             src/madplay/am \
+             src/madplay/ar-lib \
+             src/madplay/audio.h \
+             src/madplay/CHANGES \
+             src/madplay/compile \
+             src/madplay/config.guess \
+             src/madplay/config.h.in \
+             src/madplay/config.sub \
+             src/madplay/configure \
+             src/madplay/configure.ac \
+             src/madplay/COPYING \
+             src/madplay/COPYRIGHT \
+             src/madplay/crc.h \
+             src/madplay/CREDITS \
+             src/madplay/depcomp \
+             src/madplay/filter.h \
+             src/madplay/gettext.h \
+             src/madplay/global.h \
+             src/madplay/INSTALL \
+             src/madplay/install-sh \
+             src/madplay/m4 \
+             src/madplay/m4/ChangeLog \
+             src/madplay/m4/codeset.m4 \
+             src/madplay/m4/gettext.m4 \
+             src/madplay/m4/glibc21.m4 \
+             src/madplay/m4/iconv.m4 \
+             src/madplay/m4/intdiv0.m4 \
+             src/madplay/m4/intmax.m4 \
+             src/madplay/m4/inttypes_h.m4 \
+             src/madplay/m4/inttypes.m4 \
+             src/madplay/m4/inttypes-pri.m4 \
+             src/madplay/m4/isc-posix.m4 \
+             src/madplay/m4/lcmessage.m4 \
+             src/madplay/m4/lib-ld.m4 \
+             src/madplay/m4/lib-link.m4 \
+             src/madplay/m4/lib-prefix.m4 \
+             src/madplay/m4/longdouble.m4 \
+             src/madplay/m4/longlong.m4 \
+             src/madplay/m4/Makefile.am \
+             src/madplay/m4/Makefile.in \
+             src/madplay/m4/nls.m4 \
+             src/madplay/m4/po.m4 \
+             src/madplay/m4/printf-posix.m4 \
+             src/madplay/m4/progtest.m4 \
+             src/madplay/m4/signed.m4 \
+             src/madplay/m4/size_max.m4 \
+             src/madplay/m4/stdint_h.m4 \
+             src/madplay/m4/uintmax_t.m4 \
+             src/madplay/m4/ulonglong.m4 \
+             src/madplay/m4/wchar_t.m4 \
+             src/madplay/m4/wint_t.m4 \
+             src/madplay/m4/xsize.m4 \
              src/madplay/madtest.c \
-             src/madplay/Makefile.am src/madplay/Makefile.in \
-             src/madplay/mdate-sh src/madplay/missing \
-             src/madplay/mkinstalldirs src/madplay/py-compile \
-             src/madplay/README src/madplay/stamp-h1 \
-             src/madplay/tap-driver.sh src/madplay/test-driver \
-             src/madplay/texinfo.tex src/madplay/TODO src/madplay/VERSION \
-             src/madplay/ylwrap
+             src/madplay/Makefile.am \
+             src/madplay/Makefile.in \
+             src/madplay/mdate-sh \
+             src/madplay/missing \
+             src/madplay/mkinstalldirs \
+             src/madplay/player.h \
+             src/madplay/py-compile \
+             src/madplay/README \
+             src/madplay/resample.h \
+             src/madplay/rgain.h \
+             src/madplay/tag.h \
+             src/madplay/tap-driver.sh \
+             src/madplay/test-driver \
+             src/madplay/TODO \
+             src/madplay/VERSION \
+             src/madplay/version.h \
+             src/Makefile.am src/Makefile.in \
+             ylwrap \
+             src/pulseaudio/aclocal.m4 src/pulseaudio/AGPL \
+             src/pulseaudio/compile src/pulseaudio/config.guess \
+             src/pulseaudio/config.sub \
+             src/pulseaudio/config.h.in src/pulseaudio/configure \
+             src/pulseaudio/configure.ac src/pulseaudio/depcomp \
+             src/pulseaudio/GPL src/pulseaudio/install-sh \
+             src/pulseaudio/LGPL src/pulseaudio/LICENSE \
+             src/pulseaudio/m4 \
+             src/pulseaudio/Makefile.am src/pulseaudio/Makefile.in \
+             src/pulseaudio/missing src/pulseaudio/NEWS \
+             src/pulseaudio/README \
+             src/pulseaudio/src/core-error.h \
+             src/pulseaudio/src/core-util.h \
+             src/pulseaudio/src/i18n.h \
+             src/pulseaudio/src/install.sh \
+             src/pulseaudio/src/macro.h \
+             src/pulseaudio/src/Makefile.am \
+             src/pulseaudio/src/Makefile.in \
+             src/pulseaudio/src/pactl-set-volume.c \
+             src/pulseaudio/src/socket.h \
+             src/pulseaudio/src/strbuf.h \
+             src/pulseaudio/src/strlist.h \
+             src/pulseaudio/todo
 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -895,7 +1024,8 @@ force-update-gmo-%: check-gettext
 	touch po/$$language.po ; \
 	cd po && $(MAKE) $(AM_MAKEFLAGS) update-gmo
 
-.PHONY: check-gettext update-po update-gmo force-update-gmo
+.PHONY:
+	hcheck-gettext update-po update-gmo force-update-gmo
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
