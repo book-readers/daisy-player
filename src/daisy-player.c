@@ -227,7 +227,7 @@ void get_next_clips (misc_t *misc, my_attribute_t *my_attribute,
                snprintf (name, len, "%s/.daisy-player/%s%s",
                          pw->pw_dir, misc->bookmark_title, get_mcn (misc));
                unlink (name);
-               _exit (-1);
+               _exit (EXIT_FAILURE);
             } // if
             if (daisy[misc->playing].level <= misc->level)
                misc->displaying = misc->current = misc->playing;
@@ -402,7 +402,7 @@ void start_playing (misc_t *misc, daisy_t *daisy)
       snprintf (tempo_str, 10, "%lf", misc->speed);
       playfile (misc, misc->tmp_wav, "wav", misc->pulseaudio_device,
                 "pulseaudio", tempo_str);
-      _exit (0);
+      exit (EXIT_SUCCESS);
    default: // parent
       return;
    } // switch
@@ -822,7 +822,7 @@ void calculate_times_3 (misc_t *misc, my_attribute_t *my_attribute,
       quit_daisy_player (misc, daisy);
       printf ("%s\n", gettext (
         "This book has no audio. Play this book with eBook-speaker"));
-      _exit (-1);
+      _exit (EXIT_FAILURE);
    } // if
 } // calculate_times_3
 
@@ -1408,7 +1408,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          break;
       case 'q':
          quit_daisy_player (misc, daisy);
-         _exit (0);
+         exit (EXIT_SUCCESS);
       case 's':
          kill_player (misc);
          if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
@@ -1801,6 +1801,7 @@ int main (int argc, char *argv[])
    *misc.daisy_title = 0;
    *misc.ncc_html = 0;
    strncpy (misc.cd_dev, "/dev/sr0", MAX_STR - 1);
+   sigfillset (&usr_action.sa_mask);
    usr_action.sa_handler = player_ended;
    usr_action.sa_flags = 0;
    sigaction (SIGCHLD, &usr_action, NULL);
@@ -2097,8 +2098,6 @@ int main (int argc, char *argv[])
                   misc.mounted_by_daisy_player = 1;
                } while (get_mount_point (&misc) == NULL);
             } // if
-            misc.titlewin = newwin (2, 80,  0, 0);
-            misc.screenwin = newwin (23, 80, 2, 0);
             break;
          } // TRACK_COUNT_DATA"
          case CDIO_DISC_MODE_CD_DA: /**< CD-DA */

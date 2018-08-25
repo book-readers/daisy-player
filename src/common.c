@@ -59,7 +59,12 @@ void failure (misc_t *misc, char *str, int e)
 
 void player_ended ()
 {
-   wait (NULL);
+   pid_t kidpid;
+   int status;
+
+   while ((kidpid = waitpid(-1, &status, WNOHANG)) > 0)
+   {
+   } // while
 } // player_ended
 
 void get_path_name (char *dir, char *search_str, char *found)
@@ -596,14 +601,6 @@ daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute)
    if (misc->items_in_opf > misc->items_in_ncx)
       misc->total_items = misc->items_in_opf;
    switch (chdir (misc->daisy_mp));
-#ifdef EBOOK_SPEAKER
-/* jos
-   snprintf (misc->eBook_speaker_txt, MAX_STR,
-             "%s/eBook-speaker.txt", misc->daisy_mp);
-   snprintf (misc->tmp_wav, MAX_STR,
-             "%s/eBook-speaker.wav", misc->daisy_mp);
-jos */
-#endif
    return (daisy_t *) calloc (misc->total_items + 1, sizeof (daisy_t));
 } // create_daisy_struct
 
@@ -631,6 +628,8 @@ void make_tmp_dir (misc_t *misc)
 
 void remove_tmp_dir (misc_t *misc)
 {
+   if (! misc->tmp_dir)
+      return;
    if (strncmp (misc->tmp_dir, "/tmp/", 5) != 0)
       return;
 

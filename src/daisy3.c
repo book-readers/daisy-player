@@ -937,8 +937,6 @@ void fill_xml_anchor_opf (misc_t *misc, my_attribute_t *my_attribute,
 #endif
                      if (strcasecmp (misc->tag, "text") == 0)
                      {
-  daisy[misc->current].xml_file 
- my_attribute->src
                         daisy[misc->current].anchor = strdup ("");
                         if (strchr (my_attribute->src, '#'))
                         {
@@ -946,9 +944,8 @@ void fill_xml_anchor_opf (misc_t *misc, my_attribute_t *my_attribute,
                                  (strchr (my_attribute->src, '#') + 1);
                            *strchr (my_attribute->src, '#') = 0;
                         } // if
-                        daisy[misc->current].xml_file = get_path_name (misc,
-                                        strdup (convert_URL_name (misc,
-                                        my_attribute->src)));
+                        get_path_name (misc->daisy_mp, convert_URL_name (misc,
+                           my_attribute->src), daisy[misc->current].xml_file);
                         break;
                      } // if
                   } // while
