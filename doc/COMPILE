@@ -9,9 +9,9 @@ To compile daisy-player, be sure the following extra packages are installed:
    libmagic-dev
    libmad0-dev
    libid3tag0-dev
-   dietlibc-dev
    libpulse-dev
    libsndfile1-dev
+   dietlibc-dev
 
 Give the following commands:
 

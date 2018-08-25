@@ -7,7 +7,7 @@ AM_CFLAGS = -I . -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
 
 bin_PROGRAMS = daisy-player
 
-ldadd = $(depend) @LTLIBINTL@ -lpulse
+ldadd = $(depend) @LTLIBINTL@
 
 DEPENDENCIES = $(depend)
 
@@ -20,7 +20,7 @@ libtool: $(LIBTOOL_DEPS)
 
 .c.s:
 	(cd madplay && make)
-	(cd pulseaudio/src && make)
+	(cd pactl/src && make)
 	$(COMPILE) -S $<
 
 again:                    
@@ -34,9 +34,9 @@ daisy_player_SOURCES = madplay/madplay.c madplay/audio.c \
                        madplay/player.c madplay/audio_wave.c \
                        madplay/resample.c madplay/rgain.c \
                        madplay/filter.c madplay/audio_cdda.c \
-                       pulseaudio/src/core-util.c \
-                       pulseaudio/src/strbuf.c \
-                       pulseaudio/src/pactl.c \
+                       pactl/src/core-util.c \
+                       pactl/src/strbuf.c \
+                       pactl/src/pactl.c \
                        audiocd.c paranoia.c common.c daisy2.02.c \
                        daisy3.c daisy-player.c playfile.c
 

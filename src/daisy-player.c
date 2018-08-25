@@ -183,7 +183,9 @@ void get_next_clips (misc_t *misc, my_attribute_t *my_attribute,
       if (strcasecmp (misc->tag, "audio") == 0)
       {
          misc->current_audio_file =
-                         convert_URL_name (misc, my_attribute->src);
+            malloc (strlen (misc->daisy_mp) + strlen (my_attribute->src) + 5);
+         get_path_name (misc->daisy_mp, convert_URL_name (misc,
+                   my_attribute->src), misc->current_audio_file);
          get_clips (misc, my_attribute);
          return;
       } // if
@@ -377,6 +379,8 @@ void view_screen (misc_t *misc, daisy_t *daisy)
 
 void start_playing (misc_t *misc, daisy_t *daisy)
 {
+   char tempo_str[15], begin[20], duration[20];
+
    if (strcasecmp (misc->tag, "audio") != 0)
       return;
    if (misc->playing == -1)
@@ -384,27 +388,24 @@ void start_playing (misc_t *misc, daisy_t *daisy)
    if (misc->clip_end - misc->clip_begin <= 0)
       return;
    misc->elapsed_seconds = time (NULL);
-   switch (misc->player_pid = fork ())
-   {
-   case -1:
-      failure (misc, "fork ()", errno);
-   case 0: // child
-      break;
-   default: // parent
-      return;
-   } // switch
-
-   char tempo_str[15], begin[20], duration[20];
 
    view_page (misc, daisy);
    lseek (misc->tmp_wav_fd, SEEK_SET, 0);
    snprintf (begin, 20, "%f", misc->clip_begin);
    snprintf (duration, 20, "%f", misc->clip_end - misc->clip_begin);
    madplay (misc->current_audio_file, begin, duration, misc->tmp_wav);
-   snprintf (tempo_str, 10, "%lf", misc->speed);
-   playfile (misc, misc->tmp_wav, "wav", misc->pulseaudio_device,
-             "pulseaudio", tempo_str);
-   _exit (0);
+   switch (misc->player_pid = fork ())
+   {
+   case -1:
+      failure (misc, "fork ()", errno);
+   case 0: // child
+      snprintf (tempo_str, 10, "%lf", misc->speed);
+      playfile (misc, misc->tmp_wav, "wav", misc->pulseaudio_device,
+                "pulseaudio", tempo_str);
+      _exit (0);
+   default: // parent
+      return;
+   } // switch
 } // start_playing
 
 void open_clips_file (misc_t *misc, my_attribute_t *my_attribute,
@@ -854,7 +855,7 @@ void change_level (misc_t *misc, my_attribute_t *my_attribute,
       previous_item (misc, daisy);
    view_screen (misc, daisy);
    wmove (misc->screenwin, daisy[misc->current].y, daisy[misc->current].x);
-} // change_level
+} // change_level        
 
 void load_xml (misc_t *misc, my_attribute_t *my_attribute)
 {
@@ -1720,8 +1721,8 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
       } // if (strcasecmp (misc->tag, "title") == 0)
       if (strcasecmp (misc->tag, "a") == 0)
       {
-         strncpy (daisy[misc->current].filename, my_attribute->href,
-                  MAX_STR - 1);
+         get_path_name (misc->daisy_mp, my_attribute->href,
+                        daisy[misc->current].filename);
          htmlDocPtr doc =
                      htmlParseFile (daisy[misc->current].filename, "UTF-8");
          if (! (ncc = xmlReaderWalker (doc)))
@@ -1776,6 +1777,7 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
 
 int main (int argc, char *argv[])
 {
+
    int opt;
    char str[MAX_STR], DISCINFO_HTML[MAX_STR], *start_wd;
    char *c_opt, *d_opt, cddb_opt;
@@ -1784,6 +1786,7 @@ int main (int argc, char *argv[])
    daisy_t *daisy;
    struct sigaction usr_action;
 
+   misc.main_pid = getpid ();
    daisy = NULL;
    misc.tmp_dir = misc.label = NULL;
    misc.speed = 1;
@@ -2247,7 +2250,7 @@ int main (int argc, char *argv[])
    wprintw (misc.titlewin, "----------------------------------------");
    mvwprintw (misc.titlewin, 1, 0, "%s ", gettext ("Press 'h' for help"));
    misc.level = 1;
-   misc.search_str = misc.path_name = strdup ("");
+   misc.search_str = strdup ("");
    snprintf (misc.tmp_wav, MAX_STR, "%s/daisy-player.wav", misc.tmp_dir);
    if ((misc.tmp_wav_fd = mkstemp (misc.tmp_wav)) == 01)
       failure (&misc, "mkstemp ()", errno);

@@ -96,15 +96,13 @@ void parse_page_number (misc_t *misc, my_attribute_t *my_attribute,
 
          src = malloc
               (strlen (misc->daisy_mp) + strlen (my_attribute->src) + 3);
-         strcpy (src, misc->daisy_mp);
-         strcat (src, "/");
-         strcat (src, my_attribute->src);
          anchor = strdup ("");
-         if (strchr (src, '#'))
+         if (strchr (my_attribute->src, '#'))
          {
-            anchor = strdup (strchr (src, '#') + 1);
-            *strchr (src, '#') = 0;
+            anchor = strdup (strchr (my_attribute->src, '#') + 1);
+            *strchr (my_attribute->src, '#') = 0;
          } // if
+         get_path_name (misc->daisy_mp, my_attribute->src, src);
          doc = htmlParseFile (src, "UTF-8");
          if (! (text = xmlReaderWalker (doc)))
             failure (misc, src, errno);
@@ -256,21 +254,19 @@ void fill_xml_anchor_ncx (misc_t *misc, my_attribute_t *my_attribute,
 #endif
                   if (strcasecmp (misc->tag, "text") == 0)
                   {
-                     daisy[misc->current].xml_file = malloc (strlen
-                          (misc->daisy_mp) + strlen (my_attribute->src) + 5);
-                     strcpy (daisy[misc->current].xml_file, misc->daisy_mp);
-                     strcat (daisy[misc->current].xml_file, "/");
-                     strcat (daisy[misc->current].xml_file,
-                             my_attribute->src);
                      daisy[misc->current].anchor = strdup ("");
-                     if (strchr (daisy[misc->current].xml_file, '#'))
+                     if (strchr (my_attribute->src, '#'))
                      {
                         daisy[misc->current].anchor = strdup
-                            (strchr (daisy[misc->current].xml_file, '#') + 1);
-                        *strchr (daisy[misc->current].xml_file, '#') = 0;
+                            (strchr (my_attribute->src, '#') + 1);
+                        *strchr (my_attribute->src, '#') = 0;
                      } // if
-                     daisy[misc->current].xml_file = strdup
-                     (convert_URL_name (misc, daisy[misc->current].xml_file));
+                     daisy[misc->current].xml_file = malloc
+                                         (strlen (misc->daisy_mp) +
+                                          strlen (my_attribute->src) + 5 );
+                     get_path_name (misc->daisy_mp,
+                                  convert_URL_name (misc, my_attribute->src),
+                                  daisy[misc->current].xml_file);
                      break;
                   } // if
                } // while
@@ -518,20 +514,17 @@ void parse_href (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
 #endif
       if (strcasecmp (misc->tag, "text") == 0)
       {
-         daisy[misc->current].xml_file = malloc
-                 (strlen (misc->daisy_mp) + strlen (my_attribute->src) + 1);
-         strcpy (daisy[misc->current].xml_file, misc->daisy_mp);
-         strcat (daisy[misc->current].xml_file, "/");
-         strcat (daisy[misc->current].xml_file, my_attribute->src);
          daisy[misc->current].anchor = strdup ("");
-         if (strchr (daisy[misc->current].xml_file, '#'))
+         if (strchr (my_attribute->src, '#'))
          {
             daisy[misc->current].anchor = strdup
-                 (strchr (daisy[misc->current].xml_file, '#') + 1);
-            *strchr (daisy[misc->current].xml_file, '#') = 0;
+                 (strchr (my_attribute->src, '#') + 1);
+            *strchr (my_attribute->src, '#') = 0;
          } // if
-         daisy[misc->current].xml_file =
-            strdup (convert_URL_name (misc, daisy[misc->current].xml_file));
+         daisy[misc->current].xml_file = malloc (strlen (misc->daisy_mp) + 
+                                 strlen (my_attribute->src) + 5);
+         get_path_name (misc->daisy_mp, convert_URL_name (misc,
+                my_attribute->src), daisy[misc->current].xml_file);
          parse_text (misc, my_attribute, daisy);
          xmlTextReaderClose (href);
          xmlFreeDoc (doc);
@@ -608,20 +601,17 @@ void parse_href (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
                break;
             if (strcasecmp (misc->tag, "text") == 0)
             {
-               daisy[misc->current].xml_file = malloc
-                   (strlen (misc->daisy_mp) + strlen (my_attribute->src) + 1);
-               strcpy (daisy[misc->current].xml_file, misc->daisy_mp);
-               strcat (daisy[misc->current].xml_file, "/");
-               strcat (daisy[misc->current].xml_file, my_attribute->src);
                daisy[misc->current].anchor = strdup ("");
-               if (strchr (daisy[misc->current].xml_file, '#'))
+               if (strchr (my_attribute->src, '#'))
                {
                   daisy[misc->current].anchor = strdup
-                         (strchr (daisy[misc->current].xml_file, '#') + 1);
-                  *strchr (daisy[misc->current].xml_file, '#') = 0;
+                         (strchr (my_attribute->src, '#') + 1);
+                  *strchr (my_attribute->src, '#') = 0;
                } // if
-               daisy[misc->current].xml_file =
-                  strdup (convert_URL_name (misc, daisy[misc->current].xml_file));
+               daisy[misc->current].xml_file = malloc (
+                    strlen (misc->daisy_mp) + strlen (my_attribute->src) + 5);
+               get_path_name (misc->daisy_mp, convert_URL_name (misc,
+                        my_attribute->src), daisy[misc->current].xml_file);
                xmlTextReaderClose (href);
                xmlFreeDoc (doc);
                return;
@@ -947,22 +937,18 @@ void fill_xml_anchor_opf (misc_t *misc, my_attribute_t *my_attribute,
 #endif
                      if (strcasecmp (misc->tag, "text") == 0)
                      {
-                        daisy[misc->current].xml_file = malloc (strlen
-                          (misc->daisy_mp) + strlen (my_attribute->src) + 5);
-                        strcpy (daisy[misc->current].xml_file,
-                                misc->daisy_mp);
-                        strcat (daisy[misc->current].xml_file, "/");
-                        strcat (daisy[misc->current].xml_file,
-                                my_attribute->src);
+  daisy[misc->current].xml_file 
+ my_attribute->src
                         daisy[misc->current].anchor = strdup ("");
-                        if (strchr (daisy[misc->current].xml_file, '#'))
+                        if (strchr (my_attribute->src, '#'))
                         {
                            daisy[misc->current].anchor = strdup
-                                 (strchr (daisy[misc->current].xml_file, '#') + 1);
-                           *strchr (daisy[misc->current].xml_file, '#') = 0;
+                                 (strchr (my_attribute->src, '#') + 1);
+                           *strchr (my_attribute->src, '#') = 0;
                         } // if
-                        daisy[misc->current].xml_file = strdup
-                           (convert_URL_name (misc, daisy[misc->current].xml_file));
+                        daisy[misc->current].xml_file = get_path_name (misc,
+                                        strdup (convert_URL_name (misc,
+                                        my_attribute->src)));
                         break;
                      } // if
                   } // while
@@ -1016,19 +1002,17 @@ void fill_xml_anchor_opf (misc_t *misc, my_attribute_t *my_attribute,
             } // if
             if (strcasecmp (misc->tag, "text") == 0)
             {
-               daisy[misc->current].xml_file = malloc
-                 (strlen (misc->daisy_mp) + strlen (my_attribute->src) + 5);
-               strcpy (daisy[misc->current].xml_file, misc->daisy_mp);
-               strcat (daisy[misc->current].xml_file, "/");               strcat (daisy[misc->current].xml_file, my_attribute->src);
                daisy[misc->current].anchor = strdup ("");
-               if (strchr (daisy[misc->current].xml_file, '#'))
+               if (strchr (my_attribute->src, '#'))
                {
                   daisy[misc->current].anchor = strdup
-                        (strchr (daisy[misc->current].xml_file, '#') + 1);
-                  *strchr (daisy[misc->current].xml_file, '#') = 0;
+                        (strchr (my_attribute->src, '#') + 1);
+                  *strchr (my_attribute->src, '#') = 0;
                } // if
-               daisy[misc->current].xml_file =
-                  strdup (convert_URL_name (misc, daisy[misc->current].xml_file));
+               daisy[misc->current].xml_file = malloc (
+                   strlen (misc->daisy_mp) + strlen (my_attribute->src) + 5);
+               get_path_name (misc->daisy_mp, convert_URL_name (misc,
+                          my_attribute->src), daisy[misc->current].xml_file);
                parse_text (misc, my_attribute, daisy);
                break;
             } // if

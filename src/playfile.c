@@ -81,8 +81,8 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
                              NULL, NULL)) == NULL)
   {
     int e;
-    
-    e  = errno;
+
+    e = errno;
     sprintf (misc->str, "sox_open_write: %s", misc->pulseaudio_device);
     failure (misc, misc->str, e);
   } // if

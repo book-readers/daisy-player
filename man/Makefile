@@ -93,8 +93,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intlmacosx.m4 \
 	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
 	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/nls.m4 \
-	$(top_srcdir)/m4/onceonly.m4 $(top_srcdir)/m4/po.m4 \
-	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/m4/stdbool.m4 \
+	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/progtest.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -184,7 +183,7 @@ ECHO_T =
 EGREP = /bin/grep -E
 EXEEXT = 
 GCJ = gcj
-GCJDEPMODE = depmode=gcc3
+GCJDEPMODE = depmode=none
 GCJFLAGS = -g -O2
 GETTEXT_MACRO_VERSION = 0.19
 GMSGFMT = /usr/bin/msgfmt
@@ -201,7 +200,7 @@ LDFLAGS =
 LIBICONV = -liconv
 LIBINTL = 
 LIBOBJS = 
-LIBS = -lm -lmad -lxml2 -lsox -lncursesw -lmagic -lcdio_paranoia -lcdio_cdda -lcdio 
+LIBS = -lm -lpulse -lmad -lxml2 -lsox -lncursesw -lmagic -lcdio_paranoia -lcdio_cdda -lcdio 
 LN_S = ln -s
 LTLIBICONV = -liconv
 LTLIBINTL = 
@@ -221,10 +220,10 @@ OBJEXT = o
 PACKAGE = daisy-player
 PACKAGE_BUGREPORT = jos@jlemmens.nl
 PACKAGE_NAME = daisy-player
-PACKAGE_STRING = daisy-player 11.6
+PACKAGE_STRING = daisy-player 11.6.1
 PACKAGE_TARNAME = daisy-player
 PACKAGE_URL = www.jlemmens.nl
-PACKAGE_VERSION = 11.6
+PACKAGE_VERSION = 11.6.1
 PATH_SEPARATOR = :
 POSUB = po
 POW_LIB = 
@@ -234,7 +233,7 @@ SET_MAKE =
 SHELL = /bin/bash
 STRIP = 
 USE_NLS = yes
-VERSION = 11.6
+VERSION = 11.6.1
 XGETTEXT = /usr/bin/xgettext
 XGETTEXT_015 = /usr/bin/xgettext
 XGETTEXT_EXTRA_OPTIONS = 
@@ -246,7 +245,7 @@ abs_top_builddir = /home/jos/src/own_stuff/daisy-player
 abs_top_srcdir = /home/jos/src/own_stuff/daisy-player
 ac_ct_CC = gcc
 ac_ct_CXX = g++
-ac_ct_GCJ = gcj
+ac_ct_GCJ = 
 ac_ct_OBJC = gcc
 ac_ct_OBJCXX = g++
 am__include = include
@@ -310,9 +309,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu man/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign man/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu man/Makefile
+	  $(AUTOMAKE) --foreign man/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \

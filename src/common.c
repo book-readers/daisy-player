@@ -44,8 +44,7 @@ char *convert_URL_name (misc_t *misc, char *file)
    misc->str[j++] = file[i++];
    misc->str[j++] = file[i];
    misc->str[j] = 0;
-   get_path_name (misc, misc->daisy_mp, misc->str);
-   return misc->path_name;
+   return misc->str;
 } // convert_URL_name
 
 void failure (misc_t *misc, char *str, int e)
@@ -55,7 +54,7 @@ void failure (misc_t *misc, char *str, int e)
    printf ("\n\n%s: %s\n", str, strerror (e));
    fflush (stdout);
    remove_tmp_dir (misc);
-   kill (misc->player_pid * -1, SIGTERM);
+   kill (misc->main_pid, SIGTERM);
 } // failure
 
 void player_ended ()
@@ -63,64 +62,106 @@ void player_ended ()
    wait (NULL);
 } // player_ended
 
-void get_path_name (misc_t *misc, char *dir, char *name)
+void get_path_name (char *dir, char *search_str, char *found)
 {
    int total, n;
    struct dirent **namelist;
 
-   total = scandir (dir, &namelist, NULL, alphasort);
+   total = scandir ((const char *) dir, &namelist, NULL, alphasort);
    if (total == -1)
    {
       printf ("scandir: %s: %s\n", dir, strerror (errno));
-      _exit (-1);
+      exit (-1);
    } // if
    for (n = 0; n < total; n++)
    {
       char *path;
 
-      if (strcmp (namelist[n]->d_name, ".") == 0 ||
-          strcmp (namelist[n]->d_name, "..") == 0)
-         continue;
-      path = malloc (strlen (dir) + strlen (namelist[n]->d_name) + 5);
+      path = malloc (strlen (dir) + strlen (namelist[n]->d_name) + 2);
       if (dir[strlen (dir) - 1] == '/')
          sprintf (path, "%s%s", dir, namelist[n]->d_name);
       else
          sprintf (path, "%s/%s", dir, namelist[n]->d_name);
-      if (strcasestr (path, name))
+      if (strcasecmp (namelist[n]->d_name, basename (search_str)) == 0)  
       {
-         misc->path_name = strdup (path);
+         strcpy (found, path);
          return;
       } // if
       free (path);
+      if (strcmp (namelist[n]->d_name, ".") == 0 ||
+          strcmp (namelist[n]->d_name, "..") == 0)
+         continue;
       if (namelist[n]->d_type == DT_DIR)
       {
          char *new_dir;
 
-         new_dir = malloc (strlen (dir) + strlen (namelist[n]->d_name) + 5);
+         new_dir = malloc (strlen (dir) + strlen (namelist[n]->d_name) + 2);
          if (dir[strlen (dir) - 1] != '/')
             sprintf (new_dir, "%s/%s", dir, namelist[n]->d_name);
          else
             sprintf (new_dir, "%s%s", dir, namelist[n]->d_name);
-         get_path_name (misc, new_dir, name);
+         get_path_name (new_dir, search_str, found);
          free (new_dir);
       } // if
    } // for
    free (namelist);
 } // get_path_name
 
+char *get_dir_content (misc_t *misc, char *dir_name, char *search_str)
+{
+   char *found;                                                       
+   DIR *dir;
+   struct dirent *entry;
+
+   if (strcasestr (dir_name, search_str) && *search_str)
+      return dir_name;
+   if (! (dir = opendir (dir_name)))
+      failure (misc, dir_name, errno);
+   if (! (entry = readdir (dir)))
+      failure (misc, "readdir ()", errno);
+   do
+   {
+      if (strcmp (entry->d_name, ".") == 0 ||
+          strcmp (entry->d_name, "..") == 0)
+         continue;
+      if (strcasestr (entry->d_name, search_str) && *search_str)
+      {
+         found = malloc (strlen (dir_name) + strlen (entry->d_name) + 5);
+         sprintf (found, "%s/%s\n", dir_name, entry->d_name);
+         found[strlen (found) - 1] = 0;
+         closedir (dir);
+         return found;
+      } // if
+      if (entry->d_type == DT_DIR)
+      {
+         char *path;
+
+         if (strcmp (entry->d_name, ".") == 0 ||
+             strcmp (entry->d_name, "..") == 0)
+            continue;
+         path = malloc (strlen (dir_name) + strlen (entry->d_name) + 10);
+         sprintf (path, "%s/%s", dir_name, entry->d_name);
+         found = malloc (MAX_STR);
+         strcpy (found, get_dir_content (misc, path, search_str));
+         if (strcasestr (found, search_str) && *search_str)
+            return found;
+         free (path);
+      } // if
+   } while ((entry = readdir (dir)));
+   return "";
+} // get_dir_content
+
 void find_index_names (misc_t *misc)
 {
-   misc->path_name = strdup ("");
-   *misc->ncc_html = 0;
-   get_path_name (misc, misc->daisy_mp, "ncc.html");
-   strncpy (misc->ncc_html, misc->path_name, MAX_STR - 1);
-   misc->path_name = strdup ("");
+   get_path_name (misc->daisy_mp, "ncc.html", misc->ncc_html);
    *misc->ncx_name = 0;
-   get_path_name (misc, misc->daisy_mp, ".ncx");
-   strncpy (misc->ncx_name, misc->path_name, MAX_STR - 1);
+   strncpy (misc->ncx_name,
+            get_dir_content (misc, misc->daisy_mp, ".ncx"),
+            MAX_STR - 1);
    *misc->opf_name = 0;
-   get_path_name (misc, misc->daisy_mp, ".opf");
-   strncpy (misc->opf_name, misc->path_name, MAX_STR - 1);
+   strncpy (misc->opf_name,
+            get_dir_content (misc, misc->daisy_mp, ".opf"),
+            MAX_STR - 1);
 } // find_index_names
 
 int get_page_number_2 (misc_t *misc, my_attribute_t *my_attribute,
@@ -135,15 +176,13 @@ int get_page_number_2 (misc_t *misc, my_attribute_t *my_attribute,
    htmlDocPtr doc;
 
    src = malloc (strlen (misc->daisy_mp) + strlen (attr) + 3);
-   strcpy (src, misc->daisy_mp);
-   strcat (src, "/");
-   strcat (src, attr);
    anchor = strdup ("");
-   if (strchr (src, '#'))
+   if (strchr (attr, '#'))
    {
-      anchor = strdup (strchr (src, '#') + 1);
-      *strchr (src, '#') = 0;
+      anchor = strdup (strchr (attr, '#') + 1);
+      *strchr (attr, '#') = 0;
    } // if
+   get_path_name (misc->daisy_mp, attr, src);
    doc = htmlParseFile (src, "UTF-8");
    if (! (page = xmlReaderWalker (doc)))
    {
@@ -219,7 +258,10 @@ int get_page_number_3 (misc_t *misc, my_attribute_t *my_attribute)
             anchor = strdup (strchr (my_attribute->src, '#') + 1);
             *strchr (my_attribute->src, '#') = 0;
          } // if
-         file = convert_URL_name (misc, my_attribute->src);
+         file = malloc (strlen (misc->daisy_mp) +
+                        strlen (my_attribute->src) + 5);
+         get_path_name (misc->daisy_mp,
+                        convert_URL_name (misc, my_attribute->src), file);
          doc = htmlParseFile (file, "UTF-8");
          if (! (page = xmlReaderWalker (doc)))
          {
@@ -309,7 +351,7 @@ int handle_ncc_html (misc_t *misc, my_attribute_t *my_attribute,
                      daisy_t *daisy)
 #endif
 #ifdef EBOOK_SPEAKER
-   int handle_ncc_html (misc_t *misc, my_attribute_t *my_attribute)
+int handle_ncc_html (misc_t *misc, my_attribute_t *my_attribute)
 #endif
 {
 // lookfor "ncc.html"
@@ -589,30 +631,30 @@ void make_tmp_dir (misc_t *misc)
 
 void remove_tmp_dir (misc_t *misc)
 {
-   if (strncmp (misc->tmp_dir, "/tmp/", 5) == 0)
-   {
+   if (strncmp (misc->tmp_dir, "/tmp/", 5) != 0)
+      return;
+
 // Be sure not to remove wrong files
 #ifdef DAISY_PLAYER
-      if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
-      {
-         rmdir (misc->tmp_dir);
-         return;
-      } // if
+   if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
+   {
+      rmdir (misc->tmp_dir);
+      return;
+   } // if
 #endif
 
-      snprintf (misc->cmd, MAX_CMD - 1, "rm -rf %s", misc->tmp_dir);
-      if (system (misc->cmd) != 0)
-      {
-         int e;
-         char *str;
+   snprintf (misc->cmd, MAX_CMD - 1, "rm -rf %s", misc->tmp_dir);
+   if (system (misc->cmd) != 0)
+   {
+      int e;
+      char *str;
 
-         e = errno;
-         str = malloc (strlen (misc->cmd) + strlen (strerror (e)) + 10);
-         sprintf (str, "%s: %s\n", misc->cmd, strerror (e));
-         failure (misc, str, e);
-      } // if
+      e = errno;
+      str = malloc (strlen (misc->cmd) + strlen (strerror (e)) + 10);
+      sprintf (str, "%s: %s\n", misc->cmd, strerror (e));
+      failure (misc, str, e);
    } // if
-} // remove_tmp_dir               
+} // remove_tmp_dir
 
 void clear_tmp_dir (misc_t *misc)
 {
@@ -1016,13 +1058,64 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
 void select_next_output_device (misc_t *misc, daisy_t *daisy)
 {
    FILE *p;
-   int n, y;
+   int n, y, found;
    size_t bytes;
    char *card;
+   struct group *grp;
 
    wclear (misc->screenwin);
    wprintw (misc->screenwin, "\n%s\n\n", gettext ("Select a soundcard:"));
-   p = popen ("/usr/bin/pacmd list-cards", "r");
+   grp = getgrnam ("audio");
+   found = 0;
+   for (n = 0; grp->gr_mem[n]; n++)
+   {
+      if (strcmp (grp->gr_mem[n], cuserid (NULL)) == 0)
+      {
+         found = 1;
+         break;
+      } // if
+   } // for
+   if (found == 0)
+   {
+      beep ();
+      endwin ();
+      printf ("You need to be a member of the group \"audio\".\n");
+      printf ("Please give the following command:\n");
+      printf ("\n   sudo gpasswd -a <login-name> audio\n\n");
+      printf ("Logout and login again and you can use daisy-player.\n");
+      _exit (0);
+   } // if
+
+   grp = getgrnam ("pulse");
+   found = 0;
+   for (n = 0; grp->gr_mem[n]; n++)
+   {
+      if (strcmp (grp->gr_mem[n], cuserid (NULL)) == 0)
+      {
+         found = 1;
+         break;
+      } // if
+   } // for
+   if (found == 0)
+   {
+      beep ();
+      endwin ();
+      printf ("You need to be a member of the group \"pulse\".\n");
+      printf ("Please give the following command:\n");
+      printf ("\n   sudo gpasswd -a <login-name> pulse\n\n");
+      printf ("Logout and login again and you can use daisy-player.\n");
+      _exit (0);
+   } //; if
+
+   system ("pulseaudio --start");
+   if ((p = popen ("/usr/bin/pacmd list-cards", "r")) == NULL)
+   {
+      beep ();
+      endwin ();
+      printf ("%s\n",
+       "Be sure the package pulseaudio-utils is installed onto your system.");
+      _exit (-1);
+   } // if
    for (n = 0; n < 10; n++)
    {
       int m;

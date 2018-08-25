@@ -69,10 +69,10 @@ am__make_running_with_option = \
   test $$has_opt = yes
 am__make_dryrun = (target_option=n; $(am__make_running_with_option))
 am__make_keepgoing = (target_option=k; $(am__make_running_with_option))
-pkgdatadir = $(datadir)/daisy-player
-pkgincludedir = $(includedir)/daisy-player
-pkglibdir = $(libdir)/daisy-player
-pkglibexecdir = $(libexecdir)/daisy-player
+pkgdatadir = $(datadir)/pactl-set-volume
+pkgincludedir = $(includedir)/pactl-set-volume
+pkglibdir = $(libdir)/pactl-set-volume
+pkglibexecdir = $(libexecdir)/pactl-set-volume
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
@@ -89,17 +89,11 @@ build_triplet = x86_64-pc-linux-gnu
 host_triplet = x86_64-pc-linux-gnu
 subdir = m4
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
-	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intlmacosx.m4 \
-	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
-	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/nls.m4 \
-	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/progtest.m4 \
-	$(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/config.h
+mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 AM_V_P = $(am__v_P_$(V))
@@ -122,99 +116,59 @@ am__can_run_installinfo = \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
-am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/mkinstalldirs \
-	README
+am__DIST_COMMON = $(srcdir)/Makefile.in ChangeLog
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/jos/src/own_stuff/daisy-player/missing aclocal-1.15
+ACLOCAL = ${SHELL} /home/jos/src/own_stuff/daisy-player/src/pactl/missing aclocal-1.15
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 0
-AUTOCONF = ${SHELL} /home/jos/src/own_stuff/daisy-player/missing autoconf
-AUTOHEADER = ${SHELL} /home/jos/src/own_stuff/daisy-player/missing autoheader
-AUTOMAKE = ${SHELL} /home/jos/src/own_stuff/daisy-player/missing automake-1.15
+AUTOCONF = ${SHELL} /home/jos/src/own_stuff/daisy-player/src/pactl/missing autoconf
+AUTOHEADER = ${SHELL} /home/jos/src/own_stuff/daisy-player/src/pactl/missing autoheader
+AUTOMAKE = ${SHELL} /home/jos/src/own_stuff/daisy-player/src/pactl/missing automake-1.15
 AWK = gawk
 CC = gcc
-CCAS = gcc
-CCASDEPMODE = depmode=gcc3
-CCASFLAGS = -g -O2
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
 CPP = gcc -E
 CPPFLAGS = 
-CXX = g++
-CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2
 CYGPATH_W = echo
-DEFS = -DHAVE_CONFIG_H
+DEFS = -DPACKAGE_NAME=\"pactl-set-volume\" -DPACKAGE_TARNAME=\"pactl-set-volume\" -DPACKAGE_VERSION=\"1.0\" -DPACKAGE_STRING=\"pactl-set-volume\ 1.0\" -DPACKAGE_BUGREPORT=\"jos@jlemmens.nl\" -DPACKAGE_URL=\"www.jlemmens.nl\" -DPACKAGE=\"pactl-set-volume\" -DVERSION=\"1.0\" -DHAVE_LIBC=1 -DHAVE_LIBG=1 -DHAVE_LIBPULSE=1 -DHAVE_LIBSNDFILE=1 -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_FCNTL_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_LANGINFO_H=1 -DHAVE_LIBINTL_H=1 -DHAVE_LIMITS_H=1 -DHAVE_LOCALE_H=1 -DHAVE_NETDB_H=1 -DHAVE_STDINT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_SYS_PARAM_H=1 -DHAVE_SYS_SOCKET_H=1 -DHAVE_SYSLOG_H=1 -DHAVE_UNISTD_H=1 -DHAVE__BOOL=1 -DGETGROUPS_T=gid_t -DHAVE_GETGROUPS=1 -DLSTAT_FOLLOWS_SLASHED_SYMLINK=1 -DHAVE_DECL_STRERROR_R=1 -DHAVE_STRERROR_R=1 -DHAVE_GETRLIMIT=1 -DHAVE_SETRLIMIT=1 -DHAVE_ATEXIT=1 -DHAVE_GETCWD=1 -DHAVE_MEMSET=1 -DHAVE_MKDIR=1 -DHAVE_NL_LANGINFO=1 -DHAVE_REALPATH=1 -DHAVE_REGCOMP=1 -DHAVE_RMDIR=1 -DHAVE_SETENV=1 -DHAVE_SETLOCALE=1 -DHAVE_SOCKET=1 -DHAVE_STRCASECMP=1 -DHAVE_STRCHR=1 -DHAVE_STRCSPN=1 -DHAVE_STRERROR=1 -DHAVE_STRNCASECMP=1 -DHAVE_STRRCHR=1 -DHAVE_STRSPN=1 -DHAVE_STRSTR=1 -DHAVE_STRTOL=1 -DHAVE_STRTOUL=1 -DHAVE_UNAME=1 -DCANONICAL_HOST=\"x86_64-pc-linux-gnu\" -DPA_CFLAGS=\"-g\ -O2\"
 DEPDIR = .deps
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
 EGREP = /bin/grep -E
 EXEEXT = 
-GCJ = gcj
-GCJDEPMODE = depmode=none
-GCJFLAGS = -g -O2
-GETTEXT_MACRO_VERSION = 0.19
-GMSGFMT = /usr/bin/msgfmt
-GMSGFMT_015 = /usr/bin/msgfmt
 GREP = /bin/grep
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-INTLLIBS = 
-INTL_MACOSX_LIBS = 
 LDFLAGS = 
-LIBICONV = -liconv
-LIBINTL = 
 LIBOBJS = 
-LIBS = -lm -lpulse -lmad -lxml2 -lsox -lncursesw -lmagic -lcdio_paranoia -lcdio_cdda -lcdio 
-LN_S = ln -s
-LTLIBICONV = -liconv
-LTLIBINTL = 
+LIBS = -lsndfile -lpulse -lg -lc 
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/jos/src/own_stuff/daisy-player/missing makeinfo
+MAKEINFO = ${SHELL} /home/jos/src/own_stuff/daisy-player/src/pactl/missing makeinfo
 MKDIR_P = /bin/mkdir -p
-MSGFMT = /usr/bin/msgfmt
-MSGFMT_015 = /usr/bin/msgfmt
-MSGMERGE = /usr/bin/msgmerge
-OBJC = gcc
-OBJCDEPMODE = depmode=gcc3
-OBJCFLAGS = 
-OBJCXX = g++
-OBJCXXDEPMODE = depmode=gcc3
-OBJCXXFLAGS = 
 OBJEXT = o
-PACKAGE = daisy-player
+PACKAGE = pactl-set-volume
 PACKAGE_BUGREPORT = jos@jlemmens.nl
-PACKAGE_NAME = daisy-player
-PACKAGE_STRING = daisy-player 11.6.1
-PACKAGE_TARNAME = daisy-player
+PACKAGE_NAME = pactl-set-volume
+PACKAGE_STRING = pactl-set-volume 1.0
+PACKAGE_TARNAME = pactl-set-volume
 PACKAGE_URL = www.jlemmens.nl
-PACKAGE_VERSION = 11.6.1
+PACKAGE_VERSION = 1.0
 PATH_SEPARATOR = :
-POSUB = po
 POW_LIB = 
-RANLIB = ranlib
-SED = /bin/sed
 SET_MAKE = 
 SHELL = /bin/bash
 STRIP = 
-USE_NLS = yes
-VERSION = 11.6.1
-XGETTEXT = /usr/bin/xgettext
-XGETTEXT_015 = /usr/bin/xgettext
-XGETTEXT_EXTRA_OPTIONS = 
-abs_builddir = /home/jos/src/own_stuff/daisy-player/m4
-abs_srcdir = /home/jos/src/own_stuff/daisy-player/m4
-abs_top_builddir = /home/jos/src/own_stuff/daisy-player
-abs_top_srcdir = /home/jos/src/own_stuff/daisy-player
+VERSION = 1.0
+abs_builddir = /home/jos/src/own_stuff/daisy-player/src/pactl/m4
+abs_srcdir = /home/jos/src/own_stuff/daisy-player/src/pactl/m4
+abs_top_builddir = /home/jos/src/own_stuff/daisy-player/src/pactl
+abs_top_srcdir = /home/jos/src/own_stuff/daisy-player/src/pactl
 ac_ct_CC = gcc
-ac_ct_CXX = g++
-ac_ct_GCJ = 
-ac_ct_OBJC = gcc
-ac_ct_OBJCXX = g++
 am__include = include
 am__leading_dot = .
 am__quote = 
@@ -240,7 +194,7 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/jos/src/own_stuff/daisy-player/install-sh
+install_sh = ${SHELL} /home/jos/src/own_stuff/daisy-player/src/pactl/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -261,6 +215,13 @@ target_alias =
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
+EXTRA_DIST = intmax.m4 longdouble.m4 longlong.m4 printf-posix.m4 \
+             signed.m4 size_max.m4 wchar_t.m4 wint_t.m4 xsize.m4 \
+             codeset.m4 gettext.m4 glibc21.m4 iconv.m4 intdiv0.m4  \
+             inttypes-pri.m4 inttypes.m4 inttypes_h.m4 isc-posix.m4  \
+             lcmessage.m4 lib-ld.m4 lib-link.m4 lib-prefix.m4 nls.m4  \
+             po.m4 progtest.m4 stdint_h.m4 uintmax_t.m4 ulonglong.m4
+
 all: all-am
 
 .SUFFIXES:
@@ -273,9 +234,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign m4/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu m4/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign m4/Makefile
+	  $(AUTOMAKE) --gnu m4/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
