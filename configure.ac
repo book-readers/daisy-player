@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([daisy-player], [11.6.1.1], [jos@jlemmens.nl], [], [www.jlemmens.nl])
+AC_INIT([daisy-player], [11.6.2.1], [jos@jlemmens.nl], [], [www.jlemmens.nl])
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
@@ -75,7 +75,7 @@ AC_FUNC_ERROR_AT_LINE
 AC_FUNC_MMAP
 AC_TYPE_SSIZE_T
 
-AC_CONFIG_FILES([Makefile               
+AC_CONFIG_FILES([Makefile
                  doc/Makefile
                  m4/Makefile
                  man/Makefile

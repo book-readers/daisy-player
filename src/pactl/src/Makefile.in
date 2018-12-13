@@ -88,22 +88,22 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = pactl-set-volume$(EXEEXT)
+bin_PROGRAMS = pactl-set-cmd$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
-mkinstalldirs = $(install_sh) -d
+mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_pactl_set_volume_OBJECTS = strbuf.$(OBJEXT) core-util.$(OBJEXT) \
-	pactl.$(OBJEXT) pactl-set-volume.$(OBJEXT)
-pactl_set_volume_OBJECTS = $(am_pactl_set_volume_OBJECTS)
-pactl_set_volume_LDADD = $(LDADD)
+am_pactl_set_cmd_OBJECTS = strbuf.$(OBJEXT) core-util.$(OBJEXT) \
+	pactl.$(OBJEXT) pactl-set-cmd.$(OBJEXT)
+pactl_set_cmd_OBJECTS = $(am_pactl_set_cmd_OBJECTS)
+pactl_set_cmd_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -132,8 +132,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(pactl_set_volume_SOURCES)
-DIST_SOURCES = $(pactl_set_volume_SOURCES)
+SOURCES = $(pactl_set_cmd_SOURCES)
+DIST_SOURCES = $(pactl_set_cmd_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -158,7 +158,8 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/depcomp
+am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/depcomp \
+	$(top_srcdir)/mkinstalldirs
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
@@ -258,23 +259,18 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
-AM_CFLAGS = -D PA_BINARY=\"./\" -D LOCALEDIR=\"$(prefix)/share/locale\" \
-            -D PA_DEFAULT_CONFIG_DIR=pulseconfdir -D TCP_NODELAY=1 \
-            -D PA_MACHINE_ID=\"\" -Wall -Wextra -D RLIMIT_NOFILE=\"\" \
-            -D PA_MACHINE_ID_FALLBACK=\"\" -D PA_BUILDDIR=\"\" \
-            -D PA_SINK_CLIENT_FLAGS_MASK=0xFFFFFF \
-            -D PA_SINK_SHARE_VOLUME_WITH_MASTER=0x1000000U \
-            -D PA_SOURCE_CLIENT_FLAGS_MASK=0xFFFFFF \
-            -Wall -Wunused-function -Winit-self -fno-common -O3 \
-            --param=ssp-buffer-size=4 -Wformat -Werror=format-security \
-            -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\" \
-            -lm -pthread -g
+AM_CFLAGS = -I . -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
+            -Wunused -Wunused-variable -Wunused-function \
+            -Wmissing-declarations \
+            -ggdb -I /usr/include/libxml2/ -O3 \
+            -Wuninitialized -Winit-self \
+            -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
 
 DEPENDENCIES = $(depend)
 LDADD = $(ldadd)
 CLEANFILES = $(EXTRA_PROGRAMS)
-pactl_set_volume_SOURCES = strbuf.c core-util.c pactl.c pactl-set-volume.c
-pactl_set_volume_DEPENDENCIES = $(DEPENDENCIES)
+pactl_set_cmd_SOURCES = strbuf.c core-util.c pactl.c pactl-set-cmd.c
+pactl_set_cmd_DEPENDENCIES = $(DEPENDENCIES)
 depend = @LIBOBJS@
 all: all-am
 
@@ -352,9 +348,9 @@ uninstall-binPROGRAMS:
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 
-pactl-set-volume$(EXEEXT): $(pactl_set_volume_OBJECTS) $(pactl_set_volume_DEPENDENCIES) $(EXTRA_pactl_set_volume_DEPENDENCIES) 
-	@rm -f pactl-set-volume$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(pactl_set_volume_OBJECTS) $(pactl_set_volume_LDADD) $(LIBS)
+pactl-set-cmd$(EXEEXT): $(pactl_set_cmd_OBJECTS) $(pactl_set_cmd_DEPENDENCIES) $(EXTRA_pactl_set_cmd_DEPENDENCIES) 
+	@rm -f pactl-set-cmd$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(pactl_set_cmd_OBJECTS) $(pactl_set_cmd_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -363,7 +359,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/core-util.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pactl-set-volume.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pactl-set-cmd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pactl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/strbuf.Po@am__quote@
 
@@ -596,7 +592,7 @@ libtool:
 	$(SHELL) ./config.status --recheck
 
 profile:
-	pactl-set-volume
+	pactl-set-cmd
 
 .c.s:
 	$(COMPILE) -S $<

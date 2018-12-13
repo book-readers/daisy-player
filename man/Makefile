@@ -155,13 +155,13 @@ MANS = $(man_MANS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/mkinstalldirs
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/jos/src/own_stuff/daisy-player/daisy-player-11.6.1.1/missing aclocal-1.15
+ACLOCAL = ${SHELL} /home/jos/src/own_stuff/daisy-player/missing aclocal-1.15
 ALLOCA = 
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 0
-AUTOCONF = ${SHELL} /home/jos/src/own_stuff/daisy-player/daisy-player-11.6.1.1/missing autoconf
-AUTOHEADER = ${SHELL} /home/jos/src/own_stuff/daisy-player/daisy-player-11.6.1.1/missing autoheader
-AUTOMAKE = ${SHELL} /home/jos/src/own_stuff/daisy-player/daisy-player-11.6.1.1/missing automake-1.15
+AUTOCONF = ${SHELL} /home/jos/src/own_stuff/daisy-player/missing autoconf
+AUTOHEADER = ${SHELL} /home/jos/src/own_stuff/daisy-player/missing autoheader
+AUTOMAKE = ${SHELL} /home/jos/src/own_stuff/daisy-player/missing automake-1.15
 AWK = gawk
 CC = gcc
 CCAS = gcc
@@ -205,7 +205,7 @@ LN_S = ln -s
 LTLIBICONV = -liconv
 LTLIBINTL = 
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/jos/src/own_stuff/daisy-player/daisy-player-11.6.1.1/missing makeinfo
+MAKEINFO = ${SHELL} /home/jos/src/own_stuff/daisy-player/missing makeinfo
 MKDIR_P = /bin/mkdir -p
 MSGFMT = /usr/bin/msgfmt
 MSGFMT_015 = /usr/bin/msgfmt
@@ -220,10 +220,10 @@ OBJEXT = o
 PACKAGE = daisy-player
 PACKAGE_BUGREPORT = jos@jlemmens.nl
 PACKAGE_NAME = daisy-player
-PACKAGE_STRING = daisy-player 11.6.1.1
+PACKAGE_STRING = daisy-player 11.6.2.1
 PACKAGE_TARNAME = daisy-player
 PACKAGE_URL = www.jlemmens.nl
-PACKAGE_VERSION = 11.6.1.1
+PACKAGE_VERSION = 11.6.2.1
 PATH_SEPARATOR = :
 POSUB = po
 POW_LIB = 
@@ -233,16 +233,16 @@ SET_MAKE =
 SHELL = /bin/bash
 STRIP = 
 USE_NLS = yes
-VERSION = 11.6.1.1
+VERSION = 11.6.2.1
 XGETTEXT = /usr/bin/xgettext
 XGETTEXT_015 = /usr/bin/xgettext
 XGETTEXT_EXTRA_OPTIONS = 
 YACC = bison -y
 YFLAGS = 
-abs_builddir = /home/jos/src/own_stuff/daisy-player/daisy-player-11.6.1.1/man
-abs_srcdir = /home/jos/src/own_stuff/daisy-player/daisy-player-11.6.1.1/man
-abs_top_builddir = /home/jos/src/own_stuff/daisy-player/daisy-player-11.6.1.1
-abs_top_srcdir = /home/jos/src/own_stuff/daisy-player/daisy-player-11.6.1.1
+abs_builddir = /home/jos/src/own_stuff/daisy-player/man
+abs_srcdir = /home/jos/src/own_stuff/daisy-player/man
+abs_top_builddir = /home/jos/src/own_stuff/daisy-player
+abs_top_srcdir = /home/jos/src/own_stuff/daisy-player
 ac_ct_CC = gcc
 ac_ct_CXX = g++
 ac_ct_GCJ = 
@@ -274,7 +274,7 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/jos/src/own_stuff/daisy-player/daisy-player-11.6.1.1/install-sh
+install_sh = ${SHELL} /home/jos/src/own_stuff/daisy-player/install-sh
 ldadd_audio = 
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
@@ -309,9 +309,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu man/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign man/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu man/Makefile
+	  $(AUTOMAKE) --foreign man/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \

@@ -101,7 +101,7 @@ msgid "space,0         - pause/resume playing"
 msgstr "espace,0         - pause/poursuivre l'Ã©coute"
 
 msgid "home,*          - play on normal speed"
-msgstr "home,*           - Ã©couter Ã  la vitesse normale"
+msgstr "home,*           - écouter éla vitesse normale"
 
 msgid "Press any key for next page..."
 msgstr "Appuyez sur une touche pour aller Ã  la page suivante..."
@@ -134,7 +134,7 @@ msgid "h,?             - give this help"
 msgstr "h,?            - afficher cette page d'aide"
 
 msgid "j,5             - just play current item"
-msgstr "j,5            - Ã©couter uniquement l'Ã©lÃ©ment courant"
+msgstr "j,5            - écouter uniquement l'Ã©lÃ©ment courant"
 
 msgid "l               - switch to next level"
 msgstr "l              - aller au niveau suivant"
@@ -194,7 +194,7 @@ msgid "Cannot read /proc/mounts."
 msgstr "Je ne sais pas lire /proc/mounts."
 
 msgid "A parser to play Daisy CD's with Linux"
-msgstr "Une application pour Ã©couter des CD's Daisy sous Linux"
+msgstr "Une application pour écouter des CD's Daisy sous Linux"
 
 msgid "Scanning for a Daisy CD..."
 msgstr "DÃ©tection d'un CD Daisy..."
