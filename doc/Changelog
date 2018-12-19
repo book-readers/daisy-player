@@ -299,5 +299,7 @@ Samuel Thibault <sthibault@debian.org>
 	With 'o' a soundcard can be selected. The volume levels and
 	the "mute" states of all cards ar shown and can be altered
 	using 'm', 'v' and 'V'.
-11.6.2.1	
+11.6.2.1
 	Reset the terminal after daisy-player exits.
+11.6.2.2
+	fr.po patched by  Samuel Thibault <samuel.thibault@ens-lyon.org>.
