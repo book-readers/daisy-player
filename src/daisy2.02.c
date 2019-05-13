@@ -1,6 +1,6 @@
 /* daisy2.02.c - functions to insert daisy2.02 info into a struct.
  *
- * Copyright (C)2003-2018 J. Lemmens
+ * Copyright (C)2003-2019 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -38,7 +38,7 @@ int get_page_number_2 (misc_t *misc, my_attribute_t *my_attribute,
       anchor = strdup (strchr (attr, '#') + 1);
       *strchr (attr, '#') = 0;
    } // if
-   get_path_name (misc->daisy_mp, attr, src);
+   get_realpath_name (misc->daisy_mp, attr, src);
    doc = htmlParseFile (src, "UTF-8");
    if (! (page = xmlReaderWalker (doc)))
    {
@@ -75,7 +75,7 @@ int get_page_number_2 (misc_t *misc, my_attribute_t *my_attribute,
          free (src);
          return 0;
       } // if
-      if (*misc->label)
+      if (*misc->label && atoi (misc->label) != 0)
       {
          xmlTextReaderClose (page);
          xmlFreeDoc (doc);
@@ -155,24 +155,21 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
             if (strcasecmp (my_attribute->id,
                             daisy[misc->current].clips_anchor) == 0)
             {
-               free (daisy[misc->current].anchor);
-               daisy[misc->current].anchor = strdup ("");
+               free (daisy[misc->current].smil_anchor);
+               daisy[misc->current].smil_anchor = strdup ("");
                if (strchr (my_attribute->src, '#'))
                {
-                  free (daisy[misc->current].anchor);
-                  daisy[misc->current].anchor = strdup
+                  free (daisy[misc->current].smil_anchor);
+                  daisy[misc->current].smil_anchor = strdup
                          (strchr (my_attribute->src, '#') + 1);
                   *strchr (my_attribute->src, '#') = 0;
                } // if
-               daisy[misc->current].xml_file = realloc
-                   (daisy[misc->current].xml_file,
+               daisy[misc->current].smil_file = realloc
+                   (daisy[misc->current].smil_file,
                     strlen (misc->daisy_mp) + strlen (my_attribute->src) + 5);
-               get_path_name (misc->daisy_mp,
-               convert_URL_name (misc, my_attribute->src), 
-               daisy[misc->current].xml_file);
-               free (daisy[misc->current].orig_smil);
-               daisy[misc->current].orig_smil =
-                    strdup (daisy[misc->current].xml_file);
+               get_realpath_name (misc->daisy_mp,
+                                  convert_URL_name (misc, my_attribute->src),
+                                  daisy[misc->current].smil_file);
                break;
             } // if
          } // while
@@ -195,10 +192,10 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
                            MAX_STR);
             } // if
             misc->has_audio_tag = 1;
-            misc->current_audio_file = realloc 
+            misc->current_audio_file = realloc
                     (misc->current_audio_file,
                      strlen (misc->daisy_mp) + strlen (my_attribute->src) + 5);
-            get_path_name (misc->daisy_mp,
+            get_realpath_name (misc->daisy_mp,
                         convert_URL_name (misc, my_attribute->src),
                         misc->current_audio_file);
             get_clips (misc, my_attribute);
@@ -237,20 +234,20 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
 #endif
          if (strcasecmp (misc->tag, "text") == 0)
          {
-            free (daisy[misc->current].anchor);
-            daisy[misc->current].anchor = strdup ("");
+            free (daisy[misc->current].smil_anchor);
+            daisy[misc->current].smil_anchor = strdup ("");
             if (strchr (my_attribute->src, '#'))
             {
-               free (daisy[misc->current].anchor);
-               daisy[misc->current].anchor =
+               free (daisy[misc->current].smil_anchor);
+               daisy[misc->current].smil_anchor =
                     strdup (strchr (my_attribute->src, '#') + 1);
                *strchr (my_attribute->src, '#') = 0;
             } // if
-            daisy[misc->current].xml_file = realloc 
-                   (daisy[misc->current].xml_file,
+            daisy[misc->current].smil_file = realloc
+                   (daisy[misc->current].smil_file,
                     strlen (misc->daisy_mp) + strlen (my_attribute->src) + 5);
-            get_path_name (misc->daisy_mp, convert_URL_name (misc,
-                           my_attribute->src), daisy[misc->current].xml_file);
+            get_realpath_name (misc->daisy_mp, convert_URL_name (misc,
+                           my_attribute->src), daisy[misc->current].smil_file);
             if (misc->current + 1 < misc->total_items &&
                 *daisy[misc->current + 1].clips_anchor &&
                 strcasecmp (my_attribute->id,
@@ -264,34 +261,35 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
       xmlFreeDoc (doc);
 #ifdef DAISY_PLAYER
       misc->total_time += daisy[misc->current].duration;
-#endif
+#endif                         
       misc->current++;
       if (misc->current >= misc->total_items)
          return;
    } // while
 } // parse_smil_2
 
-void get_label_2 (misc_t *misc, daisy_t *daisy, int indent)
+void get_label_2 (misc_t *misc, daisy_t *daisy, int indent, int i)
 {
-   strncpy (daisy[misc->current].label, misc->label, 80);
-   daisy[misc->current].label[80] = 0;
+   strncpy (daisy[i].label, misc->label, 80);
+   daisy[i].label[80] = 0;
+   if (misc->verbose)
+      printf ("\r\n%d %s", i + 1, daisy[i].label);
    if (misc->displaying == misc->max_y)
       misc->displaying = 1;
-   if (*daisy[misc->current].class)
+   if (*daisy[i].class)
    {
-      if (strcasecmp (daisy[misc->current].class, "pagenum") == 0)
-         daisy[misc->current].x = 0;
+      if (strcasecmp (daisy[i].class, "pagenum") == 0)
+         daisy[i].x = 0;
       else
-         if (daisy[misc->current].x == 0)
-            daisy[misc->current].x = indent + 3;
-   } // if         
+         if (daisy[i].x == 0)
+            daisy[i].x = indent + 3;
+   } // if
 } // get_label_2
 
 void fill_daisy_struct_2 (misc_t *misc, my_attribute_t *my_attribute,
-                   daisy_t *daisy)
+                 daisy_t *daisy)
 {
-// function for daisy 2.02
-   int indent = 0;
+   int indent, i;
    xmlTextReaderPtr ncc;
    htmlDocPtr doc;
 
@@ -302,22 +300,13 @@ void fill_daisy_struct_2 (misc_t *misc, my_attribute_t *my_attribute,
       int e;
 
       e = errno;
-      snprintf (misc->str, MAX_STR, gettext ("Cannot read %s"), misc->ncc_html);
-      failure (misc, misc->str, e);
+      snprintf (misc->str, MAX_STR, gettext ("Cannot read %s"), misc->ncc_html);      failure (misc, misc->str, e);
    } // if
 
-   for (misc->current = 0; misc->current < misc->total_items;
-        misc->current++)
-   {
-      *daisy[misc->current].label = 0;
-      free (daisy[misc->current].clips_file);
-      daisy[misc->current].clips_file = strdup ("");
-      daisy[misc->current].page_number = 0;
-#ifdef DAISY_PLAYER
-      *daisy[misc->current].class = 0;
-#endif
-   } // for
-   misc->current = misc->displaying = misc->depth = 0;
+   i = misc->displaying = misc->depth = 0;
+   indent = 0;
+   if (misc->verbose)
+      printf ("\n");
    while (1)
    {
       if (! get_tag_or_label (misc, my_attribute, ncc))
@@ -329,8 +318,9 @@ void fill_daisy_struct_2 (misc_t *misc, my_attribute_t *my_attribute,
             if (! get_tag_or_label (misc, my_attribute, ncc))
                break;
          } while (*misc->label == 0);
-         daisy[misc->current].page_number = atoi (misc->label);
+         daisy[i].page_number = atoi (misc->label);
       } // if (strcasecmp (my_attribute->class, "page-normal")
+
       if (strcasecmp (misc->tag, "h1") == 0 ||
           strcasecmp (misc->tag, "h2") == 0 ||
           strcasecmp (misc->tag, "h3") == 0 ||
@@ -338,45 +328,50 @@ void fill_daisy_struct_2 (misc_t *misc, my_attribute_t *my_attribute,
           strcasecmp (misc->tag, "h5") == 0 ||
           strcasecmp (misc->tag, "h6") == 0)
       {
-         daisy[misc->current].level = misc->tag[1] - '0';
-         if (daisy[misc->current].level < 1)
-            daisy[misc->current].level = 1;
-         if (daisy[misc->current].level > misc->depth)
-            misc->depth = daisy[misc->current].level;
-         daisy[misc->current].x = daisy[misc->current].level + 3 - 1;
-         indent = daisy[misc->current].x =
-                     (daisy[misc->current].level - 1) * 3 + 1;
+         daisy[i].level = misc->tag[1] - '0';
+         if (daisy[i].level < 1)
+            daisy[i].level = 1;
+         if (daisy[i].level > misc->depth)
+            misc->depth = daisy[i].level;
+         daisy[i].x = daisy[i].level + 3 - 1;
+         indent = daisy[i].x =
+                     (daisy[i].level - 1) * 3 + 1;
          do
          {
             if (! get_tag_or_label (misc, my_attribute, ncc))
                break;
          } while (strcasecmp (misc->tag, "a") != 0);
-         free (daisy[misc->current].clips_anchor);
-         daisy[misc->current].clips_anchor = strdup ("");
+         free (daisy[i].clips_anchor);
+         daisy[i].clips_anchor = strdup ("");
          if (strchr (my_attribute->href, '#'))
          {
-            free (daisy[misc->current].clips_anchor);
-            daisy[misc->current].clips_anchor = strdup
+            free (daisy[i].clips_anchor);
+            daisy[i].clips_anchor = strdup
                    (strchr (my_attribute->href, '#') + 1);
             *strchr (my_attribute->href, '#') = 0;
          } // if
-         daisy[misc->current].clips_file = realloc 
-                  (daisy[misc->current].clips_file,
+         daisy[i].clips_file = realloc
+                  (daisy[i].clips_file,
                    strlen (misc->daisy_mp) + strlen (my_attribute->href) + 5);
-         get_path_name (misc->daisy_mp, convert_URL_name (misc,
-                        my_attribute->href), daisy[misc->current].clips_file);
+         get_realpath_name (misc->daisy_mp, convert_URL_name (misc,
+                        my_attribute->href), daisy[i].clips_file);
          do
          {
             if (! get_tag_or_label (misc, my_attribute, ncc))
                break;
          } while (*misc->label == 0);
-         get_label_2 (misc, daisy, indent);
-         misc->current++;
-         daisy[misc->current].page_number =
-                    daisy[misc->current - 1].page_number;
+         get_label_2 (misc, daisy, indent, i);
+         if (misc->verbose)
+         {
+            if (daisy[i].page_number != 0)
+               printf (" (%d) ", daisy[i].page_number);
+         } // if
+         i++;
+         daisy[i].page_number =
+                    daisy[i - 1].page_number;
       } // if (strcasecmp (misc->tag, "h1") == 0 || ...
    } // while
-   misc->displaying = misc->current;
+   misc->displaying = i;
    parse_smil_2 (misc, my_attribute, daisy);
    xmlTextReaderClose (ncc);
    xmlFreeDoc (doc);

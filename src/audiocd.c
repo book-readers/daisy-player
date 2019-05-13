@@ -107,11 +107,11 @@ void get_toc_audiocd (misc_t *misc, daisy_t *daisy)
    {
       int x;
 
-      snprintf (daisy[misc->current].label, 15, "Track %2d", misc->current + 1);
-      x = strlen (dir) + 15;
+      sprintf (daisy[misc->current].label, "Track %2d", misc->current + 1);
+      x = strlen (dir) + 25;
       daisy[misc->current].filename = malloc (x);
       snprintf (daisy[misc->current].filename, x,
-                "%s/Track %d.wav", dir, misc->current + 1);
+                "%s/Track-%02d.wav", dir, misc->current + 1);
       daisy[misc->current].first_lsn = cdio_get_track_lsn (cd,
                                                      first_track + misc->current);
       if (misc->displaying == misc->max_y)

@@ -19,7 +19,50 @@
 
 #include "daisy.h"
 
-char sink_info[10][100];                           
+char sink_info[10][100];
+
+void open_xml_file (misc_t *misc, my_attribute_t *my_attribute,
+                    daisy_t *daisy, char *xml_file, char *anchor)
+{
+   if (access (xml_file, R_OK))
+   {
+      endwin ();
+      printf ("%s\n",
+              gettext ("Please try to play this book with daisy-player"));
+      beep ();
+      quit_daisy_player (misc, my_attribute, daisy);
+      _exit (EXIT_SUCCESS);
+   } // if
+   if (! (misc->doc = htmlParseFile (xml_file, "UTF-8")))
+   {
+      int e;
+      char str[MAX_STR];
+
+      e = errno;
+      snprintf (str, MAX_STR, "open_xml_file (%s)", xml_file);
+      failure (misc, str, e);
+   } // if
+   if ((misc->reader = xmlReaderWalker (misc->doc)) == NULL)
+   {
+      int e;
+      char str[MAX_STR];
+
+      e = errno;
+      snprintf (str, MAX_STR, "open_xml_file (%s)", xml_file);
+      failure (misc, str, e);
+   } // if
+   if (! *anchor)
+      return;
+
+// skip to anchor
+   while (1)
+   {
+      if (! get_tag_or_label (misc, my_attribute, misc->reader))
+         break;
+      if (strcasecmp (anchor, my_attribute->id) == 0)
+         break;
+   } // while
+} // open_xml_file
 
 char *convert_URL_name (misc_t *misc, char *file)
 {
@@ -56,8 +99,8 @@ void failure (misc_t *misc, char *str, int e)
    printf ("\n\n%s: %s\n", str, strerror (e));
    fflush (stdout);
    remove_tmp_dir (misc);
-   printf ("reset");
-   kill (misc->main_pid, SIGTERM);
+   switch (system ("reset"));
+   _exit (EXIT_FAILURE);
 } // failure
 
 void player_ended ()
@@ -68,7 +111,7 @@ void player_ended ()
    while ((kidpid = waitpid (-1, &status, WNOHANG)) > 0);
 } // player_ended
 
-void get_path_name (char *dir, char *search_str, char *found)
+void get_realpath_name (char *dir, char *search_str, char *found)
 {
    int total, n;
    struct dirent **namelist;
@@ -76,26 +119,29 @@ void get_path_name (char *dir, char *search_str, char *found)
    total = scandir ((const char *) dir, &namelist, NULL, alphasort);
    if (total == -1)
    {
-      printf ("scandir: %s: %s\n", dir, strerror (errno));
+      printf ("\nscandir: %s: %s\n", dir, strerror (errno));
       exit (EXIT_FAILURE);
    } // if
    for (n = 0; n < total; n++)
    {
-      char *path;
+      char *path, *basec;
 
       path = malloc (strlen (dir) + strlen (namelist[n]->d_name) + 2);
       if (dir[strlen (dir) - 1] == '/')
          sprintf (path, "%s%s", dir, namelist[n]->d_name);
       else
          sprintf (path, "%s/%s", dir, namelist[n]->d_name);
-      if (strcasecmp (namelist[n]->d_name, basename (search_str)) == 0)
+      basec = strdup (search_str);
+      if (strcasecmp (namelist[n]->d_name, basename (basec)) == 0)
       {
          strcpy (found, path);
          free (path);
          free (namelist);
+         free (basec);
          return;
       } // if
       free (path);
+      free (basec);
       if (strcmp (namelist[n]->d_name, ".") == 0 ||
           strcmp (namelist[n]->d_name, "..") == 0)
          continue;
@@ -108,12 +154,12 @@ void get_path_name (char *dir, char *search_str, char *found)
             sprintf (new_dir, "%s/%s", dir, namelist[n]->d_name);
          else
             sprintf (new_dir, "%s%s", dir, namelist[n]->d_name);
-         get_path_name (new_dir, search_str, found);
+         get_realpath_name (new_dir, search_str, found);
          free (new_dir);
       } // if
    } // for
    free (namelist);
-} // get_path_name
+} // get_realpath_name
 
 char *get_dir_content (misc_t *misc, char *dir_name, char *search_str)
 {
@@ -164,16 +210,18 @@ char *get_dir_content (misc_t *misc, char *dir_name, char *search_str)
 
 void find_index_names (misc_t *misc)
 {
+   char *dirc;
 
-   get_path_name (misc->daisy_mp, "ncc.html", misc->ncc_html);
+   get_realpath_name (misc->daisy_mp, "ncc.html", misc->ncc_html);
    *misc->ncx_name = 0;
-   strncpy (misc->ncx_name,
-            get_dir_content (misc, misc->daisy_mp, ".ncx"),
-            MAX_STR - 1);
+   strcpy (misc->ncx_name,
+            get_dir_content (misc, misc->daisy_mp, ".ncx"));
    *misc->opf_name = 0;
-   strncpy (misc->opf_name,
-            get_dir_content (misc, misc->daisy_mp, ".opf"),
-            MAX_STR - 1);
+   strcpy (misc->opf_name,
+            get_dir_content (misc, misc->daisy_mp, ".opf"));
+   dirc = strdup (misc->opf_name);
+   free (misc->daisy_mp);
+   misc->daisy_mp = strdup (dirname (dirc));
 } // find_index_names
 
 void kill_player (misc_t *misc)
@@ -213,10 +261,13 @@ int handle_ncc_html (misc_t *misc, my_attribute_t *my_attribute,
 // lookfor "ncc.html"
    htmlDocPtr doc;
    xmlTextReaderPtr ncc;
+   char *dirc;
 
    free (misc->daisy_mp);
    misc->daisy_mp = strdup (misc->ncc_html);
-   misc->daisy_mp = dirname (misc->daisy_mp);
+   dirc = strdup (misc->daisy_mp);
+   misc->daisy_mp = strdup (dirname (dirc));
+   free (dirc);
    strncpy (misc->daisy_version, "2.02", 4);
    doc = htmlParseFile (misc->ncc_html, "UTF-8");
    ncc = xmlReaderWalker (doc);
@@ -368,6 +419,11 @@ daisy_t *create_daisy_struct (misc_t *misc,
 // handle "ncc.html"
    if (*misc->ncc_html)
    {
+      if (misc->verbose)
+      {
+         printf ("\r\n\ncount items in %s... ", misc->ncc_html);
+         fflush (stdout);
+      } // if
       misc->total_items = handle_ncc_html (misc, my_attribute, daisy);
       return calloc (misc->total_items + 1, sizeof (daisy_t));
    } // if ncc.html
@@ -392,6 +448,11 @@ daisy_t *create_daisy_struct (misc_t *misc,
    } // if
 
 // count items in opf
+   if (misc->verbose)
+   {
+      printf ("\r\n\ncount items in OPF... ");
+      fflush (stdout);
+   } // if
    misc->items_in_opf = 0;
    doc = htmlParseFile (misc->opf_name, "UTF-8");
    ptr = xmlReaderWalker (doc);
@@ -400,12 +461,21 @@ daisy_t *create_daisy_struct (misc_t *misc,
       if (! get_tag_or_label (misc, my_attribute, ptr))
          break;
       if (strcasecmp (misc->tag, "itemref") == 0)
-         misc->items_in_opf++;
+      {
+         misc->items_in_opf++; //
+      } // if
    } // while
    xmlTextReaderClose (ptr);
-   xmlFreeDoc (doc);
+   xmlFreeDoc (doc);                             
+   if (misc->verbose)
+      printf ("%d\n", misc->items_in_opf);
 
 // count items in ncx
+   if (misc->verbose)
+   {
+      printf ("\rcount items in NCX... ");
+      fflush (stdout);
+   } // if
    misc->items_in_ncx = 0;
    doc = htmlParseFile (misc->ncx_name, "UTF-8");
    ptr = xmlReaderWalker (doc);
@@ -418,6 +488,8 @@ daisy_t *create_daisy_struct (misc_t *misc,
    } // while
    xmlTextReaderClose (ptr);
    xmlFreeDoc (doc);
+   if (misc->verbose)
+      printf ("%d\n", misc->items_in_ncx);
 
    if (misc->items_in_ncx == 0 && misc->items_in_opf == 0)
    {
@@ -484,7 +556,7 @@ void remove_tmp_dir (misc_t *misc)
       rmdir (misc->tmp_dir);
       return;
    } // if
-#endif
+#endif                                  
 
    snprintf (misc->cmd, MAX_CMD - 1, "rm -rf %s", misc->tmp_dir);
    if (system (misc->cmd) != 0)
@@ -502,23 +574,24 @@ void remove_tmp_dir (misc_t *misc)
 void get_attributes (misc_t *misc, my_attribute_t *my_attribute,
                      xmlTextReaderPtr ptr)
 {
-   char attr[MAX_STR + 1];
+   char attr[MAX_STR - 1];
 
    snprintf (attr, MAX_STR - 1, "%s", (char *)
              xmlTextReaderGetAttribute (ptr, BAD_CAST "class"));
    if (strcmp (attr, "(null)"))
-      snprintf (my_attribute->class, MAX_STR - 1, "%s", attr);
+      sprintf (my_attribute->class, "%s", attr);
 #ifdef EBOOK_SPEAKER
    if (misc->option_b == 0)
    {
       snprintf (attr, MAX_STR - 1, "%s", (char *)
                 xmlTextReaderGetAttribute
-                               (ptr, (xmlChar *) "break_on_eol"));
+                               (ptr, (xmlChar *) "break_phrase"));
       if (strcmp (attr, "(null)"))
       {
-         misc->break_phrase = attr[0];
-         if (misc->break_phrase != 'y' && misc->break_phrase != 'n')
-            misc->break_phrase = 'n';
+         if (*attr == 'y' || *attr == 'n')
+            misc->break_phrase = *attr;
+         else
+            misc->break_phrase = atoi (attr);
       } // if
    } // if
    snprintf (attr, MAX_STR - 1, "%s", (char *)
@@ -685,10 +758,12 @@ void get_attributes (misc_t *misc, my_attribute_t *my_attribute,
       my_attribute->src = strdup ((char *) xmlTextReaderGetAttribute (ptr,
                (const xmlChar *) "src"));
    } // if
+#ifdef EBOOK_SPEAKER
    snprintf (attr, MAX_STR - 1, "%s", (char *)
              xmlTextReaderGetAttribute (ptr, (const xmlChar *) "tts"));
    if (strcmp (attr, "(null)"))
-      misc->tts_no = atof ((char *) attr);
+      misc->attr_tts_no = atof ((char *) attr);
+#endif      
    snprintf (attr, MAX_STR - 1, "%s", (char *)
              xmlTextReaderGetAttribute (ptr, (const xmlChar *) "toc"));
    if (strcmp (attr, "(null)"))
@@ -830,7 +905,7 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
    view_screen (misc, daisy);
 #ifdef EBOOK_SPEAKER
    remove (misc->tmp_wav);
-#endif             
+#endif
    unlink ("old.wav");
    mvwprintw (misc->titlewin, 1, 0,
               "----------------------------------------");
@@ -860,24 +935,52 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
 #ifdef EBOOK_SPEAKER
    misc->phrase_nr = 0;
 #endif
+   for (misc->current = 0; misc->current < misc->total_items; misc->current++)
+   {
+      if (daisy[misc->current].page_number == atoi (pn))
+      {
+// at the start of an item
+         misc->displaying = misc->playing = misc->current;
+#ifdef DAISY_PLAYER
+         open_clips_file (misc, my_attribute, daisy[misc->playing].clips_file,
+                          daisy[misc->playing].clips_anchor);
+#endif
+#ifdef EBOOK_SPEAKER
+         open_xml_file (misc, my_attribute, daisy,
+                        daisy[misc->playing].xml_file,
+                        daisy[misc->playing].xml_anchor);
+#endif
+         misc->elapsed_seconds = time (NULL);
+         return;
+      } // if
+   } // for
 
+   for (misc->playing = misc->total_items - 1; misc->playing >= 0;
+        misc->playing--)
+   {
+      if (daisy[misc->playing].page_number < atoi (pn))
+         break;
+   } // for
+
+// start searching here
 #ifdef DAISY_PLAYER
    open_clips_file (misc, my_attribute, daisy[misc->playing].clips_file,
                     daisy[misc->playing].clips_anchor);
 #endif
 #ifdef EBOOK_SPEAKER
-   open_xml_file (misc, my_attribute, daisy[misc->playing].xml_file,
-                   daisy[misc->playing].anchor);
+   open_xml_file (misc, my_attribute, daisy, daisy[misc->playing].xml_file,
+                   daisy[misc->playing].xml_anchor);
 #endif
    while (1)
    {
       if (misc->current_page_number == atoi (pn))
       {
+// found it
          misc->displaying = misc->current = misc->playing;
          misc->player_pid = -2;
          view_screen (misc, daisy);
          return;
-      } // if (misc->current_page_number == atoi (pn))
+      } // if current_page_number == pn
       if (misc->current_page_number > atoi (pn))
       {
          misc->current = misc->playing = 0;
@@ -887,11 +990,11 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
                           daisy[misc->playing].clips_anchor);
 #endif
 #ifdef EBOOK_SPEAKER
-         open_xml_file (misc, my_attribute, daisy[misc->playing].xml_file,
-                         daisy[misc->playing].anchor);
+         open_xml_file (misc, my_attribute, daisy, daisy[misc->playing].xml_file,
+                         daisy[misc->playing].xml_anchor);
 #endif
          return;
-      } // if
+      } // if current_page_number >  pn
 #ifdef DAISY_PLAYER
       get_next_clips (misc, my_attribute, daisy);
 #endif
@@ -929,28 +1032,18 @@ void select_next_output_device (misc_t *misc, daisy_t *daisy)
 
    wclear (misc->screenwin);
    wprintw (misc->screenwin, "\n%s\n\n", gettext ("Select a soundcard:"));
-   if (access ("/usr/bin/pacmd", X_OK) == -1)
-   {
-      int e;
-
-      e = errno;
-      printf ("\7\n\n%s: %s\n", gettext
-     ("Be sure the package pulseaudio-utils is installed onto your system."),
-              strerror (e));
-      _exit (EXIT_FAILURE);
-   } // if
 
    if (*misc->pulseaudio_device)
       c = atoi (misc->pulseaudio_device);
    else
       c = 0;
    nodelay (misc->screenwin, FALSE);
-   for (;;)
+   while (! misc->term_signaled)
    {
       char dev[5];
       FILE *p;
 
-      if ((p = popen ("/usr/bin/pactl list sinks", "r")) == NULL)
+      if ((p = popen ("LANG=C /usr/bin/pactl list sinks", "r")) == NULL)
       {
          beep ();
          endwin ();
@@ -964,7 +1057,7 @@ void select_next_output_device (misc_t *misc, daisy_t *daisy)
       char *str = NULL;
 
       n = -1;
-      while (1)
+      while (! misc->term_signaled)
       {
          if (getline (&str, &len, p) == -1)
             break;
@@ -972,7 +1065,7 @@ void select_next_output_device (misc_t *misc, daisy_t *daisy)
          {
             memset (sink_info[++n], ' ', 70);
             continue;
-         } // if          
+         } // if
          if (strstr (str, "Description:"))
          {
             int x;
@@ -1079,8 +1172,16 @@ void select_next_output_device (misc_t *misc, daisy_t *daisy)
       tv.tv_usec = 100000;
 // pause till a key has been pressed or 0.1 seconds are elapsed
       select (1, &rfds, NULL, NULL, &tv);
-   } // for
+   } // while
 } // select_next_output_device
+
+// Useful to reset handlers in fork()ed children
+void reset_term_signal_handlers_after_fork (void)
+{
+   signal (SIGINT, SIG_DFL);
+   signal (SIGTERM, SIG_DFL);
+   signal (SIGHUP, SIG_DFL);
+} // reset_term_signal_handlers
 
 void free_all (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
 {
@@ -1104,10 +1205,9 @@ void free_all (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
         misc->current++)
    {
       free (daisy[misc->current].xml_file);
-      free (daisy[misc->current].anchor);
+      free (daisy[misc->current].xml_anchor);
       free (daisy[misc->current].clips_file);
       free (daisy[misc->current].clips_anchor);
-      free (daisy[misc->current].orig_smil);
    } // for
    delwin (misc->titlewin);
    delwin (misc->screenwin);

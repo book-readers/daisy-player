@@ -220,20 +220,20 @@ OBJEXT = o
 PACKAGE = daisy-player
 PACKAGE_BUGREPORT = jos@jlemmens.nl
 PACKAGE_NAME = daisy-player
-PACKAGE_STRING = daisy-player 11.6.2.2
+PACKAGE_STRING = daisy-player 11.7
 PACKAGE_TARNAME = daisy-player
 PACKAGE_URL = www.jlemmens.nl
-PACKAGE_VERSION = 11.6.2.2
+PACKAGE_VERSION = 11.7
 PATH_SEPARATOR = :
 POSUB = po
 POW_LIB = 
 RANLIB = ranlib
 SED = /bin/sed
 SET_MAKE = 
-SHELL = /bin/bash
+SHELL = /bin/sh
 STRIP = 
 USE_NLS = yes
-VERSION = 11.6.2.2
+VERSION = 11.7
 XGETTEXT = /usr/bin/xgettext
 XGETTEXT_015 = /usr/bin/xgettext
 XGETTEXT_EXTRA_OPTIONS = 
@@ -309,9 +309,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign man/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu man/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign man/Makefile
+	  $(AUTOMAKE) --gnu man/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \

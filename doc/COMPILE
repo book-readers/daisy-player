@@ -11,6 +11,7 @@ To compile daisy-player, be sure the following extra packages are installed:
    libid3tag0-dev
    libpulse-dev
    libsndfile1-dev
+   libid3tag0-dev
    dietlibc-dev
 
 Give the following commands:

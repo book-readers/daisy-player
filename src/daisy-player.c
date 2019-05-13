@@ -1,6 +1,6 @@
 /* daisy-player
  *
- * Copyright (C)2003-2018 J. Lemmens
+ * Copyright (C)2003-2019 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -18,6 +18,7 @@
  */
 
 #include "daisy.h"
+extern void quit_daisy_player (misc_t *, my_attribute_t *, daisy_t *);
 
 void put_bookmark (misc_t *misc)
 {
@@ -166,6 +167,8 @@ void get_bookmark (misc_t *misc, my_attribute_t *my_attribute,
    } // while
    if (misc->level < 1)
       misc->level = 1;
+   if (misc->level > misc->depth)
+      misc->level = misc->depth;
    misc->current_page_number = daisy[misc->playing].page_number - 1;
    misc->just_this_item = -1;
    pause_resume (misc, my_attribute, daisy);
@@ -186,7 +189,7 @@ void get_next_clips (misc_t *misc, my_attribute_t *my_attribute,
          misc->current_audio_file = realloc
                   (misc->current_audio_file,
                    strlen (misc->daisy_mp) + strlen (my_attribute->src) + 5);
-         get_path_name (misc->daisy_mp, convert_URL_name (misc,
+         get_realpath_name (misc->daisy_mp, convert_URL_name (misc,
                    my_attribute->src), misc->current_audio_file);
          get_clips (misc, my_attribute);
          return;
@@ -310,7 +313,7 @@ void view_screen (misc_t *misc, daisy_t *daisy)
 {
    int i, x, x2,  hours, minutes, seconds;
    float time;
-
+       
    mvwprintw (misc->titlewin, 1, 0,
               "----------------------------------------");
    wprintw (misc->titlewin, "----------------------------------------");
@@ -378,7 +381,7 @@ void view_screen (misc_t *misc, daisy_t *daisy)
    wrefresh (misc->screenwin);
    view_page (misc, daisy);
    view_time (misc, daisy);
-} // view_screen         
+} // view_screen
 
 void start_playing (misc_t *misc, daisy_t *daisy)
 {
@@ -401,9 +404,11 @@ void start_playing (misc_t *misc, daisy_t *daisy)
    {
    case -1:
       failure (misc, "fork ()", errno);
+      break;
    case 0: // child
+      reset_term_signal_handlers_after_fork ();
       snprintf (tempo_str, 10, "%lf", misc->speed);
-      playfile (misc->tmp_wav, "wav", misc->pulseaudio_device,
+      playfile (misc, misc->tmp_wav, "wav", misc->pulseaudio_device,
                 "pulseaudio", tempo_str);
       _exit (EXIT_SUCCESS);
    default: // parent
@@ -539,7 +544,7 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
       misc->current += 1;
    } // while
    close (w);
-   playfile (complete_cdr, "cdr", out_file, "wav", "1");
+   playfile (misc, complete_cdr, "cdr", out_file, "wav", "1");
    free (out_file);
    free (out_cdr);
    free (complete_cdr);
@@ -747,14 +752,24 @@ void next_item (misc_t *misc, daisy_t *daisy)
 
 void calculate_times_3 (misc_t *misc, my_attribute_t *my_attribute,
                    daisy_t *daisy)
-{      
+{
    int x;
    xmlTextReaderPtr parse;
    htmlDocPtr doc;
 
    misc->total_time = 0;
+   if (misc->verbose)
+   {
+      printw ("\n\r\nCalculate times ");
+      fflush (stdout);
+   } // if
    for (x = 0; x < misc->total_items; x++)
    {
+      if (misc->verbose)
+      {
+         printf (". ");
+         fflush (stdout);
+      } // if
       daisy[x].duration = 0;
       if (! *daisy[x].clips_file)
          continue;
@@ -767,7 +782,7 @@ void calculate_times_3 (misc_t *misc, my_attribute_t *my_attribute,
          printf (gettext ("Cannot read %s"), daisy[x].clips_file);
          printf ("\n");
          fflush (stdout);
-         _exit (1);
+         _exit (EXIT_FAILURE);
       } // if
 
 // parse this smil
@@ -816,7 +831,7 @@ void calculate_times_3 (misc_t *misc, my_attribute_t *my_attribute,
                   daisy[x].duration += misc->clip_end - misc->clip_begin;
                } // IF
             } // while
-            if (x < misc->total_items - 1 && *daisy[x + 1].clips_anchor)     
+            if (x < misc->total_items - 1 && *daisy[x + 1].clips_anchor)
                if (strcasecmp
                            (my_attribute->id, daisy[x + 1].clips_anchor) == 0)
                   break;
@@ -921,9 +936,8 @@ void save_xml (misc_t *misc)
 void quit_daisy_player (misc_t *misc, my_attribute_t *my_attribute,
                         daisy_t *daisy)
 {
-   view_screen (misc, daisy);
    endwin ();
-   system ("reset");
+   switch (system ("reset"));
    if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
       xmlTextReaderClose (misc->reader);
    kill_player (misc);
@@ -939,7 +953,7 @@ void quit_daisy_player (misc_t *misc, my_attribute_t *my_attribute,
       return;
    snprintf (misc->cmd, MAX_CMD,
              "udisksctl unmount -b %s --force > /dev/null", misc->cd_dev);
-   system (misc->cmd);
+   switch (system (misc->cmd));
 } // quit_daisy_player
 
 void search (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy,
@@ -1047,10 +1061,10 @@ void search (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy,
 } // search
 
 void go_to_time (misc_t *misc, daisy_t *daisy, my_attribute_t *my_attribute)
-{      
+{
    char time_str[10];
    int secs;
-                                
+
    kill_player (misc);
    if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
       misc->player_pid = -2;
@@ -1067,6 +1081,11 @@ void go_to_time (misc_t *misc, daisy_t *daisy, my_attribute_t *my_attribute)
       echo ();
       wgetnstr (misc->titlewin, time_str, 5);
       noecho ();
+      if (misc->term_signaled)
+      {
+         time_str[0] = 0;
+         break;
+      }
       if (strlen (time_str) == 0 || strlen (time_str) == 5)
       {
          if (strlen (time_str) == 0)
@@ -1220,7 +1239,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
       _exit (-1);
    } // if
 
-   for (;;) // forever
+   while (! misc->term_signaled) // forever if not signaled
    {
       switch (wgetch (misc->screenwin))
       {
@@ -1588,6 +1607,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
       case '1':
          if (fork () == 0)
          {
+            reset_term_signal_handlers_after_fork ();
             pactl ("set-sink-volume", misc->pulseaudio_device, "-5%");
             _exit (EXIT_SUCCESS);
          } // if
@@ -1596,9 +1616,10 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
       case '7':
          if (fork () == 0)
          {
+            reset_term_signal_handlers_after_fork ();
             pactl ("set-sink-volume", misc->pulseaudio_device, "+5%");
             _exit (EXIT_SUCCESS);
-         } // if               
+         } // if
          break;
       default:
          beep ();
@@ -1673,19 +1694,20 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          } // if
          view_time (misc, daisy);
       } // if
-   } // for
+   } // while
+   quit_daisy_player (misc, my_attribute, daisy);
 } // browse
 
 void usage (int e)
 {
    printf (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "\n");
-   puts ("(C)2003-2018 J. Lemmens\n");
+   puts ("(C)2003-2019 J. Lemmens\n");
    printf (gettext
     ("Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"),
     PACKAGE);
    printf ("\n%s ",
            gettext ("[-c cdrom_device] [-d pulseaudio_sound_device]"));
-   printf ("[-h] [-i] [-n | -y]\n");
+   printf ("[-h] [-i] [-n | -y] [-v]\n");
    fflush (stdout);
    _exit (e);
 } // usage
@@ -1751,7 +1773,7 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
       } // if (strcasecmp (misc->tag, "title") == 0)
       if (strcasecmp (misc->tag, "a") == 0)
       {
-         get_path_name (misc->daisy_mp, my_attribute->href,
+         get_realpath_name (misc->daisy_mp, my_attribute->href,
                         daisy[misc->current].filename);
          htmlDocPtr doc =
                      htmlParseFile (daisy[misc->current].filename, "UTF-8");
@@ -1761,7 +1783,7 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
             char str[MAX_STR];
 
             e = errno;
-            snprintf (str, MAX_STR, 
+            snprintf (str, MAX_STR,
                gettext ("Cannot read %s"), daisy[misc->current].filename);
             failure (misc, str, e);
          } // if
@@ -1805,6 +1827,15 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
    view_screen (misc, daisy);
 } // handle_discinfo
 
+// pointer to misc->term_signaled, whether we received a termination signal
+static int *daisy_player_term_signaled;
+
+static void term_daisy_player (int sig)
+{
+sig = sig;
+   *daisy_player_term_signaled = 1;
+} // term_daisy_player
+
 int main (int argc, char *argv[])
 {
    int opt;
@@ -1836,14 +1867,24 @@ int main (int argc, char *argv[])
    misc.total_time = 0;
    *misc.daisy_title = 0;
    *misc.ncc_html = 0;
+   misc.term_signaled = 0;
+   daisy_player_term_signaled = &misc.term_signaled;
    strncpy (misc.cd_dev, "/dev/sr0", MAX_STR - 1);
    my_attribute.id = strdup ("");
    my_attribute.idref = strdup ("");
    my_attribute.src = strdup ("");
    sigfillset (&usr_action.sa_mask);
-   usr_action.sa_handler = player_ended;
+   usr_action.sa_handler = player_ended;      
    usr_action.sa_flags =  SA_RESTART;
    sigaction (SIGCHLD, &usr_action, NULL);
+   usr_action.sa_handler = term_daisy_player;
+   usr_action.sa_flags = SA_RESETHAND;
+   sigaction (SIGINT, &usr_action, NULL);
+   sigaction (SIGTERM, &usr_action, NULL);
+// we get two hangups (one from the terminal app, and one from the kernel
+// closing the tty), so don't reset that one
+   usr_action.sa_flags = 0;
+   sigaction (SIGHUP, &usr_action, NULL);
    *misc.xmlversion = 0;
    make_tmp_dir (&misc);
    misc.cddb_flag = 'y';
@@ -1855,10 +1896,12 @@ int main (int argc, char *argv[])
    snprintf (str, MAX_STR, "%s/", LOCALEDIR);
    bindtextdomain (PACKAGE, str);
    opterr = 0;
-   misc.use_OPF = misc.use_NCX = 0;
+   misc.verbose = 0;
+   misc.use_OPF = 0;
+   misc.use_NCX = 0;
    c_opt = d_opt = NULL;
    cddb_opt = 0;
-   while ((opt = getopt (argc, argv, "c:d:hijnyON")) != -1)
+   while ((opt = getopt (argc, argv, "c:d:hijnvyON")) != -1)
    {
       switch (opt)
       {
@@ -1895,11 +1938,16 @@ int main (int argc, char *argv[])
             cddb_opt = misc.cddb_flag;
          } // switch
          break;
+      case 'v':
+         misc.verbose = 1;
+         break;
       case 'N':
          misc.use_NCX = 1;
+         misc.use_OPF = 0;
          break;
       case 'O':
          misc.use_OPF = 1;
+         misc.use_NCX = 0;
          break;
       default:
          beep ();
@@ -1915,21 +1963,16 @@ int main (int argc, char *argv[])
       strcpy (misc.pulseaudio_device, d_opt);
    if (cddb_opt)
       misc.cddb_flag = cddb_opt;
-   initscr ();
-   if (! (misc.titlewin = newwin (2, 80,  0, 0)) ||
-       ! (misc.screenwin = newwin (23, 80, 2, 0)))
-      failure (&misc, "No curses", errno);
    fclose (stderr);
-   getmaxyx (misc.screenwin, misc.max_y, misc.max_x);
-   printw ("(C)2003-2018 J. Lemmens\n");
-   printw (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "");
-   printw ("\n");
-   printw (gettext ("A parser to play Daisy CD's with Linux"));
-   printw ("\n");
-   printw (gettext ("Scanning for a Daisy CD..."));
-   refresh ();
+   switch (system ("clear"));
+   printf ("(C)2003-2019 J. Lemmens\n");
+   printf (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "");
+   printf ("\n");
+   printf (gettext ("A parser to play Daisy CD's with Linux"));
+   printf ("\n");
+   printf (gettext ("Scanning for a Daisy CD..."));
+   fflush (stdout);
    misc.total_pages = misc.mounted_by_daisy_player = 0;
-
    if (argv[optind])
 // if there is an argument
    {
@@ -1939,10 +1982,9 @@ int main (int argc, char *argv[])
          int e;
 
          e = errno;
-         endwin ();
          printf (gettext ("Daisy-player - Version %s %s"),
                  PACKAGE_VERSION, "\n");
-         puts ("(C)2003-2018 J. Lemmens");
+         puts ("(C)2003-2019 J. Lemmens");
          beep ();
          remove_tmp_dir (&misc);
          printf ("%s: %s\n", argv[optind], strerror (e));
@@ -1959,7 +2001,6 @@ int main (int argc, char *argv[])
          int e;
 
          e = errno;
-         endwin ();
          printf ("%s: %s\n", argv[optind], strerror (e));
          beep ();
          fflush (stdout);
@@ -2022,7 +2063,6 @@ int main (int argc, char *argv[])
       } // if unar
       else
       {
-         endwin ();
          printf ("\n%s\n", gettext ("No DAISY-CD or Audio-cd found"));
          beep ();
          remove_tmp_dir (&misc);
@@ -2042,10 +2082,9 @@ int main (int argc, char *argv[])
          int e;
 
          e = errno;
-         endwin ();
          printf (gettext ("Daisy-player - Version %s %s"),
                           PACKAGE_VERSION, "\n");
-         puts ("(C)2003-2018 J. Lemmens");
+         puts ("(C)2003-2019 J. Lemmens");
          beep ();
          remove_tmp_dir (&misc);
          snprintf (misc.str, MAX_STR, gettext ("Cannot read %s"),
@@ -2060,10 +2099,9 @@ int main (int argc, char *argv[])
       } // if
       if (((buf.st_mode & S_IFMT) == S_IFBLK) != 1)
       {
-         endwin ();
          printf (gettext ("Daisy-player - Version %s %s"),
                           PACKAGE_VERSION, "\n");
-         puts ("(C)2003-2018 J. Lemmens");
+         puts ("(C)2003-2019 J. Lemmens");
          beep ();
          remove_tmp_dir (&misc);
          printf ("\n%s is not a cd device\n", misc.cd_dev);
@@ -2081,7 +2119,6 @@ int main (int argc, char *argv[])
       {
          if (time (NULL) - start >= 60)
          {
-            endwin ();
             printf ("%s\n", gettext ("No Daisy CD in drive."));
             remove_tmp_dir (&misc);
             _exit (EXIT_FAILURE);
@@ -2093,7 +2130,6 @@ int main (int argc, char *argv[])
       {
          if (time (NULL) - start >= 20)
          {
-            endwin ();
             printf ("%s\n", gettext ("No Daisy CD in drive."));
             remove_tmp_dir (&misc);
             _exit (EXIT_FAILURE);
@@ -2115,7 +2151,6 @@ int main (int argc, char *argv[])
          case CDIO_DISC_MODE_DVD_PR_DL: /**< DVD+R DL */
          case CDIO_DISC_MODE_CD_MIXED:
          {
-            endwin ();
             if (get_mount_point (&misc) == NULL)
             {
 // if not found a mounted cd, try to mount one
@@ -2123,7 +2158,6 @@ int main (int argc, char *argv[])
                {
                   if (time (NULL) - start >= 10)
                   {
-                     endwin ();
                      printf ("%s\n", gettext ("No Daisy CD in drive."));
                      remove_tmp_dir (&misc);
                      _exit (EXIT_FAILURE);
@@ -2151,8 +2185,8 @@ int main (int argc, char *argv[])
             misc.daisy_mp = strdup ("/tmp");
             for (misc.current = 0; misc.current < misc.total_items; misc.current++)
             {
-               daisy[misc.current].xml_file = strdup ("");
-               daisy[misc.current].anchor = strdup ("");
+               daisy[misc.current].smil_file = strdup ("");
+               daisy[misc.current].smil_anchor = strdup ("");
                daisy[misc.current].clips_file = strdup ("");
                daisy[misc.current].clips_anchor = strdup ("");
                daisy[misc.current].orig_smil = strdup ("");
@@ -2163,17 +2197,12 @@ int main (int argc, char *argv[])
          case CDIO_DISC_MODE_DVD_OTHER:
          case CDIO_DISC_MODE_NO_INFO:
          case CDIO_DISC_MODE_ERROR:
-            endwin ();
             printf ("%s\n", gettext ("No DAISY-CD or Audio-cd found"));
             remove_tmp_dir (&misc);
             return 0;
          } // switch
       } while (misc.cd_type == -1);
    } // if use misc.cd_dev
-   keypad (misc.screenwin, TRUE);
-   meta (misc.screenwin, TRUE);
-   nonl ();
-   noecho ();
    misc.player_pid = -2;
    if (chdir (misc.daisy_mp) == -1)
    {
@@ -2187,13 +2216,21 @@ int main (int argc, char *argv[])
    } // if
    misc.current = 0;
    misc.reader = FALSE;
+   misc.max_x = misc.max_y = 0;
+
+   initscr ();
+   if (! (misc.titlewin = newwin (2, 80,  0, 0)) ||
+       ! (misc.screenwin = newwin (23, 80, 2, 0)))
+      failure (&misc, "No curses", errno);
+   getmaxyx (misc.screenwin, misc.max_y, misc.max_x);
+
    if (misc.cd_type != CDIO_DISC_MODE_CD_DA)
    {
       daisy = create_daisy_struct (&misc, &my_attribute, daisy);
       for (misc.current = 0; misc.current < misc.total_items; misc.current++)
       {
-         daisy[misc.current].xml_file = strdup ("");
-         daisy[misc.current].anchor = strdup ("");
+         daisy[misc.current].smil_file = strdup ("");
+         daisy[misc.current].smil_anchor = strdup ("");
          daisy[misc.current].clips_file = strdup ("");
          daisy[misc.current].clips_anchor = strdup ("");
          daisy[misc.current].orig_smil = strdup ("");
@@ -2238,42 +2275,61 @@ int main (int argc, char *argv[])
                } // if
             } // while
             fill_daisy_struct_2 (&misc, &my_attribute, daisy);
-         }
+         } // ncc_html
          else
          {
 // this is daisy3
             int i;
 
             strncpy (misc.daisy_version, "3", 2);
+            misc.ncx_failed = misc.opf_failed = 0;
             read_daisy_3 (&misc, &my_attribute, daisy);
-            for (i = 0; i < misc.total_items - 1; i++)
+            if (misc.verbose)
+            {
+               printf ("\rRead ID's ");
+               fflush (stdout);
+            } // if
+            for (i = 0; i < misc.total_items; i++)
             {
                htmlDocPtr doc;
                xmlTextReaderPtr last;
 
-               if (! (doc = htmlParseFile (daisy[i].xml_file, "UTF-8")))
+               if (i < misc.total_items - 1)
                {
-                  failure (&misc, daisy[i].xml_file, errno);
+                  if (! *daisy[i + 1].smil_anchor)
+                     continue;
+               } // if
+               if (! (doc = htmlParseFile (daisy[i].smil_file, "UTF-8")))
+               {
+                  failure (&misc, daisy[i].smil_file, errno);
                } // if
                if (! (last = xmlReaderWalker (doc)))
                {
-                  failure (&misc, daisy[i].xml_file, errno);
+                  failure (&misc, daisy[i].smil_file, errno);
                } // if
                while (1)
                {
                   if (! get_tag_or_label (&misc, &my_attribute, last))
                      break;
-                  if (strcasecmp (my_attribute.id, daisy[i + 1].anchor) == 0)
-                     break;
+                  if (i < misc.total_items - 1)
+                     if (strcasecmp
+                         (my_attribute.id, daisy[i + 1].smil_anchor) == 0)
+                        break;
                   if (*my_attribute.id)
                      strcpy (daisy[i].last_id, my_attribute.id);
                } // while
                xmlTextReaderClose (last);
                xmlFreeDoc (doc);
+               if (misc.verbose)
+               {
+                  printf (". ");
+                  fflush (stdout);
+               } // if
             } // for
             fill_page_numbers (&misc, daisy, &my_attribute);
             calculate_times_3 (&misc, &my_attribute, daisy);
-         } // if
+         } // if daisy3
+         misc.verbose = 0;
          if (misc.total_items == 0)
             misc.total_items = 1;
       } // if (! misc.discinfo);
@@ -2290,9 +2346,18 @@ int main (int argc, char *argv[])
       } // if
    } // if
 
+   misc.level = 1;
+   snprintf (misc.tmp_wav, MAX_STR, "%s/daisy-player.wav", misc.tmp_dir);
+   if ((misc.tmp_wav_fd = mkstemp (misc.tmp_wav)) == 01)
+      failure (&misc, "mkstemp ()", errno);
+   misc.pause_resume_playing = -1;
+   keypad (misc.screenwin, TRUE);
+   meta (misc.screenwin, TRUE);
+   nonl ();
+   noecho ();
    wattron (misc.titlewin, A_BOLD);
    snprintf (str, MAX_STR - 1, gettext (
-        "Daisy-player - Version %s - (C)2018 J. Lemmens"), PACKAGE_VERSION);
+        "Daisy-player - Version %s - (C)2019 J. Lemmens"), PACKAGE_VERSION);
    mvwprintw (misc.titlewin, 0, 0, str);
    wrefresh (misc.titlewin);
 
@@ -2306,13 +2371,6 @@ int main (int argc, char *argv[])
               "----------------------------------------");
    wprintw (misc.titlewin, "----------------------------------------");
    mvwprintw (misc.titlewin, 1, 0, "%s ", gettext ("Press 'h' for help"));
-   misc.level = 1;                                   
-   snprintf (misc.tmp_wav, MAX_STR, "%s/daisy-player.wav", misc.tmp_dir);
-   if ((misc.tmp_wav_fd = mkstemp (misc.tmp_wav)) == 01)
-   {
-      failure (&misc, "mkstemp ()", errno);
-   } // if
-   misc.pause_resume_playing = -1;
    if (misc.ignore_bookmark)
       select_next_output_device (&misc, daisy);
    browse (&misc, &my_attribute, daisy, get_current_dir_name ());

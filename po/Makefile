@@ -10,7 +10,7 @@
 GETTEXT_MACRO_VERSION = 0.19
 
 PACKAGE = daisy-player
-VERSION = 11.6.2.2
+VERSION = 11.7
 PACKAGE_BUGREPORT = jos@jlemmens.nl
 
 SED = /bin/sed
@@ -80,7 +80,9 @@ POTFILES = \
      ../src/common.c \
      ../src/daisy2.02.c \
      ../src/daisy3.c \
-     ../src/daisy-player.c
+     ../src/daisy-player.c \
+     ../src/ncx.c \
+     ../src/opf.c
 
 CATALOGS =  af.gmo cs.gmo de.gmo en@quot.gmo en@boldquot.gmo es_ES.gmo es_GT.gmo fi.gmo fr.gmo hu.gmo ml.gmo nb.gmo nl.gmo pl.gmo pt.gmo sl.gmo sv.gmo
 
@@ -240,7 +242,7 @@ $(DOMAIN).pot-update: $(POTFILES) $(srcdir)/POTFILES.in remove-potcdate.sed
 	      --files-from=$(srcdir)/POTFILES.in \
 	      --copyright-holder='$(COPYRIGHT_HOLDER)' \
 	      --package-name="$${package_prefix}daisy-player" \
-	      --package-version='11.6.2.2' \
+	      --package-version='11.7' \
 	      --msgid-bugs-address="$$msgid_bugs_address" \
 	    ;; \
 	esac
@@ -515,11 +517,11 @@ update-gmo: Makefile $(GMOFILES)
 
 # Recreate Makefile by invoking config.status. Explicitly invoke the shell,
 # because execution permission bits may not work on the current file system.
-# Use /bin/bash, which is the shell determined by autoconf for the use by its
+# Use /bin/sh, which is the shell determined by autoconf for the use by its
 # scripts, not $(SHELL) which is hardwired to /bin/sh and may be deficient.
 Makefile: Makefile.in.in Makevars $(top_builddir)/config.status POTFILES.in LINGUAS
 	cd $(top_builddir) \
-	  && /bin/bash ./config.status $(subdir)/$@.in po-directories
+	  && /bin/sh ./config.status $(subdir)/$@.in po-directories
 
 force:
 

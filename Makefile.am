@@ -200,6 +200,11 @@ force-update-gmo-%: check-gettext
 	fi ; \
 	touch po/$$language.po ; \
 	cd po && $(MAKE) $(AM_MAKEFLAGS) update-gmo
+	
+checkinstall:
+	@echo "checkinstall..."
+	make distdir
+	checkinstall
 
 .PHONY:
 	hcheck-gettext update-po update-gmo force-update-gmo

@@ -303,3 +303,11 @@ Samuel Thibault <sthibault@debian.org>
 	Reset the terminal after daisy-player exits.
 11.6.2.2
 	fr.po patched by  Samuel Thibault <samuel.thibault@ens-lyon.org>.
+11.7	Thanks to Didier Spaier <didier@slint.fr> for his patch to common.c:
+	- if ((p = popen ("/usr/bin/pactl list sinks", "r")) == NULL)
+	+ if ((p = popen ("LANG=C /usr/bin/pactl list sinks", "r")) == NULL)
+	Added a new -v option for verbosity while readding a book,
+	so one can see what's going on.
+	Solved compiler warnings.
+	Thanks to Colomban Wendling <cwendling@hypra.fr> for his
+	patch to gracefully quit daisy-player upon receiving a signal.

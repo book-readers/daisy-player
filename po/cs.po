@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2018-12-19 22:07+0100\n"
+"POT-Creation-Date: 2019-05-13 14:36+0200\n"
 "PO-Revision-Date: 2013-01-29 15:06+0200\n"
 "Last-Translator: Martin Chvojka\n"
 "Language-Team: Martin Chvojka\n"
@@ -30,271 +30,266 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/common.c:244 src/common.c:426
+#: src/common.c:31 src/common.c:295 src/common.c:498
 msgid "Please try to play this book with daisy-player"
 msgstr "Vyzkouej pehrt tuto knihu s daisy-playerem prosm"
 
-#: src/common.c:758
+#: src/common.c:833
 #, c-format
 msgid "Cannot read type: %d"
 msgstr "Nemohu pest typ: %d"
 
-#: src/common.c:838
+#: src/common.c:913
 msgid "Go to page number:"
 msgstr "Jdi na strnku:"
 
-#: src/common.c:856
+#: src/common.c:931
 msgid "Please wait..."
 msgstr "ekej prosm..."
 
-#: src/common.c:931
+#: src/common.c:1034
 msgid "Select a soundcard:"
 msgstr "Vyber zvukovou kartu:"
 
-#: src/common.c:938
-msgid "Be sure the package pulseaudio-utils is installed onto your system."
-msgstr ""
-
-#: src/daisy2.02.c:49 src/daisy2.02.c:144 src/daisy2.02.c:305 src/daisy3.c:54
-#: src/daisy3.c:252 src/daisy3.c:322 src/daisy3.c:418 src/daisy3.c:499
-#: src/daisy3.c:821 src/daisy3.c:912 src/daisy3.c:991 src/daisy3.c:1231
-#: src/daisy3.c:1364 src/daisy-player.c:767 src/daisy-player.c:1736
-#: src/daisy-player.c:1765 src/daisy-player.c:2051 src/daisy-player.c:2218
+#: src/daisy2.02.c:49 src/daisy2.02.c:144 src/daisy2.02.c:303
+#: src/daisy-player.c:782 src/daisy-player.c:1758 src/daisy-player.c:1787
+#: src/daisy-player.c:2090 src/daisy-player.c:2255
 #, c-format
 msgid "Cannot read %s"
 msgstr "Nemu pest %s"
 
-#: src/daisy3.c:1181 src/daisy-player.c:834 src/daisy-player.c:1219
-msgid "This book has no audio. Play this book with eBook-speaker"
-msgstr "Tato kniha nem audio. Pehraj tuto knihu s eBook-speaker"
-
-#: src/daisy3.c:1198
-msgid "No items found. Try option \"-N\"."
-msgstr "Nenalezeny dn poloky. Vyzkouej volbu \"-N\"."
-
-#: src/daisy3.c:1343
-msgid "No items found. Try option \"-O\"."
-msgstr "Nenalezeny dn poloky. Vyzkouej volbu \"-O\"."
-
-#: src/daisy-player.c:317
+#: src/daisy-player.c:320
 msgid "'h' for help -"
 msgstr "'h' pro npovdu -"
 
-#: src/daisy-player.c:321
+#: src/daisy-player.c:324
 #, c-format
 msgid "%d pages"
 msgstr "%d strnek"
 
-#: src/daisy-player.c:326
+#: src/daisy-player.c:329
 #, c-format
 msgid "level: %d of %d"
 msgstr "rove: %d z %d"
 
-#: src/daisy-player.c:334
+#: src/daisy-player.c:337
 #, c-format
 msgid "total length: %02d:%02d:%02d"
 msgstr "celkov dlka: %02d:%02d:%02d"
 
-#: src/daisy-player.c:632
+#: src/daisy-player.c:637
 msgid "These commands are available in this version:"
 msgstr "Tyto pkazy jsou dostupn v tto verzi"
 
-#: src/daisy-player.c:636
+#: src/daisy-player.c:641
 msgid "cursor down,2   - move cursor to the next item"
 msgstr "ipka dol,2     - pesune ukazatel na dal poloku"
 
-#: src/daisy-player.c:638
+#: src/daisy-player.c:643
 msgid "cursor up,8     - move cursor to the previous item"
 msgstr "ipka nahoru,8  - pesune ukazatel na pedchoz poloku"
 
-#: src/daisy-player.c:640
+#: src/daisy-player.c:645
 msgid "cursor right,6  - skip to next phrase"
 msgstr "ipka vpravo,6  - pesko na dal frzy"
 
-#: src/daisy-player.c:642
+#: src/daisy-player.c:647
 msgid "cursor left,4   - skip to previous phrase"
 msgstr "ipka vlevo,4   - pesko na pedchoz frzy"
 
-#: src/daisy-player.c:644
+#: src/daisy-player.c:649
 msgid "page-down,3     - view next page"
 msgstr "page-down,3    - zobrazen nsledujc strnky"
 
-#: src/daisy-player.c:646
+#: src/daisy-player.c:651
 msgid "page-up,9       - view previous page"
 msgstr "page-up,9      - zobrazen pedchoz strnky"
 
-#: src/daisy-player.c:648
+#: src/daisy-player.c:653
 msgid "enter           - start playing"
 msgstr "enter          - spustit pehrvn"
 
-#: src/daisy-player.c:650
+#: src/daisy-player.c:655
 msgid "space,0         - pause/resume playing"
 msgstr "mezera,0       -  pauza/pehrvn"
 
-#: src/daisy-player.c:652
+#: src/daisy-player.c:657
 msgid "home,*          - play on normal speed"
 msgstr "home,*         - pehrvn normln rychlost"
 
-#: src/daisy-player.c:654
+#: src/daisy-player.c:659
 msgid "Press any key for next page..."
 msgstr "Stiskni jakoukoli klvesu  pro dal strnku..."
 
-#: src/daisy-player.c:660
+#: src/daisy-player.c:665
 msgid "/               - search for a label"
 msgstr "/              - hledn oznaen"
 
-#: src/daisy-player.c:662
+#: src/daisy-player.c:667
 msgid "d               - store current item to disk"
 msgstr "d              - uloit aktuln poloku na disk"
 
-#: src/daisy-player.c:664
+#: src/daisy-player.c:669
 msgid "D,-             - decrease playing speed"
 msgstr "D,-            - snit rychlost pehrvn"
 
-#: src/daisy-player.c:666
+#: src/daisy-player.c:671
 msgid "e,.             - quit daisy-player, place a bookmark and eject"
 msgstr "e,.            - opustit daisy-player, umstit zloku a pry"
 
-#: src/daisy-player.c:668
+#: src/daisy-player.c:673
 msgid ""
 "f               - find the currently playing item and place the cursor there"
 msgstr "f              - najt aktuln pehrvanou poloku a umstit tam ukazatel"
 
-#: src/daisy-player.c:671
+#: src/daisy-player.c:676
 msgid "g               - go to time in this song (MM:SS)"
 msgstr "g              - jt na as v tto psni (MM:SS)"
 
-#: src/daisy-player.c:674
+#: src/daisy-player.c:679
 msgid "g               - go to time in this item (MM:SS)"
 msgstr "g              - jt na as v tto poloce (MM:SS)"
 
-#: src/daisy-player.c:677
+#: src/daisy-player.c:682
 msgid "G               - go to page number"
 msgstr "G              - jt na strnku"
 
-#: src/daisy-player.c:679
+#: src/daisy-player.c:684
 msgid "h,?             - give this help"
 msgstr "h,?            - zobrazit tuto npovdu"
 
-#: src/daisy-player.c:681
+#: src/daisy-player.c:686
 msgid "j,5             - just play current item"
 msgstr "j,5            - pehrt aktuln poloku"
 
-#: src/daisy-player.c:683
+#: src/daisy-player.c:688
 msgid "l               - switch to next level"
 msgstr "l              - pepnou na nsledujc rove"
 
-#: src/daisy-player.c:685
+#: src/daisy-player.c:690
 msgid "L               - switch to previous level"
 msgstr "L              - pepnout na pedchoz rove"
 
-#: src/daisy-player.c:687
+#: src/daisy-player.c:692
 msgid "m               - mute sound output on/off"
 msgstr ""
 
-#: src/daisy-player.c:689
+#: src/daisy-player.c:694
 msgid "n               - search forwards"
 msgstr "n              - hledat vped"
 
-#: src/daisy-player.c:691
+#: src/daisy-player.c:696
 msgid "N               - search backwards"
 msgstr "N              - hledat vzad"
 
-#: src/daisy-player.c:693
+#: src/daisy-player.c:698
 msgid "o               - select next output sound device"
 msgstr "o              - vybrat nsledujc vstupn zvukov zazen"
 
-#: src/daisy-player.c:695
+#: src/daisy-player.c:700
 msgid "p               - place a bookmark"
 msgstr "P              - umstit zloku"
 
-#: src/daisy-player.c:697
+#: src/daisy-player.c:702
 msgid "q               - quit daisy-player and place a bookmark"
 msgstr "q              - opustit daisy-player a umstit zloku"
 
-#: src/daisy-player.c:699
+#: src/daisy-player.c:704
 msgid "s               - stop playing"
 msgstr "s              - zastavit pehrvn"
 
-#: src/daisy-player.c:701
+#: src/daisy-player.c:706
 msgid "U,+             - increase playing speed"
 msgstr "U,+            - zvit rychlost pehrvn"
 
-#: src/daisy-player.c:703
+#: src/daisy-player.c:708
 msgid "v,1             - decrease playback volume"
 msgstr "v,1            - snit hlasitost pehrvn"
 
-#: src/daisy-player.c:705
+#: src/daisy-player.c:710
 msgid "V,7             - increase playback volume (beware of Clipping)"
 msgstr "V,7            - zvit hlasitost pehrvn (pozor na pebuzen)"
 
-#: src/daisy-player.c:707
+#: src/daisy-player.c:712
 msgid "Press any key to leave help..."
 msgstr "Stiskni jakoukoliv klvesu k oputn npovdy..."
 
-#: src/daisy-player.c:853
+#: src/daisy-player.c:849 src/daisy-player.c:1238
+msgid "This book has no audio. Play this book with eBook-speaker"
+msgstr "Tato kniha nem audio. Pehraj tuto knihu s eBook-speaker"
+
+#: src/daisy-player.c:868
 msgid "Please wait... -------------------------"
 msgstr "ekej prosm... -----------------------------"
 
-#: src/daisy-player.c:964
+#: src/daisy-player.c:978
 msgid "What do you search?"
 msgstr "Co hled?"
 
-#: src/daisy-player.c:1066
+#: src/daisy-player.c:1080
 msgid "Go to time (MM:SS):"
 msgstr "Jdi na as (MM:SS)"
 
-#: src/daisy-player.c:1681 src/daisy-player.c:1925 src/daisy-player.c:1943
-#: src/daisy-player.c:2046 src/daisy-player.c:2064
+#: src/daisy-player.c:1703 src/daisy-player.c:1969 src/daisy-player.c:1985
+#: src/daisy-player.c:2085 src/daisy-player.c:2102
 #, c-format
 msgid "Daisy-player - Version %s %s"
 msgstr "Daisy-player - Verze %s %s"
 
-#: src/daisy-player.c:1684
+#: src/daisy-player.c:1706
 #, c-format
 msgid "Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"
 msgstr "Pouit: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"
 
-#: src/daisy-player.c:1687
+#: src/daisy-player.c:1709
 msgid "[-c cdrom_device] [-d pulseaudio_sound_device]"
 msgstr "[-c cdrom_device] [-d pulseaudio_sound_device]"
 
-#: src/daisy-player.c:1700
+#: src/daisy-player.c:1722
 msgid "Cannot read /proc/mounts."
 msgstr "Nelze pest /proc/mounts."
 
-#: src/daisy-player.c:1927
+#: src/daisy-player.c:1971
+#, c-format
 msgid "A parser to play Daisy CD's with Linux"
 msgstr "Analyztor pro pehrvn Daisy CD s Linuxem"
 
-#: src/daisy-player.c:1929
+#: src/daisy-player.c:1973
+#, c-format
 msgid "Scanning for a Daisy CD..."
 msgstr "Hledm Daisy CD..."
 
-#: src/daisy-player.c:2026 src/daisy-player.c:2167
+#: src/daisy-player.c:2066 src/daisy-player.c:2200
 msgid "No DAISY-CD or Audio-cd found"
 msgstr "Nenalezeno dn DAISY ani Audio CD"
 
-#: src/daisy-player.c:2085 src/daisy-player.c:2097 src/daisy-player.c:2127
+#: src/daisy-player.c:2122 src/daisy-player.c:2133 src/daisy-player.c:2161
 msgid "No Daisy CD in drive."
 msgstr "V mechanice nen Daisy CD."
 
-#: src/daisy-player.c:2142
+#: src/daisy-player.c:2176
 msgid "Found an Audio-CD."
 msgstr "Nalezeno Audio CD"
 
-#: src/daisy-player.c:2144
+#: src/daisy-player.c:2178
 msgid "Get titles from freedb.freedb.org..."
 msgstr "Zskej nzvy z freedb.freedb.org..."
 
-#: src/daisy-player.c:2295
+#: src/daisy-player.c:2360
 #, c-format
-msgid "Daisy-player - Version %s - (C)2018 J. Lemmens"
-msgstr "Daisy-player - Verze %s - (C)2018 J. Lemmens"
+msgid "Daisy-player - Version %s - (C)2019 J. Lemmens"
+msgstr "Daisy-player - Verze %s - (C)2019 J. Lemmens"
 
-#: src/daisy-player.c:2308
+#: src/daisy-player.c:2373
 msgid "Press 'h' for help"
 msgstr "Stiskni 'h' pro npovdu"
+
+#: src/ncx.c:273
+msgid "No items found. Try option \"-O\"."
+msgstr "Nenalezeny dn poloky. Vyzkouej volbu \"-O\"."
+
+#~ msgid "No items found. Try option \"-N\"."
+#~ msgstr "Nenalezeny dn poloky. Vyzkouej volbu \"-N\"."
 
 #~ msgid "Cannot read /proc/asound/cards"
 #~ msgstr "Nemohu pest /proc/asound/cards"
