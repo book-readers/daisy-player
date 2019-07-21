@@ -79,6 +79,8 @@ Rob Sykes <aquegg@yahoo.co.uk>  for sox.
 
 Kim Nilsson <kim.nilsson@no-substitute.com>
 
+Lennart Poettering  for pulseaudio.
+
 FILES
 ~/.daisy-player/  This directory contains the bookmarks in XML-format. . Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level.
 ~/.daisy-player.xml  This file, in XML-format, contains the name of the desired pulseaudio device and the desired playing speed.

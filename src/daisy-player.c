@@ -18,7 +18,6 @@
  */
 
 #include "daisy.h"
-extern void quit_daisy_player (misc_t *, my_attribute_t *, daisy_t *);
 
 void put_bookmark (misc_t *misc)
 {
@@ -528,6 +527,32 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
          printf ("%s: %s\n", misc->current_audio_file, strerror (e));
          _exit (EXIT_FAILURE);
       } // if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
       madplay (misc->current_audio_file, begin, duration, out_cdr);
       r = open (out_cdr, O_RDONLY);
       while ((in = read (r, &buffer, BUF_SIZE)) > 0)
@@ -603,7 +628,7 @@ void store_to_disk (misc_t *misc, my_attribute_t *my_attribute,
    char *str;
    int i, current, playing;
 
-   playing =misc->playing;
+   playing = misc->playing;
    if (playing > -1)
       pause_resume (misc, my_attribute, daisy);
    wclear (misc->screenwin);

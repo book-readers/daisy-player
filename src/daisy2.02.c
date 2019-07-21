@@ -25,7 +25,6 @@ int get_page_number_2 (misc_t *misc, my_attribute_t *my_attribute,
 // function for daisy 2.02
    if (daisy[misc->playing].page_number == 0)
       return 0;
-#ifdef DAISY_PLAYER
    char *src, *anchor;
    xmlTextReaderPtr page;
    htmlDocPtr doc;
@@ -85,33 +84,26 @@ int get_page_number_2 (misc_t *misc, my_attribute_t *my_attribute,
          return 1;
       } // if
    } // while
-#endif
 
    while (1)
    {
       if (*misc->label)
       {
          misc->current_page_number = atoi (misc->label);
-#ifdef DAISY_PLAYER
          free (anchor);
          free (src);
-#endif
          return 1;
       } // if
       if (! get_tag_or_label (misc, my_attribute, misc->reader))
       {
-#ifdef DAISY_PLAYER
          free (anchor);
          free (src);
-#endif
          return 0;
       } // if
    } // while
    attr = attr; // don't need it in eBook-speaker
-#ifdef DAISY_PLAYER
    free (anchor);
    free (src);
-#endif   
 } // get_page_number_2
 
 void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
@@ -120,9 +112,7 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
    htmlDocPtr doc;
    xmlTextReaderPtr parse;
 
-#ifdef DAISY_PLAYER
    misc->total_time = 0;
-#endif
    misc->current = 0;
    while (1)
    {
@@ -174,15 +164,12 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
             } // if
          } // while
       } // if clips_anchor
-#ifdef DAISY_PLAYER
       daisy[misc->current].duration = 0;
       *daisy[misc->current].first_id =  0;
-#endif
       while (1)
       {
          if (! get_tag_or_label (misc, my_attribute, parse))
             break;
-#ifdef DAISY_PLAYER
          if (strcasecmp (misc->tag, "audio") == 0)
          {
             if (! *daisy[misc->current].first_id)
@@ -231,7 +218,6 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
                             daisy[misc->current + 1].clips_anchor) == 0)
                      break;
          } // if (strcasecmp (misc->tag, "audio") == 0)
-#endif
          if (strcasecmp (misc->tag, "text") == 0)
          {
             free (daisy[misc->current].smil_anchor);
@@ -259,9 +245,7 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
       } // while
       xmlTextReaderClose (parse);
       xmlFreeDoc (doc);
-#ifdef DAISY_PLAYER
       misc->total_time += daisy[misc->current].duration;
-#endif                         
       misc->current++;
       if (misc->current >= misc->total_items)
          return;
