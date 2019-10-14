@@ -41,7 +41,7 @@
 #include "macro.h"
 #include "core-util.h"
 
-extern char *pactl (char *, char *, char *);
+extern char *pactl (char *, int, char *);
 extern char sink_info[10][100];
 
 static pa_context *context = NULL;
@@ -456,12 +456,14 @@ userdata = userdata; // avoid notification
     }
 } // context_state_callback
 
-char *pactl (char *cmd, char *device, char *arg)
+char *pactl (char *cmd, int dev, char *arg)
 {
+    char device[5];
     pa_mainloop *m = NULL;
     int ret = 1;
     char *server = NULL;
 
+    sprintf (device, "%d", dev);
     setlocale(LC_ALL, "");
 \
     proplist = pa_proplist_new();

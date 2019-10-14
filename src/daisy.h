@@ -129,9 +129,9 @@ typedef struct Misc
    char daisy_version[MAX_STR], daisy_title[MAX_STR], daisy_language[MAX_STR];
    char *daisy_mp, *tmp_dir;
    char tag[MAX_TAG], *label;
-   int label_len;
+   int label_len, pulseaudio_device;
    char bookmark_title[MAX_STR], search_str[30];
-   char cd_dev[MAX_STR], pulseaudio_device[5];
+   char cd_dev[MAX_STR];
    char cddb_flag, opf_name[MAX_STR], ncx_name[MAX_STR];
    char *current_audio_file, tmp_wav[MAX_STR + 1], mcn[MAX_STR];
    char xmlversion[MAX_STR + 1];
@@ -191,7 +191,7 @@ extern int namefilter (const struct dirent *);
 extern int get_meta_attributes (xmlTextReaderPtr, xmlTextWriterPtr);
 extern void create_ncc_html (misc_t *);
 extern void get_attributes (misc_t *, my_attribute_t *, xmlTextReaderPtr);
-extern char *pactl (char *, char *, char *);
+extern char *pactl (char *, int, char *);
 extern void parse_smil_2 (misc_t *, my_attribute_t *, daisy_t *);
 extern void get_label_opf (misc_t *, my_attribute_t *, daisy_t *, int);
 extern void parse_manifest (misc_t *, my_attribute_t *, daisy_t *,

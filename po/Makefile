@@ -10,7 +10,7 @@
 GETTEXT_MACRO_VERSION = 0.19
 
 PACKAGE = daisy-player
-VERSION = 11.7.2
+VERSION = 11.7.3
 PACKAGE_BUGREPORT = jos@jlemmens.nl
 
 SED = /bin/sed
@@ -242,7 +242,7 @@ $(DOMAIN).pot-update: $(POTFILES) $(srcdir)/POTFILES.in remove-potcdate.sed
 	      --files-from=$(srcdir)/POTFILES.in \
 	      --copyright-holder='$(COPYRIGHT_HOLDER)' \
 	      --package-name="$${package_prefix}daisy-player" \
-	      --package-version='11.7.2' \
+	      --package-version='11.7.3' \
 	      --msgid-bugs-address="$$msgid_bugs_address" \
 	    ;; \
 	esac
