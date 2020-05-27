@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2019-10-18 14:12+0200\n"
+"POT-Creation-Date: 2020-05-27 11:17+0200\n"
 "PO-Revision-Date: 2017-06-19 17:45+0200\n"
 "Last-Translator: Jani Kinnunen <janikinnunen340@gmail.com>\n"
 "Language-Team: Jani Kinnunen <janikinnunen340@gmail.com>\n"
@@ -32,9 +32,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/common.c:31
-#, fuzzy
 msgid "Please try to play this book with eBook-speaker"
-msgstr "Yritä pelata tätä kirjaa daisy-player"
+msgstr "Yritä pelata tätä kirjaa eBook-speaker"
 
 #: src/common.c:287 src/common.c:485
 msgid "Please try to play this book with daisy-player"

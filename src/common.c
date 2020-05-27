@@ -929,7 +929,7 @@ void select_next_output_device (misc_t *misc, daisy_t *daisy)
       int total;
       FILE *p;
 
-      if ((p = popen ("LANG=C /usr/bin/pactl list sinks", "r")) == NULL)
+      if ((p = popen ("LANGUAGE=C /usr/bin/pactl list sinks", "r")) == NULL)
       {
          beep ();
          endwin ();
