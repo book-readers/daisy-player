@@ -215,7 +215,7 @@ mad_timer_t get_time(char const *str, int positive, char const *name)
     die(_("%s must be positive"), name);
 
   return time;
-}
+}               
 
 /*
  * NAME:	main()

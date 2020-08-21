@@ -46,6 +46,8 @@ EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib ChangeLog compile \
              po/hu.JimmiXzSq.po \
              po/hu.po \
              po/insert-header.sin \
+             po/it.gmo \
+             po/it.po \
              po/LINGUAS \
              po/Makefile \
              po/Makefile.in \
@@ -75,6 +77,7 @@ EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib ChangeLog compile \
              po/sv.gmo \
              po/sv.po \
              src/daisy.h src/gettext.h \
+             src/Makefile.am src/Makefile.in \
              src/madplay/ABOUT-NLS \
              src/madplay/aclocal.m4 \
              src/madplay/am \
@@ -146,7 +149,6 @@ EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib ChangeLog compile \
              src/madplay/TODO \
              src/madplay/VERSION \
              src/madplay/version.h \
-             src/Makefile.am src/Makefile.in \
              src/pactl/aclocal.m4 src/pactl/AGPL \
              src/pactl/compile src/pactl/config.guess \
              src/pactl/config.sub \

@@ -37,7 +37,7 @@ void fill_smil_anchor_ncx (misc_t *misc, my_attribute_t *my_attribute,
       misc->ncx_failed = 1;
       return;
    } // if
-   misc->depth = 0;
+   misc->depth = 1;
    misc->current = misc->displaying = 0;
    if (misc->verbose)
    {
@@ -132,8 +132,10 @@ void fill_smil_anchor_ncx (misc_t *misc, my_attribute_t *my_attribute,
                   if (*my_attribute->id)
                   {
                      if (! *daisy[misc->current].first_id)
+                     {
                         strncpy (daisy[misc->current].first_id,
                                  my_attribute->id, MAX_STR);
+                     } // if
                   } // if
                   if (strcasecmp (misc->tag, "text") == 0)
                   {
@@ -177,20 +179,20 @@ void parse_content_ncx (misc_t *misc, my_attribute_t *my_attribute,
    htmlDocPtr doc;
    xmlTextReaderPtr content;
 
-   daisy[misc->current].clips_file = realloc (daisy[misc->current].clips_file,
+   daisy[misc->current].smil_file = realloc (daisy[misc->current].smil_file,
                strlen (misc->daisy_mp) + strlen (my_attribute->src) + 5);
-   sprintf (daisy[misc->current].clips_file, "%s/%s",
+   sprintf (daisy[misc->current].smil_file, "%s/%s",
             misc->daisy_mp, my_attribute->src);
-   if (strchr (daisy[misc->current].clips_file, '#'))
+   if (strchr (daisy[misc->current].smil_file, '#'))
    {
-      free (daisy[misc->current].clips_anchor);
-      daisy[misc->current].clips_anchor =
-               strdup (strchr (daisy[misc->current].clips_file, '#') + 1);
-      *strchr (daisy[misc->current].clips_file, '#') = 0;
+      free (daisy[misc->current].smil_anchor);
+      daisy[misc->current].smil_anchor =
+               strdup (strchr (daisy[misc->current].smil_file, '#') + 1);
+      *strchr (daisy[misc->current].smil_file, '#') = 0;
    } // if
-   daisy[misc->current].clips_file =
-      strdup (convert_URL_name (misc, daisy[misc->current].clips_file));
-   if (! (doc = htmlParseFile (daisy[misc->current].clips_file, "UTF-8")))
+   daisy[misc->current].smil_file =
+      strdup (convert_URL_name (misc, daisy[misc->current].smil_file));
+   if (! (doc = htmlParseFile (daisy[misc->current].smil_file, "UTF-8")))
    {
       misc->ncx_failed = 1;
       return;
@@ -226,8 +228,10 @@ void parse_content_ncx (misc_t *misc, my_attribute_t *my_attribute,
       if (*my_attribute->id)
       {
          if (! *daisy[misc->current].first_id)
+         {
             strncpy (daisy[misc->current].first_id, my_attribute->id,
                      MAX_STR);
+         } // if
       } // if
       if (strcasecmp (misc->tag, "audio") == 0)
          break;
@@ -286,8 +290,10 @@ void parse_ncx (misc_t *misc, my_attribute_t *my_attribute,
       if (! *daisy[misc->current].first_id)
       {
          if (*my_attribute->id)
+         {
             strncpy (daisy[misc->current].first_id, my_attribute->id,
                      MAX_STR);
+         } // if
       } // if
       if (strcasecmp (misc->tag, "docAuthor") == 0)
       {
@@ -354,8 +360,4 @@ void parse_ncx (misc_t *misc, my_attribute_t *my_attribute,
    xmlTextReaderClose (ncx);
    xmlFreeDoc (doc);
    misc->total_items = misc->current;
-
-   for (i = 0; i < misc->items_in_ncx; i++)
-   {
-   } //for
 } // parse_ncx

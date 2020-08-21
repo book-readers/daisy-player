@@ -591,7 +591,8 @@ void pa_disable_sigpipe(void) {
 
     pa_zero(sa);
 
-    if (sigaction(SIGPIPE, NULL, &sa) < 0) {
+    if (sigaction(SIGPIPE, NULL, &sa) < 0) 
+    {
         return;
     }
 

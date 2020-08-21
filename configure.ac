@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([daisy-player], [11.7.4], [jos@jlemmens.nl], [], [www.jlemmens.nl])
+AC_INIT([daisy-player], [12.0], [jos@jlemmens.nl], [], [www.jlemmens.nl])
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
@@ -29,7 +29,7 @@ AC_CHECK_LIB([cdio], [main])
 AC_CHECK_LIB([cdio_cdda], [main])
 # FIXME: Replace `main' with a function in `-lcdio_paranoia':
 AC_CHECK_LIB([cdio_paranoia], [main])
-# FIXME: Replace `main' with a function in `-lmagic':  
+# FIXME: Replace `main' with a function in `-lmagic':
 AC_CHECK_LIB([magic], [main])
 # FIXME: Replace `main' with a function in `-lncursesw':
 AC_CHECK_LIB([ncursesw], [main])
@@ -149,7 +149,7 @@ AC_CHECK_FUNCS([mempcpy])
 AC_CHECK_FUNCS([stpcpy])
 AC_CHECK_FUNCS([strtoul])
 AC_CHECK_HEADERS([argz.h])
-AC_CHECK_HEADERS([limits.h])
+AC_CHECK_HEADERS([limits.h])               nn
 AC_CHECK_HEADERS([stddef.h])
 AC_CHECK_HEADERS([sys/param.h])
 AC_FUNC_ALLOCA
@@ -230,7 +230,7 @@ dnl madplay stuff
 
 echo
 echo "Configure madplay..."
-echo
+echo                      
 
 (cd src/madplay && ./configure)
 

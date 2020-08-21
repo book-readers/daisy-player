@@ -1,6 +1,6 @@
 /* daisy3.c - functions to insert daisy3 info into a struct.
  *
- * Copyright (C) 2019 J. Lemmens
+ * Copyright (C) 2020 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -240,7 +240,6 @@ void parse_page_number (misc_t *misc, my_attribute_t *my_attribute,
 void read_daisy_3 (misc_t *misc, my_attribute_t *my_attribute,
                    daisy_t *daisy)
 {
-
 // when OPF or NCX is forced
    if (misc->use_OPF)
       parse_opf (misc, my_attribute, daisy);

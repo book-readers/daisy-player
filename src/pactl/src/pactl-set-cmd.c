@@ -1,7 +1,7 @@
 /*
  * pactl-set-cmd - test the pactl program
  *
- * (C)2018 - Jos Lemmens
+ * (C)2020 - Jos Lemmens
  */
 
 #include <stdio.h>
@@ -15,7 +15,6 @@ char sink_info[10][100];
 int main (int argc, char *argv[])
 {
    int x;
-   char sink_info[10][100];
 
    if (argc != 4)
    {

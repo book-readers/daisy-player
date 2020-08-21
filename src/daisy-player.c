@@ -1,6 +1,6 @@
 /* daisy-player
  *
- * Copyright (C)2003-2019 J. Lemmens
+ * Copyright (C)2003-2020 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -22,7 +22,7 @@
 void put_bookmark (misc_t *misc)
 {
    xmlTextWriterPtr writer;
-   struct passwd *pw;;
+   struct passwd *pw;
    char name[MAX_CMD];
 
    pw = getpwuid (geteuid ());
@@ -40,15 +40,12 @@ void put_bookmark (misc_t *misc)
    else
       xmlTextWriterWriteFormatAttribute
          (writer, BAD_CAST "item", "%d", misc->current);
-   if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
-   {
-      xmlTextWriterWriteFormatAttribute
-         (writer, BAD_CAST "id", "%s", misc->current_id);
-   }
+   if (misc->playing == -1 && misc->player_pid == -2)
+      xmlTextWriterWriteFormatAttribute (writer, BAD_CAST
+          "elapsed_seconds", "0");
    else
-      xmlTextWriterWriteFormatAttribute
-         (writer, BAD_CAST "seconds", "%d",
-                  (int) (time (NULL) - misc->elapsed_seconds));
+      xmlTextWriterWriteFormatAttribute (writer, BAD_CAST
+        "elapsed_seconds", "%ld", time (NULL) - misc->elapsed_seconds);
    xmlTextWriterWriteFormatAttribute (writer, BAD_CAST
                    "level", "%d", misc->level);
    xmlTextWriterEndElement (writer);
@@ -59,7 +56,7 @@ void put_bookmark (misc_t *misc)
 void get_clips (misc_t *misc, my_attribute_t *my_attribute)
 {
    char begin_str[MAX_STR], *begin, *orig_begin, *end;
-       
+
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
       return;
    orig_begin = my_attribute->clip_begin;
@@ -73,7 +70,9 @@ void get_clips (misc_t *misc, my_attribute_t *my_attribute)
    if (strchr (begin, 's'))
       *strchr (begin, 's') = 0;
    if (! strchr (begin, ':'))
-      misc->clip_begin = (float) atof (begin);
+   {
+      misc->clip_begin = atof (begin);
+   }
    else
       misc->clip_begin = read_time (begin);
 
@@ -83,7 +82,9 @@ void get_clips (misc_t *misc, my_attribute_t *my_attribute)
    if (strchr (end, 's'))
       *strchr (end, 's') = 0;
    if (! strchr (end, ':'))
-      misc->clip_end = (float) atof (end);
+   {
+      misc->clip_end = atof (end);
+   }
    else
       misc->clip_end = read_time (end);
 } // get_clips
@@ -115,7 +116,7 @@ void get_bookmark (misc_t *misc, my_attribute_t *my_attribute,
    xmlTextReaderPtr local_reader;
    htmlDocPtr local_doc;
    struct passwd *pw;
-   char *id, *name;
+   char *name;
    int len;
 
    if (misc->ignore_bookmark == 1)
@@ -147,35 +148,17 @@ void get_bookmark (misc_t *misc, my_attribute_t *my_attribute,
       misc->current = 0;
       return;
    } // if
+
    if (misc->current >= misc->total_items)
-      misc->current = 0;
-   misc->displaying = misc->playing = misc->current;
-   if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
    {
-      misc->elapsed_seconds = time (NULL) - misc->elapsed_seconds;
+      misc->current = 0;
       return;
    } // if
-   id = strdup (my_attribute->id);
-   open_clips_file (misc, my_attribute, daisy[misc->current].clips_file,
-                    daisy[misc->current].clips_anchor);
-   while (1)
-   {
-      if (strcmp (misc->current_id, id) == 0)
-         break;
-      get_next_clips (misc, my_attribute, daisy);
-   } // while
-   if (misc->level < 1)
-      misc->level = 1;
-   if (misc->level > misc->depth)
-      misc->level = misc->depth;
-   misc->current_page_number = daisy[misc->playing].page_number - 1;
-   misc->just_this_item = -1;
-   pause_resume (misc, my_attribute, daisy);
-   pause_resume (misc, my_attribute, daisy);
-   view_screen (misc, daisy);
+   misc->displaying = misc->playing = misc->current;
+   go_to_time (misc, daisy, my_attribute, misc->elapsed_seconds);
 } // get_bookmark
 
-void get_next_clips (misc_t *misc, my_attribute_t *my_attribute,
+void get_next_audio_tag (misc_t *misc, my_attribute_t *my_attribute,
                     daisy_t *daisy)
 {
    int eof;
@@ -209,12 +192,13 @@ void get_next_clips (misc_t *misc, my_attribute_t *my_attribute,
 
       if ((misc->playing + 1 < misc->total_items &&
            strcasecmp (my_attribute->id,
-                       daisy[misc->playing + 1].clips_anchor) == 0) ||
+                       daisy[misc->playing + 1].smil_anchor) == 0) ||
           eof)
       {
-         if (*daisy[misc->playing + 1].clips_anchor || eof)
+         if (*daisy[misc->playing + 1].smil_anchor || eof)
          {
 // go to next item
+            view_screen (misc, daisy);
             strncpy (my_attribute->clip_begin, "0", 2);
             misc->clip_begin = 0;
             if (++misc->playing >= misc->total_items)
@@ -244,16 +228,19 @@ void get_next_clips (misc_t *misc, my_attribute_t *my_attribute,
                   break;
                } // if
             } // if
-            if (misc->playing > -1)
+            if (misc->playing >= 0)
             {
-               open_clips_file (misc, my_attribute,
-                                daisy[misc->playing].clips_file,
-                                daisy[misc->playing].clips_anchor);
+               open_smil_file (misc, my_attribute,
+                                daisy[misc->playing].smil_file,
+                                daisy[misc->playing].smil_anchor);
+               misc->elapsed_seconds = time (NULL);
+               break;
             } // if
          } // if
       } // if
    } // while
-} // get_next_clips            
+   view_screen (misc, daisy);
+} // get_next_audio_tag
 
 void view_page (misc_t *misc, daisy_t *daisy)
 {
@@ -263,56 +250,87 @@ void view_page (misc_t *misc, daisy_t *daisy)
       return;
    if (misc->total_pages == 0)
       return;
-   wattron (misc->screenwin, A_BOLD);
    if (misc->current_page_number)
+   {
+      wattron (misc->screenwin, A_BOLD);
       mvwprintw (misc->screenwin, daisy[misc->playing].y, 62, "(%3d)",
                  misc->current_page_number);
-   wattroff (misc->screenwin, A_BOLD);
-   wmove (misc->screenwin, daisy[misc->current].y, daisy[misc->current].x);
-   wrefresh (misc->screenwin);
+      wattroff (misc->screenwin, A_BOLD);
+      wmove (misc->screenwin, daisy[misc->current].y, daisy[misc->current].x);
+      wrefresh (misc->screenwin);
+   } // if   
 } // view_page
 
 void view_time (misc_t *misc, daisy_t *daisy)
 {
-   float remain_seconds = 0, elapsed_seconds = 0;
-       
+   time_t elapsed_seconds, remain_seconds;
+
+   elapsed_seconds = remain_seconds = 0;
    if (misc->playing == -1 ||
        daisy[misc->current].screen != daisy[misc->playing].screen)
       return;
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
    {
       elapsed_seconds =
-                  (misc->lsn_cursor - daisy[misc->playing].first_lsn) / 75;
+       (misc->lsn_cursor - daisy[misc->playing].first_lsn) / 75;
       remain_seconds =
-                  (daisy[misc->playing].last_lsn - misc->lsn_cursor) / 75;
+        (daisy[misc->playing].last_lsn - misc->lsn_cursor) / 75;
    }
    else
    {
-      struct stat buf;
-
-      if (stat (misc->tmp_wav, &buf))
-         return;
-      elapsed_seconds = (misc->clip_begin - daisy[misc->playing].begin) +
-                        (time (NULL) - buf.st_atime);
+      elapsed_seconds = (float) (time (NULL) - misc->elapsed_seconds);
       remain_seconds = daisy[misc->playing].duration - elapsed_seconds;
    } // if
    elapsed_seconds /= misc->speed;
    wattron (misc->screenwin, A_BOLD);
    mvwprintw (misc->screenwin, daisy[misc->playing].y, 68, "%02d:%02d",
-              (int) elapsed_seconds / 60, (int) elapsed_seconds % 60);
+              (int) ((elapsed_seconds / 60) + 0.5),
+              (int) (((int) elapsed_seconds % 60) + 0.5));
    remain_seconds /= misc->speed;
    mvwprintw (misc->screenwin, daisy[misc->playing].y, 74, "%02d:%02d",
-              (int) remain_seconds / 60, (int) remain_seconds % 60);
+              (int) ((remain_seconds / 60) + 0.5),
+              (int) (((int) remain_seconds % 60) + 0.5));
    wattroff (misc->screenwin, A_BOLD);
    wmove (misc->screenwin, daisy[misc->current].y, daisy[misc->current].x);
    wrefresh (misc->screenwin);
 } // view_time
 
+void view_duration (misc_t *misc, daisy_t *daisy, int nth)
+{
+// added by Colomban Wendling <cwendling@hypra.fr>
+   if (daisy[nth].screen == daisy[misc->current].screen &&
+       (daisy[nth].level <= misc->level || misc->playing == nth))
+   {
+      int x = nth, dur = 0;
+
+      do
+      {
+         dur += daisy[x].duration;
+         if (++x >= misc->total_items)
+            break;
+      } while (misc->playing != nth && daisy[x].level > misc->level);
+      dur /= misc->speed;
+      if (misc->playing == nth)
+      {
+         mvwprintw (misc->screenwin, daisy[misc->playing].y, 68, "     ");
+         wattron (misc->screenwin, A_BOLD);
+      } // if
+      mvwprintw (misc->screenwin, daisy[nth].y, 74, "%02d:%02d",
+                 (int) (dur + .5) / 60, (int) (dur + .5) % 60);
+      if (misc->playing == nth)
+      {
+         wattroff (misc->screenwin, A_BOLD);
+         wmove (misc->screenwin, daisy[misc->current].y,
+                daisy[misc->current].x);
+      } // if
+   } // if
+} // view_duration
+
 void view_screen (misc_t *misc, daisy_t *daisy)
 {
    int i, x, x2,  hours, minutes, seconds;
    float time;
-       
+
    mvwprintw (misc->titlewin, 1, 0,
               "----------------------------------------");
    wprintw (misc->titlewin, "----------------------------------------");
@@ -340,7 +358,7 @@ void view_screen (misc_t *misc, daisy_t *daisy)
               daisy[misc->current].screen + 1,
               daisy[misc->total_items - 1].screen + 1);
    wrefresh (misc->titlewin);
-   wclear (misc->screenwin);
+   werase (misc->screenwin);
    for (i = 0; daisy[i].screen != daisy[misc->current].screen; i++);
    do
    {
@@ -354,21 +372,7 @@ void view_screen (misc_t *misc, daisy_t *daisy)
       if (daisy[i].page_number)
           mvwprintw (misc->screenwin, daisy[i].y, 61, " (%3d)",
                     daisy[i].page_number);
-      if (daisy[i].level <= misc->level)
-      {
-         int x, dur = 0;
-
-         x = i;
-         do
-         {
-            dur += daisy[x].duration;
-            if (++x >= misc->total_items)
-               break;
-         } while (daisy[x].level > misc->level);
-         dur /= misc->speed;
-         mvwprintw (misc->screenwin, daisy[i].y, 74, "%02d:%02d",
-                    (int) (dur + .5) / 60, (int) (dur + .5) % 60);
-      } // if
+      view_duration(misc, daisy, i);
       if (i >= misc->total_items - 1)
          break;
       i++;
@@ -379,7 +383,8 @@ void view_screen (misc_t *misc, daisy_t *daisy)
    wmove (misc->screenwin, daisy[misc->current].y, daisy[misc->current].x);
    wrefresh (misc->screenwin);
    view_page (misc, daisy);
-   view_time (misc, daisy);
+   if (misc->playing <= -1 || misc->update_time)
+      view_time (misc, daisy);
 } // view_screen
 
 void start_playing (misc_t *misc, daisy_t *daisy)
@@ -391,14 +396,8 @@ void start_playing (misc_t *misc, daisy_t *daisy)
    if (misc->playing == -1)
       return;
    if (misc->clip_end - misc->clip_begin <= 0)
-      return;
-   misc->elapsed_seconds = time (NULL);
-
+      failure (misc, "end < begin", errno);
    view_page (misc, daisy);
-   lseek (misc->tmp_wav_fd, SEEK_SET, 0);
-   snprintf (begin, 20, "%f", misc->clip_begin);
-   snprintf (duration, 20, "%f", misc->clip_end - misc->clip_begin);
-   madplay (misc->current_audio_file, begin, duration, misc->tmp_wav);
    switch (misc->player_pid = fork ())
    {
    case -1:
@@ -409,28 +408,32 @@ void start_playing (misc_t *misc, daisy_t *daisy)
       char dev[5];
 
       reset_term_signal_handlers_after_fork ();
+      lseek (misc->tmp_wav_fd, SEEK_SET, 0);
+      snprintf (begin, 20, "%f", misc->clip_begin);
+      snprintf (duration, 20, "%f", misc->clip_end - misc->clip_begin);
+      (void) madplay (misc->current_audio_file, begin, duration, misc->tmp_wav);
       snprintf (tempo_str, 10, "%lf", misc->speed);
       sprintf (dev, "%d", misc->pulseaudio_device);
       playfile (misc, misc->tmp_wav, "wav", dev, "pulseaudio", tempo_str);
       _exit (EXIT_SUCCESS);
    }
    default: // parent
-      return;
+      break;
    } // switch
 } // start_playing
 
-void open_clips_file (misc_t *misc, my_attribute_t *my_attribute,
-                     char *clips_file, char *anchor)
+void open_smil_file (misc_t *misc, my_attribute_t *my_attribute,
+                     char *smil_file, char *anchor)
 {
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
       return;
-   if (! (misc->doc = htmlParseFile (clips_file, "UTF-8")))
+   if (! (misc->doc = htmlParseFile (smil_file, "UTF-8")))
    {
       int e;
       char str[MAX_STR];
 
       e = errno;
-      snprintf (str, MAX_STR, "htmlParseFile (%s)", clips_file);
+      snprintf (str, MAX_STR, "htmlParseFile (%s)", smil_file);
       failure (misc,  str, e);
    } // if
    if (! (misc->reader = xmlReaderWalker (misc->doc)))
@@ -439,7 +442,7 @@ void open_clips_file (misc_t *misc, my_attribute_t *my_attribute,
       char str[MAX_STR];
 
       e = errno;
-      snprintf (str, MAX_STR, "open_clips_file(): %s", clips_file);
+      snprintf (str, MAX_STR, "open_smil_file(): %s", smil_file);
       failure (misc, str, e);
    } // if
 
@@ -454,7 +457,7 @@ void open_clips_file (misc_t *misc, my_attribute_t *my_attribute,
       if (strcasecmp (my_attribute->id, anchor) == 0)
          break;
    } // while
-} // open_clips_file
+} // open_smil_file
 
 void write_wav (misc_t *misc, my_attribute_t *my_attribute,
                 daisy_t *daisy, char *label)
@@ -516,9 +519,9 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
       char buffer[BUF_SIZE];
       ssize_t in, out;
 
-      open_clips_file (misc, my_attribute, daisy[misc->current].clips_file,
-                       daisy[misc->current].clips_anchor);
-      get_next_clips (misc, my_attribute, daisy);
+      open_smil_file (misc, my_attribute, daisy[misc->current].smil_file,
+                       daisy[misc->current].smil_anchor);
+      get_next_audio_tag (misc, my_attribute, daisy);
       snprintf (begin, 20, "%f", daisy[misc->current].begin);
       snprintf (duration, 20, "%f", daisy[misc->current].duration);
       if (access (misc->current_audio_file, R_OK) == -1)
@@ -562,22 +565,25 @@ void pause_resume (misc_t *misc, my_attribute_t *my_attribute,
                           daisy_t *daisy)
 {
    if (misc->playing < 0 && misc->pause_resume_playing < 0)
+   {
+      beep ();
       return;
+   } // if
    if (misc->pulseaudio_device == -1)
       select_next_output_device (misc, daisy);
    if (misc->playing > -1)
    {
+      misc->pause_seconds = time (NULL) - misc->elapsed_seconds;
       misc->pause_resume_playing = misc->playing;
-      misc->pause_resume_id = realloc (misc->pause_resume_id,
-                                       strlen (misc->current_id) + 10);
-      strcpy (misc->pause_resume_id, misc->current_id);
+      misc->pause_resume_id = strdup (misc->current_id);
       misc->playing = -1;
       misc->pause_resume_lsn_cursor = misc->lsn_cursor;
       kill_player (misc);
       return;
    } // if
 
-   misc->playing = misc->pause_resume_playing;
+   misc->current = misc->playing = misc->pause_resume_playing;
+   misc->pause_resume_playing = -1;
    misc->lsn_cursor = misc->pause_resume_lsn_cursor;
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
    {
@@ -588,19 +594,10 @@ void pause_resume (misc_t *misc, my_attribute_t *my_attribute,
                                      misc->pause_resume_lsn_cursor - 75 * 4);
       return;
    } // if
-
-   open_clips_file (misc, my_attribute, daisy[misc->playing].clips_file,
-                    daisy[misc->playing].clips_anchor);
-   while (1)
-   {
-      get_next_clips (misc, my_attribute, daisy);
-      if (strcmp (misc->pause_resume_id, misc->current_id) == 0)
-      {                           
-         start_playing (misc, daisy);
-         view_screen (misc, daisy);
-         return;
-      } // if
-   } // while
+   
+   if (misc->pause_seconds > 5)
+      misc->pause_seconds -= 3;
+   go_to_time (misc, daisy, my_attribute, misc->pause_seconds);
 } // pause_resume
 
 void store_to_disk (misc_t *misc, my_attribute_t *my_attribute,
@@ -694,7 +691,13 @@ void help (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
             ("l               - switch to next level"));
    wprintw (misc->screenwin, "%s\n", gettext
             ("L               - switch to previous level"));
-   wprintw (misc->screenwin, "%s\n", gettext
+   wprintw (misc->screenwin, "\n%s", gettext
+            ("Press any key for next page..."));
+   nodelay (misc->screenwin, FALSE);
+   wgetch (misc->screenwin);
+   nodelay (misc->screenwin, TRUE);
+   wclear (misc->screenwin);
+   wprintw (misc->screenwin, "\n%s\n", gettext
             ("m               - mute sound output on/off"));
    wprintw (misc->screenwin, "%s\n", gettext
             ("n               - search forwards"));
@@ -708,6 +711,8 @@ void help (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
             ("q               - quit daisy-player and place a bookmark"));
    wprintw (misc->screenwin, "%s\n", gettext
             ("s               - stop playing"));
+   wprintw (misc->screenwin, "%s\n", gettext
+            ("T               - display the time passing during playback on/off"));
    wprintw (misc->screenwin, "%s\n", gettext
             ("U,+             - increase playing speed"));
    wprintw (misc->screenwin, "%s\n", gettext
@@ -777,28 +782,29 @@ void calculate_times_3 (misc_t *misc, my_attribute_t *my_attribute,
          fflush (stdout);
       } // if
       daisy[x].duration = 0;
-      if (! *daisy[x].clips_file)
+      if (! *daisy[x].smil_file)
          continue;
-      doc = htmlParseFile (daisy[x].clips_file, "UTF-8");
+      doc = htmlParseFile (daisy[x].smil_file, "UTF-8");
       if (! (parse = xmlReaderWalker (doc)))
       {
          endwin ();
          beep ();
          printf ("\n");
-         printf (gettext ("Cannot read %s"), daisy[x].clips_file);
+         printf (gettext ("Cannot read %s"), daisy[x].smil_file);
          printf ("\n");
          fflush (stdout);
+         remove_tmp_dir (misc);
          _exit (EXIT_FAILURE);
       } // if
 
 // parse this smil
-      if (*daisy[x].clips_anchor)
+      if (*daisy[x].smil_anchor)
       {
          while (1)
          {
             if (! get_tag_or_label (misc, my_attribute, parse))
                break;
-            if (strcasecmp (daisy[x].clips_anchor, my_attribute->id) == 0)
+            if (strcasecmp (daisy[x].smil_anchor, my_attribute->id) == 0)
                break;
          } // while
       } // if
@@ -822,10 +828,10 @@ void calculate_times_3 (misc_t *misc, my_attribute_t *my_attribute,
                   break;
                if (x + 1 < misc->total_items)
                {
-                  if (*daisy[x + 1].clips_anchor)
+                  if (*daisy[x + 1].smil_anchor)
                   {
                      if (strcasecmp
-                          (my_attribute->id, daisy[x + 1].clips_anchor) == 0)
+                          (my_attribute->id, daisy[x + 1].smil_anchor) == 0)
                      {
                         break;
                      } // if
@@ -837,9 +843,9 @@ void calculate_times_3 (misc_t *misc, my_attribute_t *my_attribute,
                   daisy[x].duration += misc->clip_end - misc->clip_begin;
                } // IF
             } // while
-            if (x < misc->total_items - 1 && *daisy[x + 1].clips_anchor)
+            if (x < misc->total_items - 1 && *daisy[x + 1].smil_anchor)
                if (strcasecmp
-                           (my_attribute->id, daisy[x + 1].clips_anchor) == 0)
+                           (my_attribute->id, daisy[x + 1].smil_anchor) == 0)
                   break;
          } // if (strcasecmp (misc->tag, "audio") == 0)
       } // while
@@ -852,7 +858,8 @@ void calculate_times_3 (misc_t *misc, my_attribute_t *my_attribute,
       beep ();
       quit_daisy_player (misc, my_attribute, daisy);
       printf ("%s\n", gettext (
-        "This book has no audio. Play this book with eBook-speaker"));
+        "This book has no audio. Play this book with \"eBook-speaker\""));
+      remove_tmp_dir (misc);
       _exit (EXIT_FAILURE);
    } // if
 } // calculate_times_3
@@ -896,9 +903,10 @@ void load_xml (misc_t *misc, my_attribute_t *my_attribute)
    xmlTextReaderPtr reader;
    htmlDocPtr doc;
 
+   misc->elapsed_seconds = time (NULL);
    pw = getpwuid (geteuid ());
    snprintf (str, MAX_STR - 1, "%s/.daisy-player.xml", pw->pw_dir);
-   doc = xmlRecoverFile (str);
+   doc = htmlParseFile (str, "UTF-8");
    if (! (reader = xmlReaderWalker (doc)))
       return;
    do
@@ -942,13 +950,14 @@ void save_xml (misc_t *misc)
 void quit_daisy_player (misc_t *misc, my_attribute_t *my_attribute,
                         daisy_t *daisy)
 {
+   kill_player (misc);
    endwin ();
    switch (system ("reset"));
-   if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
-      xmlTextReaderClose (misc->reader);
-   kill_player (misc);
-   put_bookmark (misc);
-   save_xml (misc);
+   if (! misc->discinfo)
+   {
+      put_bookmark (misc);
+      save_xml (misc);
+   } // if
    if (misc->tmp_wav_fd > -1)
       close (misc->tmp_wav_fd);
    unlink (misc->tmp_wav);
@@ -969,7 +978,7 @@ void search (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy,
 
    if (misc->playing > -1)
    {
-      pause_resume (misc, my_attribute, daisy);
+      kill_player (misc);
       misc->player_pid = -2;
       misc->playing = misc->just_this_item = -1;
       view_screen (misc, daisy);
@@ -1037,18 +1046,19 @@ void search (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy,
       misc->just_this_item = -1;
       misc->current_page_number = daisy[misc->current].page_number;
       view_screen (misc, daisy);
+      misc->elapsed_seconds = time (NULL);
       if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
       {
          char dev[5];
-         
+
          sprintf (dev, "%d", misc->pulseaudio_device);
-         misc->elapsed_seconds = time (NULL);
          misc->player_pid = play_track (misc, dev,
                              "pulseaudio", daisy[misc->current].first_lsn);
       }
       else
-         open_clips_file (misc, my_attribute, daisy[misc->current].clips_file,
-                         daisy[misc->current].clips_anchor);
+      {
+         go_to_time (misc, daisy, my_attribute, 0);
+      } // if
    }
    else
    {
@@ -1059,59 +1069,65 @@ void search (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy,
       misc->playing = misc->displaying;
       if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
       {
+         kill_player (misc);
          misc->playing = -1;
-         pause_resume (misc, my_attribute, daisy);
       }
       else
       {
-         pause_resume (misc, my_attribute, daisy);
+         kill_player (misc);
       } // if
    } // if
 } // search
 
-void go_to_time (misc_t *misc, daisy_t *daisy, my_attribute_t *my_attribute)
+void go_to_time (misc_t *misc, daisy_t *daisy,
+                 my_attribute_t *my_attribute, time_t flag)
 {
    char time_str[10];
    int secs;
+   float sub_dur, old_dur, offset;
 
    kill_player (misc);
    if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
       misc->player_pid = -2;
-   misc->just_this_item = -1;
    misc->playing = misc->displaying = misc->current;
-   view_screen (misc, daisy);
-   mvwprintw (misc->titlewin, 1, 0, "----------------------------------------");
-   wprintw (misc->titlewin, "----------------------------------------");
-   *time_str = 0;
-   while (1)
+   if (flag == -1)
    {
-      mvwprintw (misc->titlewin, 1, 0, "%s ",
+      mvwprintw (misc->titlewin, 1, 0,
+                      "----------------------------------------");
+      wprintw (misc->titlewin,
+                      "----------------------------------------");
+      *time_str = 0;
+      while (1)
+      {
+         mvwprintw (misc->titlewin, 1, 0, "%s ",
                  gettext ("Go to time (MM:SS):"));
-      echo ();
-      wgetnstr (misc->titlewin, time_str, 5);
-      noecho ();
-      if (misc->term_signaled)
-      {
-         time_str[0] = 0;
-         break;
-      }
-      if (strlen (time_str) == 0 || strlen (time_str) == 5)
-      {
-         if (strlen (time_str) == 0)
+         echo ();
+         wgetnstr (misc->titlewin, time_str, 5);
+         noecho ();
+         if (misc->term_signaled)
+         {
+            time_str[0] = 0;
+            break;
+         } // if
+         if (strlen (time_str) == 0 || strlen (time_str) == 5)
+         {
+            if (strlen (time_str) == 0)
+               beep ();
+            break;
+         }
+         else
             beep ();
-         break;
-      }
+      } // while
+      if (strlen (time_str) == 0)
+         secs = 0;
       else
-         beep ();
-   } // while
-   view_screen (misc, daisy);
-   if (strlen (time_str) == 0)
-      secs = 0;
+      {
+         secs = (time_str[0] - '0') * 600 + (time_str[1] - '0')* 60 +
+             (time_str[3] - '0') * 10 + (time_str[4] - '0');
+      } // if
+   }
    else
-   {
-      secs = (time_str[0] - 48) * 600 + (time_str[1] - 48)* 60 +
-             (time_str[3] - 48) * 10 + (time_str[4] - 48);
-   } // if
+      secs = flag;
    if (secs >= daisy[misc->current].duration / misc->speed)
    {
       beep ();
@@ -1125,21 +1141,29 @@ void go_to_time (misc_t *misc, daisy_t *daisy, my_attribute_t *my_attribute)
       misc->player_pid = play_track (misc, dev, "pulseaudio",
                          daisy[misc->current].first_lsn + (secs * 75));
       misc->elapsed_seconds = time (NULL) - secs;
-      free (misc->prev_id);
-      misc->prev_id = strdup (misc->current_id);
+      free (misc->prev_id);      misc->prev_id = strdup (misc->current_id);
       return;
    } // if
 
    misc->clip_begin = 0;
-   open_clips_file (misc, my_attribute, daisy[misc->current].clips_file,
-
-                    daisy[misc->current].clips_anchor);
+   open_smil_file (misc, my_attribute, daisy[misc->current].smil_file,
+                    daisy[misc->current].smil_anchor);
    free (misc->current_id);
    misc->current_id = strdup (daisy[misc->current].first_id);
+   sub_dur = old_dur = 0;
    do
    {
-      get_next_clips (misc, my_attribute, daisy);
-   } while (misc->clip_begin / misc->speed < secs);
+      misc->clip_begin = misc->clip_end = -1;
+      get_next_audio_tag (misc, my_attribute, daisy);
+      if (misc->clip_begin == -1 && misc->clip_end == -1)
+         continue;
+      old_dur = sub_dur;
+      sub_dur += (misc->clip_end - misc->clip_begin);
+   } while (sub_dur < secs);
+   offset = secs - old_dur;
+   misc->clip_begin += offset;
+   misc->elapsed_seconds = time (NULL) - (time_t) secs;
+   view_time (misc, daisy);
    start_playing (misc, daisy);
    view_screen (misc, daisy);
 } // go_to_time
@@ -1147,9 +1171,8 @@ void go_to_time (misc_t *misc, daisy_t *daisy, my_attribute_t *my_attribute)
 void skip_left (misc_t *misc, my_attribute_t *my_attribute,
                 daisy_t *daisy)
 {
-   char *prev_id;
+   time_t secs;
 
-   prev_id = strdup (misc->prev_id);
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
       return;
    if (misc->playing < 0) // not playing
@@ -1158,61 +1181,51 @@ void skip_left (misc_t *misc, my_attribute_t *my_attribute,
       return;
    } // if not playing
    misc->current = misc->displaying = misc->playing;
-   if (misc->playing == 0) // first item
+   wmove (misc->screenwin, daisy[misc->current].y, daisy[misc->current].x);
+   wrefresh (misc->screenwin);
+   secs = time (NULL) - misc->elapsed_seconds;
+   if (secs < 10)
    {
-      if (strcmp (daisy[misc->playing].first_id, misc->audio_id) == 0)
+      if (misc->just_this_item >= 0 &&
+          misc->playing > 0 &&
+          daisy[misc->playing].level <= misc->level)
       {
          beep ();
+         misc->just_this_item = misc->playing = -1;
+         kill_player (misc);
+         view_screen (misc, daisy);
+         return;
+      }
+      else
+      {
+         while (1)
+         {
+            misc->current = misc->displaying = --misc->playing;
+            if (misc->current == -1)
+            {
+               misc->current = 0;
+               misc->playing = -1;
+               kill_player (misc);
+               misc->player_pid = -2;
+               view_screen (misc, daisy);
+               return;
+            } // if
+            if (daisy[misc->current].duration > 10)
+               break;
+         } // while
+         go_to_time (misc, daisy, my_attribute,
+                     daisy[misc->current].duration - 10);
          return;
       } // if
-   } // if first item
-   if (misc->player_pid > -1)
-   {
-      kill_player (misc);
-      misc->player_pid = -2;
    } // if
-   if (misc->reader)
-      xmlTextReaderClose (misc->reader);
-   if (misc->doc)
-      xmlFreeDoc (misc->doc);
-   if (strcmp (daisy[misc->playing].first_id, misc->audio_id) == 0)
-   {
-      if (misc->just_this_item > -1 &&
-          daisy[misc->playing].level  <= misc->level)
-      {
-         beep ();
-         misc->current = misc->displaying = misc->playing;
-         misc->playing = misc->just_this_item = -1;
-         view_screen (misc, daisy);
-         wmove (misc->screenwin, daisy[misc->current].y,
-                daisy[misc->current].x);
-         return;
-      } // if misc->just_this_item
-// go to previous item
-      misc->playing--;
-      prev_id = strdup (daisy[misc->playing].last_id);
-   } // go to previous item
-   misc->current = misc->displaying = misc->playing;
-   misc->current_page_number = daisy[misc->current].page_number;
-   open_clips_file (misc, my_attribute, daisy[misc->playing].clips_file,
-                    daisy[misc->playing].clips_anchor);
-   free (misc->current_id);
-   misc->current_id = strdup (daisy[misc->playing].first_id);
-   while (1)
-   {
-      if (strcmp (misc->current_id, prev_id) == 0)
-         break;
-      get_next_clips (misc, my_attribute, daisy);
-   } // while
-   start_playing (misc, daisy);
-   view_screen (misc, daisy);
-   return;
+   go_to_time (misc, daisy, my_attribute, secs - 10);
 } // skip_left
 
 void browse (misc_t *misc, my_attribute_t *my_attribute,
-             daisy_t *daisy, char *wd)
+             daisy_t *daisy)
 {
    int old_screen, i;
+   time_t next_time_clear = (time_t) -1;
 
    for (misc->current = 0; misc->current < misc->total_items; misc->current++)
    {
@@ -1251,7 +1264,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
       beep ();
       quit_daisy_player (misc, my_attribute, daisy);
       printf ("%s\n", gettext (
-        "This book has no audio. Play this book with eBook-speaker"));
+        "This book has no audio. Play this book with \"eBook-speaker\""));
       _exit (-1);
    } // if
 
@@ -1261,49 +1274,28 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
       {
       case 13: // ENTER
          misc->just_this_item = -1;
-         view_screen (misc, daisy);
          misc->playing = misc->displaying = misc->current;
+         view_screen (misc, daisy);
          free (misc->current_id);
          misc->current_id = strdup ("");
          misc->current_page_number = daisy[misc->playing].page_number;
          if (misc->player_pid > -1)
             kill_player (misc);
          misc->player_pid = -2;
-         if (misc->discinfo)
-         {
-            int len;
-            char *str;
-
-            len = strlen (wd) + strlen ( PACKAGE) +
-                  strlen (misc->daisy_mp) +
-                  strlen (daisy[misc->current].daisy_mp) + + 100;
-            str = malloc (len);
-            snprintf (str, len,
-                      "cd \"%s\"; \"%s\" \"%s\"/\"%s\" -d %d",
-                      wd, PACKAGE, misc->daisy_mp,
-                      daisy[misc->current].daisy_mp, misc->pulseaudio_device);
-            switch (system (str));
-            snprintf (str, len,
-                      "cd \"%s\"; \"%s\" \"%s\" -d %d\n", wd, PACKAGE,
-                      misc->daisy_mp, misc->pulseaudio_device);
-            switch (system (str));
-            free (str);
-            quit_daisy_player (misc, my_attribute, daisy);
-            _exit (EXIT_SUCCESS);
-         } // if
          if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
          {
             char dev[5];
-            
+
             sprintf (dev, "%d", misc->pulseaudio_device);
             misc->player_pid = play_track (misc, dev, "pulseaudio",
                 daisy[misc->current].first_lsn);
             misc->elapsed_seconds = time (NULL);
             break;
          } // if
-         open_clips_file (misc, my_attribute,
-                daisy[misc->current].clips_file,
-                daisy[misc->current].clips_anchor);
+
+         open_smil_file (misc, my_attribute,
+                daisy[misc->current].smil_file,
+                daisy[misc->current].smil_anchor);
          misc->elapsed_seconds = time (NULL);
          break;
       case '/':
@@ -1321,6 +1313,13 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          {
             beep ();
             break;
+         } // if
+         if (! misc->update_time)
+         {
+            if (misc->playing > -1)
+               view_time (misc, daisy);
+            else
+               view_duration (misc, daisy, misc->displaying);
          } // if
          pause_resume (misc, my_attribute, daisy);
          break;
@@ -1356,7 +1355,9 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          view_screen (misc, daisy);
          break;
       case 'g':
-         go_to_time (misc, daisy, my_attribute);
+         if (misc->just_this_item != misc->current)
+            misc->just_this_item = -1;
+         go_to_time (misc, daisy, my_attribute, -1);
          break;
       case 'G':
          if (misc->discinfo)
@@ -1376,19 +1377,18 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
       case 'j':
       case '5':
       case KEY_B2:
-         if (misc->discinfo)
-         {
-            beep ();
-            break;
-         } // if
          if (misc->just_this_item >= 0)
             misc->just_this_item = -1;
          else
+         {
             if (misc->playing >= 0)
                misc->just_this_item = misc->playing;
             else
+            {
                misc->just_this_item = misc->current;
-         mvwprintw (misc->screenwin, daisy[misc->displaying].y, 0, " ");
+               misc->elapsed_seconds = time (NULL);
+            } // if
+         } // if
          if (misc->playing == -1)
          {
             misc->just_this_item = misc->displaying = misc->playing =
@@ -1398,22 +1398,24 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
             if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
             {
                char dev[5];
-               
+
                sprintf (dev, "%d", misc->pulseaudio_device);
                misc->player_pid = play_track (misc, dev,
                                 "pulseaudio", daisy[misc->current].first_lsn);
             }
             else
             {
-               open_clips_file (misc, my_attribute,
-                 daisy[misc->current].clips_file,
-                 daisy[misc->current].clips_anchor);
+               open_smil_file (misc, my_attribute,
+                 daisy[misc->current].smil_file,
+                 daisy[misc->current].smil_anchor);
             } // if
          } // if
          wattron (misc->screenwin, A_BOLD);
          if (misc->just_this_item != -1 &&
              daisy[misc->displaying].screen == daisy[misc->playing].screen)
+         {
             mvwprintw (misc->screenwin, daisy[misc->displaying].y, 0, "J");
+         }
          else
             mvwprintw (misc->screenwin, daisy[misc->displaying].y, 0, " ");
          wrefresh (misc->screenwin);
@@ -1439,7 +1441,11 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
       case 'm':
          if (fork () == 0)
          {
-            pactl ("set-sink-mute", misc->pulseaudio_device, "toggle");
+            char pa[25];
+
+            reset_term_signal_handlers_after_fork ();
+            sprintf (pa, "%d", misc->pulseaudio_device);
+            (void) pactl ("set-sink-mute", pa, "toggle");
             _exit (EXIT_SUCCESS);
          } // if
          break;
@@ -1488,6 +1494,9 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          wmove (misc->screenwin, daisy[misc->current].y,
                                  daisy[misc->current].x);
          break;
+      case 'T':
+         misc->update_time = 1 - misc->update_time;
+         break;
       case KEY_DOWN:
       case '2':
          next_item (misc, daisy);
@@ -1509,24 +1518,33 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          {
             char dev[5];
 
+            if (misc->playing == -1)
+            {
+               beep (); 
+               break;
+            } // if
             kill_player (misc);
             misc->lsn_cursor += 8 * 75;
             if (misc->lsn_cursor >= daisy[misc->playing].last_lsn)
             {
+               view_screen (misc, daisy);
                if (misc->just_this_item > -1)
                {
+                  beep ();
                   misc->displaying = misc->current = misc->playing;
                   misc->playing = -1;
-                  view_screen (misc, daisy);
                   break;
                }
                else
+               {
                   misc->displaying = misc->current = ++misc->playing;
+                  view_screen (misc, daisy);
+               } // if
                if (misc->current >= misc->total_items)
                {
                   struct passwd *pw;
                   int len;
-                  char *str;
+                   char *str;
 
                   pw = getpwuid (geteuid ());
                   quit_daisy_player (misc, my_attribute, daisy);
@@ -1546,7 +1564,12 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
                                misc->lsn_cursor);
             break;
          } // if
-         skip_right (misc, daisy);
+         skip_right (misc, daisy, my_attribute);
+         if (! misc->update_time)
+         {
+            view_time (misc, daisy);
+            next_time_clear = time (NULL) + 2;
+         } // if
          break;
       case KEY_LEFT:
       case '4':
@@ -1554,18 +1577,33 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          {
             char dev[5];
 
+            if (misc->playing == -1)
+            {
+               beep ();
+               break;
+            } // if
             kill_player (misc);
             misc->lsn_cursor -= 12 * 75;
             if (misc->lsn_cursor < daisy[misc->playing].first_lsn)
             {
                if (misc->playing > 0)
+               {
                   if (misc->just_this_item > -1)
+                  {
+                     beep ();
                      misc->lsn_cursor = daisy[misc->playing].first_lsn;
+                  }
                   else
                      misc->current = misc->displaying = --misc->playing;
+               }
                else
+               {
                   if (misc->lsn_cursor < daisy[misc->playing].first_lsn)
+                  {
+                     beep ();
                      misc->lsn_cursor = daisy[misc->playing].first_lsn;
+                  } // if
+               } // if
             } // if
             sprintf (dev, "%d", misc->pulseaudio_device);
             misc->player_pid = play_track (misc, dev, "pulseaudio",
@@ -1573,6 +1611,11 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
             break;
          } // if
          skip_left (misc, my_attribute, daisy);
+         if (! misc->update_time)
+         {
+            view_time (misc, daisy);
+            next_time_clear = time (NULL) + 2;
+         } // if
          break;
       case KEY_NPAGE:
       case '3':
@@ -1637,8 +1680,11 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
       case '1':
          if (fork () == 0)
          {
+            char pa[25];
+
             reset_term_signal_handlers_after_fork ();
-            pactl ("set-sink-volume", misc->pulseaudio_device, "-5%");
+            sprintf (pa, "%d", misc->pulseaudio_device);
+            (void) pactl ("set-sink-volume", pa, "-5%");
             _exit (EXIT_SUCCESS);
          } // if
          break;
@@ -1646,8 +1692,11 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
       case '7':
          if (fork () == 0)
          {
+            char pa[25];
+
             reset_term_signal_handlers_after_fork ();
-            pactl ("set-sink-volume", misc->pulseaudio_device, "+5%");
+            sprintf (pa, "%d", misc->pulseaudio_device);
+            (void) pactl ("set-sink-volume", pa, "+5%");
             _exit (EXIT_SUCCESS);
          } // if
          break;
@@ -1662,11 +1711,20 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          {
 // if not playing
             misc->player_pid = -2;
-            get_next_clips (misc, my_attribute, daisy);
+            get_next_audio_tag (misc, my_attribute, daisy);
             start_playing (misc, daisy);
-            view_screen (misc, daisy);
          } //   if
-         view_time (misc, daisy);
+         if (misc->update_time)
+            view_time (misc, daisy);
+         else
+         {
+            if (next_time_clear == (time_t) -1 ||
+                time (NULL) >= next_time_clear)
+            {
+               view_duration (misc, daisy, misc->playing);
+               next_time_clear = (time_t) -1;
+            } // if
+         } // if   
       } // if
       if (misc->playing == -1 || misc->cd_type != CDIO_DISC_MODE_CD_DA)
       {
@@ -1731,13 +1789,13 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
 void usage (int e)
 {
    printf (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "\n");
-   puts ("(C)2003-2019 J. Lemmens\n");
+   puts ("(C)2003-2020 J. Lemmens\n");
    printf (gettext
     ("Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"),
     PACKAGE);
    printf ("\n%s ",
            gettext ("[-c cdrom_device] [-d pulseaudio_sound_device]"));
-   printf ("[-h] [-i] [-n | -y] [-v]\n");
+   printf ("[-h] [-i] [-T] [-n | -y] [-v]\n");
    fflush (stdout);
    _exit (e);
 } // usage
@@ -1773,11 +1831,31 @@ char *get_mount_point (misc_t *misc)
 void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
                       daisy_t *daisy, char *discinfo_html)
 {
-   int h, m, s;
-   float t = 0;
-   xmlTextReaderPtr di, ncc;
+   int i, n, total_items;
+   xmlTextReaderPtr di;
    htmlDocPtr doc;
+   int hours, minutes, seconds;
+   float time, total_time;
+   char str[MAX_STR];
 
+   keypad (misc->screenwin, TRUE);
+   meta (misc->screenwin, TRUE);
+   nonl ();
+   noecho ();
+   wattron (misc->titlewin, A_BOLD);
+   snprintf (str, MAX_STR - 1, gettext (
+        "Daisy-player - Version %s - (C)2020 J. Lemmens"), PACKAGE_VERSION);
+   mvwprintw (misc->titlewin, 0, 0, str);
+
+   total_time = time = hours = minutes = seconds = 0;
+   mvwprintw (misc->titlewin, 1, 0,
+                "----------------------------------------");
+   wprintw (misc->titlewin, "----------------------------------------");
+   wrefresh (misc->titlewin);
+   wclear (misc->screenwin);
+
+   misc->discinfo = 1;
+   *misc->discinfo_title = 0;
    doc = htmlParseFile (discinfo_html, "UTF-8");
    if (! (di = xmlReaderWalker (doc)))
    {
@@ -1786,75 +1864,158 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
 
       e = errno;
       snprintf (str, MAX_STR, gettext ("Cannot read %s"), discinfo_html);
+      xmlTextReaderClose (di);
+      xmlFreeDoc (doc);
       failure (misc, str, e);
    } // if (! (di = xmlReaderWalker (doc)
+   i = 0;
    while (1)
    {
       if (! get_tag_or_label (misc, my_attribute, di))
          break;
-      if (strcasecmp (misc->tag, "title") == 0)
+      if (*misc->discinfo_title == 0 && strcasecmp (misc->tag, "title") == 0)
       {
-         do
+         while (1)
          {
             if (! get_tag_or_label (misc, my_attribute, di))
                break;
-         } while ( !*misc->label);
-         strncpy (misc->daisy_title, misc->label, MAX_STR - 1);
+            if (*misc->label)
+            {
+               strcpy (misc->discinfo_title, misc->label);
+               mvwprintw (misc->titlewin, 0,
+                       80 - strlen (misc->discinfo_title),
+                       misc->discinfo_title);
+               wrefresh (misc->titlewin);
+               break;
+            } // if
+         } // while
       } // if (strcasecmp (misc->tag, "title") == 0)
       if (strcasecmp (misc->tag, "a") == 0)
       {
+         htmlDocPtr doc2;
+         xmlTextReaderPtr href;
+
+         free (daisy[i].filename);
+         daisy[i].filename = malloc (strlen (misc->daisy_mp) +
+                             strlen (my_attribute->href) + 5);
          get_realpath_name (misc->daisy_mp, my_attribute->href,
-                        daisy[misc->current].filename);
-         htmlDocPtr doc =
-                     htmlParseFile (daisy[misc->current].filename, "UTF-8");
-         if (! (ncc = xmlReaderWalker (doc)))
+                        daisy[i].filename);
+         doc2 = htmlParseFile (daisy[i].filename, "UTF-8");
+         if (! (href = xmlReaderWalker (doc2)))
          {
             int e;
             char str[MAX_STR];
 
             e = errno;
             snprintf (str, MAX_STR,
-               gettext ("Cannot read %s"), daisy[misc->current].filename);
+               gettext ("Cannot read %s"), daisy[i].filename);
             failure (misc, str, e);
          } // if
-         do
+
+         *misc->ncc_totalTime = 0;
+         while (1)
          {
-            *misc->ncc_totalTime = 0;
-            if (! get_tag_or_label (misc, my_attribute, ncc))
+            if (! get_tag_or_label (misc, my_attribute, href))
                break;
-         } while (! *misc->ncc_totalTime);
-         daisy[misc->current].duration = read_time (misc->ncc_totalTime);
-         t += daisy[misc->current].duration;
-         xmlTextReaderClose (ncc);
-         xmlFreeDoc (doc);
-         do
+            if (*misc->ncc_totalTime)
+            {
+               daisy[i].duration = read_time (misc->ncc_totalTime);
+               total_time += daisy[i].duration;
+               break;
+            } // if
+         } // while
+         xmlTextReaderClose (href);
+         xmlFreeDoc (doc2);
+
+         while (1)
          {
             if (! get_tag_or_label (misc, my_attribute, di))
                break;
-         } while (! *misc->label);
-         *daisy[misc->current].label = 0;
-         strncpy (daisy[misc->current].daisy_mp,
-                  dirname (daisy[misc->current].filename), MAX_STR - 1);
-         daisy[misc->current].level = 1;
-         daisy[misc->current].x = 0;
-         daisy[misc->current].y = misc->displaying;
-         daisy[misc->current].screen = misc->current / misc->max_y;
-         misc->current++;
-         misc->displaying++;
+            if (*misc->label)
+            {
+               strcpy (daisy[i].label, misc->label);
+               break;
+            } // if
+         } // while
+
+         daisy[i].level = 1;
+         daisy[i].x = 0;
+         daisy[i].y = misc->displaying;
+         daisy[i].screen = misc->current / misc->max_y;
+         i++;
       } // if (strcasecmp (misc->tag, "a") == 0)
    } // while
    xmlTextReaderClose (di);
    xmlFreeDoc (doc);
-   misc->total_items = misc->current;
-   misc->total_time = t;
-   h = t / 3600;
-   t -= h * 3600;
-   m = t / 60;
-   t -= m * 60;
-   s = t;
-   snprintf (misc->ncc_totalTime, MAX_STR - 1, "%02d:%02d:%02d", h, m, s);
+   total_items = i;
    misc->depth = 1;
-   view_screen (misc, daisy);
+   hours   = total_time / 3600;
+   minutes = (total_time - hours * 3600) / 60;
+   seconds = total_time - (hours * 3600 + minutes * 60);
+   mvwprintw (misc->titlewin, 1, 47, " ");
+   wprintw (misc->titlewin, gettext
+        ("total length: %02d:%02d:%02d"), hours, minutes,seconds);
+   wprintw (misc->titlewin, " ");
+   wrefresh (misc->titlewin);
+
+   wclear (misc->screenwin);
+   mvwprintw (misc->screenwin, 3, 0, gettext ("Select an Audio_book:"));
+   for (n = 0; n < total_items; n++)
+   {
+      mvwprintw (misc->screenwin, n + 5, 3, "%d %s ", n, daisy[n].label);
+      time = daisy[n].duration;
+      hours = time / 3600;
+      time -= hours * 3600;
+      minutes = time / 60;
+      time -= minutes * 60;
+      seconds = time;
+      mvwprintw (misc->screenwin, n + 5, 70, "%02d:%02d:%02d",
+                 hours, minutes, seconds);
+   } // for
+
+   wmove (misc->screenwin, 5, 2);
+   wrefresh (misc->screenwin);
+   nodelay (misc->screenwin, FALSE);
+   n = 0;
+
+   for (;;)
+   {
+      switch (wgetch (misc->screenwin))
+      {
+      case 13:
+         misc->discinfo = 0;
+         wclear (misc->titlewin);
+         view_screen (misc, daisy);
+         nodelay (misc->screenwin, TRUE);
+         return;
+      case KEY_DOWN:
+         if (++n >= total_items)
+            n = 0;
+         wmove (misc->screenwin, n + 5, 2);
+         break;
+      case KEY_UP:
+         if (--n < 0)
+            n = total_items - 1;
+         wmove (misc->screenwin, n + 5, 2);
+         break;
+      case 'q':
+         quit_daisy_player (misc, my_attribute, daisy);
+         _exit (EXIT_SUCCESS);
+      default:
+         beep ();
+         break;
+      } // switch
+
+      fd_set rfds;
+      struct timeval tv;
+
+      FD_ZERO (&rfds);
+      FD_SET (0, &rfds);
+      tv.tv_sec = 0;
+      tv.tv_usec = 100000;
+// pause till a key has been pressed or 0.1 seconds are elapsed
+      select (1, &rfds, NULL, NULL, &tv);
+   } // for
 } // handle_discinfo
 
 // pointer to misc->term_signaled, whether we received a termination signal
@@ -1884,6 +2045,7 @@ int main (int argc, char *argv[])
    misc.discinfo = 0;
    misc.cd_type = -1;
    misc.ignore_bookmark = 0;
+   misc.update_time = 1;
    *misc.bookmark_title = 0;
    misc.daisy_mp = malloc (10);
    *misc.daisy_mp = 0;;
@@ -1904,8 +2066,8 @@ int main (int argc, char *argv[])
    my_attribute.idref = strdup ("");
    my_attribute.src = strdup ("");
    sigfillset (&usr_action.sa_mask);
-   usr_action.sa_handler = player_ended;      
-   usr_action.sa_flags =  SA_RESTART;
+   usr_action.sa_handler = player_ended;
+   usr_action.sa_flags = SA_RESTART;
    sigaction (SIGCHLD, &usr_action, NULL);
    usr_action.sa_handler = term_daisy_player;
    usr_action.sa_flags = SA_RESETHAND;
@@ -1932,7 +2094,7 @@ int main (int argc, char *argv[])
    c_opt = NULL;
    d_opt = -1;
    cddb_opt = 0;
-   while ((opt = getopt (argc, argv, "c:d:hijnvyON")) != -1)
+   while ((opt = getopt (argc, argv, "c:d:hijnvyONT")) != -1)
    {
       switch (opt)
       {
@@ -1941,7 +2103,7 @@ int main (int argc, char *argv[])
          c_opt = strdup (misc.cd_dev);
          break;
       case 'd':
-         misc.pulseaudio_device = *optarg - '0';
+         misc.pulseaudio_device = atoi (optarg);
          d_opt = misc.pulseaudio_device;
          break;
       case 'h':
@@ -1954,6 +2116,9 @@ int main (int argc, char *argv[])
       case 'n':
          misc.cddb_flag = 'n';
          cddb_opt = misc.cddb_flag;
+         break;
+      case 'T':
+         misc.update_time = 0;
          break;
       case 'y':
       case 'j':
@@ -1996,7 +2161,7 @@ int main (int argc, char *argv[])
       misc.cddb_flag = cddb_opt;
    fclose (stderr);
    switch (system ("clear"));
-   printf ("(C)2003-2019 J. Lemmens\n");
+   printf ("(C)2003-2020 J. Lemmens\n");
    printf (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "");
    printf ("\n");
    printf (gettext ("A parser to play Daisy CD's with Linux"));
@@ -2004,6 +2169,7 @@ int main (int argc, char *argv[])
    printf (gettext ("Scanning for a Daisy CD..."));
    fflush (stdout);
    misc.total_pages = misc.mounted_by_daisy_player = 0;
+
    if (argv[optind])
 // if there is an argument
    {
@@ -2013,12 +2179,13 @@ int main (int argc, char *argv[])
          int e;
 
          e = errno;
+         switch (system ("clear"));
          printf (gettext ("Daisy-player - Version %s %s"),
                  PACKAGE_VERSION, "\n");
-         puts ("(C)2003-2019 J. Lemmens");
+         puts ("(C)2003-2020 J. Lemmens");
          beep ();
          remove_tmp_dir (&misc);
-         printf ("%s: %s\n", argv[optind], strerror (e));
+         printf ("\n%s: %s\n", argv[optind], strerror (e));
          _exit (EXIT_FAILURE);
       } // if
 
@@ -2121,7 +2288,7 @@ int main (int argc, char *argv[])
          e = errno;
          printf (gettext ("Daisy-player - Version %s %s"),
                           PACKAGE_VERSION, "\n");
-         puts ("(C)2003-2019 J. Lemmens");
+         puts ("(C)2003-2020 J. Lemmens");
          beep ();
          remove_tmp_dir (&misc);
          snprintf (misc.str, MAX_STR, gettext ("Cannot read %s"),
@@ -2138,7 +2305,7 @@ int main (int argc, char *argv[])
       {
          printf (gettext ("Daisy-player - Version %s %s"),
                           PACKAGE_VERSION, "\n");
-         puts ("(C)2003-2019 J. Lemmens");
+         puts ("(C)2003-2020 J. Lemmens");
          beep ();
          remove_tmp_dir (&misc);
          printf ("\n%s is not a cd device\n", misc.cd_dev);
@@ -2210,9 +2377,14 @@ int main (int argc, char *argv[])
          case CDIO_DISC_MODE_CD_DA: /**< CD-DA */
          {
 // probably an Audio-CD
-            printw ("\n%s ", gettext ("Found an Audio-CD."));
+            printf ("\n%s ", gettext ("Found an Audio-CD."));
+            fflush (stdout);
             if (misc.cddb_flag == 'y')
-               printw (gettext ("Get titles from freedb.freedb.org..."));
+            {
+               printf ("\n");
+               printf (gettext ("Get titles from freedb.freedb.org..."));
+               fflush (stdout);
+            } // if
             refresh ();
             strncpy (misc.bookmark_title, "Audio-CD", MAX_STR - 1);
             strncpy (misc.daisy_title, "Audio-CD", MAX_STR - 1);
@@ -2224,9 +2396,8 @@ int main (int argc, char *argv[])
             {
                daisy[misc.current].smil_file = strdup ("");
                daisy[misc.current].smil_anchor = strdup ("");
-               daisy[misc.current].clips_file = strdup ("");
-               daisy[misc.current].clips_anchor = strdup ("");
-               daisy[misc.current].orig_smil = strdup ("");
+               daisy[misc.current].smil_file = strdup ("");
+               daisy[misc.current].smil_anchor = strdup ("");
             } // for
             break;
          } //  TRACK_COUNT_AUDIO
@@ -2268,23 +2439,25 @@ int main (int argc, char *argv[])
       {
          daisy[misc.current].smil_file = strdup ("");
          daisy[misc.current].smil_anchor = strdup ("");
-         daisy[misc.current].clips_file = strdup ("");
-         daisy[misc.current].clips_anchor = strdup ("");
-         daisy[misc.current].orig_smil = strdup ("");
+         daisy[misc.current].smil_file = strdup ("");
+         daisy[misc.current].smil_anchor = strdup ("");
       } // for
-      snprintf (DISCINFO_HTML, MAX_STR - 1, "discinfo.html");
+      snprintf (DISCINFO_HTML, MAX_STR - 1,
+                "%s/discinfo.html", misc.daisy_mp);
       if (access (DISCINFO_HTML, R_OK) == 0)
          handle_discinfo (&misc, &my_attribute, daisy, DISCINFO_HTML);
-      if (! misc.discinfo)
+      if (misc.discinfo == 0)
       {
          misc.has_audio_tag = 0;
          if (access (misc.ncc_html, R_OK) == 0)
          {
 // this is daisy2
             htmlDocPtr doc;
+            xmlTextReaderPtr reader;
 
-            doc = htmlParseFile (misc.ncc_html, "UTF-8");
-            if (! (misc.reader = xmlReaderWalker (doc)))
+            if (! (doc = htmlParseFile (misc.ncc_html, "UTF-8")))
+               failure (&misc, misc.ncc_html, errno);
+            if (! (reader = xmlReaderWalker (doc)))
             {
                int e;
                e = errno;
@@ -2298,11 +2471,11 @@ int main (int argc, char *argv[])
                if (*misc.bookmark_title)
 // if misc.bookmark_title already is set
                   break;
-               if (! get_tag_or_label (&misc, &my_attribute, misc.reader))
+               if (! get_tag_or_label (&misc, &my_attribute, reader))
                   break;
                if (strcasecmp (misc.tag, "title") == 0)
                {
-                  if (! get_tag_or_label (&misc, &my_attribute, misc.reader))
+                  if (! get_tag_or_label (&misc, &my_attribute, reader))
                      break;
                   if (*misc.label)
                   {
@@ -2311,6 +2484,8 @@ int main (int argc, char *argv[])
                   } // if
                } // if
             } // while
+            xmlTextReaderClose (reader);
+            xmlFreeDoc (doc);
             fill_daisy_struct_2 (&misc, &my_attribute, daisy);
          } // ncc_html
          else
@@ -2353,7 +2528,9 @@ int main (int argc, char *argv[])
                          (my_attribute.id, daisy[i + 1].smil_anchor) == 0)
                         break;
                   if (*my_attribute.id)
+                  {
                      strcpy (daisy[i].last_id, my_attribute.id);
+                  } // if
                } // while
                xmlTextReaderClose (last);
                xmlFreeDoc (doc);
@@ -2369,7 +2546,7 @@ int main (int argc, char *argv[])
          misc.verbose = 0;
          if (misc.total_items == 0)
             misc.total_items = 1;
-      } // if (! misc.discinfo);
+      } // if (misc.discinfo == 0);
    } // if misc.audiocd == 0
    if (*misc.bookmark_title == 0)
    {
@@ -2394,7 +2571,7 @@ int main (int argc, char *argv[])
    noecho ();
    wattron (misc.titlewin, A_BOLD);
    snprintf (str, MAX_STR - 1, gettext (
-        "Daisy-player - Version %s - (C)2019 J. Lemmens"), PACKAGE_VERSION);
+        "Daisy-player - Version %s - (C)2020 J. Lemmens"), PACKAGE_VERSION);
    mvwprintw (misc.titlewin, 0, 0, str);
    wrefresh (misc.titlewin);
 
@@ -2410,6 +2587,6 @@ int main (int argc, char *argv[])
    mvwprintw (misc.titlewin, 1, 0, "%s ", gettext ("Press 'h' for help"));
    if (misc.ignore_bookmark)
       select_next_output_device (&misc, daisy);
-   browse (&misc, &my_attribute, daisy, get_current_dir_name ());
+   browse (&misc, &my_attribute, daisy);
    return EXIT_SUCCESS;
 } // main

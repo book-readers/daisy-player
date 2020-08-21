@@ -41,7 +41,7 @@
 #include "macro.h"
 #include "core-util.h"
 
-extern char *pactl (char *, int, char *);
+extern char *pactl (char *, char *, char *);
 extern char sink_info[10][100];
 
 static pa_context *context = NULL;
@@ -245,7 +245,7 @@ static void get_sink_volume_callback (pa_context *c, const pa_sink_info *i, int 
 userdata = userdata; // avoid notification
     pa_cvolume cv;
 
-    if (is_last < 0) {                                                 
+    if (is_last < 0) {
         quit(1);
         return;
     }
@@ -409,13 +409,16 @@ userdata = userdata; // avoid notification
 	    {
                 case SET_SINK_MUTE:
                     if (mute == TOGGLE_MUTE)
-                        o = pa_context_get_sink_info_by_name(c, sink_name, sink_toggle_mute_callback, NULL);
+                        o = pa_context_get_sink_info_by_name (c,
+                          sink_name, sink_toggle_mute_callback, NULL);
                     else
-                        o = pa_context_set_sink_mute_by_name(c, sink_name, mute, simple_callback, NULL);
+                        o = pa_context_set_sink_mute_by_name (c,
+                          sink_name, mute, simple_callback, NULL);
                     break;
 
                 case SET_SINK_VOLUME:
-                    o = pa_context_get_sink_info_by_name(c, sink_name, get_sink_volume_callback, NULL);
+                    o = pa_context_get_sink_info_by_name (c,
+                       sink_name, get_sink_volume_callback, NULL);
                     break;
 
                 case LIST:
@@ -456,16 +459,13 @@ userdata = userdata; // avoid notification
     }
 } // context_state_callback
 
-char *pactl (char *cmd, int dev, char *arg)
+char *pactl (char *cmd, char *device, char *arg)
 {
-    char device[5];
     pa_mainloop *m = NULL;
     int ret = 1;
     char *server = NULL;
 
-    sprintf (device, "%d", dev);
     setlocale(LC_ALL, "");
-\
     proplist = pa_proplist_new();
 
     if (pa_streq (cmd, "set-sink-volume"))
@@ -506,11 +506,12 @@ char *pactl (char *cmd, int dev, char *arg)
     }
 
     pa_context_set_state_callback(context, context_state_callback, NULL);
-    if (pa_context_connect(context, server, 0, NULL) < 0) {
+    if (pa_context_connect(context, server, 0, NULL) < 0)
+    {
         goto quit;
     }
 
-    if (pa_mainloop_run(m, &ret) < 0) 
+    if (pa_mainloop_run(m, &ret) < 0)
     {
         goto quit;
     }

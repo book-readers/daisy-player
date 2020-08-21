@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2020-05-27 11:17+0200\n"
+"POT-Creation-Date: 2020-08-21 19:34+0200\n"
 "PO-Revision-Date: 2013-12-09 11:06+0200\n"
 "Last-Translator: JimmiXzSq <jimos45812rt1@hotmail.com>\n"
 "Language-Team: JimmiXzSq <jimos45812rt1@hotmail.com>\n"
@@ -31,275 +31,284 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/common.c:31
-msgid "Please try to play this book with eBook-speaker"
+#: src/common.c:30 src/common.c:314 src/common.c:512
+msgid "Please try to play this book with \"eBook-speaker\""
 msgstr ""
-"Kérjük, próbálja meg játszani ezt a könyvet a eBook-speaker segítségével"
+"Kérjük, próbálja meg játszani ezt a könyvet a \"eBook-speaker\" segítségével"
 
-#: src/common.c:287 src/common.c:485
-msgid "Please try to play this book with daisy-player"
-msgstr ""
-"Kérjük, próbálja meg játszani ezt a könyvet a daisy-player segítségével"
-
-#: src/common.c:754
+#: src/common.c:786
 #, c-format
 msgid "Cannot read type: %d"
 msgstr "Nem lehet olvasni a típus: %d"
 
-#: src/common.c:827
+#: src/common.c:859
 msgid "Go to page number:"
 msgstr "Ugrás az oldalszámra:"
 
-#: src/common.c:845
+#: src/common.c:876
 msgid "Please wait..."
 msgstr "Kérlek várj..."
 
-#: src/common.c:921
+#: src/common.c:951
 msgid "Select a soundcard:"
 msgstr "VÃ¡lasszon hangkÃ¡rtya:"
 
 #: src/daisy2.02.c:48 src/daisy2.02.c:134 src/daisy2.02.c:287
-#: src/daisy-player.c:788 src/daisy-player.c:1788 src/daisy-player.c:1817
-#: src/daisy-player.c:2127 src/daisy-player.c:2292
+#: src/daisy-player.c:793 src/daisy-player.c:1866 src/daisy-player.c:1911
+#: src/daisy-player.c:2294 src/daisy-player.c:2465
 #, c-format
 msgid "Cannot read %s"
 msgstr "A(z) %s nem olvashatÃ³"
 
-#: src/daisy-player.c:319
+#: src/daisy-player.c:337
 msgid "'h' for help -"
 msgstr "h =segÃ­tsÃ©g"
 
-#: src/daisy-player.c:323
+#: src/daisy-player.c:341
 #, c-format
 msgid "%d pages"
 msgstr "Oldalak szÃ¡ma: %d"
 
-#: src/daisy-player.c:328
+#: src/daisy-player.c:346
 #, c-format
 msgid "level: %d of %d"
 msgstr "%d szint a %d szintbÅl"
 
-#: src/daisy-player.c:336
+#: src/daisy-player.c:354 src/daisy-player.c:1957
 #, c-format
 msgid "total length: %02d:%02d:%02d"
 msgstr "ÃsszidÅ: %02d:%02d:%02d"
 
-#: src/daisy-player.c:643
+#: src/daisy-player.c:640
 msgid "These commands are available in this version:"
 msgstr "A kÃ¶vetkezÅ parancsok Ã©rhetÅk el ebben a verziÃ³ban:"
 
-#: src/daisy-player.c:647
+#: src/daisy-player.c:644
 msgid "cursor down,2   - move cursor to the next item"
 msgstr "Le,2           - a kurzor mozgatÃ¡sa a kÃ¶vetkezÅ elemre"
 
-#: src/daisy-player.c:649
+#: src/daisy-player.c:646
 msgid "cursor up,8     - move cursor to the previous item"
 msgstr "Fel,8          - a kurzor mozgatÃ¡sa az elÅzÅ elemre"
 
-#: src/daisy-player.c:651
+#: src/daisy-player.c:648
 msgid "cursor right,6  - skip to next phrase"
 msgstr "Jobbra,6       - a kÃ¶vetkezÅ kifejezÃ©s kihagyÃ¡sa"
 
-#: src/daisy-player.c:653
+#: src/daisy-player.c:650
 msgid "cursor left,4   - skip to previous phrase"
 msgstr "Balra,4        - az elÅzÅ kifejezÃ©s kihagyÃ¡sa"
 
-#: src/daisy-player.c:655
+#: src/daisy-player.c:652
 msgid "page-down,3     - view next page"
 msgstr "PAGEDOWN,3     - a kÃ¶vetkezÅ oldal megtekintÃ©se"
 
-#: src/daisy-player.c:657
+#: src/daisy-player.c:654
 msgid "page-up,9       - view previous page"
 msgstr "PAGEUP,9       - az elÅzÅ oldal megtekintÃ©se"
 
-#: src/daisy-player.c:659
+#: src/daisy-player.c:656
 msgid "enter           - start playing"
 msgstr "ENTER          - a lejÃ¡tszÃ¡s megkezdÃ©se"
 
-#: src/daisy-player.c:661
+#: src/daisy-player.c:658
 msgid "space,0         - pause/resume playing"
 msgstr "SZÃKÃZ,0     - a lejÃ¡tszÃ¡s szÃ¼neteltetÃ©se Ã©s folytatÃ¡sa"
 
-#: src/daisy-player.c:663
+#: src/daisy-player.c:660
 msgid "home,*          - play on normal speed"
 msgstr "HOME,*         - lejÃ¡tszÃ¡s normÃ¡l sebessÃ©ggel"
 
-#: src/daisy-player.c:665
+#: src/daisy-player.c:662 src/daisy-player.c:695
 msgid "Press any key for next page..."
 msgstr "A kÃ¶vetkezÅ oldalra lÃ©pÃ©shez nyomjon meg egy billentyÅ±t..."
 
-#: src/daisy-player.c:671
+#: src/daisy-player.c:668
 msgid "/               - search for a label"
 msgstr "/     - egy cÃ­mke keresÃ©se"
 
-#: src/daisy-player.c:673
+#: src/daisy-player.c:670
 msgid "d               - store current item to disk"
 msgstr "d     - az aktuÃ¡lis elem tÃ¡rolÃ¡sa a lemezre"
 
-#: src/daisy-player.c:675
+#: src/daisy-player.c:672
 msgid "D,-             - decrease playing speed"
 msgstr "D,-   - lejÃ¡tszÃ¡s sebessÃ©gÃ©nek csÃ¶kkentÃ©se"
 
-#: src/daisy-player.c:677
+#: src/daisy-player.c:674
 msgid "e,.             - quit daisy-player, place a bookmark and eject"
 msgstr "e,.   - kilÃ©p daisy-player, beletenni egy kÃ¶nyvjelzÅt, Ã©s kiadja"
 
-#: src/daisy-player.c:679
+#: src/daisy-player.c:676
 msgid ""
 "f               - find the currently playing item and place the cursor there"
 msgstr "f     - keresse meg az éppen lejátszott elemet és helyezze a kurzort"
 
-#: src/daisy-player.c:682
+#: src/daisy-player.c:679
 msgid "g               - go to time in this song (MM:SS)"
 msgstr "g     - ugrÃ¡s egy megadott idÅre a zeneszÃ¡mon belÃ¼l"
 
-#: src/daisy-player.c:685
+#: src/daisy-player.c:682
 msgid "g               - go to time in this item (MM:SS)"
 msgstr "g     - ugrÃ¡s egy megadott idÅre a zeneszÃ¡mon belÃ¼l"
 
-#: src/daisy-player.c:688
+#: src/daisy-player.c:685
 msgid "G               - go to page number"
 msgstr ""
 "G     - ugrÃ¡s egy megadott oldalra, ha a Daisy kÃ¶nyv tartalmaz "
 "oldalszÃ¡mokat"
 
-#: src/daisy-player.c:690
+#: src/daisy-player.c:687
 msgid "h,?             - give this help"
 msgstr "h,?   - a sÃºgÃ³ megjelenÃ­tÃ©se"
 
-#: src/daisy-player.c:692
+#: src/daisy-player.c:689
 msgid "j,5             - just play current item"
 msgstr "j,5   - az aktuÃ¡lis elem ÃºjbÃ³li lejÃ¡tszÃ¡sa"
 
-#: src/daisy-player.c:694
+#: src/daisy-player.c:691
 msgid "l               - switch to next level"
 msgstr "l     - vÃ¡ltÃ¡s a kÃ¶vetkezÅ szintre"
 
-#: src/daisy-player.c:696
+#: src/daisy-player.c:693
 msgid "L               - switch to previous level"
 msgstr "L     - vÃ¡ltÃ¡s az elÅzÅ szintre"
 
-#: src/daisy-player.c:698
+#: src/daisy-player.c:701
 msgid "m               - mute sound output on/off"
 msgstr ""
 
-#: src/daisy-player.c:700
+#: src/daisy-player.c:703
 msgid "n               - search forwards"
 msgstr "n     - a kÃ¶vetkezÅ kifejezÃ©s keresÃ©se"
 
-#: src/daisy-player.c:702
+#: src/daisy-player.c:705
 msgid "N               - search backwards"
 msgstr "N     - az elÅzÅ kifejezÃ©s keresÃ©se"
 
-#: src/daisy-player.c:704
+#: src/daisy-player.c:707
 msgid "o               - select next output sound device"
 msgstr "o     - a kÃ¶vetkezÅ hangeszkÃ¶z kivÃ¡lasztÃ¡sa"
 
-#: src/daisy-player.c:706
+#: src/daisy-player.c:709
 msgid "p               - place a bookmark"
 msgstr "p     - kÃ¶nyvjelzÅ elhelyezÃ©se"
 
-#: src/daisy-player.c:708
+#: src/daisy-player.c:711
 msgid "q               - quit daisy-player and place a bookmark"
 msgstr "q     - kilÃ©p daisy-player Ã©s helyezzÃ¼k egy kÃ¶nyvjelzÅt"
 
-#: src/daisy-player.c:710
+#: src/daisy-player.c:713
 msgid "s               - stop playing"
 msgstr "s     - a lejÃ¡tszÃ¡s leÃ¡llÃ­tÃ¡sa"
 
-#: src/daisy-player.c:712
+#: src/daisy-player.c:715
+msgid "T               - display the time passing during playback on/off"
+msgstr ""
+
+#: src/daisy-player.c:717
 msgid "U,+             - increase playing speed"
 msgstr "U,+   - lejÃ¡tszÃ¡s sebessÃ©gÃ©nek nÃ¶velÃ©se"
 
-#: src/daisy-player.c:714
+#: src/daisy-player.c:719
 msgid "v,1             - decrease playback volume"
 msgstr "v,1   - csÃ¶kkentheti lejÃ¡tszÃ¡si hangerÅ"
 
-#: src/daisy-player.c:716
+#: src/daisy-player.c:721
 msgid "V,7             - increase playback volume (beware of Clipping)"
 msgstr "V,7   - nÃ¶velÃ©se lejÃ¡tszÃ¡s mennyisÃ©g (vigyÃ¡zat a tÃºlvezÃ©rlÃ©s)"
 
-#: src/daisy-player.c:718
+#: src/daisy-player.c:723
 msgid "Press any key to leave help..."
 msgstr "A sÃºgÃ³ elhagyÃ¡sÃ¡hoz nyomjon meg egy billentyÅ±t..."
 
-#: src/daisy-player.c:855 src/daisy-player.c:1254
-msgid "This book has no audio. Play this book with eBook-speaker"
-msgstr "Ez a kÃ¶nyv nincs hang.  JÃ¡tszani ezt a kÃ¶nyvet eBook-speaker"
+#: src/daisy-player.c:861 src/daisy-player.c:1267
+msgid "This book has no audio. Play this book with \"eBook-speaker\""
+msgstr "Ez a kÃ¶nyv nincs hang.  JÃ¡tszani ezt a kÃ¶nyvet \"eBook-speaker\""
 
-#: src/daisy-player.c:874
+#: src/daisy-player.c:881
 msgid "Please wait... -------------------------"
 msgstr "KÃ©rem vÃ¡rjon..."
 
-#: src/daisy-player.c:984
+#: src/daisy-player.c:993
 msgid "What do you search?"
 msgstr "Mit keres?"
 
-#: src/daisy-player.c:1089
+#: src/daisy-player.c:1103
 msgid "Go to time (MM:SS):"
 msgstr "UgrÃ¡s egy megadott idÅtartamra:"
 
-#: src/daisy-player.c:1733 src/daisy-player.c:2000 src/daisy-player.c:2016
-#: src/daisy-player.c:2122 src/daisy-player.c:2139
+#: src/daisy-player.c:1791 src/daisy-player.c:2165 src/daisy-player.c:2183
+#: src/daisy-player.c:2289 src/daisy-player.c:2306
 #, c-format
 msgid "Daisy-player - Version %s %s"
 msgstr "Daisy-player - %s verziÃ³ %s"
 
-#: src/daisy-player.c:1736
+#: src/daisy-player.c:1794
 #, c-format
 msgid "Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"
 msgstr ""
 "HasznÃ¡lat: %s [Daisy szerkezetet tartalmazÃ³ kÃ¶nyvtÃ¡r] | "
 "[Daisy_book_archive]"
 
-#: src/daisy-player.c:1739
+#: src/daisy-player.c:1797
 msgid "[-c cdrom_device] [-d pulseaudio_sound_device]"
 msgstr "[-c CD-rom eszkÃ¶z] [-d pulseaudio hangeszkÃ¶z]"
 
-#: src/daisy-player.c:1752
+#: src/daisy-player.c:1810
 msgid "Cannot read /proc/mounts."
 msgstr "A /proc csatolÃ¡sok nem olvashatÃ³k."
 
-#: src/daisy-player.c:2002
+#: src/daisy-player.c:1847 src/daisy-player.c:2574
+#, c-format
+msgid "Daisy-player - Version %s - (C)2020 J. Lemmens"
+msgstr "Daisy-player - %s verziÃ³ - (C)2020 J. Lemmens"
+
+#: src/daisy-player.c:1962
+msgid "Select an Audio_book:"
+msgstr ""
+
+#: src/daisy-player.c:2167
 #, c-format
 msgid "A parser to play Daisy CD's with Linux"
 msgstr ""
 "Egy feldolgozÃ³ program, melynek segÃ­tsÃ©gÃ©vel Daisy kÃ¶nyveket jÃ¡tszhat "
 "le Linux alatt"
 
-#: src/daisy-player.c:2004
+#: src/daisy-player.c:2169
 #, c-format
 msgid "Scanning for a Daisy CD..."
 msgstr "DAISY CD keresÃ©se..."
 
-#: src/daisy-player.c:2103 src/daisy-player.c:2237
+#: src/daisy-player.c:2270 src/daisy-player.c:2408
 msgid "No DAISY-CD or Audio-cd found"
 msgstr "Nem talÃ¡lhatÃ³ DAISY CD vagy audio CD a meghajtÃ³ban."
 
-#: src/daisy-player.c:2159 src/daisy-player.c:2170 src/daisy-player.c:2198
+#: src/daisy-player.c:2326 src/daisy-player.c:2337 src/daisy-player.c:2365
 msgid "No Daisy CD in drive."
 msgstr "A meghajtÃ³ban nincs Daisy lemez."
 
-#: src/daisy-player.c:2213
+#: src/daisy-player.c:2380
 msgid "Found an Audio-CD."
 msgstr "Az audio CD megtalÃ¡lva."
 
-#: src/daisy-player.c:2215
+#: src/daisy-player.c:2385
+#, c-format
 msgid "Get titles from freedb.freedb.org..."
 msgstr "A szÃ¡mcÃ­mek lekÃ©rÃ©se a freedb.freedb.org kiszolgÃ¡lÃ³rÃ³l..."
 
-#: src/daisy-player.c:2397
-#, c-format
-msgid "Daisy-player - Version %s - (C)2019 J. Lemmens"
-msgstr "Daisy-player - %s verziÃ³ - (C)2019 J. Lemmens"
-
-#: src/daisy-player.c:2410
+#: src/daisy-player.c:2587
 msgid "Press 'h' for help"
 msgstr "A segÃ­tsÃ©gÃ©rt nyomja meg a H billentyÅ±t."
 
-#: src/ncx.c:258
+#: src/ncx.c:262
 msgid "No items found. Try option \"-O\"."
 msgstr "iihdprvBoJep"
+
+#~ msgid "Please try to play this book with daisy-player"
+#~ msgstr ""
+#~ "Kérjük, próbálja meg játszani ezt a könyvet a \"daisy-player\" "
+#~ "segítségével"
 
 #~ msgid "No items found. Try option \"-N\"."
 #~ msgstr "jicLbQdR"

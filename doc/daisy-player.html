@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of daisy-player</TITLE>
 </HEAD><BODY>
 <H1>daisy-player</H1>
-Section: Linux Reference Manual (1)<BR>Updated: 27 May 2020<BR><A HREF="#index">Index</A>
+Section: Linux Reference Manual (1)<BR>Updated: 21 August 2020<BR><A HREF="#index">Index</A>
 <A HREF="/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -16,7 +16,7 @@ Section: Linux Reference Manual (1)<BR>Updated: 27 May 2020<BR><A HREF="#index">
 <PRE>
 <B>daisy-player</B> [<I>directory_with_a_Daisy-structure</I> |
 Daisy_book_archive] [<B>-c</B> <I>cdrom_device</I>] [<B>-d</B> <I>pulseaudio_sound_device</I>] [<B>-h</B>]
-[<B>-i</B>] [<B>-n</B> | <B>-y</B>] [<B>-v</B>]
+[<B>-i</B>] [<B>-T</B>] [<B>-n</B> | <B>-y</B>] [<B>-v</B>]
 
 </PRE>
 
@@ -26,7 +26,7 @@ Daisy_book_archive] [<B>-c</B> <I>cdrom_device</I>] [<B>-d</B> <I>pulseaudio_sou
 <H2>DESCRIPTION</H2>
 
 Daisy-player reads a Daisy-CD and plays the audio-files.
-DAISY versions 2.02 and 3 are currently supported, as well as volumes with multiple books.
+DAISY versions 2.02 and 3 are currently supported, as well as media with multiple books. (discinfo)
 <P>
 
 Daisy-player also can play Audio-CD's and tries to get CD-information from a cddb-database.
@@ -61,6 +61,10 @@ Display this help and exit.
 
 <DD>
 Ignore reading of the bookmarks.
+<DT><B>-T</B>
+
+<DD>
+Do not display the time passing during playback.
 <DT><B>-n</B>
 
 <DD>
@@ -75,7 +79,7 @@ Fetch cddb-information of an Audio-CD from the internet.
 Be more verbose, so one can se what's going on while initializing.
 </DL>
 <A NAME="lbAF">&nbsp;</A>
-<H2>SCREEN                                             </H2>
+<H2>SCREEN</H2>
 
 The name and version of this program and the name of the author will be displayed left aligned at the top of the screen. The name of the current loaded book will be displayed right aligned.
 <P>
@@ -83,7 +87,7 @@ The name and version of this program and the name of the author will be displaye
 The second row of the screen will display the number of pages of the current loaded book (if any), the current selected level and the total number of levels, the total playing time, the current displayed screen and the total number of screens.
 <P>
 
-The next rows will display the title of the item, the first page of the item within brackets (if there are pages) and the playing time. Items in higher levels will be indented. (Three spaces each level.) When &quot;just playing this item&quot; is active, a &quot;J&quot; will be viewed at the first column of that item.
+The next rows will display the title of the item, the first page of that item within brackets (if there are pages) and the playing time. Items in higher levels will be indented. (Three spaces each level.) When &quot;just playing this item&quot; is active, a &quot;J&quot; will be viewed at the first column of that item.
 <A NAME="lbAG">&nbsp;</A>
 <H2>CONTROL KEYS</H2>
 
@@ -100,11 +104,11 @@ move cursor to the previous item
 <DT><B>cursor right,6</B>
 
 <DD>
-skip to next phrase
+skip 10 seconds forwards
 <DT><B>cursor left,4</B>
 
 <DD>
-skip to previous phrase
+skip 10 seconds backwards
 <DT><B>page-down,3</B>
 
 <DD>
@@ -197,6 +201,10 @@ quit <B>daisy-player</B>. The playing-point will be saved as bookmark.
 
 <DD>
 stop playing
+<DT><B>T</B>
+
+<DD>
+display the time passing during playback on/off
 <DT><B>U,+</B>
 
 <DD>
@@ -213,8 +221,14 @@ increase playback volume (beware of Clipping)
 <A NAME="lbAH">&nbsp;</A>
 <H2>NOTES</H2>
 
-<P>
 When playing an Audio-CD skip-left and skip-right react a little late. The same for commands like 'U', 'D' and HOME.
+<P>
+
+A DAISY 2.02-medium normally contains a single book. If more than one DAISY book is provided on the same medium, each book is stored in a separate folder (directory) of its own. In the root of the CD, DVD, or other media a file called discinfo.html is created that contains links to all books on the medium.
+(See &lt;<A HREF="https://daisy.org/activities/standards/daisy/daisy-2/daisy-format-2-0-specification/">https://daisy.org/activities/standards/daisy/daisy-2/daisy-format-2-0-specification/</A>&gt;)
+<P>
+
+A DAISY 3-book has two index-files for navigation, a NCX and an OPF file. Daisy-player tries to detemine which of these two files give the best result. But sometimes daisy-playr is not able to make the best choice. When in doubt use option &quot;<B>--N</B>&quot; to force the use of NCX or &quot;<B>-O</B>&quot; to force the OPF. This is only for DAISY format 3 books.
 <A NAME="lbAI">&nbsp;</A>
 <H2>THANKS TO</H2>
 
@@ -235,7 +249,7 @@ Chris Bagwell &lt;<A HREF="mailto:cbagwell@users.sourceforge.net">cbagwell@users
 <DT><B>Rob Sykes &lt;<A HREF="mailto:aquegg@yahoo.co.uk">aquegg@yahoo.co.uk</A>&gt;</B>
 
 <DD>
-for the sox library.        
+for the sox library.     
 </DL>
 <P>
 
@@ -245,6 +259,10 @@ Kim Nilsson &lt;<A HREF="mailto:kim.nilsson@no-substitute.com">kim.nilsson@no-su
 
 <DD>
 for pulseaudio.
+<DT><B>Colomban Wendling &lt;<A HREF="mailto:cwendling@hypra.fr">cwendling@hypra.fr</A>&gt;</B>
+
+<DD>
+for some patches.
 </DL>
 <A NAME="lbAJ">&nbsp;</A>
 <H2>FILES</H2>
@@ -270,7 +288,7 @@ Jos Lemmens &lt;<A HREF="mailto:jos@jlemmens.nl">jos@jlemmens.nl</A>&gt;
 <A NAME="lbAM">&nbsp;</A>
 <H2>COPYRIGHT</H2>
 
-Copyright (C)2003-2019 Jos Lemmens &lt;<A HREF="mailto:jos@jlemmens.nl">jos@jlemmens.nl</A>&gt;
+Copyright (C)2003-2020 Jos Lemmens &lt;<A HREF="mailto:jos@jlemmens.nl">jos@jlemmens.nl</A>&gt;
 <P>
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program (see the file COPYING); if not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
@@ -283,7 +301,7 @@ This program is free software; you can redistribute it and/or modify it under th
 <DT><A HREF="#lbAC">SYNOPSIS</A><DD>
 <DT><A HREF="#lbAD">DESCRIPTION</A><DD>
 <DT><A HREF="#lbAE">OPTIONS</A><DD>
-<DT><A HREF="#lbAF">SCREEN                                             </A><DD>
+<DT><A HREF="#lbAF">SCREEN</A><DD>
 <DT><A HREF="#lbAG">CONTROL KEYS</A><DD>
 <DT><A HREF="#lbAH">NOTES</A><DD>
 <DT><A HREF="#lbAI">THANKS TO</A><DD>
@@ -296,6 +314,6 @@ This program is free software; you can redistribute it and/or modify it under th
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 09:31:21 GMT, May 27, 2020
+Time: 17:34:13 GMT, August 21, 2020
 </BODY>
 </HTML>

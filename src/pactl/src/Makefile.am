@@ -4,12 +4,12 @@ AM_CFLAGS = -I . -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
             -Wunused -Wunused-variable -Wunused-function \
             -Wmissing-declarations \
             -ggdb -I /usr/include/libxml2/ -O3 \
-            -Wuninitialized -Winit-self \
+            -Wuninitialized -Winit-self -Werror \
             -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
 
 bin_PROGRAMS = pactl-set-cmd
 
-DEPENDENCIES = $(depend)
+DEPENDENCIES = $(depend)                     
 
 LDADD = $(ldadd)
 
