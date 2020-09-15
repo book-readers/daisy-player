@@ -9,6 +9,8 @@ AM_CFLAGS = -I . -I /usr/include/cdio/ -I /usr/include/cdio/paranoia/ \
             -Wuninitialized -Winit-self \
             -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
 
+#AM_LDFLAGS = -static # jos
+
 bin_PROGRAMS = daisy-player
 
 ldadd = $(depend) @LTLIBINTL@

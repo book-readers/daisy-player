@@ -18,6 +18,7 @@
  */
 
 #include "daisy.h"
+
 char sink_info[10][100];
 
 void open_xml_file (misc_t *misc, my_attribute_t *my_attribute,
@@ -918,7 +919,71 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
       } // if current_page_number >  pn
       get_next_audio_tag (misc, my_attribute, daisy);
    } // while
-} // go_to_page_number                                       
+} // go_to_page_number
+
+void check_pulseaudio_device (misc_t *misc, daisy_t *daisy)
+{
+   int n, found;
+   struct group *grp;
+   char *str;
+   size_t len = 0;
+   FILE *p;
+
+   grp = getgrnam ("audio");
+   found = 0;
+   for (n = 0; grp->gr_mem[n]; n++)
+   {
+      if (strcmp (grp->gr_mem[n], cuserid (NULL)) == 0)
+      {
+         found = 1;
+         break;
+      } // if
+   } // for
+   if (found == 0)
+   {
+      beep ();
+      endwin ();
+      printf ("You need to be a member of the group \"audio\".\n");
+      printf ("Please give the following command:\n");
+      printf ("\n   sudo gpasswd -a <login-name> audio\n\n");
+      printf ("Logout and login again and you can use daisy-player.\n");
+      _exit (EXIT_FAILURE);
+   } // if
+
+   if (misc->pulseaudio_device < 0)
+   {
+      select_next_output_device (misc, daisy);
+      return;
+   } // if
+   if ((p = popen ("LANG=C /usr/bin/pactl list sinks", "r")) == NULL)
+   {
+      beep ();
+      endwin ();
+      printf ("%s\n",
+      "Be sure the package pulseaudio-utils is installed onto your system.");
+      _exit (EXIT_FAILURE);
+   } // if
+
+   n = -1;
+   str = NULL;
+   len = 0;
+   while (! misc->term_signaled)
+   {
+      if (getline (&str, &len, p) == -1)
+         break;
+      *strchr (str, '\n') = 0; // remove new_line
+      if (strncasecmp (str, "Sink #", 6) != 0)
+         continue;
+      str += 6;
+      if (atoi (str) == misc->pulseaudio_device)
+      {
+         pclose (p);
+         return;
+      } // if
+   } // while
+   pclose (p);
+   select_next_output_device (misc, daisy);
+} // check_pulseaudio_device
 
 void select_next_output_device (misc_t *misc, daisy_t *daisy)
 {

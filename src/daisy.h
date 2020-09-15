@@ -232,3 +232,4 @@ extern void handle_discinfo (misc_t *, my_attribute_t *, daisy_t *, char *);
 extern void reset_term_signal_handlers_after_fork (void);
 extern void parse_spine (misc_t *, my_attribute_t *, daisy_t *);
 extern void view_duration (misc_t *, daisy_t *, int);
+extern void check_pulseaudio_device (misc_t *misc, daisy_t *daisy);
