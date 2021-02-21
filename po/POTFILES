@@ -1,6 +1,10 @@
+     ../src/alsa_ctl.c \
+     ../src/audiocd.c \
      ../src/common.c \
      ../src/daisy2.02.c \
      ../src/daisy3.c \
      ../src/daisy-player.c \
      ../src/ncx.c \
-     ../src/opf.c
+     ../src/opf.c \
+     ../src/paranoia.c \
+     ../src/playfile.c

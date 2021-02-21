@@ -47,7 +47,7 @@ void init_paranoia (misc_t *misc)
       kill (getppid (), SIGKILL);
    } // if
    if (pipe (misc->pipefd) == -1)
-   {                     
+   {
       int e;
 
       e = errno;
@@ -60,8 +60,7 @@ void init_paranoia (misc_t *misc)
    paranoia_modeset (misc->par, PARANOIA_MODE_FULL ^ PARANOIA_MODE_NEVERSKIP);
 } // init_paranoia
 
-pid_t play_track (misc_t *misc, char *out_file, char *type,
-                  lsn_t from)
+pid_t play_track (misc_t *misc, audio_info_t *sound_devices, lsn_t from)
 {
    init_paranoia (misc);
 
@@ -78,8 +77,7 @@ pid_t play_track (misc_t *misc, char *out_file, char *type,
 #endif
       snprintf (path, MAX_STR, "/dev/fd/%d", misc->pipefd[0]);
       snprintf (misc->str, MAX_STR, "%f", misc->speed);
-      playfile (misc, path, "cdda", out_file, type,
-                misc->str);
+      playfile (misc, sound_devices, path, "cdda", misc->str);
       close (misc->pipefd[0]);
       _exit (EXIT_SUCCESS);
    }

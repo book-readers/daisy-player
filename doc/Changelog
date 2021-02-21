@@ -333,4 +333,12 @@ Samuel Thibault <sthibault@debian.org>
 	Lower the amount of screen refresh to better play with screen readers.
 12.1	updated the Finish translation
 	Store to disk bug solved
-	help-screen updated.
+	Help-screen updated.
+13.0	Option 'T' and key-command 'T' now also stops the update of
+	the pagenumbers.
+	Compiler warnings in buster solved.
+	pulseaudio is not always able to use all soundcards.
+	So one now can choose between pulseaudio or ALSA.
+	Bug in option d solved.
+	Russian translation added.
+	Updated the Afrikaans translation.

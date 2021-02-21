@@ -133,8 +133,8 @@ void fill_smil_anchor_ncx (misc_t *misc, my_attribute_t *my_attribute,
                   {
                      if (! *daisy[misc->current].first_id)
                      {
-                        strncpy (daisy[misc->current].first_id,
-                                 my_attribute->id, MAX_STR);
+                        strcpy (daisy[misc->current].first_id,
+                                 my_attribute->id);
                      } // if
                   } // if
                   if (strcasecmp (misc->tag, "text") == 0)
@@ -229,8 +229,7 @@ void parse_content_ncx (misc_t *misc, my_attribute_t *my_attribute,
       {
          if (! *daisy[misc->current].first_id)
          {
-            strncpy (daisy[misc->current].first_id, my_attribute->id,
-                     MAX_STR);
+            strcpy (daisy[misc->current].first_id, my_attribute->id);
          } // if
       } // if
       if (strcasecmp (misc->tag, "audio") == 0)
@@ -291,8 +290,7 @@ void parse_ncx (misc_t *misc, my_attribute_t *my_attribute,
       {
          if (*my_attribute->id)
          {
-            strncpy (daisy[misc->current].first_id, my_attribute->id,
-                     MAX_STR);
+            strcpy (daisy[misc->current].first_id, my_attribute->id);
          } // if
       } // if
       if (strcasecmp (misc->tag, "docAuthor") == 0)
