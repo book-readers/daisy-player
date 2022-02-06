@@ -1,6 +1,6 @@
 /* daisy3.c - functions to insert daisy3 info into a struct.
  *
- * Copyright (C) 2019 J. Lemmens
+ * Copyright (C) 2020 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -26,7 +26,6 @@ int get_page_number_3 (misc_t *misc, my_attribute_t *my_attribute)
    {
       if (! get_tag_or_label (misc, my_attribute, misc->reader))
          return 0;
-#ifdef DAISY_PLAYER
       if (strcasecmp (misc->tag, "text") == 0)
       {
          char *file, *anchor;
@@ -97,19 +96,6 @@ int get_page_number_3 (misc_t *misc, my_attribute_t *my_attribute)
             } // if
          } // while
       } // if pagenum
-#endif
-
-#ifdef EBOOK_SPEAKER
-      if (*misc->label)
-      {
-         misc->current_page_number = atoi (misc->label);
-         return 1;
-      } // if
-      if (! get_tag_or_label (misc, my_attribute, misc->reader))
-      {
-         return 0;
-      } // if
-#endif
    } // while
 } // get_page_number_3
 
@@ -254,7 +240,6 @@ void parse_page_number (misc_t *misc, my_attribute_t *my_attribute,
 void read_daisy_3 (misc_t *misc, my_attribute_t *my_attribute,
                    daisy_t *daisy)
 {
-
 // when OPF or NCX is forced
    if (misc->use_OPF)
       parse_opf (misc, my_attribute, daisy);

@@ -188,7 +188,7 @@ userdata = userdata; // avoid notification
     }
     sprintf (sink_info[i->index] + 52, " Muted: %3s Volume:%s",
                pa_yes_no_localised(i->mute), str + x);
-}
+} // get_sink_info_callback
 
 static void simple_callback (pa_context *c, int success, void *userdata)
 {
@@ -259,11 +259,11 @@ userdata = userdata; // avoid notification
     fill_volume(&cv, i->channel_map.channels);
 
     pa_operation_unref(pa_context_set_sink_volume_by_name(c, sink_name, &cv, simple_callback, NULL));
-}
+} // get_sink_volume_callback
 
 static void sink_toggle_mute_callback (pa_context *c, const pa_sink_info *i, int is_last, void *userdata)
 {
-userdata = userdata; // avoid notification
+userdata = userdata; // avoid notification                              
     if (is_last < 0) {
         quit(1);
         return;
@@ -275,7 +275,7 @@ userdata = userdata; // avoid notification
     pa_assert(i);
 
     pa_operation_unref(pa_context_set_sink_mute_by_name(c, i->name, !i->mute, simple_callback, NULL));
-}
+} // sink_toggle_mute_callback
 
 #define MAX_FORMATS 256
 
@@ -409,13 +409,16 @@ userdata = userdata; // avoid notification
 	    {
                 case SET_SINK_MUTE:
                     if (mute == TOGGLE_MUTE)
-                        o = pa_context_get_sink_info_by_name(c, sink_name, sink_toggle_mute_callback, NULL);
+                        o = pa_context_get_sink_info_by_name (c,
+                          sink_name, sink_toggle_mute_callback, NULL);
                     else
-                        o = pa_context_set_sink_mute_by_name(c, sink_name, mute, simple_callback, NULL);
+                        o = pa_context_set_sink_mute_by_name (c,
+                          sink_name, mute, simple_callback, NULL);
                     break;
 
                 case SET_SINK_VOLUME:
-                    o = pa_context_get_sink_info_by_name(c, sink_name, get_sink_volume_callback, NULL);
+                    o = pa_context_get_sink_info_by_name (c,
+                       sink_name, get_sink_volume_callback, NULL);
                     break;
 
                 case LIST:
@@ -454,7 +457,7 @@ userdata = userdata; // avoid notification
         default:
             quit(1);
     }
-}
+} // context_state_callback
 
 char *pactl (char *cmd, char *device, char *arg)
 {
@@ -463,7 +466,6 @@ char *pactl (char *cmd, char *device, char *arg)
     char *server = NULL;
 
     setlocale(LC_ALL, "");
-\
     proplist = pa_proplist_new();
 
     if (pa_streq (cmd, "set-sink-volume"))
@@ -504,11 +506,12 @@ char *pactl (char *cmd, char *device, char *arg)
     }
 
     pa_context_set_state_callback(context, context_state_callback, NULL);
-    if (pa_context_connect(context, server, 0, NULL) < 0) {
+    if (pa_context_connect(context, server, 0, NULL) < 0)
+    {
         goto quit;
     }
 
-    if (pa_mainloop_run(m, &ret) < 0) 
+    if (pa_mainloop_run(m, &ret) < 0)
     {
         goto quit;
     }
@@ -544,4 +547,4 @@ quit:
         pa_proplist_free(proplist);
 
     return (char *) sink_info;
-}
+} // pactl

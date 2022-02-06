@@ -1,5 +1,5 @@
 /* header file for daisy-player
- *  Copyright (C)2019 J. Lemmens
+ *  Copyright (C)2020 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -72,8 +72,7 @@ typedef struct Daisy
    float begin, duration;
    char *smil_file, *smil_anchor;
    char *xml_file, *xml_anchor;
-   char *clips_file, *clips_anchor, *orig_smil;
-   char class[MAX_STR], label[100];
+   char class[MAX_STR], label[MAX_STR + 1];
    char first_id[MAX_STR], last_id[MAX_STR];
    int level, page_number;
    char *daisy_mp; // discinfo
@@ -91,6 +90,7 @@ typedef struct My_attribute
         dc_title[MAX_STR],
         dtb_depth[MAX_STR],
         dtb_totalPageCount[MAX_STR],
+        elapsed_seconds[MAX_STR],
         href[MAX_STR],
         http_equiv[MAX_STR],
         *id,
@@ -110,12 +110,14 @@ typedef struct My_attribute
 
 typedef struct Misc
 {
-   int discinfo, playing, just_this_item, current_page_number;
+   int playing, just_this_item, current_page_number;
    int current, max_y, max_x, total_items, level, displaying, ignore_bookmark;
+   int update_time;
    int items_in_opf, items_in_ncx;
    int depth, total_pages, verbose;
    int pipefd[2], tmp_wav_fd, has_audio_tag;
    int pause_resume_playing, mounted_by_daisy_player;
+   time_t pause_seconds;
    int ncx_failed, opf_failed;
    char *pause_resume_id, *prev_id, *current_id;
    char *audio_id;
@@ -124,19 +126,18 @@ typedef struct Misc
    htmlDocPtr doc;
    xmlTextReaderPtr reader;
    pid_t player_pid, cdda_pid, main_pid;
-   time_t seconds;
    char ncc_html[MAX_STR], ncc_totalTime[MAX_STR], ocr_language[5];
    char daisy_version[MAX_STR], daisy_title[MAX_STR], daisy_language[MAX_STR];
    char *daisy_mp, *tmp_dir;
    char tag[MAX_TAG], *label;
-   int label_len;
+   int label_len, pulseaudio_device;
    char bookmark_title[MAX_STR], search_str[30];
-   char cd_dev[MAX_STR], pulseaudio_device[5];
+   char cd_dev[MAX_STR];
    char cddb_flag, opf_name[MAX_STR], ncx_name[MAX_STR];
    char *current_audio_file, tmp_wav[MAX_STR + 1], mcn[MAX_STR];
    char xmlversion[MAX_STR + 1];
    char cmd[MAX_CMD + 1], str[MAX_STR + 1];
-   time_t elapsed_seconds;
+   time_t elapsed_seconds, seconds;
    WINDOW *screenwin, *titlewin;
    cdrom_paranoia_t *par;
    cdrom_drive_t *drv;
@@ -145,6 +146,8 @@ typedef struct Misc
    lsn_t lsn_cursor, pause_resume_lsn_cursor;
    int term_signaled;
    int use_OPF, use_NCX; // for testing
+   int discinfo;
+   char discinfo_title[MAX_STR + 1];
 } misc_t;
 
 extern void get_toc_audiocd (misc_t *, daisy_t *);
@@ -155,16 +158,16 @@ extern char *get_mcn (misc_t *);
 extern void quit_daisy_player (misc_t *, my_attribute_t *, daisy_t *);
 extern void view_screen (misc_t *, daisy_t *);
 extern void pause_resume (misc_t *, my_attribute_t *, daisy_t *);
-extern void open_clips_file (misc_t *, my_attribute_t *, char *, char *);
+extern void open_smil_file (misc_t *, my_attribute_t *, char *, char *);
 extern void open_xml_file (misc_t *, my_attribute_t *,
                            daisy_t *, char *, char *);
-extern void get_next_clips (misc_t *, my_attribute_t *, daisy_t *);
+extern void get_next_audio_tag (misc_t *, my_attribute_t *, daisy_t *);
 extern void free_all (misc_t *, my_attribute_t *, daisy_t *);
 extern void select_next_output_device (misc_t *, daisy_t *);
 extern void go_to_page_number (misc_t *, my_attribute_t *, daisy_t *);
 extern void make_tmp_dir (misc_t *);
 extern daisy_t *create_daisy_struct (misc_t *, my_attribute_t *, daisy_t *);
-extern void skip_right (misc_t *, daisy_t *);
+extern void skip_right (misc_t *, daisy_t *, my_attribute_t *);
 extern void player_ended ();
 extern char *convert_URL_name (misc_t *, char *);
 extern void get_realpath_name (char *, char *, char *);
@@ -174,7 +177,7 @@ extern void get_clips (misc_t *, my_attribute_t *);
 extern void fill_daisy_struct_2 (misc_t *, my_attribute_t *, daisy_t *);
 extern void fill_item (misc_t *, daisy_t *);
 extern int get_page_number_2 (misc_t *, my_attribute_t *,
-                              daisy_t *daisy, char *);
+                              daisy_t *, char *);
 extern void read_daisy_3 (misc_t *, my_attribute_t *, daisy_t *);
 extern void fill_page_numbers (misc_t *, daisy_t *, my_attribute_t *);
 extern int get_page_number_3 (misc_t *, my_attribute_t *);
@@ -220,11 +223,12 @@ extern void load_xml (misc_t *, my_attribute_t *);
 extern void save_xml (misc_t *);
 extern void search (misc_t *, my_attribute_t *, daisy_t *, int, char);
 extern void change_level (misc_t *, my_attribute_t *, daisy_t *, char);
-extern void go_to_time (misc_t *, daisy_t *, my_attribute_t *);
+extern void go_to_time (misc_t *, daisy_t *, my_attribute_t *, time_t);
 extern void skip_left (misc_t *, my_attribute_t *, daisy_t *);
-extern void browse (misc_t *, my_attribute_t *, daisy_t *, char *);
+extern void browse (misc_t *, my_attribute_t *, daisy_t *);
 extern void usage (int);
 extern char *get_mount_point (misc_t *);
 extern void handle_discinfo (misc_t *, my_attribute_t *, daisy_t *, char *);
 extern void reset_term_signal_handlers_after_fork (void);
 extern void parse_spine (misc_t *, my_attribute_t *, daisy_t *);
+extern void view_duration (misc_t *, daisy_t *, int);

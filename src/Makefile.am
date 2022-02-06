@@ -1,6 +1,7 @@
 AUTOMAKE_OPTIONS = foreign
 
 AM_CFLAGS = -I . -I /usr/include/cdio/ -I /usr/include/cdio/paranoia/ \
+            -I /usr/include/libxml2/ \
             -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
             -Wunused -Wunused-variable -Wunused-function \
             -Wmissing-declarations \

@@ -4,11 +4,11 @@ daisy-player - player for DAISY Digital Talking Books or Audio-CD's
 SYNOPSIS
 daisy-player [directory_with_a_Daisy-structure |
 Daisy_book_archive] [-c cdrom_device] [-d pulseaudio_sound_device] [-h]
-[-i] [-n | -y] [-v]
+[-i] [-T] [-n | -y] [-v]
 
 DESCRIPTION
 Daisy-player reads a Daisy-CD and plays the audio-files.
-DAISY versions 2.02 and 3 are currently supported, as well as volumes with multiple books.
+DAISY versions 2.02 and 3 are currently supported, as well as media with multiple books. (discinfo)
 
 Daisy-player also can play Audio-CD's and tries to get CD-information from a cddb-database.
 
@@ -21,23 +21,24 @@ Daisy_book_in_ZIP_format  One could also give a file in ZIP-format with a daisy 
 -d pulseaudio_sound_device  Daisy-player will play on this sound device. Default is "0". (The first soundcard).  Be sure the user is a member of the group audio.
 -h  Display this help and exit.
 -i  Ignore reading of the bookmarks.
+-T  Do not display the time passing during playback.
 -n  Don't fetch cddb-information of an Audio-CD from the internet.
 -y  Fetch cddb-information of an Audio-CD from the internet.
 -v  Be more verbose, so one can se what's going on while initializing.
 
-SCREEN                                             
+SCREEN
 The name and version of this program and the name of the author will be displayed left aligned at the top of the screen. The name of the current loaded book will be displayed right aligned.
 
 The second row of the screen will display the number of pages of the current loaded book (if any), the current selected level and the total number of levels, the total playing time, the current displayed screen and the total number of screens.
 
-The next rows will display the title of the item, the first page of the item within brackets (if there are pages) and the playing time. Items in higher levels will be indented. (Three spaces each level.) When "just playing this item" is active, a "J" will be viewed at the first column of that item.
+The next rows will display the title of the item, the first page of that item within brackets (if there are pages) and the playing time. Items in higher levels will be indented. (Three spaces each level.) When "just playing this item" is active, a "J" will be viewed at the first column of that item.
 
 CONTROL KEYS
 Daisy-player recognizes the following keyboard-commands:
 cursor down,2   move cursor to the next item
 cursor up,8     move cursor to the previous item
-cursor right,6  skip to next phrase
-cursor left,4   skip to previous phrase
+cursor right,6  skip 10 seconds forwards
+cursor left,4   skip 10 seconds backwards
 page-down,3     view next screen
 page-up,9       view previous screen
 enter           Start playing
@@ -61,13 +62,18 @@ o               select next output sound device. The volume levels and the "mute
 p               place a bookmark
 q               quit daisy-player. The playing-point will be saved as bookmark.
 s               stop playing
+T               display the time passing during playback on/off
 U,+             increase playing speed
 v,1             decrease playback volume
 V,7             increase playback volume (beware of Clipping)
 
 NOTES
-                 
 When playing an Audio-CD skip-left and skip-right react a little late. The same for commands like 'U', 'D' and HOME.
+
+A DAISY 2.02-medium normally contains a single book. If more than one DAISY book is provided on the same medium, each book is stored in a separate folder (directory) of its own. In the root of the CD, DVD, or other media a file called discinfo.html is created that contains links to all books on the medium.
+(See <https://daisy.org/activities/standards/daisy/daisy-2/daisy-format-2-0-specification/>)
+
+A DAISY 3-book has two index-files for navigation, a NCX and an OPF file. Daisy-player tries to detemine which of these two files give the best result. But sometimes daisy-playr is not able to make the best choice. When in doubt use option "--N" to force the use of NCX or "-O" to force the OPF. This is only for DAISY format 3 books.
 
 THANKS TO
 Daniel Veillard <daniel@veillard.com>  for the XML2 library.
@@ -75,9 +81,13 @@ Daniel Veillard <daniel@veillard.com>  for the XML2 library.
 Robert Leslie <rob@mars.org>  for the MPEG audio decoder (madplay).
 
 Chris Bagwell <cbagwell@users.sourceforge.net>
-Rob Sykes <aquegg@yahoo.co.uk>  for sox.
+Rob Sykes <aquegg@yahoo.co.uk>  for the sox library.     
 
 Kim Nilsson <kim.nilsson@no-substitute.com>
+
+Lennart Poettering  for pulseaudio.
+
+Colomban Wendling <cwendling@hypra.fr>  for some patches.
 
 FILES
 ~/.daisy-player/  This directory contains the bookmarks in XML-format. . Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level.
@@ -88,6 +98,6 @@ cddbget(1), unar(1), eject(1), udisksctl(1), pulseaudio(1), usermod(8)
 AUTHOR
 Jos Lemmens <jos@jlemmens.nl>
 COPYRIGHT
-Copyright (C)2003-2019 Jos Lemmens <jos@jlemmens.nl>
+Copyright (C)2003-2020 Jos Lemmens <jos@jlemmens.nl>
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program (see the file COPYING); if not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA

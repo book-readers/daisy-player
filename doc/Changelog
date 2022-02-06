@@ -311,3 +311,23 @@ Samuel Thibault <sthibault@debian.org>
 	Solved compiler warnings.
 	Thanks to Colomban Wendling <cwendling@hypra.fr> for his
 	patch to gracefully quit daisy-player upon receiving a signal.
+11.7.1	In the function select_next_output_device () the value of
+	the pactl field "Description:" is replaced by the value of
+	field "alsa.card_name".
+	Suggested by Didier Spaier <didier@slint.fr>.
+11.7.2	OOPS. Had forgotten to remove debug-lines in the previous version.
+11.7.3	Sometimes the function select_next_output_device () went wrong when
+	a sound-card is blacklisted in /etc/modprobe.d.
+11.7.4	Added an Italian translation.
+12.0	Improvements for volumes with multiple books. (discinfo)
+	The function "go to time in this item" now works. 
+	Any random amount of seconds can be given.
+	Skip leftg and right now skips in steps of 10 seconds.
+	Pause reading now stores current seconds so that a resume
+	starts from that point.
+	When a bookmark is placed, save the current seconds instead of the id.
+	Added support of PulseAudio sinks with # > 9.
+	Added option '-T' not to update the playing time during playback.
+	This helps users with screen readers that would otherwise read
+	the time as it updates, leading to highly annoying noise.
+	Lower the amount of screen refresh to better play with screen readers.
