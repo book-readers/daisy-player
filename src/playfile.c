@@ -76,8 +76,17 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
     failure (misc, "sox_open_read", errno);
   if (strcasecmp (in_type, "cdda") == 0)
     in->encoding.reverse_bytes = 0;
-  if ((out = sox_open_write (out_file, &in->signal, NULL, out_type, NULL, NULL)) == NULL)
-     failure (misc, "sox_open_write", errno);
+  if ((out = sox_open_write (out_file, &in->signal, NULL, out_type,
+                             NULL, NULL)) == NULL)
+  {
+    int e;
+    
+    e = errno;
+    beep ();
+    endwin ();
+    printf ("\n\nsox_open_write: %s\n", strerror (e));
+    kill (misc->player_pid * -1, SIGTERM);
+  } // if
 
   chain = sox_create_effects_chain(&in->encoding, &out->encoding);
   interm_signal = in->signal; /* NB: deep copy */

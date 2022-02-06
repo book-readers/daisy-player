@@ -285,3 +285,4 @@ Samuel Thibault <sthibault@debian.org>
 	daisy-player now uses the sox library.
 11.4.1	Little mistake in "THANKS TO" solved. (manual)
 	pause_resume() function improvements.
+11.4.2	unmount daisy-cd before quiting.

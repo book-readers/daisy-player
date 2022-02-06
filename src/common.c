@@ -19,6 +19,7 @@
 
 #include "daisy.h"
 
+
 void get_volume (misc_t *misc)
 {
    char dev[MAX_STR + 10];
@@ -27,7 +28,9 @@ void get_volume (misc_t *misc)
    snd_mixer_elem_t *elem;
 
    if (snd_mixer_open (&handle, atoi (misc->sound_dev)) != 0)
+   {
       failure (misc, "snd_mixer_open", errno);
+   } // if
    sprintf (dev, "hw:%s", misc->sound_dev);
    snd_mixer_attach (handle, dev);
    snd_mixer_selem_register (handle, NULL, NULL);
@@ -36,7 +39,9 @@ void get_volume (misc_t *misc)
    snd_mixer_selem_id_set_index (sid, 0);
    snd_mixer_selem_id_set_name (sid, "Master");
    if ((elem = snd_mixer_find_selem (handle, sid)) == NULL)
+   {
       failure (misc, "No ALSA device found\n", errno);
+   } // if   
    snd_mixer_selem_get_playback_volume_range (elem,
       &misc->min_vol, &misc->max_vol);
    snd_mixer_selem_get_playback_volume (elem, atoi (misc->sound_dev), &misc->volume);
@@ -321,14 +326,14 @@ int get_page_number_3 (misc_t *misc, my_attribute_t *my_attribute)
 
 void kill_player (misc_t *misc)
 {
-   while (killpg (misc->player_pid, SIGHUP) == 0);
+   while (kill (misc->player_pid, SIGHUP) == 0);
 #ifdef EBOOK_SPEAKER
    unlink (misc->eBook_speaker_txt);
    unlink (misc->tmp_wav);
 #endif
 #ifdef DAISY_PLAYER
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
-      while (killpg (misc->cdda_pid, SIGKILL) == 0);
+      while (kill (misc->cdda_pid, SIGKILL) == 0);
    unlink (misc->tmp_wav);
 #endif
 } // kill_player
@@ -346,10 +351,12 @@ void skip_right (misc_t *misc, daisy_t *daisy)
    } // if
    misc->current = misc->displaying = misc->playing;
    wmove (misc->screenwin, daisy[misc->current].y, daisy[misc->current].x);
+   wrefresh (misc->screenwin);
    kill_player (misc);
 } // skip_right
 
-int handle_ncc_html (misc_t *misc, my_attribute_t *my_attribute)
+int handle_ncc_html (misc_t *misc, my_attribute_t *my_attribute,
+                     daisy_t *daisy)
 {
 // lookfor "ncc.html"
    htmlDocPtr doc;
@@ -377,6 +384,20 @@ int handle_ncc_html (misc_t *misc, my_attribute_t *my_attribute)
    } // while
    xmlTextReaderClose (ncc);
    xmlFreeDoc (doc);
+   if (misc->total_items == 0)
+   {
+      endwin ();
+      printf ("%s\n",
+              gettext ("Please try to play this book with daisy-player"));
+      beep ();
+#ifdef DAISY_PLAYER
+      quit_daisy_player (misc, daisy);
+#endif
+#ifdef EBOOK_SPEAKER
+      quit_eBook_speaker (misc);
+#endif
+      _exit (0);
+   } // if
    return misc->total_items;
 } // handle_ncc_html
 
@@ -480,13 +501,8 @@ void create_ncc_html (misc_t *misc)
    free (namelist);
 } // create_ncc_html
 
-#ifdef DAISY_PLAYER
 daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute,
-                              daisy_t *daisy)
-#endif
-#ifdef EBOOK_SPEAKER
-daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute)
-#endif
+                          daisy_t *daisy)
 {
    htmlDocPtr doc;
    xmlTextReaderPtr ptr;
@@ -499,8 +515,8 @@ daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute)
 // lookfor "ncc.html"
    if (*misc->ncc_html)
    {
-      misc->total_items = handle_ncc_html (misc, my_attribute);
-      return (daisy_t *) malloc ((misc->total_items + 1) * sizeof (daisy_t));
+      misc->total_items = handle_ncc_html (misc, my_attribute, daisy);
+      return calloc (misc->total_items + 1, sizeof (daisy_t));
    } // if ncc.html
 
 // lookfor *.ncx
@@ -518,8 +534,8 @@ daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute)
    if (*misc->ncc_html == 0 && *misc->ncx_name == 0 && *misc->opf_name == 0)
    {
       create_ncc_html (misc);
-      misc->total_items = handle_ncc_html (misc, my_attribute);
-      return (daisy_t *) malloc ((misc->total_items + 1) * sizeof (daisy_t));
+      misc->total_items = handle_ncc_html (misc, my_attribute, daisy);
+      return (daisy_t *) calloc (misc->total_items + 1, sizeof (daisy_t));
    } // if
 
 // count items in opf
@@ -577,9 +593,7 @@ daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute)
              "%s/eBook-speaker.wav", misc->daisy_mp);
 jos */
 #endif
-   if (misc->total_items == 0)
-      misc->total_items = 1;
-   return (daisy_t *) malloc (misc->total_items * sizeof (daisy_t));
+   return (daisy_t *) calloc (misc->total_items + 1, sizeof (daisy_t));
 } // create_daisy_struct
 
 void make_tmp_dir (misc_t *misc)
@@ -592,7 +606,7 @@ void make_tmp_dir (misc_t *misc)
       e = errno;
       beep ();
       failure (misc, misc->tmp_dir, e);
-   } // if      
+   } // if
 #ifdef EBOOK_SPEAKER
    switch (chdir (misc->tmp_dir))
    {

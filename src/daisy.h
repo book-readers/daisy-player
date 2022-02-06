@@ -18,10 +18,6 @@
 
 #define _GNU_SOURCE
 
-#ifdef HAVE_CONFIG_H
-  #include "config.h"
-#endif
-
 #include <string.h>
 #include <libgen.h>
 #include <stdio.h>
@@ -41,7 +37,6 @@
 #include <libintl.h>
 #include <sox.h>
 #include <errno.h>
-#include <time.h>
 #include <sys/ioctl.h>
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
@@ -58,6 +53,7 @@
 #include <alsa/asoundlib.h>
 #include <alsa/mixer.h>
 #include <fnmatch.h>
+#include <sys/select.h>
 
 #undef PACKAGE
 #undef PACKAGE_BUGREPORT
@@ -67,7 +63,9 @@
 #undef PACKAGE_URL
 #undef PACKAGE_VERSION
 #undef VERSION
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+   #include "config.h"
+#endif
 
 #define MAX_CMD 512
 #define MAX_STR 256
