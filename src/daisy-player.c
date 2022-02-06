@@ -461,17 +461,20 @@ void view_screen (misc_t *misc, daisy_t *daisy)
          mvwprintw (misc->screenwin, daisy[i].y, 61, " (%3d)", daisy[i].page_number);
       if (daisy[i].level <= misc->level)
       {
-         int x = i, dur = 0;
+         int x, dur = 0;
 
+         x = i;
          do
          {
             dur += daisy[x].duration;
-         } while (daisy[++x].level > misc->level);
+            if (++x >= misc->total_items)
+               break;
+         } while (daisy[x].level > misc->level);
          dur /= misc->speed;
          mvwprintw (misc->screenwin, daisy[i].y, 74, "%02d:%02d",
                     (int) (dur + .5) / 60, (int) (dur + .5) % 60);
       } // if
-      if (i >= misc->total_items - 1)
+      if (i >= misc->total_items)
          break;
    } while (daisy[++i].screen == daisy[misc->current].screen);
    if (misc->just_this_item != -1 &&
@@ -1493,21 +1496,25 @@ void select_next_output_device (misc_t *misc, daisy_t *daisy)
 void browse (misc_t *misc, my_attribute_t *my_attribute,
              daisy_t *daisy, char *wd)
 {
-   int old_screen;
+   int old_screen, i;
    char str[MAX_STR];
 
    misc->current = 0;
    misc->pause_resume_playing = misc->just_this_item = -1;
    misc->label_len = 0;
    get_bookmark (misc, my_attribute, daisy);
+   if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
+   {
+      for (i = 0; i < misc->total_items; i++)
+      {
+         daisy[i].level = 1;
+         daisy[i].page_number = 0;
+      } // for
+      misc->depth = 1;
+   } // if
    view_screen (misc, daisy);
    nodelay (misc->screenwin, TRUE);
    wmove (misc->screenwin, daisy[misc->current].y, daisy[misc->current].x);
-   if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
-   {
-      misc->depth = 1;
-      view_screen (misc, daisy);
-   } // if
 
    for (;;)
    {
@@ -1916,7 +1923,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          beep ();
          break;
       } // switch
-
+                          
       if (misc->playing > -1 && misc->cd_type != CDIO_DISC_MODE_CD_DA)
       {
          play_clip (misc, my_attribute, daisy);
@@ -1997,14 +2004,16 @@ char *get_mount_point (misc_t *misc)
 
    if (! (proc = fopen ("/proc/mounts", "r")))
       failure (gettext ("Cannot read /proc/mounts."), errno);
-   do
+   while (1)
    {
       str = malloc (len + 1);
       if (getline (&str, &len, proc) == -1)
          break;
-   } while (! strcasestr (str, "iso9660"));
+      if (strcasestr (str, "iso9660") || strcasestr (str, "udf"))
+         break;
+   } // while
    fclose (proc);
-   if (strcasestr (str, "iso9660"))
+   if (strcasestr (str, "iso9660") || strcasestr (str, "udf"))
    {
       strncpy (misc->daisy_mp, strchr (str, ' ') + 1, MAX_STR - 1);
       *strchr (misc->daisy_mp, ' ') = 0;
@@ -2168,8 +2177,7 @@ int main (int argc, char *argv[])
    printw (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "");
    printw ("\n");
    printw (gettext ("A parser to play Daisy CD's with Linux"));
-    printw ("\n");
-
+   printw ("\n");
    printw (gettext ("Scanning for a Daisy CD..."));
    refresh ();
    if (argv[optind])
