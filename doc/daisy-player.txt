@@ -3,7 +3,7 @@ daisy-player - player for DAISY Digital Talking Books or Audio-CD's
 
 SYNOPSIS
 daisy-player [directory_with_a_Daisy-structure |
-Daisy_book_in_ZIP_format] [-c cdrom_device] [-d ALSA_sound_device] [-i]
+Daisy_book_archive] [-c cdrom_device] [-d ALSA_sound_device] [-i]
 [-n | -y]
 
 DESCRIPTION

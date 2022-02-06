@@ -211,3 +211,15 @@ Samuel Thibault <sthibault@debian.org>
 	Time searching in an item now takes in account the selected
 	playing-speed.
 10.2	Added an Slovenian translation
+10.2.2	Pause/resume problem solved.
+	Better support for skip left/right in Audio-CD's.
+	Apparently something has changed in the libcdio.so.13 library.
+	The cdio_set_speed () function. causes now a segmentation
+	fault, so I deleted the use of it.
+	Apparently something has changed in the libxml2.so.2 library.
+	In earlier versions daisy-player used
+	   xmlTextReaderGetAttribute (reader, (const xmlChar *) "clipBegin")
+	But that doesn't work anymore. Daisy-player now uses
+	   xmlTextReaderGetAttribute (reader, (const xmlChar *) "clipbegin")
+	I think it is not handy that this library now makes defference 
+	between upercase and lowercase characters.

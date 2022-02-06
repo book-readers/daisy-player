@@ -129,10 +129,3 @@ void get_toc_audiocd (misc_t *misc, daisy_t *daisy)
    if (misc->cddb_flag != 'n')
       get_cddb_info (misc, daisy);
 } // get_toc_audiocd
-
-void set_drive_speed (misc_t *misc, int drive_speed)
-{
-   if (misc->cd_type == CDIO_DISC_MODE_CD_DA || \
-       misc->cd_type == CDIO_DISC_MODE_CD_DATA)
-      cdio_set_speed (misc->p_cdio, drive_speed);
-} // set_drive_speed

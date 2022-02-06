@@ -112,6 +112,8 @@ void get_clips (misc_t *misc, char *orig_begin, char *end)
 
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
       return;
+   if (! *orig_begin)
+      failure ("Error in clip_begin", errno);
    strncpy (begin_str, orig_begin,  MAX_STR - 1);
    begin = begin_str;
    while (! isdigit (*begin))
@@ -146,11 +148,9 @@ void get_attributes (misc_t *misc, my_attribute_t *my_attribute,
    snprintf (attr, MAX_STR - 1, "%s", (char*) xmlTextReaderGetAttribute
                           (reader, (const xmlChar *) "clip-begin"));
    if (strcmp (attr, "(null)"))
-      snprintf (my_attribute->clip_begin, MAX_STR - 1,
-                "%s", attr);
+      snprintf (my_attribute->clip_begin, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-             xmlTextReaderGetAttribute (reader,
-                    (const xmlChar *) "clipBegin"));
+           xmlTextReaderGetAttribute (reader, (const xmlChar *) "clipbegin"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->clip_begin, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
@@ -158,7 +158,7 @@ void get_attributes (misc_t *misc, my_attribute_t *my_attribute,
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->clip_end, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "clipEnd"));
+       xmlTextReaderGetAttribute (reader, (const xmlChar *) "clipend"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->clip_end, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
@@ -234,7 +234,7 @@ void get_attributes (misc_t *misc, my_attribute_t *my_attribute,
    } // if
    snprintf (attr, MAX_STR - 1, "%s", (char*)
        xmlTextReaderGetAttribute (reader, (const xmlChar *) "playorder"));
-   if (strcmp (attr, "(null)"))                                  
+   if (strcmp (attr, "(null)"))
       snprintf (my_attribute->playorder, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
        xmlTextReaderGetAttribute (reader, (const xmlChar *) "phrase"));
@@ -508,7 +508,8 @@ void parse_smil_3 (misc_t *misc, my_attribute_t *my_attribute,
 // get misc->clip_begin
          if (strcasecmp (misc->tag, "audio") == 0)
          {
-            get_clips (misc, my_attribute->clip_begin, my_attribute->clip_end);
+            get_clips (misc, my_attribute->clip_begin,
+                       my_attribute->clip_end);
             daisy[x].begin = misc->clip_begin;
             daisy[x].duration += misc->clip_end - misc->clip_begin;
 // get clip_end
