@@ -147,7 +147,6 @@ EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib ChangeLog compile \
              src/madplay/VERSION \
              src/madplay/version.h \
              src/Makefile.am src/Makefile.in \
-             ylwrap \
              src/pactl/aclocal.m4 src/pactl/AGPL \
              src/pactl/compile src/pactl/config.guess \
              src/pactl/config.sub \
@@ -166,7 +165,8 @@ EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib ChangeLog compile \
              src/pactl/src/macro.h \
              src/pactl/src/Makefile.am \
              src/pactl/src/Makefile.in \
-             src/pactl/src/pactl-set-volume.c \
+             src/pactl/src/pactl.c \
+             src/pactl/src/pactl-set-cmd.c \
              src/pactl/src/socket.h \
              src/pactl/src/strbuf.h \
              src/pactl/src/strlist.h \

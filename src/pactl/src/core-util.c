@@ -354,47 +354,6 @@ char *pa_getcwd(void) {
     }
 }
 
-int pa_reset_sigsv(const int except[]) {
-    int sig;
-
-    for (sig = 1; sig < NSIG; sig++) {
-        bool reset = true;
-
-        switch (sig) {
-            case SIGKILL:
-            case SIGSTOP:
-                reset = false;
-                break;
-
-            default: {
-                int i;
-
-                for (i = 0; except[i] > 0; i++) {
-                    if (sig == except[i]) {
-                        reset = false;
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (reset) {
-            struct sigaction sa;
-
-            memset(&sa, 0, sizeof(sa));
-            sa.sa_handler = SIG_DFL;
-
-            /* On Linux the first two RT signals are reserved by
-             * glibc, and sigaction() will return EINVAL for them. */
-            if ((sigaction(sig, &sa, NULL) < 0))
-                if (errno != EINVAL)
-                    return -1;
-        }
-    }
-
-    return 0;
-}
-
 void pa_set_env(const char *key, const char *value) {
     pa_assert(key);
     pa_assert(value);

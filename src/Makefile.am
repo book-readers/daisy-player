@@ -1,8 +1,10 @@
 AUTOMAKE_OPTIONS = foreign
 
 AM_CFLAGS = -I . -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
-            -g -I /usr/include/libxml2/ -O3 \
-            --param=ssp-buffer-size=4 -Wformat -Werror=format-security \
+            -Wunused -Wunused-variable -Wunused-function \
+            -Wmissing-declarations \
+            -ggdb -I /usr/include/libxml2/ -O3 \
+            -Wuninitialized -Winit-self \
             -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
 
 bin_PROGRAMS = daisy-player
@@ -23,7 +25,7 @@ libtool: $(LIBTOOL_DEPS)
 	(cd pactl/src && make)
 	$(COMPILE) -S $<
 
-again:                    
+again:
 	$(MAKE) clean
 	$(MAKE)
 

@@ -294,3 +294,10 @@ Samuel Thibault <sthibault@debian.org>
 11.6.1	The map src/pulseaudio is renamed to src/pactl.
 	Filenames now will be treated case-insensitive.
 	Now also in href, src and alike attributes.
+11.6.2
+	Playback sound can be muted/unmuted with 'm'.
+	With 'o' a soundcard can be selected. The volume levels and
+	the "mute" states of all cards ar shown and can be altered
+	using 'm', 'v' and 'V'.
+11.6.2.1	
+	Reset the terminal after daisy-player exits.

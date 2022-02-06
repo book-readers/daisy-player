@@ -6,9 +6,8 @@ SUBDIRS = src
 
 ACLOCAL_AMFLAGS = -I m4
 
-EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib autom4te.cache CHANGES \
-             compile config.guess config.h config.h.in config.status \
-             config.sub configure configure.ac COPYING COPYRIGHT \
-             CREDITS depcomp INSTALL install-sh m4 Makefile.am \
-             Makefile.in mdate-sh missing mkinstalldirs py-compile \
-             README test-driver texinfo.tex TODO VERSION ylwrap
+EXTRA_DIST = aclocal.m4 ar-lib am autom4te.cache \
+             compile config.guess config.status \
+             config.sub configure configure.ac COPYING \
+             depcomp INSTALL install-sh m4 Makefile.am \
+             Makefile.in missing mkinstalldirs README
