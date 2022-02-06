@@ -24,6 +24,7 @@ Be sure the following extra packages exist on your system:
    language-pack-nl
    language-pack-pl
    language-pack-pt
+   language-pack-sl
    language-pack-sv
    libcdio-cdda1
    libcdio-paranoia1
@@ -62,8 +63,8 @@ For keyboard navigation, plese press 'h' or '?'.
 
 daisy-player is multilingual. The following languages are currently
 supported:
-dutch, english, french, german, hungarian, norwegian, polish,
-south-african, spanish.
+dutch, english, french, german, hungarian, norwegian, polish, Portuguese,
+south-african, spanish, Swedish.
 
 Enjoy
 

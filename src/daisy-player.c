@@ -173,7 +173,7 @@ void get_bookmark (misc_t *misc, my_attribute_t *my_attribute,
    {
       misc->player_pid = play_track (misc, misc->sound_dev, "alsa",
             daisy[misc->current].first_lsn + (misc->seconds * 75));
-      misc->seconds = time (NULL) - misc->seconds;
+      misc->seconds = time (NULL) - misc->seconds;         
       return;
    } // if
    get_clips (misc, my_attribute->clip_begin, my_attribute->clip_end);
@@ -387,7 +387,7 @@ void view_page (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
 
 void view_time (misc_t *misc, daisy_t *daisy)
 {
-   float remain_time = 0, curr_time = 0;
+   float remain_time = 0, curr_time = 0, curr_time2;
 
    if (misc->playing == -1 ||
        daisy[misc->current].screen != daisy[misc->playing].screen)
@@ -397,6 +397,7 @@ void view_time (misc_t *misc, daisy_t *daisy)
       curr_time = (misc->lsn_cursor - daisy[misc->playing].first_lsn) / 75;
    else
       curr_time = misc->start_time + (float) (time (NULL) - misc->seconds);
+   curr_time2 = curr_time;
    curr_time /= misc->speed;
    mvwprintw (misc->screenwin, daisy[misc->playing].y, 68, "%02d:%02d",
               (int) curr_time / 60, (int) curr_time % 60);
@@ -404,7 +405,7 @@ void view_time (misc_t *misc, daisy_t *daisy)
       remain_time = (daisy[misc->playing].last_lsn -
                      daisy[misc->playing].first_lsn) / 75 - curr_time;
    else
-      remain_time = daisy[misc->playing].duration - curr_time;
+      remain_time = daisy[misc->playing].duration - curr_time2;
    remain_time /= misc->speed;
    mvwprintw (misc->screenwin, daisy[misc->playing].y, 74, "%02d:%02d",
               (int) remain_time / 60, (int) remain_time % 60);
@@ -649,7 +650,8 @@ void pause_resume (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
       {
          lsn_t start;
 
-         start = (lsn_t) (misc->start_time + (float) (time (NULL) - misc->seconds) * 75) +
+         start = (lsn_t) (misc->start_time +
+                 (float) (time (NULL) - misc->seconds) * 75) +
                  daisy[misc->playing].first_lsn;
          misc->player_pid = play_track (misc, misc->sound_dev, "alsa",
                             start);
@@ -1406,9 +1408,11 @@ void go_to_time (misc_t *misc, daisy_t *daisy, my_attribute_t *my_attribute)
    if (strlen (time_str) == 0)
       secs = 0;
    else
+   {
       secs = (time_str[0] - 48) * 600 + (time_str[1] - 48)* 60 +
              (time_str[3] - 48) * 10 + (time_str[4] - 48);
-   if (secs >= daisy[misc->current].duration)
+   } // if
+   if (secs >= daisy[misc->current].duration / misc->speed)
    {
       beep ();
       secs = 0;
@@ -1433,7 +1437,7 @@ void go_to_time (misc_t *misc, daisy_t *daisy, my_attribute_t *my_attribute)
             get_clips (misc, my_attribute->clip_begin,
                        my_attribute->clip_end);
          } // if
-      } while (misc->clip_begin < secs);
+      } while (misc->clip_begin / misc->speed < secs);
       skip_left (misc, my_attribute, daisy);
    } // if
    misc->playing = misc->displaying = misc->current;
@@ -1552,7 +1556,8 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          }
          else
          {
-            open_smil_file (misc, my_attribute, daisy[misc->current].smil_file,
+            open_smil_file (misc, my_attribute, 
+                            daisy[misc->current].smil_file,
                             daisy[misc->current].anchor);
          } // if
          misc->start_time = 0;
