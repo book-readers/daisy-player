@@ -137,7 +137,7 @@ typedef struct Misc
    int label_len;
    char bookmark_title[MAX_STR];
    char *search_str, *path_name;
-   char cd_dev[MAX_STR], sound_dev[MAX_STR];
+   char cd_dev[MAX_STR], *sound_dev;
    char cddb_flag, opf_name[MAX_STR], ncx_name[MAX_STR];
    char use_ncx, use_opf;
    char *current_audio_file, tmp_wav[MAX_STR + 1], mcn[MAX_STR];

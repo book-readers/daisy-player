@@ -1,1 +1,3 @@
 - time-viewing starts on 00:00 when next page starts in daisy 3 files.
+- how to play pulseaudio with the C function sox_open_write ().
+- how to run ./src/madplay/configure from ./configure.ac

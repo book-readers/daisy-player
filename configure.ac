@@ -1,8 +1,8 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])                                               
-AC_INIT([daisy-player],[11.3.1],[jos@jlemmens.nl],[],[www.jlemmens.nl])
+AC_PREREQ([2.69])
+AC_INIT([daisy-player],[11.3.2],[jos@jlemmens.nl],[],[www.jlemmens.nl])
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
@@ -90,7 +90,8 @@ AC_CONFIG_FILES([Makefile
                  m4/Makefile
                  man/Makefile
                  po/Makefile.in
-                 src//Makefile])
+                 src/madplay/Makefile
+                 src/Makefile])
 AM_GNU_GETTEXT([external])
 AC_PROG_LN_S
 
@@ -98,7 +99,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
 
-AC_CONFIG_SRCDIR([src/madplay])
+# AC_CONFIG_SRCDIR([src/madplay]) # jos
 
 AM_INIT_AUTOMAKE
 
@@ -265,4 +266,3 @@ test -n "$optimize" && CFLAGS="$CFLAGS $optimize"
 test -n "$profile"  && CFLAGS="$CFLAGS $profile" LDFLAGS="$LDFLAGS $profile"
 AC_DEFINE([AUDIO_DEFAULT], [], [audio_wav])
 AC_OUTPUT
-

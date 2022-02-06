@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of daisy-player</TITLE>
 </HEAD><BODY>
 <H1>daisy-player</H1>
-Section: Linux Reference Manual (1)<BR>Updated: 26 January 2018<BR><A HREF="#index">Index</A>
+Section: Linux Reference Manual (1)<BR>Updated: 16 February 2018<BR><A HREF="#index">Index</A>
 <A HREF="/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -48,11 +48,11 @@ One could also give a file in ZIP-format with a daisy structure as  argument to 
 <DT><B>-c</B> <I>cdrom_device</I>
 
 <DD>
-Use DEVICE as the CD device. DEVICE is the device special file name of the CD-ROM device. The default is /dev/sr0.
+Use DEVICE as the CD device. DEVICE is the device special file name of the CD-ROM device. The default is /dev/sr0. Be sure the user is a member of the group cdrom.
 <DT><B>-d</B> <I>pulseaudio_sound_device</I>
 
 <DD>
-Daisy-player will play on this sound device. Default is &quot;0&quot;. (The first soundcard)
+Daisy-player will play on this sound device. Default is &quot;0&quot;. (The first soundcard).  Be sure the user is a member of the group audio.
 <DT><B>-h</B>
 
 <DD>
@@ -248,7 +248,7 @@ This file, in XML-format, contains the name of the desired audio device and the 
 <A NAME="lbAK">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
-<B><A HREF="/cgi-bin/man/man2html?1+cddbget">cddbget</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+unar">unar</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+eject">eject</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+udisksctl">udisksctl</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+sox">sox</A></B>(1)
+<B><A HREF="/cgi-bin/man/man2html?1+cddbget">cddbget</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+unar">unar</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+eject">eject</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+udisksctl">udisksctl</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+sox">sox</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+pulseaudio">pulseaudio</A></B>(1)
 <A NAME="lbAL">&nbsp;</A>
 <H2>AUTHOR</H2>
 
@@ -282,6 +282,6 @@ This program is free software; you can redistribute it and/or modify it under th
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 20:57:26 GMT, January 26, 2018
+Time: 15:07:54 GMT, February 16, 2018
 </BODY>
 </HTML>

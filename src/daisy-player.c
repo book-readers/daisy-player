@@ -225,7 +225,7 @@ void get_next_clips (misc_t *misc, my_attribute_t *my_attribute,
                snprintf (name, len, "%s/.daisy-player/%s%s",
                          pw->pw_dir, misc->bookmark_title, get_mcn (misc));
                unlink (name);
-               _exit (0);
+               _exit (-1);
             } // if
             if (daisy[misc->playing].level <= misc->level)
                misc->displaying = misc->current = misc->playing;
@@ -519,7 +519,7 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
          endwin ();
          beep ();
          printf ("%s: %s\n", misc->current_audio_file, strerror (e));
-         _exit (0);
+         _exit (-1);
       } // if
       madplay (misc->current_audio_file, begin, duration, out_cdr);
       r = open (out_cdr, O_RDONLY);
@@ -825,7 +825,7 @@ void calculate_times_3 (misc_t *misc, my_attribute_t *my_attribute,
       quit_daisy_player (misc, daisy);
       printf ("%s\n", gettext (
         "This book has no audio. Play this book with eBook-speaker"));
-      _exit (0);
+      _exit (-1);
    } // if
 } // calculate_times_3
 
@@ -1178,6 +1178,11 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
    misc->pause_resume_playing = misc->just_this_item = -1;
    misc->label_len = 0;
    get_bookmark (misc, my_attribute, daisy);
+
+// convert ALSA device name into pulseaudio device name
+   if (strncmp (misc->sound_dev, "hw:", 3) == 0)
+      misc->sound_dev += 3;
+
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
    {
       for (i = 0; i < misc->total_items; i++)
@@ -1199,7 +1204,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
       quit_daisy_player (misc, daisy);
       printf ("%s\n", gettext (
         "This book has no audio. Play this book with eBook-speaker"));
-      _exit (0);
+      _exit (-1);
    } // if
 
    for (;;)
@@ -1772,6 +1777,7 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
 
 int main (int argc, char *argv[])
 {
+
    int opt;
    char str[MAX_STR], DISCINFO_HTML[MAX_STR], *start_wd;
    char *c_opt, *d_opt, cddb_opt;
@@ -1802,7 +1808,7 @@ int main (int argc, char *argv[])
    make_tmp_dir (&misc);
    if (access ("/usr/bin/sox", R_OK) != 0)
       failure (&misc, "daisy-player needs the sox package.", errno);
-   strncpy (misc.sound_dev, "0", MAX_STR - 1);
+   misc.sound_dev = strdup ("0");
    misc.cddb_flag = 'y';
    if (! setlocale (LC_ALL, ""))
       failure (&misc, "setlocale ()", errno);
@@ -1825,7 +1831,7 @@ int main (int argc, char *argv[])
          c_opt = strdup (misc.cd_dev);
          break;
       case 'd':
-         strncpy (misc.sound_dev, optarg, 15);
+         misc.sound_dev = strdup (optarg);
          d_opt = strdup (misc.sound_dev);
          break;
       case 'h':
@@ -1871,7 +1877,7 @@ int main (int argc, char *argv[])
    if (c_opt)
       strncpy (misc.cd_dev, c_opt, MAX_STR - 1);
    if (d_opt)
-      strncpy (misc.sound_dev, d_opt, MAX_STR - 1);
+      misc.sound_dev = strdup (d_opt);
    if (cddb_opt)
       misc.cddb_flag = cddb_opt;
    initscr ();
