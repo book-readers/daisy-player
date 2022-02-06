@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2019-10-18 14:12+0200\n"
+"POT-Creation-Date: 2020-05-27 11:17+0200\n"
 "PO-Revision-Date: 2018-03-03 15:06+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -31,9 +31,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/common.c:31
-#, fuzzy
 msgid "Please try to play this book with eBook-speaker"
-msgstr "Veuillez essayer de lire ce livre avec daisy-player"
+msgstr "Veuillez essayer de lire ce livre avec eBook-speaker"
 
 #: src/common.c:287 src/common.c:485
 msgid "Please try to play this book with daisy-player"

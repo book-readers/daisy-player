@@ -317,4 +317,5 @@ Samuel Thibault <sthibault@debian.org>
 	Suggested by Didier Spaier <didier@slint.fr>.
 11.7.2	OOPS. Had forgotten to remove debug-lines in the previous version.
 11.7.3	Sometimes the function select_next_output_device () went wrong when
-	a sound-card is blacklisted in /etc/modprobe.d.                     
+	a sound-card is blacklisted in /etc/modprobe.d.
+11.7.4	Added an Italian translation.
