@@ -862,11 +862,12 @@ void fill_xml_anchor_opf (misc_t *misc, my_attribute_t *my_attribute,
    if (! (doc = htmlParseFile (misc->opf_name, "UTF-8")))
    {
       int e;
-      char str[MAX_STR + 1];
+      char *str;
 
       e = errno;
       beep ();
-      snprintf (str, MAX_STR, "fill_xml_anchor_opf %s", misc->opf_name);
+      str = malloc (20 + strlen (misc->opf_name));
+      snprintf (str, MAX_CMD, "fill_xml_anchor_opf %s", misc->opf_name);
       failure (misc, str, e);
    } // if
    if ((opf = xmlReaderWalker (doc)) == NULL)
@@ -1082,11 +1083,11 @@ void parse_opf (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
    if (! (doc = htmlParseFile (misc->opf_name, "UTF-8")))
    {
       int e;
-      char str[MAX_STR + 1];
+      char str[MAX_CMD + 1];
 
       e = errno;
       beep ();
-      snprintf (str, MAX_STR, "parse_opf: %s", misc->opf_name);
+      snprintf (str, MAX_CMD, "parse_opf: %s", misc->opf_name);
       failure (misc, str, e);
    } // if
    if ((opf = xmlReaderWalker (doc)) == NULL)

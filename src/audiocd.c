@@ -26,7 +26,7 @@ void get_cddb_info (misc_t *misc, daisy_t *daisy)
    char *str = NULL, cd[MAX_STR + 1];
    int i;
 
-   snprintf (cd, MAX_STR, "cddbget -c %s -I -d 2> /dev/null", misc->cd_dev);
+   snprintf (cd, MAX_STR + strlen (misc->cd_dev), "cddbget -c %s -I -d 2> /dev/null", misc->cd_dev);
    r = popen (cd, "r");
    i = 0;
    while (1)

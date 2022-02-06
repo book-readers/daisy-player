@@ -152,14 +152,14 @@ void failure (misc_t *misc, char *str, int e)
 {
    endwin ();
    beep ();
-   printf ("\n%s: %s\n", str, strerror (e));
+   fprintf (stderr, "\n%s: %s\n", str, strerror (e)); 
    fflush (stdout);
    remove_tmp_dir (misc);
    _exit (-1);
 } // failure
 
 void playfile (misc_t *misc, char *in_file, char *in_type,
-               char *out_file, char *out_type, char *tempo)
+               char *out_file, char *out_type, char *tempo, pid_t pid)
 {
    sox_format_t *sox_in, *sox_out;
    sox_effects_chain_t *chain;
@@ -168,7 +168,11 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
 
    sox_globals.verbosity = 0;
    sox_globals.stdout_in_use_by = NULL;
-   sox_init ();
+   if (sox_init () != SOX_SUCCESS)
+   {
+      kill (pid, SIGKILL);
+      failure (misc, "sox_init ()", errno);
+   } // if
    if ((sox_in = sox_open_read (in_file, NULL, NULL, in_type)) == NULL)
    {
       int e;
@@ -195,7 +199,7 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
             e = errno;
             beep ();
             endwin ();
-            printf ("\n%s: %s\n\n", out_file, strerror (e));
+            printf ("\n\nsound device %s: %s\n\n\n", "default", strerror (e));
             fflush (stdout);
             put_bookmark (misc);
             strncpy (misc->sound_dev, "hw:0", MAX_STR - 1);
@@ -638,7 +642,8 @@ void remove_tmp_dir (misc_t *misc)
          int e;
 
          e = errno;
-         snprintf (misc->str, MAX_STR, "%s: %s\n", misc->cmd, strerror (e));
+         snprintf (misc->cmd, MAX_CMD + strlen (strerror (e)),
+                   "%s: %s\n", misc->cmd, strerror (e));
          failure (misc, misc->str, e);
       } // if
    } // if
@@ -878,7 +883,8 @@ int get_tag_or_label (misc_t *misc, my_attribute_t *my_attribute,
    {
       failure (misc, "xmlTextReaderRead ()\n"
                "Can't handle this DTB structure!\n"
-               "Don't know how to handle it yet, sorry. :-(\n", errno);
+               "Don't know how to handle it yet, sorry. (-:\n", errno);
+      break;
    }
    case 0:
    {
@@ -900,6 +906,7 @@ int get_tag_or_label (misc_t *misc, my_attribute_t *my_attribute,
       e = errno;
       snprintf (str, MAX_STR, gettext ("Cannot read type: %d"), type);
       failure (misc, str, e);
+      break;
    }
    case XML_READER_TYPE_ELEMENT:
       strncpy (misc->tag, (char *) xmlTextReaderConstName (reader),
