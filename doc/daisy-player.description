@@ -41,5 +41,5 @@ ENTER starts playing. Each element of the array daisy contains the name of
 the smil_file and the anchor which points to the start of this
 item in the audio-file. The audio-file is played with the sox library.
 The sox library is too slow for finding the startpoint in the audio-file. So
-the utilityh madplay is used for cutting out the clip and it is written
+the mad library is used for cutting out the clip and it is written
 to a temporary WAV-file. Playing itself is done by sox.

@@ -1,6 +1,6 @@
 /* paranoia.c
  *
- *  Copyright (C)2015 J. Lemmens
+ *  Copyright (C)2017 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -63,7 +63,6 @@ void init_paranoia (misc_t *misc)
 pid_t play_track (misc_t *misc, char *out_file, char *type,
                   lsn_t from)
 {
-   cdio_paranoia_free (misc->par);
    init_paranoia (misc);
    switch (misc->cdda_pid = fork ())
    {

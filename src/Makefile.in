@@ -91,12 +91,7 @@ host_triplet = @host@
 bin_PROGRAMS = daisy-player$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
-	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intlmacosx.m4 \
-	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
-	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/nls.m4 \
-	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/progtest.m4 \
-	$(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -106,9 +101,15 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
+am__dirstamp = $(am__leading_dot)dirstamp
 am_daisy_player_OBJECTS = audiocd.$(OBJEXT) paranoia.$(OBJEXT) \
 	common.$(OBJEXT) daisy2.02.$(OBJEXT) daisy3.$(OBJEXT) \
-	daisy-player.$(OBJEXT)
+	daisy-player.$(OBJEXT) madplay/madplay.$(OBJEXT) \
+	madplay/audio.$(OBJEXT) madplay/crc.$(OBJEXT) \
+	madplay/version.$(OBJEXT) madplay/tag.$(OBJEXT) \
+	madplay/player.$(OBJEXT) madplay/audio_wave.$(OBJEXT) \
+	madplay/resample.$(OBJEXT) madplay/rgain.$(OBJEXT) \
+	madplay/filter.$(OBJEXT) madplay/audio_cdda.$(OBJEXT)
 daisy_player_OBJECTS = $(am_daisy_player_OBJECTS)
 daisy_player_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -169,6 +170,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/depcomp \
 	$(top_srcdir)/mkinstalldirs
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
+ALLOCA = @ALLOCA@
 AMTAR = @AMTAR@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AUTOCONF = @AUTOCONF@
@@ -249,6 +251,8 @@ VERSION = @VERSION@
 XGETTEXT = @XGETTEXT@
 XGETTEXT_015 = @XGETTEXT_015@
 XGETTEXT_EXTRA_OPTIONS = @XGETTEXT_EXTRA_OPTIONS@
+YACC = @YACC@
+YFLAGS = @YFLAGS@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -272,6 +276,7 @@ build_vendor = @build_vendor@
 builddir = @builddir@
 datadir = @datadir@
 datarootdir = @datarootdir@
+depend_audio = @depend_audio@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
@@ -284,6 +289,7 @@ htmldir = @htmldir@
 includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
+ldadd_audio = @ldadd_audio@
 libdir = @libdir@
 libexecdir = @libexecdir@
 localedir = $(datadir)/locale
@@ -304,22 +310,37 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+AUTOMAKE_OPTIONS = foreign
 AM_CFLAGS = -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
-            -Wuninitialized -Winit-self -fno-common \
-            -g -I /usr/include/libxml2/ -O2 -fstack-protector \
+            -Wunused-function -Wuninitialized -Winit-self -fno-common \
+            -g -I /usr/include/libxml2/ -O3 \
             --param=ssp-buffer-size=4 -Wformat -Werror=format-security \
             -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
 
 AM_LDFLAGS = -lncursesw -lsox -lxml2 -lcdio -lcdio_cdda -lcdio_paranoia \
-             -lmagic
+             -lmagic -lasound -lmad
 
-daisy_player_SOURCES = daisy.h audiocd.c paranoia.c \
-                       common.c daisy2.02.c daisy3.c daisy-player.c
+ldadd = $(depend) @LTLIBINTL@
+DEPENDENCIES = $(depend) \
+LDADD =			$(ldadd)
+
+CLEANFILES = $(EXTRA_PROGRAMS)
+daisy_player_SOURCES = daisy.h audiocd.c paranoia.c common.c daisy2.02.c \
+                       daisy3.c daisy-player.c \
+                       madplay/global.h madplay/madplay.c madplay/audio.c \
+                       madplay/version.h madplay/audio.h \
+                       madplay/crc.c madplay/version.c madplay/tag.c \
+                       madplay/rgain.h madplay/player.c \
+                       madplay/tag.h madplay/audio_wave.c madplay/resample.c \
+                       madplay/crc.h madplay/gettext.h madplay/resample.h \
+                       madplay/rgain.c \
+                       madplay/filter.c madplay/player.h \
+                       madplay/filter.h madplay/audio_cdda.c
 
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .o .obj
+.SUFFIXES: .c .o .obj .s
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -329,9 +350,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src//Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign src/Makefile
+	  $(AUTOMAKE) --foreign src//Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -391,6 +412,34 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+madplay/$(am__dirstamp):
+	@$(MKDIR_P) madplay
+	@: > madplay/$(am__dirstamp)
+madplay/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) madplay/$(DEPDIR)
+	@: > madplay/$(DEPDIR)/$(am__dirstamp)
+madplay/madplay.$(OBJEXT): madplay/$(am__dirstamp) \
+	madplay/$(DEPDIR)/$(am__dirstamp)
+madplay/audio.$(OBJEXT): madplay/$(am__dirstamp) \
+	madplay/$(DEPDIR)/$(am__dirstamp)
+madplay/crc.$(OBJEXT): madplay/$(am__dirstamp) \
+	madplay/$(DEPDIR)/$(am__dirstamp)
+madplay/version.$(OBJEXT): madplay/$(am__dirstamp) \
+	madplay/$(DEPDIR)/$(am__dirstamp)
+madplay/tag.$(OBJEXT): madplay/$(am__dirstamp) \
+	madplay/$(DEPDIR)/$(am__dirstamp)
+madplay/player.$(OBJEXT): madplay/$(am__dirstamp) \
+	madplay/$(DEPDIR)/$(am__dirstamp)
+madplay/audio_wave.$(OBJEXT): madplay/$(am__dirstamp) \
+	madplay/$(DEPDIR)/$(am__dirstamp)
+madplay/resample.$(OBJEXT): madplay/$(am__dirstamp) \
+	madplay/$(DEPDIR)/$(am__dirstamp)
+madplay/rgain.$(OBJEXT): madplay/$(am__dirstamp) \
+	madplay/$(DEPDIR)/$(am__dirstamp)
+madplay/filter.$(OBJEXT): madplay/$(am__dirstamp) \
+	madplay/$(DEPDIR)/$(am__dirstamp)
+madplay/audio_cdda.$(OBJEXT): madplay/$(am__dirstamp) \
+	madplay/$(DEPDIR)/$(am__dirstamp)
 
 daisy-player$(EXEEXT): $(daisy_player_OBJECTS) $(daisy_player_DEPENDENCIES) $(EXTRA_daisy_player_DEPENDENCIES) 
 	@rm -f daisy-player$(EXEEXT)
@@ -398,6 +447,7 @@ daisy-player$(EXEEXT): $(daisy_player_OBJECTS) $(daisy_player_DEPENDENCIES) $(EX
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f madplay/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -408,17 +458,30 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/daisy2.02.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/daisy3.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/paranoia.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/audio.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/audio_cdda.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/audio_wave.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/crc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/filter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/madplay.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/player.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/resample.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/rgain.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/tag.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/version.Po@am__quote@
 
 .c.o:
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ $<
 
 .c.obj:
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepCC_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
@@ -534,10 +597,13 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f madplay/$(DEPDIR)/$(am__dirstamp)
+	-rm -f madplay/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -547,7 +613,7 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ./$(DEPDIR) madplay/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -593,7 +659,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ./$(DEPDIR) madplay/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -629,6 +695,18 @@ uninstall-am: uninstall-binPROGRAMS
 
 .PRECIOUS: Makefile
 
+
+libtool: $(LIBTOOL_DEPS)
+	$(SHELL) ./config.status --recheck
+
+.c.s:
+	$(COMPILE) -S $<
+
+again:
+	$(MAKE) clean
+	$(MAKE)            
+
+.PHONY: profile again
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

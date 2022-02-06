@@ -13,7 +13,7 @@ Be sure the following extra packages exist on your system:
    libsox2
    libxml2
    libmagic1
-   madplay
+   libmad0
    gettext
    udisks2
    language-pack-af
@@ -66,8 +66,8 @@ For keyboard navigation, plese press 'h' or '?'.
 
 daisy-player is multilingual. The following languages are currently
 supported:
-dutch, english, french, german, hungarian, norwegian, polish, Portuguese,
-slovenian, south-african, spanish, Swedish.
+dutch, english, finish, french, german, hungarian, norwegian, polish,
+portuguese, slovenian, south-african, spanish, Swedish.
 
 Enjoy
 

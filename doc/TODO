@@ -1,4 +1,2 @@
-- time-viewing starts on 00:00 when next page starts in daisy 3 files
-- command d - take into account the current level
-- alter  playback volume with ALSA instead off altering the volume
-  of the soundfile itself with sox.
+- time-viewing starts on 00:00 when next page starts in daisy 3 files.
+- Audio-CD: after write wav ('d'), the file is not correctly closed.
