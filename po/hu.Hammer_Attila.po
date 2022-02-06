@@ -1,0 +1,284 @@
+# message catalog file for daisy-player - Hungarian version
+#
+# Copyright (C) 2003-2015 J. Lemmens
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation; either version 2 of the License, or (at your
+# option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+# Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# translated by  Hammer Attila <hammera@pickup.hu>
+msgid ""
+msgstr ""
+"Project-Id-Version: gettext 0.11.2\n"
+"Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
+"POT-Creation-Date: 2017-05-21 09:23+0200\n"
+"PO-Revision-Date: 2013-12-09 11:06+0200\n"
+"Last-Translator: Hammer Attila <hammera@pickup.hu>\n"
+"Language-Team: Hammer Attila <hammera@pickup.hu>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/daisy-player.c:392
+msgid "'h' for help -"
+msgstr "'h' =segítség"
+
+#: src/daisy-player.c:396
+#, c-format
+msgid "%d pages"
+msgstr "Oldalak száma: %d"
+
+#: src/daisy-player.c:401
+#, c-format
+msgid "level: %d of %d"
+msgstr "%d szint a %d szintből"
+
+#: src/daisy-player.c:409
+#, c-format
+msgid "total length: %02d:%02d:%02d"
+msgstr "Összidő: %02d:%02d:%02d"
+
+#: src/daisy-player.c:624 src/daisy-player.c:876 src/daisy-player.c:1793
+#: src/daisy-player.c:1822 src/daisy-player.c:2212 src/daisy3.c:156
+#: src/daisy3.c:225 src/daisy3.c:322 src/daisy3.c:402 src/daisy3.c:499
+#: src/daisy3.c:651 src/daisy3.c:708 src/daisy3.c:799 src/daisy3.c:874
+#: src/daisy3.c:1095 src/daisy3.c:1221
+#, c-format
+msgid "Cannot read %s"
+msgstr "A(z) %s nem olvasható"
+
+#: src/daisy-player.c:740
+msgid "These commands are available in this version:"
+msgstr "A következő parancsok érhetők el ebben a verzióban:"
+
+#: src/daisy-player.c:744
+msgid "cursor down,2   - move cursor to the next item"
+msgstr "Le,2           - a kurzor mozgatása a következő elemre"
+
+#: src/daisy-player.c:746
+msgid "cursor up,8     - move cursor to the previous item"
+msgstr "Fel,8          - a kurzor mozgatása az előző elemre"
+
+#: src/daisy-player.c:748
+msgid "cursor right,6  - skip to next phrase"
+msgstr "Jobbra,6       - a következő kifejezés kihagyása"
+
+#: src/daisy-player.c:750
+msgid "cursor left,4   - skip to previous phrase"
+msgstr "Balra,4        - az előző kifejezés kihagyása"
+
+#: src/daisy-player.c:752
+msgid "page-down,3     - view next page"
+msgstr "PAGEDOWN,3     - a következő oldal megtekintése"
+
+#: src/daisy-player.c:754
+msgid "page-up,9       - view previous page"
+msgstr "PAGEUP,9       - az előző oldal megtekintése"
+
+#: src/daisy-player.c:756
+msgid "enter           - start playing"
+msgstr "ENTER          - a lejátszás megkezdése"
+
+#: src/daisy-player.c:758
+msgid "space,0         - pause/resume playing"
+msgstr "SZÓKÖZ,0       - a lejátszás szüneteltetése és folytatása"
+
+#: src/daisy-player.c:760
+msgid "home,*          - play on normal speed"
+msgstr "HOME,*         - lejátszás normál sebességgel"
+
+#: src/daisy-player.c:762
+msgid "Press any key for next page..."
+msgstr "A következő oldalra lépéshez nyomjon meg egy billentyűt..."
+
+#: src/daisy-player.c:768
+msgid "/               - search for a label"
+msgstr "/     - egy címke keresése"
+
+#: src/daisy-player.c:770
+msgid "d               - store current item to disk"
+msgstr "d     - az aktuális elem tárolása a lemezre"
+
+#: src/daisy-player.c:772
+msgid "D,-             - decrease playing speed"
+msgstr "D,-   - lejátszás sebességének csökkentése"
+
+#: src/daisy-player.c:774
+msgid "e,.             - quit daisy-player, place a bookmark and eject"
+msgstr ""
+
+#: src/daisy-player.c:776
+msgid ""
+"f               - find the currently playing item and place the cursor there"
+msgstr ""
+"f     - az aktuálisan játszott elem helyének megkeresése, és        a kurzor "
+"elhelyezése az elem helyére"
+
+#: src/daisy-player.c:779
+msgid "g               - go to time in this song (MM:SS)"
+msgstr "g     - ugrás egy megadott időre a zeneszámon belül"
+
+#: src/daisy-player.c:782
+msgid "g               - go to time in this item (MM:SS)"
+msgstr "g     - ugrás egy megadott időre a zeneszámon belül"
+
+#: src/daisy-player.c:785
+msgid "G               - go to page number"
+msgstr ""
+"G     - ugrás egy megadott oldalra, ha a Daisy könyv tartalmaz oldalszámokat"
+
+#: src/daisy-player.c:787
+msgid "h,?             - give this help"
+msgstr "h,?   - a súgó megjelenítése"
+
+#: src/daisy-player.c:789
+msgid "j,5             - just play current item"
+msgstr "j,5   - az aktuális elem újbóli lejátszása"
+
+#: src/daisy-player.c:791
+msgid "l               - switch to next level"
+msgstr "l     - váltás a következő szintre"
+
+#: src/daisy-player.c:793
+msgid "L               - switch to previous level"
+msgstr "L     - váltás az előző szintre"
+
+#: src/daisy-player.c:795
+msgid "n               - search forwards"
+msgstr "n     - a következő kifejezés keresése"
+
+#: src/daisy-player.c:797
+msgid "N               - search backwards"
+msgstr "N     - az előző kifejezés keresése"
+
+#: src/daisy-player.c:799
+msgid "o               - select next output sound device"
+msgstr "o     - a következő hangeszköz kiválasztása"
+
+#: src/daisy-player.c:801
+msgid "p               - place a bookmark"
+msgstr "p     - könyvjelző elhelyezése"
+
+#: src/daisy-player.c:803
+msgid "q               - quit daisy-player and place a bookmark"
+msgstr ""
+"q     - kilépés a Daisy lejátszóból. A kilépéskor könyvjelző kerül "
+"elhelyezésre"
+
+#: src/daisy-player.c:805
+msgid "s               - stop playing"
+msgstr "s     - a lejátszás leállítása"
+
+#: src/daisy-player.c:807
+msgid "U,+             - increase playing speed"
+msgstr "U,+   - lejátszás sebességének növelése"
+
+#: src/daisy-player.c:809
+msgid "v,1             - decrease playback volume"
+msgstr ""
+
+#: src/daisy-player.c:811
+msgid "V,7             - increase playback volume (beware of Clipping)"
+msgstr ""
+
+#: src/daisy-player.c:813
+msgid "Press any key to leave help..."
+msgstr "A súgó elhagyásához nyomjon meg egy billentyűt..."
+
+#: src/daisy-player.c:944 src/daisy-player.c:1266 src/daisy3.c:1049
+msgid "This book has no audio. Play this book with eBook-speaker"
+msgstr ""
+
+#: src/daisy-player.c:964
+msgid "Please wait... -------------------------"
+msgstr "Kérem várjon..."
+
+#: src/daisy-player.c:1072
+msgid "What do you search?"
+msgstr "Mit keres?"
+
+#: src/daisy-player.c:1174
+msgid "Go to time (MM:SS):"
+msgstr "Ugrás egy megadott időtartamra:"
+
+#: src/daisy-player.c:1737 src/daisy-player.c:1954 src/daisy-player.c:1973
+#, c-format
+msgid "Daisy-player - Version %s %s"
+msgstr "Daisy-player - %s verzió %s"
+
+#: src/daisy-player.c:1740
+#, c-format
+msgid "Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"
+msgstr ""
+"Használat: %s [Daisy szerkezetet tartalmazó könyvtár] | [Daisy_book_archive]"
+
+#: src/daisy-player.c:1742
+msgid "[-c cdrom_device] [-d ALSA_sound_device]"
+msgstr "[-c CD-rom eszköz] [-d ALSA hangeszköz]"
+
+#: src/daisy-player.c:1755
+msgid "Cannot read /proc/mounts."
+msgstr "A /proc csatolások nem olvashatók."
+
+#: src/daisy-player.c:1956
+msgid "A parser to play Daisy CD's with Linux"
+msgstr ""
+"Egy feldolgozó program, melynek segítségével Daisy könyveket játszhat le "
+"Linux alatt"
+
+#: src/daisy-player.c:1958
+msgid "Scanning for a Daisy CD..."
+msgstr "DAISY CD keresése..."
+
+#: src/daisy-player.c:2064 src/daisy-player.c:2168
+msgid "No DAISY-CD or Audio-cd found"
+msgstr "Nem található DAISY CD vagy audio CD a meghajtóban."
+
+#: src/daisy-player.c:2093 src/daisy-player.c:2105 src/daisy-player.c:2132
+msgid "No Daisy CD in drive."
+msgstr "A meghajtóban nincs Daisy lemez."
+
+#: src/daisy-player.c:2150
+msgid "Found an Audio-CD."
+msgstr "Az audio CD megtalálva."
+
+#: src/daisy-player.c:2152
+msgid "Get titles from freedb.freedb.org..."
+msgstr "A számcímek lekérése a freedb.freedb.org kiszolgálóról..."
+
+#: src/daisy-player.c:2292
+#, c-format
+msgid "Daisy-player - Version %s - (C)2017 J. Lemmens"
+msgstr "Daisy-player - %s verzió - (C)2016 J. Lemmens"
+
+#: src/daisy-player.c:2305
+msgid "Press 'h' for help"
+msgstr "A segítségért nyomja meg a H billentyűt."
+
+#: src/daisy3.c:1065
+msgid "No items found. Try option \"-N\"."
+msgstr ""
+
+#: src/daisy3.c:1201
+msgid "No items found. Try option \"-O\"."
+msgstr ""
+
+#~ msgid "Go to page number: "
+#~ msgstr "Ugrás a megadott oldalra: "
+
+#~ msgid "Cannot read /proc/asound/cards"
+#~ msgstr "A /proc/asound/cards fájl nem olvasható."
+
+#~ msgid "Cannot read type: %d"
+#~ msgstr "A(z) %d típus nem olvasható"

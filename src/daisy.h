@@ -52,6 +52,7 @@
 #include <magic.h>
 #include <fnmatch.h>
 #include <sys/select.h>
+#include <grp.h>
 
 #undef PACKAGE
 #undef PACKAGE_BUGREPORT
@@ -61,9 +62,7 @@
 #undef PACKAGE_URL
 #undef PACKAGE_VERSION
 #undef VERSION
-#ifdef HAVE_CONFIG_H
-   #include "config.h"
-#endif
+#include "config.h"
 
 #define MAX_CMD 512
 #define MAX_STR 256
@@ -78,7 +77,7 @@ typedef struct Daisy
    char class[MAX_STR], label[100];
    char first_id[MAX_STR + 1], last_id[MAX_STR + 1];
    int level, page_number;
-   char daisy_mp[MAX_STR]; // discinfo  
+   char daisy_mp[MAX_STR]; // discinfo
    char filename[MAX_STR]; // Audio-CD
    lsn_t first_lsn, last_lsn;
 } daisy_t;
@@ -123,15 +122,14 @@ typedef struct Misc
    long min_vol, max_vol, volume;
    htmlDocPtr doc;
    xmlTextReaderPtr reader;
-   pid_t player_pid, cdda_pid;
+   pid_t player_pid, cdda_pid, main_pid;
    time_t seconds;
    char ncc_html[MAX_STR], ncc_totalTime[MAX_STR], ocr_language[5];
    char daisy_version[MAX_STR], daisy_title[MAX_STR], daisy_language[MAX_STR];
    char *daisy_mp, *tmp_dir;
    char tag[MAX_TAG], *label;
    int label_len;
-   char bookmark_title[MAX_STR];
-   char *search_str, *path_name;
+   char bookmark_title[MAX_STR], *search_str;
    char cd_dev[MAX_STR], *pulseaudio_device;
    char cddb_flag, opf_name[MAX_STR], ncx_name[MAX_STR];
    char use_ncx, use_opf;
@@ -196,5 +194,6 @@ extern void get_volume (misc_t *);
 extern void set_volume (misc_t *);
 extern int madplay (char *, char *, char *, char *);
 extern void kill_player (misc_t *);
-extern void get_path_name (misc_t *, char *, char *);
+extern void get_path_name (char *, char *, char *);
 extern long time (char *);
+extern void pactl (char *, char *);

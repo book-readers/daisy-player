@@ -244,7 +244,7 @@ Samuel Thibault <sthibault@debian.org>
 	New language added: Guatemala. Should also be usefull for
 	other Central American countries.
 	Updated the French translation.
-	Filenames now will be treated case insensitive.
+	Filenames now will be treated case-insensitive.
 	The external executable "find" has been dropped in favour
 	of an internal function that scans for the "ncc.html",
 	"*.ncx" and "*.opf" files.
@@ -289,3 +289,8 @@ Samuel Thibault <sthibault@debian.org>
 11.5	Drop the use of ALSA.
 	Alter volume using the pulseaudio pactl utility.
 	Only unmount cd if daisy-player has mounted it by itself.
+11.6	The external command pactl is no longer needed.
+	pactl is now built-in.
+11.6.1	The map src/pulseaudio is renamed to src/pactl.
+	Filenames now will be treated case-insensitive.
+	Now also in href, src and alike attributes.

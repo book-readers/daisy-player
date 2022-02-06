@@ -60,21 +60,18 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
             if (strcasecmp (my_attribute->id,
                             daisy[misc->current].clips_anchor) == 0)
             {
-               daisy[misc->current].xml_file = malloc
-                  (strlen (misc->daisy_mp) + strlen (my_attribute->src) + 5);
-               strcpy (daisy[misc->current].xml_file, misc->daisy_mp);
-               strcat (daisy[misc->current].xml_file, "/");
-               strcat (daisy[misc->current].xml_file,
-                       my_attribute->src);
                daisy[misc->current].anchor = strdup ("");
-               if (strchr (daisy[misc->current].xml_file, '#'))
+               if (strchr (my_attribute->src, '#'))
                {
                   daisy[misc->current].anchor = strdup
-                         (strchr (daisy[misc->current].xml_file, '#') + 1);
-                  *strchr (daisy[misc->current].xml_file, '#') = 0;
+                         (strchr (my_attribute->src, '#') + 1);
+                  *strchr (my_attribute->src, '#') = 0;
                } // if
-               daisy[misc->current].xml_file =
-                    strdup (convert_URL_name (misc, daisy[misc->current].xml_file));
+               daisy[misc->current].xml_file = malloc
+                   (strlen (misc->daisy_mp) + strlen (my_attribute->src) + 5);
+               get_path_name (misc->daisy_mp,
+               convert_URL_name (misc, my_attribute->src), 
+               daisy[misc->current].xml_file);
                daisy[misc->current].orig_smil =
                     strdup (daisy[misc->current].xml_file);
                break;
@@ -99,8 +96,11 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
                            MAX_STR);
             } // if
             misc->has_audio_tag = 1;
-            misc->current_audio_file =
-                            strdup (convert_URL_name (misc, my_attribute->src));
+            misc->current_audio_file = malloc (strlen (misc->daisy_mp) +
+                                      strlen (my_attribute->src) + 5);
+            get_path_name (misc->daisy_mp,
+                        convert_URL_name (misc, my_attribute->src),
+                        misc->current_audio_file);
             get_clips (misc, my_attribute);
             daisy[misc->current].begin = misc->clip_begin;
             daisy[misc->current].duration +=
@@ -137,20 +137,17 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
 #endif
          if (strcasecmp (misc->tag, "text") == 0)
          {
-            daisy[misc->current].xml_file = malloc
-                   (strlen (misc->daisy_mp) + strlen (my_attribute->src) + 3);
-            strcpy (daisy[misc->current].xml_file, misc->daisy_mp);
-            strcat (daisy[misc->current].xml_file, "/");
-            strcat (daisy[misc->current].xml_file, my_attribute->src);
             daisy[misc->current].anchor = strdup ("");
-            if (strchr (daisy[misc->current].xml_file, '#'))
+            if (strchr (my_attribute->src, '#'))
             {
                daisy[misc->current].anchor =
-                    strdup (strchr (daisy[misc->current].xml_file, '#') + 1);
-               *strchr (daisy[misc->current].xml_file, '#') = 0;
+                    strdup (strchr (my_attribute->src, '#') + 1);
+               *strchr (my_attribute->src, '#') = 0;
             } // if
-            daisy[misc->current].xml_file =
-                strdup (convert_URL_name (misc, daisy[misc->current].xml_file));
+            daisy[misc->current].xml_file = malloc (strlen (misc->daisy_mp) +
+                       strlen (my_attribute->src) + 5);
+            get_path_name (misc->daisy_mp, convert_URL_name (misc,
+                           my_attribute->src), daisy[misc->current].xml_file);
             if (misc->current + 1 < misc->total_items &&
                 *daisy[misc->current + 1].clips_anchor &&
                 strcasecmp (my_attribute->id,
@@ -249,20 +246,17 @@ void fill_daisy_struct_2 (misc_t *misc, my_attribute_t *my_attribute,
             if (! get_tag_or_label (misc, my_attribute, ncc))
                break;
          } while (strcasecmp (misc->tag, "a") != 0);
-         daisy[misc->current].clips_file = malloc
-                  (strlen (misc->daisy_mp) + strlen (my_attribute->href) + 5);
-         strcpy (daisy[misc->current].clips_file, misc->daisy_mp);
-         strcat (daisy[misc->current].clips_file, "/");
-         strcat (daisy[misc->current].clips_file, my_attribute->href);
          daisy[misc->current].clips_anchor = strdup ("");
-         if (strchr (daisy[misc->current].clips_file, '#'))
+         if (strchr (my_attribute->href, '#'))
          {
             daisy[misc->current].clips_anchor = strdup
-                   (strchr (daisy[misc->current].clips_file, '#') + 1);
-            *strchr (daisy[misc->current].clips_file, '#') = 0;
+                   (strchr (my_attribute->href, '#') + 1);
+            *strchr (my_attribute->href, '#') = 0;
          } // if
-         daisy[misc->current].clips_file =
-                 strdup (convert_URL_name (misc, daisy[misc->current].clips_file));
+         daisy[misc->current].clips_file = malloc (strlen (misc->daisy_mp) +
+                                       strlen (my_attribute->href) + 5);
+         get_path_name (misc->daisy_mp, convert_URL_name (misc,
+                        my_attribute->href), daisy[misc->current].clips_file);
          do
          {
             if (! get_tag_or_label (misc, my_attribute, ncc))

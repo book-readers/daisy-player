@@ -37,9 +37,6 @@
 /* Define to 1 if you have the `atexit' function. */
 #undef HAVE_ATEXIT
 
-/* Define to 1 if you have the <cdio/paranoia/cdda.h> header file. */
-#undef HAVE_CDIO_PARANOIA_CDDA_H
-
 /* Define to 1 if you have the Mac OS X function CFLocaleCopyCurrent in the
    CoreFoundation framework. */
 #undef HAVE_CFLOCALECOPYCURRENT
@@ -111,6 +108,9 @@
 
 /* Define to 1 if you have the `ncursesw' library (-lncursesw). */
 #undef HAVE_LIBNCURSESW
+
+/* Define to 1 if you have the `pulse' library (-lpulse). */
+#undef HAVE_LIBPULSE
 
 /* Define to 1 if you have the `sox' library (-lsox). */
 #undef HAVE_LIBSOX

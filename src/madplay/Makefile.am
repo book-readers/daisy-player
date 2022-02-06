@@ -29,8 +29,7 @@ AM_CFLAGS = -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
             -Wunused-function -Wuninitialized -Winit-self -fno-common \
             -I /usr/include/libxml2/ -O3 \
             --param=ssp-buffer-size=4 -Wformat -Werror=format-security \
-            -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\" \
-            -flto=3 -fkeep-static-functions
+            -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
 
 DIST_SUBDIRS =	 m4
 

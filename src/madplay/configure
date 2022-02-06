@@ -6696,22 +6696,6 @@ ldadd_audio=""
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for audio support" >&5
 $as_echo_n "checking for audio support... " >&6; }
 
-if test "$audio" = unknown
-then
-    cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-# include <mmsystem.h>
-
-_ACEOF
-if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-  $EGREP "waveOutOpen" >/dev/null 2>&1; then :
-  audio="win32"; ldadd_audio="$ldadd_audio -lwinmm"
-fi
-rm -f conftest*
-
-fi
-
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $audio" >&5
 $as_echo "$audio" >&6; }
 

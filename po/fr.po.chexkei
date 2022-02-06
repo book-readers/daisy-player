@@ -1,0 +1,218 @@
+# message catalog file for daisy-player - French version
+#
+# Copyright (C) 2003-2018 J. Lemmens
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation; either version 2 of the License, or (at your
+# option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+# Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# translated by chekxei <rninen@kdzxed.com>
+
+msgid ""
+msgstr ""
+"Project-Id-Version: gettext 0.11.2\n"
+"Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
+"POT-Creation-Date: 2018-03-03 17:13+0100\n"
+"PO-Revision-Date: 2018-03-03 15:06+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Cannot read %s"
+msgstr "Je ne sais pas lire ceci %s"
+
+msgid "Please try to play this book with daisy-player"
+msgstr "Veuillez essayer de lire ce livre avec daisy-player"
+
+msgid "Cannot read type: %d"
+msgstr "Je ne sais pas lire le type: %d"
+
+msgid "Go to page number:"
+msgstr "Aller Ã  la page numÃ©ro:"
+
+msgid "Please wait..."
+msgstr "S'il vous plaÃ®t, attendez..."
+
+msgid "Select a soundcard:"
+msgstr "SÃ©lectionnez une carte son:"
+
+msgid "Cannot read /proc/asound/cards"
+msgstr "Je ne sais pas lire /proc/asound/cards"
+
+msgid "This book has no audio. Play this book with eBook-speaker"
+msgstr "Ce livre ne contient pas de piste audio. Lire avec eBook-speaker"
+
+msgid "No items found. Try option \-N\."
+msgstr "Aucun Ã©lÃ©ment trouvÃ©.  Essayez l'option \-N\."
+
+msgid "No items found. Try option \-O\."
+msgstr "Aucun Ã©lÃ©ment trouvÃ©.  Essayez l'option \-O\."
+
+msgid "'h' for help -"
+msgstr "'h' pour l'aide"
+
+msgid "%d pages"
+msgstr "%d pages"
+
+msgid "level: %d of %d"
+msgstr "niveau: %d de %d"
+
+msgid "total length: %02d:%02d:%02d"
+msgstr "durÃ©e totale: %02d:%02d:%02d"
+
+msgid "These commands are available in this version:"
+msgstr "Ces commandes sont disponibles dans cette version:"
+
+msgid "cursor down,2   - move cursor to the next item"
+msgstr "curseur bas,2    - dÃ©placer le curseur vers l'Ã©lÃ©ment suivant"
+
+msgid "cursor up,8     - move cursor to the previous item"
+msgstr "curseur haut,8   - dÃ©placer le curseur vers l'Ã©lÃ©ment prÃ©cÃ©dent"
+
+msgid "cursor right,6  - skip to next phrase"
+msgstr "curseur droit,6  - aller Ã  la phrase suivante"
+
+msgid "cursor left,4   - skip to previous phrase"
+msgstr "curseur gauche,4 - revenir Ã  la phrase prÃ©cÃ©dente"
+
+msgid "page-down,3     - view next page"
+msgstr "page bas,3       - afficher la page suivante"
+
+msgid "page-up,9       - view previous page"
+msgstr "page haut,9      - afficher la page prÃ©cÃ©dente"
+
+msgid "enter           - start playing"
+msgstr "enter            - lancer l'Ã©coute"
+
+msgid "space,0         - pause/resume playing"
+msgstr "espace,0         - pause/poursuivre l'Ã©coute"
+
+msgid "home,*          - play on normal speed"
+msgstr "home,*           - Ã©couter Ã  la vitesse normale"
+
+msgid "Press any key for next page..."
+msgstr "Appuyez sur une touche pour aller Ã  la page suivante..."
+
+msgid "/               - search for a label"
+msgstr "/              - chercher un label"
+
+msgid "d               - store current item to disk"
+msgstr "d              - sauvegarder l'Ã©lÃ©ment courant sur disque dur"
+
+msgid "D,-             - decrease playing speed"
+msgstr "D,-            - rÃ©duire la vitesse d'Ã©coute"
+
+msgid "e,.             - quit daisy-player, place a bookmark and eject"
+msgstr "e,.            - quitter daisy-player, placer un marqueur et Ã©jecter"
+
+msgid "f               - find the currently playing item and place the cursor there"
+msgstr "f              - trouver l'Ã©lÃ©ment en cours de diffusion et y placer le curseur"
+
+msgid "g               - go to time in this song (MM:SS)"
+msgstr "g              - aller au temps (MM:SS) dans le morceau"
+
+msgid "g               - go to time in this item (MM:SS)"
+msgstr "g              - aller au temps (MM:SS) dans cet Ã©lÃ©ment"
+
+msgid "G               - go to page number"
+msgstr "G              - aller Ã  la page numÃ©ro"
+
+msgid "h,?             - give this help"
+msgstr "h,?            - afficher cette page d'aide"
+
+msgid "j,5             - just play current item"
+msgstr "j,5            - Ã©couter uniquement l'Ã©lÃ©ment courant"
+
+msgid "l               - switch to next level"
+msgstr "l              - aller au niveau suivant"
+
+msgid "L               - switch to previous level"
+msgstr "L              - remonter au niveau prÃ©cÃ©dent"
+
+msgid "n               - search forwards"
+msgstr "n              - rechercher plus loin"
+
+msgid "N               - search backwards"
+msgstr "N              - rechercher avant"
+
+msgid "o               - select next output sound device"
+msgstr "o              - sÃ©lectionner la carte son suivante"
+
+msgid "p               - place a bookmark"
+msgstr "p              - placer un marqueur"
+
+msgid "q               - quit daisy-player and place a bookmark"
+msgstr "q              - quitter daisy-player et placer un marqueur"
+
+msgid "s               - stop playing"
+msgstr "s              - arrÃªter l'Ã©coute"
+
+msgid "U,+             - increase playing speed"
+msgstr "U,+            - accÃ©lÃ©rer la vitesse d'Ã©coute"
+
+msgid "v,1             - decrease playback volume"
+msgstr "v,1            - baisser le volume d'Ã©coute"
+
+msgid "V,7             - increase playback volume (beware of Clipping)"
+msgstr "V,7            - remonter le volume d'Ã©coute"
+
+msgid "Press any key to leave help..."
+msgstr "Appuyez sur une touche pour quitter l'aide..."
+
+msgid "Please wait... -------------------------"
+msgstr "Un instant svp... -----------------------"
+
+msgid "What do you search?"
+msgstr "Que recherchez-vous?"
+
+msgid "Go to time (MM:SS):"
+msgstr "Aller au temps (MM:SS):"
+
+msgid "Daisy-player - Version %s %s"
+msgstr "Daisy-player - Version %s %s"
+
+msgid "Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"
+msgstr "Utilisation: %s [-l langue] [rÃ©pertoire avec structure Daisy] | [archive livre Daisy]"
+
+msgid "[-c cdrom_device] [-d pulseaudio_sound_device]"
+msgstr "[-c unitÃ© de lecture cdrom] [-d unitÃ© de son pulseaudio]"
+
+msgid "Cannot read /proc/mounts."
+msgstr "Je ne sais pas lire /proc/mounts."
+
+msgid "A parser to play Daisy CD's with Linux"
+msgstr "Une application pour Ã©couter des CD's Daisy sous Linux"
+
+msgid "Scanning for a Daisy CD..."
+msgstr "DÃ©tection d'un CD Daisy..."
+
+msgid "No DAISY-CD or Audio-cd found"
+msgstr "Pas de CD Daisy ou audio dÃ©tectÃ©..."
+
+msgid "No Daisy CD in drive."
+msgstr "Pas de CD Daisy dans le lecteur."
+
+msgid "Found an Audio-CD."
+msgstr "CD audio dÃ©tectÃ©."
+
+msgid "Get titles from freedb.freedb.org..."
+msgstr "Rapatriement des titres par freedb.freedb.org..."
+
+msgid "Daisy-player - Version %s - (C)2018 J. Lemmens"
+msgstr "Daisy-player - Version %s - (C)2018 J. Lemmens"
+
+msgid "Press 'h' for help"
+msgstr "Appuyez sur 'h' pour obtenir de l'aide"
