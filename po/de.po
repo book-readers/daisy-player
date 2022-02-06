@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2017-10-06 22:19+0200\n"
+"POT-Creation-Date: 2017-10-13 21:00+0200\n"
 "PO-Revision-Date: 2013-01-29 15:06+0200\n"
 "Last-Translator: Klaus Knopper <knopper@knopper.net>\n"
 "Language-Team: Klaus Knopper <knopper@knopper.net>\n"
@@ -31,51 +31,51 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/common.c:113
+#: src/common.c:137
 msgid "eBook-speaker cannot handle this file."
 msgstr "eBook-speaker kann diese Datei nicht verarbeiten."
 
 # 33
-#: src/common.c:334 src/common.c:410 src/daisy2.02.c:45 src/daisy2.02.c:197
+#: src/common.c:358 src/common.c:434 src/daisy2.02.c:45 src/daisy2.02.c:197
 #: src/daisy3.c:156 src/daisy3.c:225 src/daisy3.c:322 src/daisy3.c:402
 #: src/daisy3.c:502 src/daisy3.c:655 src/daisy3.c:712 src/daisy3.c:803
 #: src/daisy3.c:879 src/daisy3.c:1099 src/daisy3.c:1229 src/daisy-player.c:756
-#: src/daisy-player.c:1695 src/daisy-player.c:1724 src/daisy-player.c:2025
-#: src/daisy-player.c:2171
+#: src/daisy-player.c:1697 src/daisy-player.c:1726 src/daisy-player.c:2007
+#: src/daisy-player.c:2153
 #, c-format
 msgid "Cannot read %s"
 msgstr "Kann %s nicht lesen"
 
-#: src/common.c:550 src/daisy3.c:1053 src/daisy-player.c:823
+#: src/common.c:574 src/daisy3.c:1053 src/daisy-player.c:823
 #: src/daisy-player.c:1197
 msgid "This book has no audio. Play this book with eBook-speaker"
 msgstr "Dieses Buch hat kein Audio. Spiel dieses Buch mit eBook-speaker"
 
-#: src/common.c:586
+#: src/common.c:610
 msgid "Please try to play this book with daisy-player"
 msgstr "Bitte versuchen Sie, dieses Buch mit daisy-player zu spielen"
 
 # 33
-#: src/common.c:915
+#: src/common.c:939
 #, c-format
 msgid "Cannot read type: %d"
 msgstr "Kann type: %d nicht lesen"
 
 # 15                                                              
-#: src/common.c:993
+#: src/common.c:1017
 msgid "Go to page number:"
 msgstr "Gehe zur Seitenzahl:"
 
-#: src/common.c:1011
+#: src/common.c:1035
 msgid "Please wait..."
 msgstr "Warten Sie mal..."
 
-#: src/common.c:1070
+#: src/common.c:1094
 msgid "Select a soundcard:"
 msgstr "Wählen Sie eine Soundkarte aus:"
 
 # 34
-#: src/common.c:1072
+#: src/common.c:1096
 msgid "Cannot read /proc/asound/cards"
 msgstr "Kann /proc/mounts nicht lesen"
 
@@ -296,61 +296,61 @@ msgid "Go to time (MM:SS):"
 msgstr "Gehe zur Zeit (MM:SS):"
 
 # 13
-#: src/daisy-player.c:1642 src/daisy-player.c:1898 src/daisy-player.c:1916
-#: src/daisy-player.c:2020 src/daisy-player.c:2036
+#: src/daisy-player.c:1644 src/daisy-player.c:1880 src/daisy-player.c:1898
+#: src/daisy-player.c:2002 src/daisy-player.c:2018
 #, c-format
 msgid "Daisy-player - Version %s %s"
 msgstr "Daisy-player - Version %s %s"
 
 # 39
-#: src/daisy-player.c:1645
+#: src/daisy-player.c:1647
 #, c-format
 msgid "Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"
 msgstr ""
 "Aufruf: %s [Verzeichnis mit einer Daisy-Struktur] | [Daisy_book_archive]"
 
-#: src/daisy-player.c:1647
+#: src/daisy-player.c:1649
 msgid "[-c cdrom_device] [-d pulseaudio_sound_device]"
 msgstr "[-c cdrom_device] [-d pulseaudio Soundkarte]"
 
 # 34
-#: src/daisy-player.c:1660
+#: src/daisy-player.c:1662
 msgid "Cannot read /proc/mounts."
 msgstr "Kann /proc/mounts nicht lesen."
 
 # 6
-#: src/daisy-player.c:1900
+#: src/daisy-player.c:1882
 msgid "A parser to play Daisy CD's with Linux"
 msgstr "Ein Programm, um Daisy CDs unter Linux abzuspielen"
 
-#: src/daisy-player.c:1902
+#: src/daisy-player.c:1884
 msgid "Scanning for a Daisy CD..."
 msgstr "Scannen für eine Daisy-CD"
 
-#: src/daisy-player.c:2000 src/daisy-player.c:2130
+#: src/daisy-player.c:1982 src/daisy-player.c:2112
 msgid "No DAISY-CD or Audio-cd found"
 msgstr "Kein DAISY-CD oder Audio-CD gefunden"
 
 # 36
-#: src/daisy-player.c:2057 src/daisy-player.c:2069 src/daisy-player.c:2097
+#: src/daisy-player.c:2039 src/daisy-player.c:2051 src/daisy-player.c:2079
 msgid "No Daisy CD in drive."
 msgstr "Keine Daisy-CD im Laufwerk."
 
-#: src/daisy-player.c:2113
+#: src/daisy-player.c:2095
 msgid "Found an Audio-CD."
 msgstr "Eine Audio-CD gefunden."
 
-#: src/daisy-player.c:2115
+#: src/daisy-player.c:2097
 msgid "Get titles from freedb.freedb.org..."
 msgstr "Holen Titel von freedb.freedb.org..."
 
 # 13
-#: src/daisy-player.c:2244
+#: src/daisy-player.c:2226
 #, c-format
 msgid "Daisy-player - Version %s - (C)2017 J. Lemmens"
 msgstr "Daisy-player - Version %s - (C)2017 J. Lemmens"
 
 # 22
-#: src/daisy-player.c:2257
+#: src/daisy-player.c:2239
 msgid "Press 'h' for help"
 msgstr "'h' für Hilfe drücken"

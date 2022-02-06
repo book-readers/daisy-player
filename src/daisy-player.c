@@ -1544,6 +1544,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          break;
       case 'v':
       case '1':
+         get_volume (misc);
          if (misc->volume <= misc->min_vol)
          {
             beep ();
@@ -1554,6 +1555,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          break;
       case 'V':
       case '7':
+         get_volume (misc);
          if (misc->volume >= misc->max_vol)
          {
             beep ();
@@ -1773,10 +1775,6 @@ int main (int argc, char *argv[])
    my_attribute_t my_attribute;
    daisy_t *daisy;
    struct sigaction usr_action;
-   snd_mixer_t *handle;
-   snd_mixer_selem_id_t *sid;
-   snd_mixer_elem_t *elem;
-   snd_mixer_selem_channel_id_t cid;
 
    daisy = NULL;
    misc.tmp_dir = misc.label = NULL;
@@ -1872,22 +1870,6 @@ int main (int argc, char *argv[])
       strncpy (misc.sound_dev, d_opt, MAX_STR - 1);
    if (cddb_opt)
       misc.cddb_flag = cddb_opt;
-   if (snd_mixer_open (&handle, 0) != 0)
-      failure (&misc, "No pulseaudio sound device found", errno);
-   snprintf (misc.str, 3, "hw:%s", misc.sound_dev);
-   snd_mixer_attach (handle, misc.str);
-   snd_mixer_selem_register (handle, NULL, NULL);
-   snd_mixer_load (handle);
-   snd_mixer_selem_id_alloca (&sid);
-   snd_mixer_selem_id_set_index (sid, 0);
-   snd_mixer_selem_id_set_name (sid, "Master");
-   if ((elem = snd_mixer_find_selem (handle, sid)) == NULL)
-      failure (&misc, "No pulseaudio sound device found", errno);
-   snd_mixer_selem_get_playback_volume_range (elem,
-                                              &misc.min_vol, &misc.max_vol);
-   cid = 0;
-   snd_mixer_selem_get_playback_volume (elem, cid, &misc.volume);
-   snd_mixer_close (handle);
    initscr ();
    if (! (misc.titlewin = newwin (2, 80,  0, 0)) ||
        ! (misc.screenwin = newwin (23, 80, 2, 0)))

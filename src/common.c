@@ -19,16 +19,40 @@
 
 #include "daisy.h"
 
-void set_volume (misc_t *misc)
+void get_volume (misc_t *misc)
 {
-   char dev[5];
+   char dev[10];
    snd_mixer_t *handle;
    snd_mixer_selem_id_t *sid;
    snd_mixer_elem_t *elem;
 
-   if (snd_mixer_open (&handle, 0) != 0)
+   if (snd_mixer_open (&handle, atoi (misc->sound_dev)) != 0)
       failure (misc, "snd_mixer_open", errno);
-   snprintf (dev, 3, "hw:%s", misc->sound_dev);
+   snprintf (dev, 6, "hw:%s", misc->sound_dev);
+   snd_mixer_attach (handle, dev);
+   snd_mixer_selem_register (handle, NULL, NULL);
+   snd_mixer_load (handle);
+   snd_mixer_selem_id_alloca (&sid);
+   snd_mixer_selem_id_set_index (sid, 0);
+   snd_mixer_selem_id_set_name (sid, "Master");
+   if ((elem = snd_mixer_find_selem (handle, sid)) == NULL)
+      failure (misc, "No ALSA device found", errno);
+   snd_mixer_selem_get_playback_volume_range (elem,
+      &misc->min_vol, &misc->max_vol);
+   snd_mixer_selem_get_playback_volume (elem, atoi (misc->sound_dev), &misc->volume);
+   snd_mixer_close (handle);
+} // get_volume
+
+void set_volume (misc_t *misc)
+{
+   char dev[10];
+   snd_mixer_t *handle;
+   snd_mixer_selem_id_t *sid;
+   snd_mixer_elem_t *elem;
+
+   if (snd_mixer_open (&handle, atoi (misc->sound_dev)) != 0)
+      failure (misc, "snd_mixer_open", errno);
+   snprintf (dev, 6, "hw:%s", misc->sound_dev);
    snd_mixer_attach (handle, dev);
    snd_mixer_selem_register (handle, NULL, NULL);
    snd_mixer_load (handle);
@@ -154,7 +178,7 @@ void failure (misc_t *misc, char *str, int e)
 {
    endwin ();
    beep ();
-   fprintf (stderr, "\n%s: %s\n", str, strerror (e));
+   fprintf (stderr, "\n\n%s: %s\n", str, strerror (e));
    fflush (stdout);
    remove_tmp_dir (misc);
    _exit (-1);
