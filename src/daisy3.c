@@ -563,7 +563,8 @@ void parse_content (misc_t *misc, my_attribute_t *my_attribute,
          found_text = 1;
          strncpy (text_file, my_attribute->src, MAX_STR - 1);
       } // if
-      if (strcasecmp (my_attribute->id, daisy[misc->current].anchor) == 0)
+      if (*daisy[misc->current].anchor &&
+          strcasecmp (my_attribute->id, daisy[misc->current].anchor) == 0)
          found_anchor = 1;
       if (found_anchor && found_text)
          break;

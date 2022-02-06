@@ -183,3 +183,11 @@ Samuel Thibault <sthibault@debian.org>
 8.6.3	Now really, I hope
 8.7	Introduced new option "-i". when this option is detected,
 	the bookmark file will be ignored.
+8.7.1	When started with the "-i" option and the spacebar was pressed,
+	an error occured:
+
+	   open_smil_file():
+	   : Bad file descriptor
+
+	Solved.
+8.8	Added Portuguese translation.

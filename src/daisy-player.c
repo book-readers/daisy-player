@@ -593,6 +593,8 @@ void open_smil_file (misc_t *misc, my_attribute_t *my_attribute,
 
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
       return;
+   if (*smil_file == 0)
+      return;
    local_doc = xmlRecoverFile (smil_file);
    if (! (misc->reader = xmlReaderWalker (local_doc)))
    {
@@ -1505,6 +1507,30 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
             beep ();
             break;
          } // if
+         if (misc->current == 0)
+         {
+            misc->just_this_item = -1;
+            view_screen (misc, daisy);
+            misc->playing = misc->displaying = misc->current;
+            misc->current_page_number = daisy[misc->playing].page_number;
+            if (misc->player_pid > -1)
+               kill (misc->player_pid, SIGKILL);
+            misc->player_pid = -2;
+            if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
+            {
+               misc->player_pid = play_track (misc, misc->sound_dev, "alsa",
+                   daisy[misc->current].first_lsn);
+               misc->seconds = time (NULL);
+            }
+            else
+            {
+               open_smil_file (misc, my_attribute,
+                               daisy[misc->current].smil_file,
+                               daisy[misc->current].anchor);
+            } // if
+            misc->start_time = 0;
+            break;
+         } // if
          pause_resume (misc, my_attribute, daisy);
          break;
       case 'd':
@@ -1691,6 +1717,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
             misc->player_pid = -2;
          } // if
          misc->playing = misc->just_this_item = -1;
+         misc->phrase_nr = 0;
          view_screen (misc, daisy);
          wmove (misc->screenwin, daisy[misc->current].y, daisy[misc->current].x);
          break;
