@@ -1,6 +1,6 @@
 /* daisy-player - A parser to play Daisy cd's.
  *
- *  Copyright (C) 2003-2013 J. Lemmens
+ *  Copyright (C)2003-2014 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -19,7 +19,7 @@
 
 #include "src/daisy.h"
 
-#define DAISY_PLAYER_VERSION "8.4.5"
+#define DAISY_PLAYER_VERSION "8.5.1"
 
 int discinfo = 0, displaying = 0, phrase_nr, tts_no;
 int playing, just_this_item, current_playorder = 1, audiocd;
@@ -1414,7 +1414,7 @@ void select_next_output_device ()
    } // for
 } // select_next_output_device
 
-void browse ()
+void browse (char *wd, char *prog_name)
 {
    int old_screen;
    char str[MAX_STR];
@@ -1445,35 +1445,38 @@ void browse ()
          player_pid = -2;
          if (discinfo)
          {
-            snprintf (str, MAX_STR - 1, "%s %s -d %s", prog_name,
-                      daisy[current].label, sound_dev);
+            snprintf (str, MAX_STR - 1,
+                      "cd \"%s\"; \"%s\" \"%s\"/\"%s\" -d %s",
+                      wd, prog_name, daisy_mp, daisy[current].daisy_mp,
+                      sound_dev);
             switch (system (str))
             {
             default:
                break;
             } // switch
-            snprintf (str, MAX_STR - 1, "%s . -d %s\n", prog_name, sound_dev);
+
+            snprintf (str, MAX_STR - 1,
+                      "cd \"%s\"; \"%s\" \"%s\" -d %s\n", wd, prog_name,
+                      daisy_mp, sound_dev);
             switch (system (str))
             {
             default:
                break;
             } // switch
+            quit_daisy_player ();
             _exit (0);
-         }
-         else
+         } // if
+         if (audiocd == 1)
          {
-            if (audiocd == 1)
-            {
-               player_pid = play_track (cd_dev, sound_dev, "alsa",
-                   daisy[current].first_lsn, speed);
-               seconds = time (NULL);
-               sector_ptr = 0;
-            } // if
-            if (audiocd == 0)
-            {
-               open_smil_file (daisy[current].smil_file,
-                               daisy[current].anchor);
-            } // if
+            player_pid = play_track (cd_dev, sound_dev, "alsa",
+                daisy[current].first_lsn, speed);
+            seconds = time (NULL);
+            sector_ptr = 0;
+         } // if
+         if (audiocd == 0)
+         {
+            open_smil_file (daisy[current].smil_file,
+                            daisy[current].anchor);
          } // if
          start_time = 0;
          break;
@@ -1553,8 +1556,9 @@ void browse ()
          int flag = 0;
 
          if (playing < 0)
-           flag = 1;
-         pause_resume ();
+            flag = 1;
+         if (! discinfo)
+            pause_resume ();
          player_pid = -2;
          help ();
          if (flag)
@@ -1885,7 +1889,7 @@ void browse ()
 void usage (char *argv)
 {
    printf (gettext ("Daisy-player - Version %s\n"), DAISY_PLAYER_VERSION);
-   puts ("(C)2003-2013 J. Lemmens");
+   puts ("(C)2003-2014 J. Lemmens");
    printf (gettext ("\nUsage: %s [directory_with_a_Daisy-structure] "),
                      basename (argv));
    printf (gettext ("[-c cdrom_device] [-d ALSA_sound_device] [-n | -y]\n"));
@@ -1955,13 +1959,13 @@ void handle_discinfo (char *discinfo_html)
       } // if (strcasecmp (tag, "title") == 0)
       if (strcasecmp (tag, "a") == 0)
       {
-         strncpy (daisy[current].daisy_mp, my_attribute.href, MAX_STR - 1);
-         xmlDocPtr doc = xmlRecoverFile (daisy[current].daisy_mp);
+         strncpy (daisy[current].filename, my_attribute.href, MAX_STR - 1);
+         xmlDocPtr doc = xmlRecoverFile (daisy[current].filename);
          if (! (ncc = xmlReaderWalker (doc)))
          {
             endwin ();
             beep ();
-            printf (gettext ("\nCannot read %s\n"), daisy[current].daisy_mp);
+            printf (gettext ("\nCannot read %s\n"), daisy[current].filename);
             fflush (stdout);
             _exit (1);
          } // if
@@ -1981,6 +1985,8 @@ void handle_discinfo (char *discinfo_html)
                break;
          } while (! *label);
          strncpy (daisy[current].label, label, MAX_STR - 1);
+         strncpy (daisy[current].daisy_mp, dirname (daisy[current].filename),
+                  MAX_STR - 1);
          daisy[current].level = 1;
          daisy[current].x = 0;
          daisy[current].y = displaying;
@@ -1993,6 +1999,7 @@ void handle_discinfo (char *discinfo_html)
    xmlFreeDoc (doc);
    discinfo = 1;
    total_items = current;
+   total_time = t;
    h = t / 3600;
    t -= h * 3600;
    m = t / 60;
@@ -2006,7 +2013,7 @@ void handle_discinfo (char *discinfo_html)
 int main (int argc, char *argv[])
 {
    int opt;
-   char str[MAX_STR], DISCINFO_HTML[MAX_STR];
+   char str[MAX_STR], DISCINFO_HTML[MAX_STR], start_wd[MAX_STR];
 
 
    LIBXML_TEST_VERSION // libxml2
@@ -2021,6 +2028,7 @@ int main (int argc, char *argv[])
    setlocale (LC_ALL, "");
    setlocale (LC_NUMERIC, "C");
    textdomain (prog_name);
+   strncpy (start_wd, get_current_dir_name (), MAX_STR - 1);
    opterr = 0;
    while ((opt = getopt (argc, argv, "c:d:ny")) != -1)
    {
@@ -2063,7 +2071,7 @@ int main (int argc, char *argv[])
    } // if
    fclose (stderr);
    getmaxyx (screenwin, max_y, max_x);
-   printw ("(C)2003-2013 J. Lemmens\n");
+   printw ("(C)2003-2014 J. Lemmens\n");
    printw (gettext ("Daisy-player - Version %s\n"), DAISY_PLAYER_VERSION);
    printw (gettext ("A parser to play Daisy CD's with Linux\n"));
    if (system ("udisks -h > /dev/null") > 0)
@@ -2184,7 +2192,6 @@ int main (int argc, char *argv[])
          usage (prog_name);
       } // if
       magic_close (myt);
-
    }
    else
 // when no mount-point is given try to mount the cd
@@ -2387,7 +2394,7 @@ int main (int argc, char *argv[])
    } // if audiocd == 0
    wattron (titlewin, A_BOLD);
    snprintf (str, MAX_STR - 1, gettext
-             ("Daisy-player - Version %s - (C)2013 J. Lemmens"), 
+             ("Daisy-player - Version %s - (C)2014 J. Lemmens"),
              DAISY_PLAYER_VERSION);
    mvwprintw (titlewin, 0, 0, str);
    wrefresh (titlewin);
@@ -2413,6 +2420,6 @@ int main (int argc, char *argv[])
       fflush (stdout);
       _exit (0);
    } // if
-   browse ();
+   browse (start_wd, argv[0]);
    return 0;
 } // main

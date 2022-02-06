@@ -1,6 +1,6 @@
 # message catalog file for daisy-player - Polish version
 #
-# Copyright (C) 2003-2013 J. Lemmens
+# Copyright (C) 2003-2014 J. Lemmens
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2013-12-11 18:42+0100\n"
+"POT-Creation-Date: 2014-01-01 13:20+0100\n"
 "PO-Revision-Date: 2013-01-29 15:06+0200\n"
 "Last-Translator: Patryk Doering <http://www.rekinet.pl>\n"
 "Language-Team: Patryk Doering <http://www.rekinet.pl>Language: pl\n"
@@ -32,7 +32,7 @@ msgstr ""
 
 #: src/daisy-player.c:266 src/daisy-player.c:292 src/daisy-player.c:360
 #: src/daisy-player.c:513 src/daisy-player.c:1233 src/daisy-player.c:1291
-#: src/daisy-player.c:1939 src/daisy-player.c:1964 src/daisy-player.c:2348
+#: src/daisy-player.c:1943 src/daisy-player.c:1968 src/daisy-player.c:2355
 #: src/daisy3.c:343 src/daisy3.c:394 src/daisy3.c:437 src/daisy3.c:504
 #: src/daisy3.c:544 src/daisy3.c:563 src/daisy3.c:637 src/daisy3.c:706
 #: src/daisy3.c:846
@@ -213,12 +213,12 @@ msgstr "Idź do czasu (mm:ss): "
 msgid "Cannot read /proc/asound/cards"
 msgstr "Nie można odczytać /proc/asound/cards "
 
-#: src/daisy-player.c:1887 src/daisy-player.c:2067
+#: src/daisy-player.c:1891 src/daisy-player.c:2075
 #, c-format
 msgid "Daisy-player - Version %s\n"
 msgstr "Daisy-player - Wersja %s \n"
 
-#: src/daisy-player.c:1889
+#: src/daisy-player.c:1893
 #, c-format
 msgid ""
 "\n"
@@ -227,12 +227,12 @@ msgstr ""
 "\n"
 "Użycie: %s [directory_with_a_Daisy-structure] "
 
-#: src/daisy-player.c:1891
+#: src/daisy-player.c:1895
 #, c-format
 msgid "[-c cdrom_device] [-d ALSA_sound_device] [-n | -y]\n"
 msgstr "[-c cdrom_device] [-d ALSA_sound_device] [-n | -y] \n"
 
-#: src/daisy-player.c:1906
+#: src/daisy-player.c:1910
 msgid ""
 "\n"
 "Cannot read /proc/mounts."
@@ -240,13 +240,13 @@ msgstr ""
 "\n"
 "Nie można odczytać /proc/mounts. "
 
-#: src/daisy-player.c:2068
+#: src/daisy-player.c:2076
 msgid "A parser to play Daisy CD's with Linux\n"
 msgstr ""
 "Parser odtwarza z Daisy CD's i Linuksem\n"
 "\n"
 
-#: src/daisy-player.c:2073
+#: src/daisy-player.c:2081
 #, c-format
 msgid ""
 "\n"
@@ -255,12 +255,12 @@ msgstr ""
 "\n"
 "Daisy-player potrzebuje program \"udisks\".\n"
 
-#: src/daisy-player.c:2074 src/daisy-player.c:2083 src/daisy-player.c:2141
+#: src/daisy-player.c:2082 src/daisy-player.c:2091 src/daisy-player.c:2149
 #, c-format
 msgid "Please install it and try again.\n"
 msgstr "Proszę zainstalować go i spróbuj ponownie. \n"
 
-#: src/daisy-player.c:2082
+#: src/daisy-player.c:2090
 #, c-format
 msgid ""
 "\n"
@@ -269,11 +269,11 @@ msgstr ""
 "\n"
 "Daisy-player potrzebuje program \"madplay\" .\n"
 
-#: src/daisy-player.c:2091
+#: src/daisy-player.c:2099
 msgid "Scanning for a Daisy CD..."
 msgstr "Skanowanie Daisy CD... "
 
-#: src/daisy-player.c:2140
+#: src/daisy-player.c:2148
 #, c-format
 msgid ""
 "\n"
@@ -282,7 +282,7 @@ msgstr ""
 "\n"
 "Daisy-player potrzebuje program \"unar\".\n"
 
-#: src/daisy-player.c:2181 src/daisy3.c:793
+#: src/daisy-player.c:2189 src/daisy3.c:793
 #, c-format
 msgid ""
 "\n"
@@ -291,11 +291,11 @@ msgstr ""
 "\n"
 "To nie jest Daisy-CD ani Audio-CD. \n"
 
-#: src/daisy-player.c:2225 src/daisy-player.c:2311
+#: src/daisy-player.c:2232 src/daisy-player.c:2318
 msgid "No Daisy CD in drive."
 msgstr "W napędzie nie ma Daisy-CD. "
 
-#: src/daisy-player.c:2277
+#: src/daisy-player.c:2284
 msgid ""
 "\n"
 "Cannot use udisks command."
@@ -303,7 +303,7 @@ msgstr ""
 "\n"
 "Nie można użyć polecenia udisks. "
 
-#: src/daisy-player.c:2291
+#: src/daisy-player.c:2298
 msgid ""
 "\n"
 "Found an Audio-CD. "
@@ -311,21 +311,21 @@ msgstr ""
 "\n"
 "Znaleziono Audio-CD. "
 
-#: src/daisy-player.c:2293
+#: src/daisy-player.c:2300
 msgid "Get titles from freedb.freedb.org..."
 msgstr "Pobierz tytuły z freedb.freedb.org... "
 
-#: src/daisy-player.c:2329
+#: src/daisy-player.c:2336
 #, c-format
 msgid "No such directory: %s\n"
 msgstr "Nie ma takiego katalogu: %s \n"
 
-#: src/daisy-player.c:2390
+#: src/daisy-player.c:2397
 #, c-format
-msgid "Daisy-player - Version %s - (C)2013 J. Lemmens"
-msgstr "Daisy-player - Wersja %s - (C) 2013 J. Lemmens "
+msgid "Daisy-player - Version %s - (C)2014 J. Lemmens"
+msgstr "Daisy-player - Wersja %s - (C)2014 J. Lemmens "
 
-#: src/daisy-player.c:2401
+#: src/daisy-player.c:2408
 msgid "Press 'h' for help "
 msgstr "Naciśnij 'h' jeśli potrzebujesz pomocy "
 
