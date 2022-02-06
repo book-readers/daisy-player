@@ -407,8 +407,7 @@ void start_playing (misc_t *misc, daisy_t *daisy)
    snprintf (duration, 20, "%f", misc->clip_end - misc->clip_begin);
    madplay (misc->current_audio_file, begin, duration, misc->tmp_wav);
    snprintf (tempo_str, 10, "%lf", misc->speed);
-   playfile (misc, misc->tmp_wav, "wav", misc->sound_dev, "alsa", tempo_str,
-             misc->player_pid);
+   playfile (misc, misc->tmp_wav, "wav", misc->sound_dev, "alsa", tempo_str);
    _exit (0);
 } // start_playing
 
@@ -529,8 +528,7 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
       misc->current += 1;
    } // while
    close (w);
-   playfile (misc, complete_cdr, "cdr", out_file, "wav", "1", 
-             getpid ());
+   playfile (misc, complete_cdr, "cdr", out_file, "wav", "1");
    misc->playing = old_playing;
    misc->displaying = old_displaying;
    misc->current= old_current;

@@ -171,8 +171,7 @@ extern void pause_resume (misc_t *, my_attribute_t *, daisy_t *);
 extern float read_time (char *);  
 extern void init_paranoia (misc_t *);
 extern void get_toc_audiocd (misc_t *, daisy_t *);
-extern void playfile (misc_t *, char *, char *, char *, char *, char *,
-                      pid_t);
+extern void playfile (misc_t *, char *, char *, char *, char *, char *);
 extern void view_screen (misc_t *, daisy_t *);
 extern daisy_t *create_daisy_struct (misc_t *, my_attribute_t *, daisy_t *);
 extern daisy_t *get_number_of_tracks (misc_t *);

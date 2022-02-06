@@ -159,7 +159,7 @@ void failure (misc_t *misc, char *str, int e)
 } // failure
 
 void playfile (misc_t *misc, char *in_file, char *in_type,
-               char *out_file, char *out_type, char *tempo, pid_t pid)
+               char *out_file, char *out_type, char *tempo)
 {
    sox_format_t *sox_in, *sox_out;
    sox_effects_chain_t *chain;
@@ -168,11 +168,7 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
 
    sox_globals.verbosity = 0;
    sox_globals.stdout_in_use_by = NULL;
-   if (sox_init () != SOX_SUCCESS)
-   {
-      kill (pid, SIGKILL);
-      failure (misc, "sox_init ()", errno);
-   } // if
+   sox_init ();
    if ((sox_in = sox_open_read (in_file, NULL, NULL, in_type)) == NULL)
    {
       int e;
@@ -180,7 +176,7 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
       e = errno;
       beep ();
       endwin ();
-      printf ("%s: %s\n", in_file, strerror (e));
+      printf ("\n%s: %s\n", in_file, strerror (e));
       fflush (stdout);
       remove_tmp_dir (misc);
       kill (0, SIGTERM);
@@ -188,33 +184,10 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
    if ((sox_out = sox_open_write (out_file, &sox_in->signal,
                                   NULL, out_type, NULL, NULL)) == NULL)
    {
-      if (strcmp (out_type, "alsa") == 0)
       {
-// if cannot write to out_file (pulseaudio?), try ALSA default
-         if ((sox_out = sox_open_write ("default", &sox_in->signal,
-                                        NULL, "alsa", NULL, NULL)) == NULL)
-         {
-            int e;
-
-            e = errno;
-            beep ();
-            endwin ();
-            printf ("\n\nsound device %s: %s\n\n\n", "default", strerror (e));
-            fflush (stdout);
-            put_bookmark (misc);
-            strncpy (misc->sound_dev, "hw:0", MAX_STR - 1);
-            save_xml (misc);
-            kill (0, SIGTERM);
-         } // if
-      }
-      else
-      {
-         int e;
-
-         e = errno;
          beep ();
          endwin ();
-         printf ("%s: strerror (%d)\n", out_file, e);
+         printf ("\n%s: %s\n", out_file, strerror (EBUSY));
          kill (0, SIGTERM);
       } // if
    } // if
