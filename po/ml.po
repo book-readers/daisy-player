@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2019-07-22 15:56+0200\n"
+"POT-Creation-Date: 2019-10-18 14:12+0200\n"
 "PO-Revision-Date: 2015-02-17 17:06+0200\n"
 "Last-Translator: Sreelakshmi R V <sreelakshmi.rv@gmail.com>\n"
 "Language-Team: Sreelakshmi R V <sreelakshmi.rv@gmail.com>\n"
@@ -30,7 +30,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/common.c:31 src/common.c:287 src/common.c:485
+#: src/common.c:31
+#, fuzzy
+msgid "Please try to play this book with eBook-speaker"
+msgstr "ഈ പുസ്തകത്തിന് ഓഡിയോ ലഭ്യമല്ല.  eBook-speaker ഉപയോഗിചു ഇത് കേൾക്കാവുന്നതാണ് ."
+
+#: src/common.c:287 src/common.c:485
 msgid "Please try to play this book with daisy-player"
 msgstr ""
 
@@ -52,8 +57,8 @@ msgid "Select a soundcard:"
 msgstr "ഒരു സൌണ്ട്കാർഡ് തിരഞ്ഞെടുക്കുക :"
 
 #: src/daisy2.02.c:48 src/daisy2.02.c:134 src/daisy2.02.c:287
-#: src/daisy-player.c:807 src/daisy-player.c:1783 src/daisy-player.c:1812
-#: src/daisy-player.c:2115 src/daisy-player.c:2280
+#: src/daisy-player.c:788 src/daisy-player.c:1788 src/daisy-player.c:1817
+#: src/daisy-player.c:2127 src/daisy-player.c:2292
 #, c-format
 msgid "Cannot read %s"
 msgstr "%s വായിക്കാൻ കഴിയുന്നില്ല "
@@ -77,210 +82,210 @@ msgstr "ലെവൽ :  %d ൽ  %d"
 msgid "total length: %02d:%02d:%02d"
 msgstr "ആകെ ദൈർഘ്യം  :  %02d:%02d:%02d"
 
-#: src/daisy-player.c:662
+#: src/daisy-player.c:643
 msgid "These commands are available in this version:"
 msgstr "ഈ കമാൻഡുകൾ ഈ പതിപ്പിൽ ലഭ്യമാണ് :"
 
-#: src/daisy-player.c:666
+#: src/daisy-player.c:647
 msgid "cursor down,2   - move cursor to the next item"
 msgstr "cursor down,2   - അടുത്ത ഇനത്തിലേക്ക് കഴ്സർ നീക്കുക"
 
-#: src/daisy-player.c:668
+#: src/daisy-player.c:649
 msgid "cursor up,8     - move cursor to the previous item"
 msgstr "cursor up ,8    - മുൻ ഇനത്തിലേക്ക് കഴ്സർ നീക്കുക"
 
-#: src/daisy-player.c:670
+#: src/daisy-player.c:651
 msgid "cursor right,6  - skip to next phrase"
 msgstr "cursor right ,6 - അടുത്ത പദത്തിലേക്ക്  കടക്കുക"
 
-#: src/daisy-player.c:672
+#: src/daisy-player.c:653
 msgid "cursor left,4   - skip to previous phrase"
 msgstr "cursor left,4   - മുമ്പത്തെ പദത്തിലേക്ക്  കടക്കുക"
 
-#: src/daisy-player.c:674
+#: src/daisy-player.c:655
 msgid "page-down,3     - view next page"
 msgstr "page-down,3     - അടുത്ത പേജ് കാണുക "
 
-#: src/daisy-player.c:676
+#: src/daisy-player.c:657
 msgid "page-up,9       - view previous page"
 msgstr "page-up,9       - മുൻ പേജ് കാണുക"
 
-#: src/daisy-player.c:678
+#: src/daisy-player.c:659
 msgid "enter           - start playing"
 msgstr "enter           - ഫയൽ പ്ലേ ചെയ്തു തുടങ്ങുക"
 
-#: src/daisy-player.c:680
+#: src/daisy-player.c:661
 msgid "space,0         - pause/resume playing"
 msgstr "space ,0        - പ്ലേ ചെയ്തു കൊണ്ടിരിക്കുന്ന  ഫയൽ നിർത്തുക / പുനരാരംഭിക്കുക"
 
-#: src/daisy-player.c:682
+#: src/daisy-player.c:663
 msgid "home,*          - play on normal speed"
 msgstr "home ,*         - സാധാരണ വേഗത്തിൽ പ്ലേ ചെയ്യുക"
 
-#: src/daisy-player.c:684
+#: src/daisy-player.c:665
 msgid "Press any key for next page..."
 msgstr "അടുത്ത പേജിനു വേണ്ടി ഏതെങ്കിലും കീ അമർത്തുക ..."
 
-#: src/daisy-player.c:690
+#: src/daisy-player.c:671
 msgid "/               - search for a label"
 msgstr "/               - ലേബൽ തിരയുക"
 
-#: src/daisy-player.c:692
+#: src/daisy-player.c:673
 msgid "d               - store current item to disk"
 msgstr "d               - നിലവിലെ ഇനം ഡിസ്കിൽ  സൂക്ഷിക്കുക"
 
-#: src/daisy-player.c:694
+#: src/daisy-player.c:675
 msgid "D,-             - decrease playing speed"
 msgstr "D,-             - പ്ലേ ചെയുന്ന വേഗത കുറയ്ക്കുക"
 
-#: src/daisy-player.c:696
+#: src/daisy-player.c:677
 msgid "e,.             - quit daisy-player, place a bookmark and eject"
 msgstr "e,.             - ഫയൽ ബുക്ക്‌മാർക്ക്‌ ചെയ്തു daisy-player ക്ലോസ് ചെയ്യുക   "
 
-#: src/daisy-player.c:698
+#: src/daisy-player.c:679
 msgid ""
 "f               - find the currently playing item and place the cursor there"
 msgstr "f               - ഇപ്പോൾ പ്ലേ ചെയ്യുന്ന ഐറ്റം കണ്ടെത്തി അതിൽ കർസർ വയ്ക്കുക"
 
-#: src/daisy-player.c:701
+#: src/daisy-player.c:682
 msgid "g               - go to time in this song (MM:SS)"
 msgstr "g               - ഈ ഗാനത്തിന്റെ  (MM:SS) സമയത്തിലേക്ക് പോകുക"
 
-#: src/daisy-player.c:704
+#: src/daisy-player.c:685
 msgid "g               - go to time in this item (MM:SS)"
 msgstr "g               - ഈ ഇനത്തിന്റെ   (MM:SS) സമയത്തിലേക്ക് പോകുക"
 
-#: src/daisy-player.c:707
+#: src/daisy-player.c:688
 msgid "G               - go to page number"
 msgstr "G               - പേജ് നമ്പറിലേക്ക് പോകുക"
 
-#: src/daisy-player.c:709
+#: src/daisy-player.c:690
 msgid "h,?             - give this help"
 msgstr "h,?             - ഈ ഹെല്പ് ഫയൽ പ്രദർശിപ്പിക്കുക"
 
-#: src/daisy-player.c:711
+#: src/daisy-player.c:692
 msgid "j,5             - just play current item"
 msgstr "j,5             - നിലവിലെ ഇനം പ്ലേ ചെയ്യുക"
 
-#: src/daisy-player.c:713
+#: src/daisy-player.c:694
 msgid "l               - switch to next level"
 msgstr "l               - അടുത്ത ലെവലിലേക്ക് മാറുക"
 
-#: src/daisy-player.c:715
+#: src/daisy-player.c:696
 msgid "L               - switch to previous level"
 msgstr "L               - മുൻ നിലയിലേക്ക്‌  മാറുക"
 
-#: src/daisy-player.c:717
+#: src/daisy-player.c:698
 msgid "m               - mute sound output on/off"
 msgstr ""
 
-#: src/daisy-player.c:719
+#: src/daisy-player.c:700
 msgid "n               - search forwards"
 msgstr "n               - മുന്നിലേക്ക് തിരയുക "
 
-#: src/daisy-player.c:721
+#: src/daisy-player.c:702
 msgid "N               - search backwards"
 msgstr "N               - പുറകോട്ടു്തിരയുക"
 
-#: src/daisy-player.c:723
+#: src/daisy-player.c:704
 msgid "o               - select next output sound device"
 msgstr "o               - അടുത്ത സൌണ്ട് ഔട്പുട്ട് ഉപകരണം തിരഞ്ഞെടുക്കുക "
 
-#: src/daisy-player.c:725
+#: src/daisy-player.c:706
 msgid "p               - place a bookmark"
 msgstr "p               - ഒരു ബുക്ക്മാർക്ക് സ്ഥാപിക്കുക"
 
-#: src/daisy-player.c:727
+#: src/daisy-player.c:708
 msgid "q               - quit daisy-player and place a bookmark"
 msgstr "q               - ഫയൽ ബുക്ക്‌മാർക്ക്‌ ചെയ്തു daisy-player ക്ലോസ് ചെയ്യുക"
 
-#: src/daisy-player.c:729
+#: src/daisy-player.c:710
 msgid "s               - stop playing"
 msgstr "s               - ഫയൽ പ്ലേ ചെയ്യുന്നത് നിർത്തുക"
 
-#: src/daisy-player.c:731
+#: src/daisy-player.c:712
 msgid "U,+             - increase playing speed"
 msgstr "U , +           - പ്ലേ ചെയുന്ന വേഗത വർധിപിക്കുക"
 
-#: src/daisy-player.c:733
+#: src/daisy-player.c:714
 msgid "v,1             - decrease playback volume"
 msgstr "v,1             - പ്ലേബാക്ക് ശബ്ദം കുറയ്ക്കുക"
 
-#: src/daisy-player.c:735
+#: src/daisy-player.c:716
 msgid "V,7             - increase playback volume (beware of Clipping)"
 msgstr "V,7             - പ്ലേബാക്ക് ശബ്ദം കൂട്ടുക"
 
-#: src/daisy-player.c:737
+#: src/daisy-player.c:718
 msgid "Press any key to leave help..."
 msgstr "സഹായത്തിനായി ഏതെങ്കിലും കീ അമർത്തുക ..."
 
-#: src/daisy-player.c:874 src/daisy-player.c:1263
+#: src/daisy-player.c:855 src/daisy-player.c:1254
 msgid "This book has no audio. Play this book with eBook-speaker"
 msgstr "ഈ പുസ്തകത്തിന് ഓഡിയോ ലഭ്യമല്ല.  eBook-speaker ഉപയോഗിചു ഇത് കേൾക്കാവുന്നതാണ് ."
 
-#: src/daisy-player.c:893
+#: src/daisy-player.c:874
 msgid "Please wait... -------------------------"
 msgstr "കാത്തിരിക്കൂ... --------------"
 
-#: src/daisy-player.c:1003
+#: src/daisy-player.c:984
 msgid "What do you search?"
 msgstr "നിങ്ങൾ എന്താണ് തിരയുന്നത്"
 
-#: src/daisy-player.c:1105
+#: src/daisy-player.c:1089
 msgid "Go to time (MM:SS):"
 msgstr "സമയം (MM:SS) പോവുക :"
 
-#: src/daisy-player.c:1728 src/daisy-player.c:1994 src/daisy-player.c:2010
-#: src/daisy-player.c:2110 src/daisy-player.c:2127
+#: src/daisy-player.c:1733 src/daisy-player.c:2000 src/daisy-player.c:2016
+#: src/daisy-player.c:2122 src/daisy-player.c:2139
 #, c-format
 msgid "Daisy-player - Version %s %s"
 msgstr "Daisy-player - പതിപ്പ് %s %s"
 
-#: src/daisy-player.c:1731
+#: src/daisy-player.c:1736
 #, c-format
 msgid "Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"
 msgstr "ഉപയോഗം: %s [ഡെയിസി_ഘടനയിലുള്ള_ഡയറക്ടറി | ഡെയിസി_പുസ്തക_ശേഖരം ]"
 
-#: src/daisy-player.c:1734
+#: src/daisy-player.c:1739
 msgid "[-c cdrom_device] [-d pulseaudio_sound_device]"
 msgstr "[-c സിഡി റോം ] [-d pulseaudio_sound_device]"
 
-#: src/daisy-player.c:1747
+#: src/daisy-player.c:1752
 msgid "Cannot read /proc/mounts."
 msgstr "/proc/mounts ഫയൽ വായിക്കുവാൻ സാധിക്കുന്നില്ല "
 
-#: src/daisy-player.c:1996
+#: src/daisy-player.c:2002
 #, c-format
 msgid "A parser to play Daisy CD's with Linux"
 msgstr "ഡെയിസി സിഡി ലിനക്സിൽ പ്രവർത്തിപ്പിക്കുവനുള്ള സംവിധാനം"
 
-#: src/daisy-player.c:1998
+#: src/daisy-player.c:2004
 #, c-format
 msgid "Scanning for a Daisy CD..."
 msgstr "ഡെയിസി സിഡി യ്ക്കായി തിരയുന്നു"
 
-#: src/daisy-player.c:2091 src/daisy-player.c:2225
+#: src/daisy-player.c:2103 src/daisy-player.c:2237
 msgid "No DAISY-CD or Audio-cd found"
 msgstr "ഡ്രൈവിൽ  ഓഡിയോ സി ഡി യോ ഡെയിസി സി ഡി യോ ലഭ്യമല്ല"
 
-#: src/daisy-player.c:2147 src/daisy-player.c:2158 src/daisy-player.c:2186
+#: src/daisy-player.c:2159 src/daisy-player.c:2170 src/daisy-player.c:2198
 msgid "No Daisy CD in drive."
 msgstr "ഡ്രൈവിൽ ഡെയ്സി സിഡി ഇല്ല"
 
-#: src/daisy-player.c:2201
+#: src/daisy-player.c:2213
 msgid "Found an Audio-CD."
 msgstr "ഒരു ഓഡിയോ - സിഡി കണ്ടെത്തി "
 
-#: src/daisy-player.c:2203
+#: src/daisy-player.c:2215
 msgid "Get titles from freedb.freedb.org..."
 msgstr ""
 
-#: src/daisy-player.c:2385
+#: src/daisy-player.c:2397
 #, c-format
 msgid "Daisy-player - Version %s - (C)2019 J. Lemmens"
 msgstr "Daisy-player - പതിപ്പ് %s"
 
-#: src/daisy-player.c:2398
+#: src/daisy-player.c:2410
 msgid "Press 'h' for help"
 msgstr "സഹായത്തിനായി 'h'  അമർത്തുക "
 

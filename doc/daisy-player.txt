@@ -75,7 +75,7 @@ Daniel Veillard <daniel@veillard.com>  for the XML2 library.
 Robert Leslie <rob@mars.org>  for the MPEG audio decoder (madplay).
 
 Chris Bagwell <cbagwell@users.sourceforge.net>
-Rob Sykes <aquegg@yahoo.co.uk>  for sox.
+Rob Sykes <aquegg@yahoo.co.uk>  for the sox library.        
 
 Kim Nilsson <kim.nilsson@no-substitute.com>
 
