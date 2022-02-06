@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2018-12-19 22:07+0100\n"
+"POT-Creation-Date: 2018-07-27 15:28+0200\n"
 "PO-Revision-Date: 2014-08-26 15:45+0200\n"
 "Last-Translator: Thais Rizzi <thais.rizzi@gmail.com>\n"
 "Language-Team: Thais Rizzi <thais.rizzi@gmail.com>\n"
@@ -32,269 +32,262 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/common.c:244 src/common.c:426
-msgid "Please try to play this book with daisy-player"
-msgstr "Por favor, tente jogar este livro com o daisy-player"
-
-#: src/common.c:758
-#, c-format
-msgid "Cannot read type: %d"
-msgstr "Não conseguer ler tipo: %d"
-
-#: src/common.c:838
-msgid "Go to page number:"
-msgstr "Vá para a página número:"
-
-#: src/common.c:856
-msgid "Please wait..."
-msgstr "Por favor, espere..."
-
-#: src/common.c:931
-msgid "Select a soundcard:"
-msgstr "Selecione uma placa de som:"
-
-#: src/common.c:938
-msgid "Be sure the package pulseaudio-utils is installed onto your system."
-msgstr ""
-
-#: src/daisy2.02.c:49 src/daisy2.02.c:144 src/daisy2.02.c:305 src/daisy3.c:54
-#: src/daisy3.c:252 src/daisy3.c:322 src/daisy3.c:418 src/daisy3.c:499
-#: src/daisy3.c:821 src/daisy3.c:912 src/daisy3.c:991 src/daisy3.c:1231
-#: src/daisy3.c:1364 src/daisy-player.c:767 src/daisy-player.c:1736
-#: src/daisy-player.c:1765 src/daisy-player.c:2051 src/daisy-player.c:2218
+#: src/common.c:154 src/common.c:230 src/daisy2.02.c:49 src/daisy2.02.c:204
+#: src/daisy3.c:156 src/daisy3.c:225 src/daisy3.c:322 src/daisy3.c:402
+#: src/daisy3.c:502 src/daisy3.c:655 src/daisy3.c:712 src/daisy3.c:803
+#: src/daisy3.c:879 src/daisy3.c:1099 src/daisy3.c:1229 src/daisy-player.c:756
+#: src/daisy-player.c:1705 src/daisy-player.c:1734 src/daisy-player.c:2013
+#: src/daisy-player.c:2162
 #, c-format
 msgid "Cannot read %s"
 msgstr "Não consegue ler %s"
 
-#: src/daisy3.c:1181 src/daisy-player.c:834 src/daisy-player.c:1219
+#: src/common.c:345 src/common.c:542
+msgid "Please try to play this book with daisy-player"
+msgstr "Por favor, tente jogar este livro com o daisy-player"
+
+#: src/common.c:872
+#, c-format
+msgid "Cannot read type: %d"
+msgstr "Não conseguer ler tipo: %d"
+
+#: src/common.c:950
+msgid "Go to page number:"
+msgstr "Vá para a página número:"
+
+#: src/common.c:968
+msgid "Please wait..."
+msgstr "Por favor, espere..."
+
+#: src/common.c:1024
+msgid "Select a soundcard:"
+msgstr "Selecione uma placa de som:"
+
+#: src/daisy3.c:1052 src/daisy-player.c:823 src/daisy-player.c:1201
 msgid "This book has no audio. Play this book with eBook-speaker"
 msgstr "Este livro não tem áudio.  Reproduzir este livro com eBook-speaker"
 
-#: src/daisy3.c:1198
+#: src/daisy3.c:1068
 msgid "No items found. Try option \"-N\"."
 msgstr "Nenhum item encontrado.  Tente a opção \"-N\"."
 
-#: src/daisy3.c:1343
+#: src/daisy3.c:1209
 msgid "No items found. Try option \"-O\"."
 msgstr "Nenhum item encontrado.  Tente a opção \"-O\"."
 
-#: src/daisy-player.c:317
+#: src/daisy-player.c:312
 msgid "'h' for help -"
 msgstr "'h' para ajuda -"
 
-#: src/daisy-player.c:321
+#: src/daisy-player.c:316
 #, c-format
 msgid "%d pages"
 msgstr "%d páginas"
 
-#: src/daisy-player.c:326
+#: src/daisy-player.c:321
 #, c-format
 msgid "level: %d of %d"
 msgstr "nível: %d de %d"
 
-#: src/daisy-player.c:334
+#: src/daisy-player.c:329
 #, c-format
 msgid "total length: %02d:%02d:%02d"
 msgstr "comprimento total: %02d:%02d:%02d"
 
-#: src/daisy-player.c:632
+#: src/daisy-player.c:623
 msgid "These commands are available in this version:"
 msgstr "Esse comandos estão disponíveis nessa versão:"
 
-#: src/daisy-player.c:636
+#: src/daisy-player.c:627
 msgid "cursor down,2   - move cursor to the next item"
 msgstr "cursor para baixo,2           - move o cursor para o próximo item"
 
-#: src/daisy-player.c:638
+#: src/daisy-player.c:629
 msgid "cursor up,8     - move cursor to the previous item"
 msgstr "cursor para cima,8            - move o cursor para o item anterior"
 
-#: src/daisy-player.c:640
+#: src/daisy-player.c:631
 msgid "cursor right,6  - skip to next phrase"
 msgstr "cursor para direita,6         - pula para a proxima frase"
 
-#: src/daisy-player.c:642
+#: src/daisy-player.c:633
 msgid "cursor left,4   - skip to previous phrase"
 msgstr "cursor para esquerda,4        - pula para a frase anterior"
 
-#: src/daisy-player.c:644
+#: src/daisy-player.c:635
 msgid "page-down,3     - view next page"
 msgstr "page-down,3                   - ver página seguinte"
 
-#: src/daisy-player.c:646
+#: src/daisy-player.c:637
 msgid "page-up,9       - view previous page"
 msgstr "page-up,9                     - ver página anterior"
 
-#: src/daisy-player.c:648
+#: src/daisy-player.c:639
 msgid "enter           - start playing"
 msgstr "enter                         - comece a reprodução"
 
-#: src/daisy-player.c:650
+#: src/daisy-player.c:641
 msgid "space,0         - pause/resume playing"
 msgstr "espaço,0                      - pausa/ resumir reprodução"
 
-#: src/daisy-player.c:652
+#: src/daisy-player.c:643
 msgid "home,*          - play on normal speed"
 msgstr "home,*                        - reproduzir em velocidade normal"
 
-#: src/daisy-player.c:654
+#: src/daisy-player.c:645
 msgid "Press any key for next page..."
 msgstr "Pressione qualquer tecla para a próxima pagina..."
 
-#: src/daisy-player.c:660
+#: src/daisy-player.c:651
 msgid "/               - search for a label"
 msgstr "/         - procure por uma etiqueta"
 
-#: src/daisy-player.c:662
+#: src/daisy-player.c:653
 msgid "d               - store current item to disk"
 msgstr "d         - armazena o item atual no disco"
 
-#: src/daisy-player.c:664
+#: src/daisy-player.c:655
 msgid "D,-             - decrease playing speed"
 msgstr "D,-       - diminui a velocidade da reprodução"
 
-#: src/daisy-player.c:666
+#: src/daisy-player.c:657
 msgid "e,.             - quit daisy-player, place a bookmark and eject"
 msgstr "e,.       - sair do daisy-player, colocar um marcador e ejetar"
 
-#: src/daisy-player.c:668
+#: src/daisy-player.c:659
 msgid ""
 "f               - find the currently playing item and place the cursor there"
 msgstr "f         - procura o item atual de reprodução e colocar o cursor lá"
 
-#: src/daisy-player.c:671
+#: src/daisy-player.c:662
 msgid "g               - go to time in this song (MM:SS)"
 msgstr "g         - vai para determinado tempo nessa musica (MM:SS)"
 
-#: src/daisy-player.c:674
+#: src/daisy-player.c:665
 msgid "g               - go to time in this item (MM:SS)"
 msgstr "g         - vai para determinado tempo nessa item (MM:SS)"
 
-#: src/daisy-player.c:677
+#: src/daisy-player.c:668
 msgid "G               - go to page number"
 msgstr "G         - vai para o número de pagina (se tiver algum)"
 
-#: src/daisy-player.c:679
+#: src/daisy-player.c:670
 msgid "h,?             - give this help"
 msgstr "h,?       -  dê essa ajuda"
 
-#: src/daisy-player.c:681
+#: src/daisy-player.c:672
 msgid "j,5             - just play current item"
 msgstr "j,5       - só reproduza o item atual"
 
-#: src/daisy-player.c:683
+#: src/daisy-player.c:674
 msgid "l               - switch to next level"
 msgstr "l         - mude para o proximo nível"
 
-#: src/daisy-player.c:685
+#: src/daisy-player.c:676
 msgid "L               - switch to previous level"
 msgstr "L         - mude para o nível anterior"
 
-#: src/daisy-player.c:687
-msgid "m               - mute sound output on/off"
-msgstr ""
-
-#: src/daisy-player.c:689
+#: src/daisy-player.c:678
 msgid "n               - search forwards"
 msgstr "n         - procure a frente "
 
-#: src/daisy-player.c:691
+#: src/daisy-player.c:680
 msgid "N               - search backwards"
 msgstr "N         - procure para trás"
 
-#: src/daisy-player.c:693
+#: src/daisy-player.c:682
 msgid "o               - select next output sound device"
 msgstr "o         - selecione o próximo dispositivo de saída de som"
 
-#: src/daisy-player.c:695
+#: src/daisy-player.c:684
 msgid "p               - place a bookmark"
 msgstr "p         - coloque o marcador"
 
-#: src/daisy-player.c:697
+#: src/daisy-player.c:686
 msgid "q               - quit daisy-player and place a bookmark"
 msgstr "q         - saia do daisy-player e coloque o marcador"
 
-#: src/daisy-player.c:699
+#: src/daisy-player.c:688
 msgid "s               - stop playing"
 msgstr "s         - pare de reproduzir"
 
-#: src/daisy-player.c:701
+#: src/daisy-player.c:690
 msgid "U,+             - increase playing speed"
 msgstr "U,+       - aumente a velocidade de reprodução"
 
-#: src/daisy-player.c:703
+#: src/daisy-player.c:692
 msgid "v,1             - decrease playback volume"
 msgstr "v,1       - diminuir o volume de reprodução"
 
-#: src/daisy-player.c:705
+#: src/daisy-player.c:694
 msgid "V,7             - increase playback volume (beware of Clipping)"
 msgstr "V,7       - aumentar o volume de reprodução (cuidado com Clipping)"
 
-#: src/daisy-player.c:707
+#: src/daisy-player.c:696
 msgid "Press any key to leave help..."
 msgstr "Aperte qualquer tecla para sair da ajuda..."
 
-#: src/daisy-player.c:853
+#: src/daisy-player.c:842
 msgid "Please wait... -------------------------"
 msgstr "Por favor espere ... -------------------------------"
 
-#: src/daisy-player.c:964
+#: src/daisy-player.c:949
 msgid "What do you search?"
 msgstr "O que você procura?"
 
-#: src/daisy-player.c:1066
+#: src/daisy-player.c:1051
 msgid "Go to time (MM:SS):"
 msgstr "Vá para o tempo (MM:SS):"
 
-#: src/daisy-player.c:1681 src/daisy-player.c:1925 src/daisy-player.c:1943
-#: src/daisy-player.c:2046 src/daisy-player.c:2064
+#: src/daisy-player.c:1652 src/daisy-player.c:1886 src/daisy-player.c:1904
+#: src/daisy-player.c:2008 src/daisy-player.c:2024
 #, c-format
 msgid "Daisy-player - Version %s %s"
 msgstr "Daisy-player - Versão %s %s"
 
-#: src/daisy-player.c:1684
+#: src/daisy-player.c:1655
 #, c-format
 msgid "Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"
 msgstr "Uso: %s [diretório_com_estrutura_Daisy] | [Daisy_book_archive]"
 
-#: src/daisy-player.c:1687
+#: src/daisy-player.c:1658
 msgid "[-c cdrom_device] [-d pulseaudio_sound_device]"
 msgstr "[ -c cdrom_dispositivo] [-d pulseaudio_dispositivo_de_som] [-n  | -y]"
 
-#: src/daisy-player.c:1700
+#: src/daisy-player.c:1671
 msgid "Cannot read /proc/mounts."
 msgstr "Não consegue ler /proc/mounts."
 
-#: src/daisy-player.c:1927
+#: src/daisy-player.c:1888
 msgid "A parser to play Daisy CD's with Linux"
 msgstr "Um analisador para reproduzir Daisy CD's com o Linux"
 
-#: src/daisy-player.c:1929
+#: src/daisy-player.c:1890
 msgid "Scanning for a Daisy CD..."
 msgstr "Procurando por um CD Daisy..."
 
-#: src/daisy-player.c:2026 src/daisy-player.c:2167
+#: src/daisy-player.c:1988 src/daisy-player.c:2121
 msgid "No DAISY-CD or Audio-cd found"
 msgstr "Nenhum CD DAISY ou CD de áudio identificado"
 
-#: src/daisy-player.c:2085 src/daisy-player.c:2097 src/daisy-player.c:2127
+#: src/daisy-player.c:2045 src/daisy-player.c:2057 src/daisy-player.c:2087
 msgid "No Daisy CD in drive."
 msgstr "Nenhum CD Daisy no drive."
 
-#: src/daisy-player.c:2142
+#: src/daisy-player.c:2104
 msgid "Found an Audio-CD."
 msgstr "CD de áudio identificado."
 
-#: src/daisy-player.c:2144
+#: src/daisy-player.c:2106
 msgid "Get titles from freedb.freedb.org..."
 msgstr "Pegar títulos do freedb.freedb.org..."
 
-#: src/daisy-player.c:2295
+#: src/daisy-player.c:2235
 #, c-format
 msgid "Daisy-player - Version %s - (C)2018 J. Lemmens"
 msgstr "Daisy-player - Versão %s - (C)2018 J. Lemmens"
 
-#: src/daisy-player.c:2308
+#: src/daisy-player.c:2248
 msgid "Press 'h' for help"
 msgstr "Pressione 'h' para ajuda"
 

@@ -62,8 +62,6 @@ static int external_mix;
 static int experimental;
 # endif
 
-extern int madplay (char *, char *, char *, char *);
-
 char const *argv0;
 
 

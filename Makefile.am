@@ -147,30 +147,30 @@ EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib ChangeLog compile \
              src/madplay/VERSION \
              src/madplay/version.h \
              src/Makefile.am src/Makefile.in \
-             src/pactl/aclocal.m4 src/pactl/AGPL \
-             src/pactl/compile src/pactl/config.guess \
-             src/pactl/config.sub \
-             src/pactl/config.h.in src/pactl/configure \
-             src/pactl/configure.ac src/pactl/depcomp \
-             src/pactl/GPL src/pactl/install-sh \
-             src/pactl/LGPL src/pactl/LICENSE \
-             src/pactl/m4 \
-             src/pactl/Makefile.am src/pactl/Makefile.in \
-             src/pactl/missing src/pactl/NEWS \
-             src/pactl/README \
-             src/pactl/src/core-error.h \
-             src/pactl/src/core-util.h \
-             src/pactl/src/i18n.h \
-             src/pactl/src/install.sh \
-             src/pactl/src/macro.h \
-             src/pactl/src/Makefile.am \
-             src/pactl/src/Makefile.in \
-             src/pactl/src/pactl.c \
-             src/pactl/src/pactl-set-cmd.c \
-             src/pactl/src/socket.h \
-             src/pactl/src/strbuf.h \
-             src/pactl/src/strlist.h \
-             src/pactl/todo
+             ylwrap \
+             src/pulseaudio/aclocal.m4 src/pulseaudio/AGPL \
+             src/pulseaudio/compile src/pulseaudio/config.guess \
+             src/pulseaudio/config.sub \
+             src/pulseaudio/config.h.in src/pulseaudio/configure \
+             src/pulseaudio/configure.ac src/pulseaudio/depcomp \
+             src/pulseaudio/GPL src/pulseaudio/install-sh \
+             src/pulseaudio/LGPL src/pulseaudio/LICENSE \
+             src/pulseaudio/m4 \
+             src/pulseaudio/Makefile.am src/pulseaudio/Makefile.in \
+             src/pulseaudio/missing src/pulseaudio/NEWS \
+             src/pulseaudio/README \
+             src/pulseaudio/src/core-error.h \
+             src/pulseaudio/src/core-util.h \
+             src/pulseaudio/src/i18n.h \
+             src/pulseaudio/src/install.sh \
+             src/pulseaudio/src/macro.h \
+             src/pulseaudio/src/Makefile.am \
+             src/pulseaudio/src/Makefile.in \
+             src/pulseaudio/src/pactl-set-volume.c \
+             src/pulseaudio/src/socket.h \
+             src/pulseaudio/src/strbuf.h \
+             src/pulseaudio/src/strlist.h \
+             src/pulseaudio/todo
 
 check-gettext:
 	@if test x$(USE_NLS) != "xyes" ; then \

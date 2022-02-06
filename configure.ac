@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([daisy-player], [11.6.2.2], [jos@jlemmens.nl], [], [www.jlemmens.nl])
-AM_INIT_AUTOMAKE([subdir-objects])
+AC_INIT([daisy-player], [11.6], [jos@jlemmens.nl], [], [www.jlemmens.nl])
+AM_INIT_AUTOMAKE([subdir-objects])                 
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 
@@ -29,7 +29,7 @@ AC_CHECK_LIB([cdio], [main])
 AC_CHECK_LIB([cdio_cdda], [main])
 # FIXME: Replace `main' with a function in `-lcdio_paranoia':
 AC_CHECK_LIB([cdio_paranoia], [main])
-# FIXME: Replace `main' with a function in `-lmagic':  
+# FIXME: Replace `main' with a function in `-lmagic':
 AC_CHECK_LIB([magic], [main])
 # FIXME: Replace `main' with a function in `-lncursesw':
 AC_CHECK_LIB([ncursesw], [main])
@@ -39,13 +39,12 @@ AC_CHECK_LIB([sox], [main])
 AC_CHECK_LIB([xml2], [main])
 # FIXME: Replace `main' with a function in `-lmad':
 AC_CHECK_LIB([mad], [main])
-# FIXME: Replace `main' with a function in `-lpulse':
-AC_CHECK_LIB([pulse], [main])
+
+AC_CHECK_HEADERS([cdio/paranoia/cdda.h])
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h libintl.h locale.h stdlib.h string.h strings.h \
                   sys/ioctl.h unistd.h])
-#AC_CHECK_HEADERS([cdio/paranoia/cdda.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
@@ -80,9 +79,7 @@ AC_CONFIG_FILES([Makefile
                  m4/Makefile
                  man/Makefile
                  po/Makefile.in
-                 src/Makefile
-                 src/madplay/Makefile
-                 src/pactl/Makefile])
+                 src/Makefile])
 
 AM_INIT_AUTOMAKE
 
@@ -240,4 +237,4 @@ echo
 echo "Configure pulseaudio/pactl..."
 echo
 
-(cd src/pactl && ./configure)
+(cd src/pulseaudio && ./configure)

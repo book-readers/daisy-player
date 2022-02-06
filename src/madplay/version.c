@@ -62,8 +62,6 @@ char const madplay_build[] = ""
 # endif
 ;
 
-extern void copyright (FILE *, char const *);
-
 void ver_banner(FILE *stream)
 {
   fprintf(stream, "%s %s - %s %s %s et al.\n", _("MPEG Audio Decoder"),

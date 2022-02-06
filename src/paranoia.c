@@ -62,7 +62,7 @@ void init_paranoia (misc_t *misc)
 
 pid_t play_track (misc_t *misc, char *out_file, char *type,
                   lsn_t from)
-{      
+{
    init_paranoia (misc);
    switch (misc->cdda_pid = fork ())
    {
@@ -76,7 +76,7 @@ pid_t play_track (misc_t *misc, char *out_file, char *type,
 #endif
       snprintf (path, MAX_STR, "/dev/fd/%d", misc->pipefd[0]);
       snprintf (misc->str, MAX_STR, "%f", misc->speed);
-      playfile (path, "cdda", out_file, type, misc->str);
+      playfile (misc, path, "cdda", out_file, type, misc->str);
       close (misc->pipefd[0]);
       _exit (0);
    }

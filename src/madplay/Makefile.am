@@ -42,7 +42,7 @@ EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib autom4te.cache CHANGES \
              config.sub configure configure.ac COPYING COPYRIGHT \
              CREDITS depcomp INSTALL install-sh m4 Makefile.am \
              Makefile.in mdate-sh missing mkinstalldirs py-compile \
-             README test-driver TODO VERSION
+             README test-driver texinfo.tex TODO VERSION ylwrap
 
 default_audio =		audio.c audio.h audio_wave.c
 
