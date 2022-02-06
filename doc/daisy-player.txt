@@ -58,10 +58,12 @@ q               quit daisy-player. The playing-point will be saved as bookmark.
 s               stop playing
 U,+             increase playing speed
 NOTES
+Daisy-player uses the sox-library and the ALSA sound-driver for audio-output. On some systems daisy-player quits with the message that the soundcard cannot be used. I don't know how to solve this problem yet, sorry.
+
 When playing an Audio-CD skip-left and skip-right react a little late. The same for commands like 'U', 'D' and HOME.
 FILES
-~/.daisy-player/  This directory contains the bookmarks. Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level, each on a own line.
-~/.daisy-player.rc  This file contains the name of the desired audio device and the desired playing speed.
+~/.daisy-player/  This directory contains the bookmarks in XML-format. . Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level.
+~/.daisy-player.rc  This file, in XML-format, contains the name of the desired audio device and the desired playing speed.
 SEE ALSO
 cddbget(1), unar(1), eject(1), udisksctl(1)
 AUTHOR

@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([daisy-player], [9.2], [jos@jlemmens.nl], [], [www.jlemmens.nl])
+AC_INIT([daisy-player], [9.3.1], [jos@jlemmens.nl], [], [www.jlemmens.nl])
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
@@ -50,7 +50,7 @@ AC_TYPE_SIZE_T
 
 # Checks for library functions.
 AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION(0.18.1)
+AM_GNU_GETTEXT_VERSION([0.18.3])
 AC_FUNC_FORK
 AC_FUNC_MALLOC
 AC_FUNC_STRTOD

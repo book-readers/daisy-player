@@ -196,3 +196,11 @@ Samuel Thibault <sthibault@debian.org>
 	The command to go to a page number now is 'G'.
 9.1	Updated the man-page.
 9.2	Updated The online help screen.
+9.3	On  some  systems daisy-player quits with the message that the
+	soundcard cannot be used. I have experienced with the pulseaudio
+	and the AO drivers, but with no luck.
+	I don't know how to solve this  problem  yet, sorry.
+	For now, when the ALSA hw:0 card cannot be opened for writing
+	AO default will be used instead.
+	Added an Swedish translation.
+	Updated the Spanish translation.

@@ -80,9 +80,9 @@ host_triplet = @host@
 subdir = .
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
-	$(srcdir)/config.h.in $(top_srcdir)/m4/Makefile.in ChangeLog \
-	INSTALL compile config.guess config.rpath config.sub depcomp \
-	install-sh missing ltmain.sh
+	$(srcdir)/config.h.in $(top_srcdir)/m4/Makefile.in ABOUT-NLS \
+	ChangeLog INSTALL compile config.guess config.rpath config.sub \
+	depcomp install-sh missing ltmain.sh
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intlmacosx.m4 \
@@ -269,6 +269,7 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 POSUB = @POSUB@
 POW_LIB = @POW_LIB@
 RANLIB = @RANLIB@
+SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@

@@ -18,15 +18,6 @@
 */
 
 #include "src/daisy.h"
-#undef PACKAGE
-#undef PACKAGE_BUGREPORT
-#undef PACKAGE_NAME
-#undef PACKAGE_STRING
-#undef PACKAGE_TARNAME
-#undef PACKAGE_URL
-#undef PACKAGE_VERSION
-#undef VERSION
-#include "config.h"
 
 void playfile (misc_t *misc, char *in_file, char *in_type,
                char *out_file, char *out_type, char *tempo)
@@ -42,14 +33,23 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
    if ((sox_in = sox_open_read (in_file, NULL, NULL, in_type)) == NULL)
       failure (in_file, errno);
    if ((sox_out = sox_open_write (out_file, &sox_in->signal,
-           NULL, out_type, NULL, NULL)) == NULL)
+                                  NULL, out_type, NULL, NULL)) == NULL)
    {
-      int e;
+      if ((sox_out = sox_open_write ("default", &sox_in->signal,
+                                     NULL, "alsa", NULL, NULL)) == NULL)
+      {
+         int e;
 
-      e = errno;
-      strncpy (misc->sound_dev, "hw:0", MAX_STR - 1);
-      save_rc (misc);
-      failure (out_file, e);
+         e = errno;
+         beep ();
+         endwin ();
+         printf ("\n%s: %s\n\n", out_file, strerror (e));
+         fflush (stdout);
+         put_bookmark (misc);
+         strncpy (misc->sound_dev, "hw:0", MAX_STR - 1);
+         save_rc (misc);
+         kill (misc->daisy_player_pid, SIGTERM);
+      } // if
    } // if
    if (strcmp (in_type, "cdda") == 0)
    {
@@ -218,7 +218,7 @@ void get_page_number_2 (misc_t *misc, my_attribute_t *my_attribute,
 
       e = errno;
       snprintf (str, MAX_STR,
-            gettext ("\nCannot read %s\n"), daisy[misc->playing].smil_file);
+            gettext ("Cannot read %s"), daisy[misc->playing].smil_file);
       failure (str, e);
    } // if
    id1 = strdup (p);
@@ -245,7 +245,7 @@ void get_page_number_2 (misc_t *misc, my_attribute_t *my_attribute,
       char str[MAX_STR];
 
       e = errno;
-      snprintf (str, MAX_STR, gettext ("\nCannot read %s\n"), misc->NCC_HTML);
+      snprintf (str, MAX_STR, gettext ("Cannot read %s"), misc->NCC_HTML);
       failure (str, e);
    } // if
    while (1)
@@ -316,7 +316,7 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
 
          e = errno;
          snprintf (str, MAX_STR, 
-                     gettext ("\nCannot read %s\n"), daisy[x].smil_file);
+                     gettext ("Cannot read %s"), daisy[x].smil_file);
          failure (str, e);
       } // if
 
@@ -416,9 +416,9 @@ void view_screen (misc_t *misc, daisy_t *daisy)
    int i, x, x2;
    float time;
 
-   mvwaddstr (misc->titlewin, 1, 0,
+   mvwprintw (misc->titlewin, 1, 0,
               "----------------------------------------");
-   waddstr (misc->titlewin, "----------------------------------------");
+   wprintw (misc->titlewin, "----------------------------------------");
    mvwprintw (misc->titlewin, 1, 0, gettext ("'h' for help -"));
    if (misc->total_pages)
       wprintw (misc->titlewin, gettext (" %d pages "), misc->total_pages);
@@ -441,9 +441,9 @@ void view_screen (misc_t *misc, daisy_t *daisy)
       mvwprintw (misc->screenwin, daisy[i].y, daisy[i].x + 1, daisy[i].label);
       x = strlen (daisy[i].label) + daisy[i].x;
       if (x / 2 * 2 != x)
-         waddstr (misc->screenwin, " ");
+         wprintw (misc->screenwin, " ");
       for (x2 = x; x2 < 59; x2 = x2 + 2)
-         waddstr (misc->screenwin, " .");
+         wprintw (misc->screenwin, " .");
       if (daisy[i].page_number)
          mvwprintw (misc->screenwin, daisy[i].y, 61, " (%3d)", daisy[i].page_number);
       if (daisy[i].level <= misc->level)
@@ -484,7 +484,7 @@ void read_daisy_2 (misc_t *misc, my_attribute_t *my_attribute,
       int e;
 
       e = errno;
-      snprintf (str, MAX_STR, gettext ("\nCannot read %s\n"), misc->NCC_HTML);
+      snprintf (str, MAX_STR, gettext ("Cannot read %s"), misc->NCC_HTML);
       failure (str, e);
    } // if
    misc->current = misc->displaying = 0;
@@ -733,68 +733,77 @@ void help (misc_t *misc, daisy_t *daisy)
 
    getyx (misc->screenwin, y, x);
    wclear (misc->screenwin);
-   waddstr (misc->screenwin, gettext ("\nThese commands are available in this version:\n"));
-   waddstr (misc->screenwin, "========================================");
-   waddstr (misc->screenwin, "========================================\n\n");
-   waddstr (misc->screenwin,
-            gettext ("cursor down,2   - move cursor to the next item\n"));
-   waddstr (misc->screenwin,
-            gettext ("cursor up,8     - move cursor to the previous item\n"));
-   waddstr (misc->screenwin,
-            gettext ("cursor right,6  - skip to next phrase\n"));
-   waddstr (misc->screenwin,
-            gettext ("cursor left,4   - skip to previous phrase\n"));
-   waddstr (misc->screenwin,
-            gettext ("page-down,3     - view next page\n"));
-   waddstr (misc->screenwin,
-            gettext ("page-up,9       - view previous page\n"));
-   waddstr (misc->screenwin,
-            gettext ("enter           - start playing\n"));
-   waddstr (misc->screenwin,
-            gettext ("space,0         - pause/resume playing\n"));
-   waddstr (misc->screenwin,
-            gettext ("home,*          - play on normal speed\n"));
-   waddstr (misc->screenwin, "\n");
-   waddstr (misc->screenwin, gettext ("Press any key for next page..."));
+   wprintw (misc->screenwin, "\n%s\n", gettext
+            ("These commands are available in this version:"));
+   wprintw (misc->screenwin, "========================================");
+   wprintw (misc->screenwin, "========================================\n\n");
+   wprintw (misc->screenwin, "%s\n", gettext
+            ("cursor down,2   - move cursor to the next item"));
+   wprintw (misc->screenwin, "%s\n", gettext
+            ("cursor up,8     - move cursor to the previous item"));
+   wprintw (misc->screenwin, "%s\n", gettext
+            ("cursor right,6  - skip to next phrase"));
+   wprintw (misc->screenwin, "%s\n", gettext
+            ("cursor left,4   - skip to previous phrase"));
+   wprintw (misc->screenwin, "%s\n", gettext
+            ("page-down,3     - view next page"));
+   wprintw (misc->screenwin, "%s\n", gettext
+            ("page-up,9       - view previous page"));
+   wprintw (misc->screenwin, "%s\n", gettext
+            ("enter           - start playing"));
+   wprintw (misc->screenwin, "%s\n", gettext
+            ("space,0         - pause/resume playing"));
+   wprintw (misc->screenwin, "%s\n", gettext
+            ("home,*          - play on normal speed"));
+   wprintw (misc->screenwin, "\n%s", gettext
+            ("Press any key for next page..."));
    nodelay (misc->screenwin, FALSE);
    wgetch (misc->screenwin);
    nodelay (misc->screenwin, TRUE);
    wclear (misc->screenwin);
-   waddstr (misc->screenwin,
-            gettext ("\n/               - search for a label\n"));
-   waddstr (misc->screenwin,
-            gettext ("d               - store current item to disk\n"));
-   waddstr (misc->screenwin,
-            gettext ("D,-             - decrease playing speed\n"));
-   waddstr (misc->screenwin, gettext (
-            "e,.             - quit daisy-player, place a bookmark and eject\n"));
-   waddstr (misc->screenwin, gettext (
-"f               - find the currently playing item and place the cursor there\n"));
+   wprintw (misc->screenwin, "\n%s\n", gettext
+            ("/               - search for a label"));
+   wprintw (misc->screenwin, "%s\n", gettext
+            ("d               - store current item to disk"));
+   wprintw (misc->screenwin, "%s\n", gettext 
+            ("D,-             - decrease playing speed"));
+   wprintw (misc->screenwin, "%s\n", gettext 
+      ("e,.             - quit daisy-player, place a bookmark and eject"));
+   wprintw (misc->screenwin, "%s\n", gettext 
+ ("f               - find the currently playing item and place the cursor there"));
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
-      waddstr (misc->screenwin,
-            gettext ("g               - go to time in this song (MM:SS)\n"));
+      wprintw (misc->screenwin, "%s\n", gettext
+               ("g               - go to time in this song (MM:SS)"));
    else
-      waddstr (misc->screenwin,
-            gettext ("g               - go to time in this item (MM:SS)\n"));
-   waddstr (misc->screenwin,
-            gettext ("G               - go to page number (if any)\n"));
-   waddstr (misc->screenwin,
-            gettext ("h,?             - give this help\n"));
-   waddstr (misc->screenwin, 
-            gettext ("j,5             - just play current item\n"));
-   waddstr (misc->screenwin,
-          gettext ("l               - switch to next level\n"));
-   waddstr (misc->screenwin, gettext ("L               - switch to previous level\n"));
-   waddstr (misc->screenwin, gettext ("n               - search forwards\n"));
-   waddstr (misc->screenwin, gettext ("N               - search backwards\n"));
-   waddstr (misc->screenwin, gettext ("o               - select next output sound device\n"));
-   waddstr (misc->screenwin, gettext ("p               - place a bookmark\n"));
-   waddstr (misc->screenwin,
-   gettext ("q               - quit daisy-player and place a bookmark\n"));
-   waddstr (misc->screenwin, gettext ("s               - stop playing\n"));
-   waddstr (misc->screenwin,
-            gettext ("U,+             - increase playing speed\n"));
-   waddstr (misc->screenwin, gettext ("\nPress any key to leave help..."));
+      wprintw (misc->screenwin, "%s\n", gettext
+               ("g               - go to time in this item (MM:SS)"));
+   if (misc->total_pages)
+      wprintw (misc->screenwin, "%s\n", gettext
+               ("G               - go to page number"));
+   wprintw (misc->screenwin, "%s\n", gettext 
+            ("h,?             - give this help"));
+   wprintw (misc->screenwin, "%s\n", gettext 
+            ("j,5             - just play current item"));
+   wprintw (misc->screenwin, "%s\n", gettext 
+            ("l               - switch to next level"));
+   wprintw (misc->screenwin, "%s\n", gettext 
+            ("L               - switch to previous level"));
+   wprintw (misc->screenwin, "%s\n", gettext
+            ("n               - search forwards"));
+   wprintw (misc->screenwin, "%s\n", gettext
+            ("N               - search backwards"));
+   wprintw (misc->screenwin, "%s\n", gettext 
+            ("o               - select next output sound device"));
+   wprintw (misc->screenwin, "%s\n", gettext
+            ("p               - place a bookmark"));
+   wprintw (misc->screenwin, "%s\n", gettext 
+            ("q               - quit daisy-player and place a bookmark"));
+   wprintw (misc->screenwin, "%s\n", gettext 
+            ("s               - stop playing"));
+   wprintw (misc->screenwin, "%s\n", gettext
+            ("U,+             - increase playing speed"));
+   wprintw (misc->screenwin, "\n%s", gettext 
+            ("Press any key to leave help..."));
    nodelay (misc->screenwin, FALSE);
    wgetch (misc->screenwin);
    nodelay (misc->screenwin, TRUE);
@@ -1072,7 +1081,7 @@ void read_rc (misc_t *misc, my_attribute_t *my_attribute)
       strncpy (misc->sound_dev, "hw:0", MAX_STR - 1);
       return;
    } // if
-   do
+   do                                   
    {
       if (! get_tag_or_label (misc, my_attribute, reader))
          break;
@@ -1135,8 +1144,8 @@ void search (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy,
    } // if
    if (mode == '/')
    {
-      mvwaddstr (misc->titlewin, 1, 0, "----------------------------------------");
-      waddstr (misc->titlewin, "----------------------------------------");
+      mvwprintw (misc->titlewin, 1, 0, "----------------------------------------");
+      wprintw (misc->titlewin, "----------------------------------------");
       mvwprintw (misc->titlewin, 1, 0, gettext ("What do you search? "));
       echo ();
       wgetnstr (misc->titlewin, misc->search_str, 25);
@@ -1230,8 +1239,8 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
 
    kill (misc->player_pid, SIGKILL);
    misc->player_pid = -2;
-   mvwaddstr (misc->titlewin, 1, 0, "----------------------------------------");
-   waddstr (misc->titlewin, "----------------------------------------");
+   mvwprintw (misc->titlewin, 1, 0, "----------------------------------------");
+   wprintw (misc->titlewin, "----------------------------------------");
    mvwprintw (misc->titlewin, 1, 0, gettext ("Go to page number: "));
    echo ();
    wgetnstr (misc->titlewin, pn, 5);
@@ -1254,8 +1263,7 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
          char str[MAX_STR];
          
          e = errno;
-         snprintf (str, MAX_STR,
-                gettext ("\nCannot read %s\n"), misc->NCC_HTML);
+         snprintf (str, MAX_STR, gettext ("Cannot read %s"), misc->NCC_HTML);
          failure (str, e);
       } // if
       *href = 0;
@@ -1314,8 +1322,7 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
          char str[MAX_STR];
          
          e = errno;
-         snprintf (str, MAX_STR, 
-                  gettext ("\nCannot read %s\n"), misc->NCC_HTML);
+         snprintf (str, MAX_STR, gettext ("Cannot read %s"), misc->NCC_HTML);
          failure (str, e);
       } // if
       do
@@ -1366,8 +1373,8 @@ void go_to_time (misc_t *misc, daisy_t *daisy, my_attribute_t *my_attribute)
 
    kill (misc->player_pid, SIGKILL);
    misc->player_pid = -2;
-   mvwaddstr (misc->titlewin, 1, 0, "----------------------------------------");
-   waddstr (misc->titlewin, "----------------------------------------");
+   mvwprintw (misc->titlewin, 1, 0, "----------------------------------------");
+   wprintw (misc->titlewin, "----------------------------------------");
    while (1)
    {
       mvwprintw (misc->titlewin, 1, 0, gettext ("Go to time (MM:SS): "));
@@ -1428,7 +1435,7 @@ void select_next_output_device (misc_t *misc, daisy_t *daisy)
    char *list[10], *trash;
 
    wclear (misc->screenwin);
-   wprintw (misc->screenwin, "\nSelect a soundcard:\n\n");
+   wprintw (misc->screenwin, "\n%s\n\n", gettext ("Select a soundcard:"));
    if (! (r = fopen ("/proc/asound/cards", "r")))
       failure (gettext ("Cannot read /proc/asound/cards"), errno);
    for (n = 0; n < 10; n++)
@@ -1462,7 +1469,7 @@ void select_next_output_device (misc_t *misc, daisy_t *daisy)
          break;
       case KEY_UP:
          if (--y == 2)
-           y = n + 2;
+            y = n + 2;
          break;
       default:
          view_screen (misc, daisy);
@@ -1726,11 +1733,6 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          search (misc, my_attribute, daisy, misc->current - 1, 'N');
          break;
       case 'o':
-         if (misc->playing == -1)
-         {
-            beep ();
-            break;
-         } // if
          pause_resume (misc, my_attribute, daisy);
          select_next_output_device (misc, daisy);
          misc->playing = misc->displaying;
@@ -1977,9 +1979,9 @@ void usage ()
 {
    printf (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "\n");
    puts ("(C)2003-2014 J. Lemmens");
-   printf (gettext ("\nUsage: %s [directory_with_a_Daisy-structure] "),
-           PACKAGE);
-   printf (gettext ("[-c cdrom_device] [-d ALSA_sound_device]\n"));
+   printf (gettext ("%sUsage: %s [directory_with_a_Daisy-structure] "),
+           "\n", PACKAGE);
+   printf ("%s\n", gettext ("[-c cdrom_device] [-d ALSA_sound_device]"));
    printf ("[-i] [-n | -y]\n");
    fflush (stdout);
    _exit (1);
@@ -1992,7 +1994,7 @@ char *get_mount_point (misc_t *misc)
    char *str = NULL;
 
    if (! (proc = fopen ("/proc/mounts", "r")))
-      failure (gettext ("\nCannot read /proc/mounts."), errno);
+      failure (gettext ("Cannot read /proc/mounts."), errno);
    do
    {
       str = malloc (len + 1);
@@ -2026,7 +2028,7 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
       char str[MAX_STR];
 
       e = errno;
-      snprintf (str, MAX_STR, gettext ("\nCannot read %s\n"), discinfo_html);
+      snprintf (str, MAX_STR, gettext ("Cannot read %s"), discinfo_html);
       failure (str, e);
    } // if (! (di = xmlReaderWalker (doc)
    while (1)
@@ -2053,7 +2055,7 @@ void handle_discinfo (misc_t *misc, my_attribute_t *my_attribute,
 
             e = errno;
             snprintf (str, MAX_STR, 
-               gettext ("\nCannot read %s\n"), daisy[misc->current].filename);
+               gettext ("Cannot read %s"), daisy[misc->current].filename);
             failure (str, e);
          } // if
          do
@@ -2116,6 +2118,8 @@ int main (int argc, char *argv[])
    setlocale (LC_ALL, "");
    setlocale (LC_NUMERIC, "C");
    textdomain (PACKAGE);
+   snprintf (str, MAX_STR, "%s/", LOCALEDIR);
+   bindtextdomain (PACKAGE, str);
    strncpy (start_wd, get_current_dir_name (), MAX_STR - 1);
    opterr = 0;
    while ((opt = getopt (argc, argv, "c:d:iny")) != -1)
@@ -2157,8 +2161,10 @@ int main (int argc, char *argv[])
    fclose (stderr);
    getmaxyx (misc.screenwin, misc.max_y, misc.max_x);
    printw ("(C)2003-2014 J. Lemmens\n");
-   printw (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "\n");
-   printw (gettext ("A parser to play Daisy CD's with Linux\n"));
+   printw (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "");
+   printw ("\n");
+   printw (gettext ("A parser to play Daisy CD's with Linux"));
+    printw ("\n");
 
    printw (gettext ("Scanning for a Daisy CD..."));
    refresh ();
@@ -2231,7 +2237,7 @@ int main (int argc, char *argv[])
       else
       {
          endwin ();
-         printf (gettext ("\nNo DAISY-CD or Audio-cd found\n"));
+         printf ("\n%s\n", gettext ("No DAISY-CD or Audio-cd found"));
          beep ();
          usage ();
       } // if
@@ -2307,7 +2313,7 @@ int main (int argc, char *argv[])
          case CDIO_DISC_MODE_CD_DA: /**< CD-DA */
          {
 // probably an Audio-CD
-            printw (gettext ("\nFound an Audio-CD. "));
+            printw ("\n%s", gettext ("Found an Audio-CD. "));
             if (misc.cddb_flag == 'y')
                printw (gettext ("Get titles from freedb.freedb.org..."));
             refresh ();
@@ -2325,7 +2331,7 @@ int main (int argc, char *argv[])
          case CDIO_DISC_MODE_DVD_OTHER:
          case CDIO_DISC_MODE_NO_INFO:
          case CDIO_DISC_MODE_ERROR:
-            failure (gettext ("\nNo DAISY-CD or Audio-cd found\n"), errno);
+            failure (gettext ("No DAISY-CD or Audio-cd found"), errno);
          } // switch       
       } while (misc.cd_type == -1);
    } // if use misc.cd_dev
@@ -2340,7 +2346,7 @@ int main (int argc, char *argv[])
       char str[MAX_STR];
 
       e = errno;
-      snprintf (str, MAX_STR, "\ndaisy_mp %s", misc.daisy_mp);
+      snprintf (str, MAX_STR, "daisy_mp %s", misc.daisy_mp);
       failure (str, e);
    } // if
    if (misc.cd_type != CDIO_DISC_MODE_CD_DA)
@@ -2364,7 +2370,7 @@ int main (int argc, char *argv[])
 
                e = errno;
                snprintf (str, MAX_STR,
-                           gettext ("\nCannot read %s\n"), misc.NCC_HTML);
+                           gettext ("Cannot read %s"), misc.NCC_HTML);
                failure (str, e);
             } // if
             while (1)
@@ -2415,9 +2421,9 @@ int main (int argc, char *argv[])
    mvwprintw (misc.titlewin, 0, 80 - strlen (misc.daisy_title),
               "%s", misc.daisy_title);
    wrefresh (misc.titlewin);
-   mvwaddstr (misc.titlewin, 1, 0,
+   mvwprintw (misc.titlewin, 1, 0,
               "----------------------------------------");
-   waddstr (misc.titlewin, "----------------------------------------");
+   wprintw (misc.titlewin, "----------------------------------------");
    mvwprintw (misc.titlewin, 1, 0, gettext ("Press 'h' for help "));
    misc.level = 1;
    *misc.search_str = 0;

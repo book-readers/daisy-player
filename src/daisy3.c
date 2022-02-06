@@ -22,7 +22,7 @@ void failure (char *str, int e)
 {
    endwin ();
    beep ();
-   printf ("%s: %s\n", str, strerror (e));
+   printf ("\n%s: %s\n\n", str, strerror (e));
    fflush (stdout);
    _exit (-1);
 } // failure
@@ -317,7 +317,9 @@ int get_tag_or_label (misc_t *misc, my_attribute_t *my_attribute,
    case -1:
       endwin ();
       beep ();
-      printf (gettext ("\nCannot read type: %d\n"), type);
+      printf ("\n");
+      printf (gettext ("Cannot read type: %d"), type);
+      printf ("\n");
       fflush (stdout);
       _exit (1);
    case XML_READER_TYPE_ELEMENT:
@@ -382,7 +384,9 @@ void parse_text_file (misc_t *misc, my_attribute_t *my_attribute,
    {
       endwin ();
       beep ();
-      printf (gettext ("\nCannot read %s\n"), text_file);
+      printf ("\n");
+      printf (gettext ("Cannot read %s"), text_file);
+      printf ("\n");
       fflush (stdout);
       _exit (1);
    } // if
@@ -433,7 +437,9 @@ void get_page_number_3 (misc_t *misc, my_attribute_t *my_attribute)
    {
       endwin ();
       beep ();
-      printf (gettext ("\nCannot read %s\n"), my_attribute->src);
+      printf ("\n");
+      printf (gettext ("Cannot read %s"), my_attribute->src);
+      printf ("\n");
       fflush (stdout);
       _exit (1);
    } // if
@@ -477,7 +483,9 @@ void parse_smil_3 (misc_t *misc, my_attribute_t *my_attribute,
       {
          endwin ();
          beep ();
-         printf (gettext ("\nCannot read %s\n"), daisy[x].smil_file);
+         printf ("\n");
+         printf (gettext ("Cannot read %s"), daisy[x].smil_file);
+         printf ("\n");
          fflush (stdout);
          _exit (1);
       } // if
@@ -545,7 +553,9 @@ void parse_content (misc_t *misc, my_attribute_t *my_attribute,
    {
       endwin ();
       beep ();
-      printf (gettext ("\nCannot read %s\n"), daisy[misc->current].smil_file);
+      printf ("\n");
+      printf (gettext ("Cannot read %s"), daisy[misc->current].smil_file);
+      printf ("\n");
       fflush (stdout);
       _exit (1);
    } // if
@@ -587,7 +597,9 @@ void parse_xml (misc_t *misc, my_attribute_t *my_attribute,
    {
       endwin ();
       beep ();
-      printf (gettext ("\nCannot read %s\n"), misc->ncx_name);
+      printf ("\n");
+      printf (gettext ("Cannot read %s"), misc->ncx_name);
+      printf ("\n");
       fflush (stdout);
       _exit (1);
    } // if
@@ -606,7 +618,9 @@ void parse_xml (misc_t *misc, my_attribute_t *my_attribute,
    {
       endwin ();
       beep ();
-      printf (gettext ("\nCannot read %s\n"), xml_name);
+      printf ("\n");
+      printf (gettext ("Cannot read %s"), xml_name);
+      printf ("\n");
       fflush (stdout);
       _exit (1);
    } // if
@@ -681,7 +695,9 @@ void parse_manifest (misc_t *misc, my_attribute_t *my_attribute,
    {
       endwin ();
       beep ();
-      printf (gettext ("\nCannot read %s\n"), name);
+      printf ("\n");
+      printf (gettext ("Cannot read %s"), name);
+      printf ("\n");
       fflush (stdout);
       _exit (1);
    } // if
@@ -758,7 +774,9 @@ void read_daisy_3 (misc_t *misc, my_attribute_t *my_attribute,
    if (*path == 0)
    {
       endwin ();
-      printf (gettext ("\nNo DAISY-CD or Audio-cd found\n"));
+      printf ("\n");
+      printf (gettext ("No DAISY-CD or Audio-cd found"));
+      printf ("\n");
       beep ();
       fflush (stdout);
       usage (PACKAGE);
@@ -808,7 +826,9 @@ void parse_ncx (misc_t *misc, my_attribute_t *my_attribute,
    {
       endwin ();
       beep ();
-      printf (gettext ("\nCannot read %s\n"), name);
+      printf ("\n");
+      printf (gettext ("Cannot read %s"), name);
+      printf ("\n");
       fflush (stdout);
       _exit (1);
    } // if
@@ -897,7 +917,4 @@ void parse_ncx (misc_t *misc, my_attribute_t *my_attribute,
    xmlTextReaderClose (ncx);
    xmlFreeDoc (doc);
    misc->total_items = misc->current;
-#ifdef EBOOK_SPEAKER
-   check_phrases ();
-#endif
 } // parse_ncx

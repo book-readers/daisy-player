@@ -1,1 +1,4 @@
 - 'd' command writes the pllaying item to disk, not the item with the cursor.
+- Daisy-player uses the sox-library and the ALSA sound-driver for  audio-
+  output.  On  some  systems daisy-player quits with the message that the
+  soundcard cannot be used.

@@ -23,6 +23,8 @@ Be sure the following extra packages exist on your system:
    language-pack-nb
    language-pack-nl
    language-pack-pl
+   language-pack-pt
+   language-pack-sv
    libcdio-cdda1
    libcdio-paranoia1
    libcddb-get-perl
