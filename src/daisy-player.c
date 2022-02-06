@@ -19,7 +19,7 @@
 
 #include "src/daisy.h"
 
-#define DAISY_PLAYER_VERSION "8.3.5"
+#define DAISY_PLAYER_VERSION "8.4.1"
 
 int discinfo = 0, displaying = 0, phrase_nr, tts_no;
 int playing, just_this_item, current_playorder = 1, audiocd;
@@ -64,11 +64,13 @@ pid_t play_track (char *, char *, char *, lsn_t, float);
 char *get_mcn ();
 void set_drive_speed (int);
 void init_paranoia (char *);
+void search (int , char);
+void skip_left ();
 
 void playfile (char *in_file, char *in_type,
                char *out_file, char *out_type, char *tempo)
 {
-   sox_format_t *sox_in, *sox_out;                         
+   sox_format_t *sox_in, *sox_out;
    sox_effects_chain_t *chain;
    sox_effect_t *e;
    char *args[MAX_STR], str[MAX_STR];
@@ -83,21 +85,20 @@ void playfile (char *in_file, char *in_type,
       e = errno;
       endwin ();
       printf ("sox_open_read: %s: %s\n", in_file, strerror (e));
+      fflush (stdout);
       beep ();
-      quit_daisy_player ();
-      _exit (0);
+      kill (getppid (), SIGQUIT);
    } // if
    if ((sox_out = sox_open_write (out_file, &sox_in->signal,
            NULL, out_type, NULL, NULL)) == NULL)
    {
       endwin ();
+      printf ("%s: %s\n", out_file, gettext (strerror (EINVAL)));
       strncpy (sound_dev, "hw:0", MAX_STR - 1);
       save_rc ();
-      printf ("\nNo permission to use the soundcard. X%sX speed %f %s\n",
-              out_file, speed, out_type);
       beep ();
-      quit_daisy_player ();
-      _exit (0);
+      fflush (stdout);
+      kill (getppid (), SIGQUIT);
    } // if
    if (strcmp (in_type, "cdda") == 0)
    {
@@ -151,7 +152,7 @@ void playfile (char *in_file, char *in_type,
 
    sox_flow_effects (chain, NULL, NULL);
    sox_delete_effects_chain (chain);
-   sox_close (sox_out);                    
+   sox_close (sox_out);
    sox_close (sox_in);
    sox_quit ();
 } // playfile
@@ -255,8 +256,9 @@ void get_page_number_2 (char *p)
 // function for daisy 2.02
    char *anchor = 0, *id1, *id2;
    xmlTextReaderPtr page;
-
-   xmlDocPtr doc = xmlRecoverFile (daisy[playing].smil_file);
+   xmlDocPtr doc;
+   
+   doc = xmlRecoverFile (daisy[playing].smil_file);
    if (! (page = xmlReaderWalker (doc)))
    {
       endwin ();
@@ -269,7 +271,10 @@ void get_page_number_2 (char *p)
    do
    {
       if (! get_tag_or_label (page))
+      {
+         free (id1);
          return;
+      } // if
    } while (strcasecmp (my_attribute.id, id1) != 0);
    do
    {
@@ -1197,7 +1202,7 @@ void search (int start, char mode)
 } // search
 
 void go_to_page_number ()
-{      
+{
    char filename[MAX_STR], *anchor = 0;
    char pn[15], href[MAX_STR], prev_href[MAX_STR];
 
@@ -1269,6 +1274,7 @@ void go_to_page_number ()
       wmove (screenwin, daisy[current].y, daisy[current].x);
       just_this_item = -1;
       open_smil_file (daisy[current].smil_file, anchor);
+      free (anchor);
       return;
    } // if (strcasestr (daisy_version, "2.02"))
 
@@ -1376,6 +1382,7 @@ void select_next_output_device ()
       bytes = getline (&trash, &bytes, r);
       free (trash);
       wprintw (screenwin, "   %s", list[n]);
+      free (list[n]);
    } // for
    fclose (r);
    y = 3;
@@ -1878,10 +1885,11 @@ void browse ()
 void usage (char *argv)
 {
    printf (gettext ("Daisy-player - Version %s\n"), DAISY_PLAYER_VERSION);
-   puts ("\7(C)2003-2013 J. Lemmens");
+   puts ("(C)2003-2013 J. Lemmens");
    printf (gettext ("\nUsage: %s [directory_with_a_Daisy-structure] "),
                      basename (argv));
    printf (gettext ("[-c cdrom_device] [-d ALSA_sound_device] [-n | -y]\n"));
+   fflush (stdout);
    _exit (1);
 } // usage
 
@@ -1910,8 +1918,10 @@ char *get_mount_point ()
    {
       strncpy (daisy_mp, strchr (str, ' ') + 1, MAX_STR - 1);
       *strchr (daisy_mp, ' ') = 0;
+      free (str);
       return daisy_mp;
    } // if
+   free (str);
    return NULL;
 } // get_mount_point
 
@@ -2005,10 +2015,11 @@ int main (int argc, char *argv[])
    strncpy (cd_dev, "/dev/sr0", 15);
    atexit (quit_daisy_player);
    read_rc ();
+   setlocale (LC_ALL, getenv ("LC_ALL"));
+   setlocale (LC_ALL, getenv ("LANGUAGE"));
    setlocale (LC_ALL, getenv ("LANG"));
-   setlocale (LC_NUMERIC, "C");
    textdomain (prog_name);
-   snprintf (str, MAX_STR, "%sshare/locale", PREFIX);
+   snprintf (str, MAX_STR, "%s/", LOCALEDIR);
    bindtextdomain (prog_name, str);
    textdomain (prog_name);
    opterr = 0;
@@ -2028,7 +2039,8 @@ int main (int argc, char *argv[])
       case 'y':
       case 'j':
          cddb_flag = 'y';
-         switch (system ("cddbget -c null")) // if cddbget is installed
+         switch (system ("cddbget -c null > /dev/null 2>&1"))
+         // if cddbget is installed
          {
          case 0:
             break;
@@ -2050,11 +2062,21 @@ int main (int argc, char *argv[])
       fflush (stdout);
       _exit (1);
    } // if
+   fclose (stderr);
    getmaxyx (screenwin, max_y, max_x);
    max_y--;
    printw ("(C)2003-2013 J. Lemmens\n");
    printw (gettext ("Daisy-player - Version %s\n"), DAISY_PLAYER_VERSION);
    printw (gettext ("A parser to play Daisy CD's with Linux\n"));
+   if (system ("udisks -h > /dev/null") > 0)
+   {
+      endwin ();
+      beep ();
+      printf (gettext ("\nDaisy-player needs the \"udisks\" programme.\n"));
+      printf (gettext ("Please install it and try again.\n"));
+      fflush (stdout);
+      _exit (1);
+   } // if
    if (system ("madplay -h > /dev/null") > 0)
    {
       endwin ();
@@ -2063,18 +2085,6 @@ int main (int argc, char *argv[])
       printf (gettext ("Please install it and try again.\n"));
       fflush (stdout);
       _exit (1);
-   } // if
-   if (access (cd_dev, F_OK) == -1)
-   {
-      if (! argv[optind])
-      {
-         perror (cd_dev);
-         printf ("\7");
-         fflush (stdout);
-         _exit (0);
-      }
-      else
-         strncpy (cd_dev, "/dev/null", MAX_STR - 1);
    } // if
 
 // set the CD speed so it makes less noise
@@ -2100,12 +2110,18 @@ int main (int argc, char *argv[])
          printf ("%s: %s\n", argv[optind], strerror (e));
          beep ();
          fflush (stdout);
-         _exit (1);
+         usage (prog_name);
       } // if
       if (strcasestr (magic_file (myt, argv[optind]), "directory"))
          strncpy (daisy_mp, argv[optind], MAX_STR - 1);
       else
-      if (strcasestr (magic_file (myt, argv[optind]), "Zip archive"))
+      if (strcasestr (magic_file (myt, argv[optind]), "Zip archive") ||
+          strcasestr (magic_file (myt, argv[optind]), "RAR archive data") ||
+          strcasestr (magic_file (myt, argv[optind]),
+                      "Microsoft Cabinet archive data") ||
+          strcasestr (magic_file (myt, argv[optind]),
+                      "gzip compressed data") ||
+          strcasestr (magic_file (myt, argv[optind]), "bzip2 compressed data"))
       {
          char *str, cmd[MAX_CMD];
 
@@ -2118,17 +2134,17 @@ int main (int argc, char *argv[])
             fflush (stdout);
             _exit (1);
          } // if
-         if (system ("unzip -h > /dev/null") > 0)
+         if (system ("unar -h > /dev/null") != 0)
          {
             endwin ();
             beep ();
             printf (gettext (
-                    "\nDaisy-player needs the \"unzip\" programme.\n"));
+                    "\nDaisy-player needs the \"unar\" programme.\n"));
             printf (gettext ("Please install it and try again.\n"));
             fflush (stdout);
             _exit (1);
          } // if
-         snprintf (cmd, MAX_CMD - 1, "unzip -qq \"%s\" -d %s",
+         snprintf (cmd, MAX_CMD - 1, "unar \"%s\" -o %s > /dev/null",
                    argv[optind], str);
          switch (system (cmd))
          {
@@ -2160,15 +2176,16 @@ int main (int argc, char *argv[])
          if (entries > 1)
             snprintf (daisy_mp, MAX_STR - 1, "%s", str);
          closedir (dir);
-      } // if zip
+      } // if unar
       else
       {
          endwin ();
          printf (gettext ("\nNo DAISY-CD or Audio-cd found\n"));
          beep ();
          fflush (stdout);
-         _exit (1);
+         usage (prog_name);
       } // if
+      magic_close (myt);
 
    }
    else
@@ -2178,79 +2195,126 @@ int main (int argc, char *argv[])
       char *str, cd[MAX_STR + 1];
       size_t s;
       double start;
+      magic_t myt;
 
-      str = (char *) malloc (MAX_STR);
-      s = MAX_STR - 1;
-      snprintf (cd, MAX_STR, "udisks --mount %s > /dev/null", cd_dev);
-      switch (system (cd))
+      myt = magic_open (MAGIC_CONTINUE | MAGIC_SYMLINK);
+      magic_load (myt, NULL);
+      if (magic_file (myt, cd_dev) == NULL)
       {
-      default:
-         break;
-      } // switch
+         endwin ();
+         beep ();
+         printf ("%s: %s\n", cd_dev, gettext (strerror (ENOTBLK)));
+         fflush (stdout);
+         usage (prog_name);
+      } // if
+      if (! strcasestr (magic_file (myt, cd_dev), "block special"))
+      {
+         endwin ();
+         beep ();
+         printf ("%s: %s\n", cd_dev, gettext (strerror (ENOTBLK)));
+         fflush (stdout);
+         usage (prog_name);
+      } // if
+      magic_close (myt);
       start = time (NULL);
-      r = fopen ("/run/udev/data/b11:0", "r"); // block 11 = cdrom
+      snprintf (cd, MAX_STR - 1, "udisks --mount %s > /dev/null", cd_dev);
       while (1)
       {
-         switch (getline (&str, &s, r))
+         if (system (cd) == 256)
          {
-         default:
-            break;
-         } // switch
-         if (strcasestr (str, "TRACK_COUNT_DATA"))
-         {
-            if (! get_mount_point ())
-// if not found a mounted cd, try to mount one
+            if (time (NULL) - start >= 20)
             {
-               char str[MAX_STR + 1];
+               endwin ();
+               puts (gettext ("No Daisy CD in drive."));
+               fflush (stdout);
+               beep ();
+               _exit (0);
+            } // if
+         }
+         else
+            break;
+      } // while
+      if (! get_mount_point ())
+// try the default block device
+      {
+         if (access ("/run/udev/data/b11:0", R_OK) == -1)
+         // block 11 = cdrom
+         {
+            int e;
 
-               snprintf (str, MAX_STR,
-                         "udisks --mount %s > /dev/null", cd_dev);
-               if (system (str) == -1)
+            e = errno;
+            endwin ();
+            beep ();
+            printf ("%s: %s\n\n", "No cd-player found",
+                    gettext (strerror (e)));
+            fflush (stdout);
+            usage (prog_name);
+         } // if
+         start = time (NULL);
+         r = fopen ("/run/udev/data/b11:0", "r");
+         while (1)
+         {
+            switch (getline (&str, &s, r))
+            {
+            default:
+               break;
+            } // switch
+            if (strcasestr (str, "TRACK_COUNT_DATA"))
+            {
+               if (! get_mount_point ())
+// if not found a mounted cd, try to mount one
                {
-                  endwin ();
-                  beep ();
-                  puts (gettext ("\nCannot use udisks command."));
-                  fflush (stdout);
-                  _exit (1);
-               } // if
+                  char str[MAX_STR + 1];
+
+                  snprintf (str, MAX_STR,
+                            "udisks --mount %s > /dev/null", cd_dev);
+                  if (system (str) == -1)
+                  {
+                     endwin ();
+                     beep ();
+                     puts (gettext ("\nCannot use udisks command."));
+                     fflush (stdout);
+                     _exit (1);
+                  } // if
 
 // try again to mount one
-               get_mount_point ();
-            } // if
-            break;
-         } // if "TRACK_COUNT_DATA"))
-         if (strcasestr (str, "TRACK_COUNT_AUDIO"))
-         {
-
+                  if (get_mount_point ())
+                     break;
+               } // if
+            } // if "TRACK_COUNT_DATA"))
+            if (strcasestr (str, "TRACK_COUNT_AUDIO"))
+            {
 // probably an Audio-CD
-            audiocd = 1;
-            printw (gettext ("\nFound an Audio-CD. "));
-            if (cddb_flag == 'y')
-               printw (gettext ("Get titles from freedb.freedb.org..."));
-            refresh ();
-            strncpy (bookmark_title, "Audio-CD", MAX_STR - 1);
-            strncpy (daisy_title, "Audio-CD", MAX_STR - 1);
-            init_paranoia (cd_dev);
-            get_toc_audiocd (cd_dev);
-            strncpy (daisy_mp, "/tmp", MAX_STR - 1);
-            break;
-         } // if TRACK_COUNT_AUDIO
-         if (feof (r))
-         {
-            fclose (r);
-            sleep (0.2);
-            r = fopen ("/run/udev/data/b11:0", "r");
-         } // if
-         if (time (NULL) - start >= 20)
-         {
-            endwin ();
-            puts (gettext ("No Daisy CD in drive."));
-            fflush (stdout);
-            beep ();
-            _exit (0);
-         } // if
-      } // while
-   } // if optind
+               audiocd = 1;
+               printw (gettext ("\nFound an Audio-CD. "));
+               if (cddb_flag == 'y')
+                  printw (gettext ("Get titles from freedb.freedb.org..."));
+               refresh ();
+               strncpy (bookmark_title, "Audio-CD", MAX_STR - 1);
+               strncpy (daisy_title, "Audio-CD", MAX_STR - 1);
+               init_paranoia (cd_dev);
+               get_toc_audiocd (cd_dev);
+               strncpy (daisy_mp, "/tmp", MAX_STR - 1);
+               break;
+            } // if TRACK_COUNT_AUDIO
+            if (feof (r))
+            {
+               fclose (r);
+               sleep (0.2);
+               r = fopen ("/run/udev/data/b11:0", "r");
+            } // if
+            if (time (NULL) - start >= 20)
+            {
+               endwin ();
+               puts (gettext ("No Daisy CD in drive."));
+               fflush (stdout);
+               beep ();
+               _exit (0);
+            } // if
+         } // while
+         fclose (r);
+      } // if
+   } // if no mount arg
    keypad (screenwin, TRUE);
    meta (screenwin,       TRUE);
    nonl ();

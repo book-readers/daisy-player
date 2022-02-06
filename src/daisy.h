@@ -90,25 +90,19 @@ typedef struct my_attribute
         value[MAX_STR];
 } my_attribute_t;
 
-void put_bookmark ();
-void get_bookmark ();
 void get_tag ();
 void get_page_number ();
 void view_screen ();
 void player_ended ();
 void play_now ();
-void open_text_file (char *, char *);
 void pause_resume ();
 void help ();
 void previous_item ();
 void next_item ();
-void skip_left ();
 void skip_right ();
-void change_level (char);
 void read_rc ();
 void get_label (int, int);
 void save_rc ();
-void search (int , char);
 void kill_player ();
 void go_to_page_number ();
 void select_next_output_device ();

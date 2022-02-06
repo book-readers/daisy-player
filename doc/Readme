@@ -26,7 +26,7 @@ Be sure the following extra packages exist on your system:
    libcdio-paranoia1
    libcddb-get-perl
    tex-common
-   unzip
+   unar
 
 The following packages are needed to make the manual and the html document:
 
