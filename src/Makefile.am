@@ -20,7 +20,6 @@ libtool: $(LIBTOOL_DEPS)
 	$(SHELL) ./config.status --recheck
 
 .c.s:
-	cd madplay && ./configure && make
 	$(COMPILE) -S $<
 
 again:

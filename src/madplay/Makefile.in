@@ -349,7 +349,7 @@ AM_CFLAGS = -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
 
 DIST_SUBDIRS = m4
 ACLOCAL_AMFLAGS = -I m4
-EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib autom4te.cache CHANGES \
+EXTRA_DIST = ABOUT-NL aclocal.m4 am ar-lib autom4te.cache CHANGES \
              compile config.guess config.h config.h.in config.status \
              config.sub configure configure.ac COPYING COPYRIGHT \
              CREDITS depcomp INSTALL install-sh m4 Makefile.am \

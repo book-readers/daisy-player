@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2018-01-27 17:13+0100\n"
+"POT-Creation-Date: 2018-01-05 22:18+0100\n"
 "PO-Revision-Date: 2013-01-29 15:06+0200\n"
 "Last-Translator: Patryk Doering <http://www.rekinet.pl>\n"
 "Language-Team: Patryk Doering <http://www.rekinet.pl>Language: pl\n"
@@ -31,38 +31,38 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/common.c:230 src/common.c:306 src/daisy2.02.c:45 src/daisy2.02.c:200
+#: src/common.c:328 src/common.c:404 src/daisy2.02.c:45 src/daisy2.02.c:200
 #: src/daisy3.c:156 src/daisy3.c:225 src/daisy3.c:322 src/daisy3.c:402
 #: src/daisy3.c:502 src/daisy3.c:655 src/daisy3.c:712 src/daisy3.c:803
-#: src/daisy3.c:879 src/daisy3.c:1099 src/daisy3.c:1229 src/daisy-player.c:760
+#: src/daisy3.c:879 src/daisy3.c:1098 src/daisy3.c:1228 src/daisy-player.c:760
 #: src/daisy-player.c:1701 src/daisy-player.c:1730 src/daisy-player.c:2011
 #: src/daisy-player.c:2157
 #, c-format
 msgid "Cannot read %s"
 msgstr "Nie można odczytać %s"
 
-#: src/common.c:587
+#: src/common.c:685
 msgid "Please try to play this book with daisy-player"
 msgstr "Staraj się zagrać w tę książkę z daisy-player"
 
-#: src/common.c:917
+#: src/common.c:1015
 #, c-format
 msgid "Cannot read type: %d"
 msgstr "Nie można odczytać typ: %d"
 
-#: src/common.c:995
+#: src/common.c:1093
 msgid "Go to page number:"
 msgstr "Idź do strony numer:"
 
-#: src/common.c:1013
+#: src/common.c:1111
 msgid "Please wait..."
 msgstr "Proszę czekać..."
 
-#: src/common.c:1072
+#: src/common.c:1170
 msgid "Select a soundcard:"
 msgstr "Wybierz kartę dźwiękową:"
 
-#: src/common.c:1074
+#: src/common.c:1172
 msgid "Cannot read /proc/asound/cards"
 msgstr "Nie można odczytać /proc/asound/cards "
 
@@ -74,7 +74,7 @@ msgstr "Ta książka nie ma dźwięku.  Zagraj w tę książkę z eBook-speakere
 msgid "No items found. Try option \"-N\"."
 msgstr "Nie znaleziono żadnych produktów.  Spróbuj opcji \"-N\"."
 
-#: src/daisy3.c:1209
+#: src/daisy3.c:1208
 msgid "No items found. Try option \"-O\"."
 msgstr "Nie znaleziono żadnych produktów.  Spróbuj opcji \"-O\"."
 
@@ -286,9 +286,9 @@ msgid "Get titles from freedb.freedb.org..."
 msgstr "Pobierz tytuły z freedb.freedb.org... "
 
 #: src/daisy-player.c:2230
-#, c-format
+#, fuzzy, c-format
 msgid "Daisy-player - Version %s - (C)2018 J. Lemmens"
-msgstr "Daisy-player - Wersja %s - (C)2018 J. Lemmens"
+msgstr "Daisy-player - Wersja %s - (C)2017 J. Lemmens"
 
 #: src/daisy-player.c:2243
 msgid "Press 'h' for help"

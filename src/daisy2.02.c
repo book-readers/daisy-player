@@ -31,8 +31,6 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
    misc->current = 0;
    while (1)
    {
-      if (! daisy[misc->current].clips_file)
-         continue;
       if (*daisy[misc->current].clips_file == 0)
          continue;
       if (! (doc = htmlParseFile (daisy[misc->current].clips_file, "UTF-8")))
@@ -207,7 +205,6 @@ void fill_daisy_struct_2 (misc_t *misc, my_attribute_t *my_attribute,
         misc->current++)
    {
       *daisy[misc->current].label = 0;
-      daisy[misc->current].clips_file = strdup ("");
       daisy[misc->current].page_number = 0;
 #ifdef DAISY_PLAYER
       *daisy[misc->current].class = 0;

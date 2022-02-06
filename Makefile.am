@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = man doc po src/madplay src
+SUBDIRS = man doc po src  
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -44,8 +44,7 @@ EXTRA_DIST = config.rpath m4/Makefile.in src/gettext.h doc/COMPILE \
 
 check-gettext:
 	@if test x$(USE_NLS) != "xyes" ; then \
-	  echo "Missing gettext. Rerun configure and check for" \
-	  "'checking whether to use NLS... yes'!" ; exit 1; fi
+	  echo "Missing gettext. Rerun configure and check for" \"'checking whether to use NLS... yes'!" ; exit 1; fi
 
 update-po: check-gettext
 	@find $(srcdir)/src/ -name "*.cpp" -print | sort > $(srcdir)/po/POTFILES.in.2 ; \

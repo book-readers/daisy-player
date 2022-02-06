@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2018-01-27 17:13+0100\n"
+"POT-Creation-Date: 2018-01-05 22:18+0100\n"
 "PO-Revision-Date: 2013-01-29 15:06+0200\n"
 "Last-Translator: Willem van der Walt <wvdwalt@csir.co.za>>\n"
 "Language-Team: Willem van der Walt <wvdwalt@csir.co.za>\n"
@@ -32,41 +32,41 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 # 33
-#: src/common.c:230 src/common.c:306 src/daisy2.02.c:45 src/daisy2.02.c:200
+#: src/common.c:328 src/common.c:404 src/daisy2.02.c:45 src/daisy2.02.c:200
 #: src/daisy3.c:156 src/daisy3.c:225 src/daisy3.c:322 src/daisy3.c:402
 #: src/daisy3.c:502 src/daisy3.c:655 src/daisy3.c:712 src/daisy3.c:803
-#: src/daisy3.c:879 src/daisy3.c:1099 src/daisy3.c:1229 src/daisy-player.c:760
+#: src/daisy3.c:879 src/daisy3.c:1098 src/daisy3.c:1228 src/daisy-player.c:760
 #: src/daisy-player.c:1701 src/daisy-player.c:1730 src/daisy-player.c:2011
 #: src/daisy-player.c:2157
 #, c-format
 msgid "Cannot read %s"
 msgstr "Kan nie %s lees nie"
 
-#: src/common.c:587
+#: src/common.c:685
 msgid "Please try to play this book with daisy-player"
 msgstr "Probeer asseblief hierdie boek met daisy-player te speel"
 
 # 33
-#: src/common.c:917
+#: src/common.c:1015
 #, c-format
 msgid "Cannot read type: %d"
 msgstr "Kan nie type %d lees nie"
 
 # 15
-#: src/common.c:995
+#: src/common.c:1093
 msgid "Go to page number:"
 msgstr "Gaan na bladsynommer:"
 
-#: src/common.c:1013
+#: src/common.c:1111
 msgid "Please wait..."
 msgstr "Wag asseblief..."
 
-#: src/common.c:1072
+#: src/common.c:1170
 msgid "Select a soundcard:"
 msgstr "Kies die volgende klankkaart"
 
 # 34
-#: src/common.c:1074
+#: src/common.c:1172
 msgid "Cannot read /proc/asound/cards"
 msgstr "Kan nie /proc/asound/cards lees nie"
 
@@ -78,7 +78,7 @@ msgstr "Hierdie boek het geen klank. Speel hierdie boek met eBook-speaker"
 msgid "No items found. Try option \"-N\"."
 msgstr "Geen items gevind nie.  Probeer opsie \"-N\"."
 
-#: src/daisy3.c:1209
+#: src/daisy3.c:1208
 msgid "No items found. Try option \"-O\"."
 msgstr "Geen items gevind nie.  Probeer opsie \"-O\"."
 
@@ -339,9 +339,9 @@ msgstr "Besig om tietels vanaf freedb.freedb.org te kry..."
 
 # 13
 #: src/daisy-player.c:2230
-#, c-format
+#, fuzzy, c-format
 msgid "Daisy-player - Version %s - (C)2018 J. Lemmens"
-msgstr "Daisy-player - weergawe %s - (C)2018 J. Lemmens"
+msgstr "Daisy-player - weergawe %s - (C)2017 J. Lemmens"
 
 # 22
 #: src/daisy-player.c:2243

@@ -118,9 +118,6 @@
 /* Define to 1 if you have the `ncursesw' library (-lncursesw). */
 #undef HAVE_LIBNCURSESW
 
-/* Define to 1 if you have the `sox' library (-lsox). */
-#undef HAVE_LIBSOX
-
 /* Define to 1 if you have the `xml2' library (-lxml2). */
 #undef HAVE_LIBXML2
 
