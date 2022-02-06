@@ -554,14 +554,6 @@ daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute)
    if (misc->items_in_opf > misc->items_in_ncx)
       misc->total_items = misc->items_in_opf;
    switch (chdir (misc->daisy_mp));
-#ifdef EBOOK_SPEAKER
-/* jos
-   snprintf (misc->eBook_speaker_txt, MAX_STR,
-             "%s/eBook-speaker.txt", misc->daisy_mp);
-   snprintf (misc->tmp_wav, MAX_STR,
-             "%s/eBook-speaker.wav", misc->daisy_mp);
-jos */
-#endif
    return (daisy_t *) calloc (misc->total_items + 1, sizeof (daisy_t));
 } // create_daisy_struct
 
