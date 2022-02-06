@@ -93,14 +93,14 @@ unsigned short crc_compute(char const *data, unsigned int length,
   }
 
   switch (length) {
-  case 7: crc = crc_table[(crc ^ *data++) & 0xff] ^ (crc >> 8); break;
-  case 6: crc = crc_table[(crc ^ *data++) & 0xff] ^ (crc >> 8); break;
-  case 5: crc = crc_table[(crc ^ *data++) & 0xff] ^ (crc >> 8); break;
-  case 4: crc = crc_table[(crc ^ *data++) & 0xff] ^ (crc >> 8); break;
-  case 3: crc = crc_table[(crc ^ *data++) & 0xff] ^ (crc >> 8); break;
-  case 2: crc = crc_table[(crc ^ *data++) & 0xff] ^ (crc >> 8); break;
-  case 1: crc = crc_table[(crc ^ *data++) & 0xff] ^ (crc >> 8); break;
-  case 0: break;                                                      
+  case 7: crc = crc_table[(crc ^ *data++) & 0xff] ^ (crc >> 8);
+  case 6: crc = crc_table[(crc ^ *data++) & 0xff] ^ (crc >> 8);
+  case 5: crc = crc_table[(crc ^ *data++) & 0xff] ^ (crc >> 8);
+  case 4: crc = crc_table[(crc ^ *data++) & 0xff] ^ (crc >> 8);
+  case 3: crc = crc_table[(crc ^ *data++) & 0xff] ^ (crc >> 8);
+  case 2: crc = crc_table[(crc ^ *data++) & 0xff] ^ (crc >> 8);
+  case 1: crc = crc_table[(crc ^ *data++) & 0xff] ^ (crc >> 8);
+  case 0: break;
   }
 
   return crc;

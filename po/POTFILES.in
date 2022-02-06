@@ -5,3 +5,4 @@ src/common.c
 src/daisy2.02.c
 src/daisy3.c
 src/daisy-player.c
+src/paranoia.c

@@ -113,10 +113,10 @@ enum {
  * NAME:	player_init()
  * DESCRIPTION:	initialize player structure
  */
-void player_init(struct player *player)
+void player_init (struct player *player)
 {
   player->verbosity = 0;
-
+                 
   player->options = 0;
   player->repeat  = 1;
   player->control = PLAYER_CONTROL_DEFAULT;
@@ -176,25 +176,28 @@ void player_init(struct player *player)
   player->stats.audio.clipped_samples = 0;
   player->stats.audio.peak_clipping   = 0;
   player->stats.audio.peak_sample     = 0;
-}
+} // player_init
 
 /*
  * NAME:	player_finish()
  * DESCRIPTION:	destroy a player structure
  */
-void player_finish(struct player *player)
+void player_finish (struct player *player)
 {
   if (player->output.filters)
-    filter_free(player->output.filters);
+  {
+    filter_free (player->output.filters);
+  } // if
 
-  if (player->output.resampled) {
-    resample_finish(&player->output.resample[0]);
-    resample_finish(&player->output.resample[1]);
+  if (player->output.resampled)
+  {
+    resample_finish (&player->output.resample[0]);
+    resample_finish (&player->output.resample[1]);
 
-    free(player->output.resampled);
+    free (player->output.resampled);
     player->output.resampled = 0;
-  }
-}
+  } // if
+} // player_finish
 
 /*
  * NAME:	error()
@@ -270,8 +273,7 @@ int unmap_file(void *fdm, unsigned long length)
  * NAME:	decode->input_mmap()
  * DESCRIPTION:	(re)fill decoder input buffer from a memory map
  */
-static
-enum mad_flow decode_input_mmap(void *data, struct mad_stream *stream)
+static enum mad_flow decode_input_mmap (void *data, struct mad_stream *stream)
 {
   struct player *player = data;
   struct input *input = &player->input;
@@ -343,7 +345,7 @@ enum mad_flow decode_input_mmap(void *data, struct mad_stream *stream)
  * DESCRIPTION:	(re)fill decoder input buffer by reading a file descriptor
  */
 static
-enum mad_flow decode_input_read(void *data, struct mad_stream *stream)
+enum mad_flow decode_input_read (void *data, struct mad_stream *stream)
 {
   struct player *player = data;
   struct input *input = &player->input;
@@ -417,7 +419,7 @@ enum mad_flow decode_header(void *data, struct mad_header const *header)
  * DESCRIPTION:	modify player gain information
  */
 static
-double set_gain(struct player *player, double db)
+double set_gain (struct player *player, double db)
 {
   db = player->output.voladj_db + player->output.attamp_db;
   if (db > DB_MAX || db < DB_MIN) {
@@ -444,11 +446,12 @@ void use_rgain(struct player *player, struct rgain *list)
       list[1].originator != RGAIN_ORIGINATOR_UNSPECIFIED)
     rgain = &list[1];
 
-  if (RGAIN_VALID(rgain)) {
+  if (RGAIN_VALID(rgain)) 
+  {
 
     player->output.replay_gain |= PLAYER_RGAIN_SET;
   }
-}
+} // use_rgain
 
 /*
  * NAME:	decode->filter()
@@ -464,7 +467,8 @@ enum mad_flow decode_filter(void *data, struct mad_stream const *stream,
 
   if (player->stats.absolute_framecount == 0) {
     if (player->input.tag.flags == 0 &&
-	tag_parse(&player->input.tag, stream) == 0) {
+	tag_parse(&player->input.tag, stream) == 0)
+    {
       struct tag *tag = &player->input.tag;
       unsigned int frame_size;
 
@@ -473,21 +477,24 @@ enum mad_flow decode_filter(void *data, struct mad_stream const *stream,
 	  ! (player->output.replay_gain & PLAYER_RGAIN_SET))
         use_rgain(player, tag->lame.replay_gain);
       if ((tag->flags & TAG_XING) &&
-	  (tag->xing.flags & TAG_XING_FRAMES)) {
+	  (tag->xing.flags & TAG_XING_FRAMES)) 
+      {
 	player->stats.total_time = frame->header.duration;
 	mad_timer_multiply(&player->stats.total_time, tag->xing.frames);
-      }
+      } // if
 
       /* total stream byte size adjustment */
 
       frame_size = stream->next_frame - stream->this_frame;
 
-      if (player->stats.total_bytes == 0) {
+      if (player->stats.total_bytes == 0) 
+      {
 	if ((tag->flags & TAG_XING) && (tag->xing.flags & TAG_XING_BYTES) &&
 	    tag->xing.bytes > frame_size)
 	  player->stats.total_bytes = tag->xing.bytes - frame_size;
       }
-      else if (player->stats.total_bytes >=
+      else
+        if (player->stats.total_bytes >=
             (unsigned long) (stream->next_frame - stream->this_frame))
   	player->stats.total_bytes -= frame_size;
 
@@ -512,7 +519,7 @@ enum mad_flow decode_filter(void *data, struct mad_stream const *stream,
   /* run the filter chain */
 
   return filter_run(player->output.filters, frame);
-}
+} // decode_filter
 
 
 /*
@@ -758,8 +765,7 @@ enum mad_flow decode_error(void *data, struct mad_stream *stream,
  * NAME:	decode()
  * DESCRIPTION:	decode and output audio for an open file
  */
-static
-int decode(struct player *player)
+static int decode (struct player *player)
 {
   struct stat stat;
   struct mad_decoder decoder;
@@ -864,8 +870,7 @@ int decode(struct player *player)
  * NAME:	play_one()
  * DESCRIPTION:	open and play a single file
  */
-static
-int play_one(struct player *player)
+static int play_one (struct player *player)
 {
   char const *file = player->input.path;
   int result;
@@ -889,10 +894,10 @@ int play_one(struct player *player)
   {
     error(0, ":", player->input.path);
     result = -1;
-  }
+  } // if        
 
   return result;
-}
+} // play_one
 
 /*
  * NAME:	addfilter()
@@ -944,8 +949,7 @@ int setup_filters(struct player *player)
  * NAME:	silence()
  * DESCRIPTION:	output silence for a period of time
  */
-static
-int silence(struct player *player, mad_timer_t duration)
+static int silence (struct player *player, mad_timer_t duration)
 {
   union audio_control control;
   unsigned int nchannels, speed, nsamples;
@@ -957,7 +961,8 @@ int silence(struct player *player, mad_timer_t duration)
   control.config.channels = 2;
   control.config.speed    = 44100;
 
-  if (player->output.command(&control) == -1) {
+  if (player->output.command(&control) == -1) 
+  {
     error("audio", audio_error);
     return -1;
   }
@@ -973,7 +978,7 @@ int silence(struct player *player, mad_timer_t duration)
 
   samples = calloc(nsamples, sizeof(mad_fixed_t));
   if (samples == 0) {
-    error("silence", _("not enough memory to allocate sample buffer"));
+    error ("silence", _("not enough memory to allocate sample buffer"));
     return -1;
   }
 
@@ -988,7 +993,8 @@ int silence(struct player *player, mad_timer_t duration)
 
   for (mad_timer_negate(&duration);
        mad_timer_sign(duration) < 0;
-       mad_timer_add(&duration, unit)) {
+       mad_timer_add(&duration, unit))
+  {
     if (mad_timer_compare(unit, mad_timer_abs(duration)) > 0) {
       unit = mad_timer_abs(duration);
       control.play.nsamples = mad_timer_fraction(unit, speed);
@@ -1000,7 +1006,7 @@ int silence(struct player *player, mad_timer_t duration)
     }
 
     mad_timer_add(&player->stats.global_timer, unit);
-  }
+  } // forh
 
   if (0) {
   fail:
@@ -1023,50 +1029,57 @@ int player_run (struct player *player)
 
   /* set up filters */
 
-  if (setup_filters(player) == -1) {
+  if (setup_filters (player) == -1)
+  {
     error("filter", _("not enough memory to allocate filters"));
     goto fail;
   }
 
-  set_gain(player, 0);
+  set_gain (player, 0);
 
   /* initialize audio */
 
-  if (player->output.command) {
-    audio_control_init(&control, AUDIO_COMMAND_INIT);
+  if (player->output.command)
+  {
+    audio_control_init (&control, AUDIO_COMMAND_INIT);
     control.init.path = player->output.path;
 
-    if (player->output.command(&control) == -1) {
+    if (player->output.command (&control) == -1)
+    {
       error("audio", audio_error, control.init.path);
       goto fail;
     }
 
     if ((player->options & PLAYER_OPTION_SKIP) &&
-	mad_timer_sign(player->global_start) < 0) {
+	mad_timer_sign(player->global_start) < 0)
+    {
       player->stats.global_timer = player->global_start;
 
-      if (silence(player, mad_timer_abs(player->global_start)) == -1)
+      if (silence (player, mad_timer_abs (player->global_start)) == -1)
 	result = -1;
     }
-  }
+  } // if
 
   if (result == 0)
-    result = play_one(player);
+    result = play_one (player);
 
   /* drain and close audio */
 
-  if (player->output.command) {
+  if (player->output.command)
+  {
     audio_control_init(&control, AUDIO_COMMAND_FINISH);
 
-    if (player->output.command(&control) == -1) {
+    if (player->output.command(&control) == -1)
+    {
       error("audio", audio_error);
       goto fail;
-    }
-  }
+    } // if
+  } // if
 
-  if (0) {
+  if (0)
+  {
   fail:
     result = -1;
-  }
+  } // if
   return result;
-}
+} // player_run

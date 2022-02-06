@@ -4,8 +4,8 @@ AM_CFLAGS = -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
             -g -I /usr/include/libxml2/ -O3 \
             --param=ssp-buffer-size=4 -Wformat -Werror=format-security \
             -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
-AM_LDFLAGS = -l ncursesw -l sox -l xml2 -l cdio -l cdio_cdda \
-             -l cdio_paranoia -l magic -l asound -l mad
+AM_LDFLAGS = -lncursesw -lsox -lxml2 -lcdio -lcdio_cdda -lcdio_paranoia \
+             -lmagic -lasound -lmad
 
 bin_PROGRAMS = daisy-player
 
@@ -24,7 +24,7 @@ libtool: $(LIBTOOL_DEPS)
 
 again:
 	$(MAKE) clean
-	$(MAKE)
+	$(MAKE)            
 
 .PHONY: profile again
 

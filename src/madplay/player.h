@@ -88,7 +88,8 @@ enum {
   PLAYER_RGAIN_HARDLIMIT  = 0x0020
 };
 
-struct player {
+struct player
+{
   int verbosity;
 
   int options;
@@ -103,7 +104,8 @@ struct player {
   mad_timer_t fade_out;
   mad_timer_t gap;
 
-  struct input {
+  struct input
+  {
     char const *path;
 
     int fd;
@@ -119,7 +121,8 @@ struct player {
     struct tag tag;
   } input;
 
-  struct output {
+  struct output
+  {
     enum audio_mode mode;
 
     double voladj_db;
@@ -148,7 +151,8 @@ struct player {
     mad_fixed_t (*resampled)[2][MAX_NSAMPLES];
   } output;
 
-  struct ancillary {
+  struct ancillary
+  {
     char const *path;
     FILE *file;
 

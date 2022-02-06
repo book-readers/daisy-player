@@ -34,7 +34,7 @@ void set_volume (misc_t *misc)
    snd_mixer_selem_id_set_index (sid, 0);
    snd_mixer_selem_id_set_name (sid, "Master");
    if ((elem = snd_mixer_find_selem (handle, sid)) == NULL)
-      failure (misc, "No ALSA device found", errno);
+      return;
    snd_mixer_selem_set_playback_volume_all (elem, misc->volume);
    snd_mixer_close (handle);
 } // set_volume
@@ -152,7 +152,7 @@ void failure (misc_t *misc, char *str, int e)
 {
    endwin ();
    beep ();
-   fprintf (stderr, "\n%s: %s\n", str, strerror (e)); 
+   printf ("\n%s: %s\n", str, strerror (e));
    fflush (stdout);
    remove_tmp_dir (misc);
    _exit (-1);
@@ -176,7 +176,7 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
       e = errno;
       beep ();
       endwin ();
-      printf ("\n%s: %s\n", in_file, strerror (e));
+      printf ("%s: %s\n", in_file, strerror (e));
       fflush (stdout);
       remove_tmp_dir (misc);
       kill (0, SIGTERM);
@@ -184,10 +184,33 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
    if ((sox_out = sox_open_write (out_file, &sox_in->signal,
                                   NULL, out_type, NULL, NULL)) == NULL)
    {
+      if (strcmp (out_type, "alsa") == 0)
       {
+// if cannot write to out_file (pulseaudio?), try ALSA default
+         if ((sox_out = sox_open_write ("default", &sox_in->signal,
+                                        NULL, "alsa", NULL, NULL)) == NULL)
+         {
+            int e;
+
+            e = errno;
+            beep ();
+            endwin ();
+            printf ("\n%s: %s\n\n", out_file, strerror (e));
+            fflush (stdout);
+            put_bookmark (misc);
+            strncpy (misc->sound_dev, "hw:0", MAX_STR - 1);
+            save_xml (misc);
+            kill (0, SIGTERM);
+         } // if
+      }
+      else
+      {
+         int e;
+
+         e = errno;
          beep ();
          endwin ();
-         printf ("\n%s: %s\n", out_file, strerror (EBUSY));
+         printf ("%s: strerror (%d)\n", out_file, e);
          kill (0, SIGTERM);
       } // if
    } // if
@@ -562,7 +585,11 @@ daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute)
    misc->total_items = misc->items_in_ncx;
    if (misc->items_in_opf > misc->items_in_ncx)
       misc->total_items = misc->items_in_opf;
-   switch (chdir (misc->daisy_mp));
+   switch (chdir (misc->daisy_mp))
+   {
+   default:
+      break;
+   } // switch
 #ifdef EBOOK_SPEAKER
    snprintf (misc->eBook_speaker_txt, MAX_STR,
              "%s/eBook-speaker.txt", misc->daisy_mp);
@@ -615,8 +642,7 @@ void remove_tmp_dir (misc_t *misc)
          int e;
 
          e = errno;
-         snprintf (misc->cmd, MAX_CMD + strlen (strerror (e)),
-                   "%s: %s\n", misc->cmd, strerror (e));
+         snprintf (misc->str, MAX_STR, "%s: %s\n", misc->cmd, strerror (e));
          failure (misc, misc->str, e);
       } // if
    } // if
@@ -856,8 +882,7 @@ int get_tag_or_label (misc_t *misc, my_attribute_t *my_attribute,
    {
       failure (misc, "xmlTextReaderRead ()\n"
                "Can't handle this DTB structure!\n"
-               "Don't know how to handle it yet, sorry. (-:\n", errno);
-      break;
+               "Don't know how to handle it yet, sorry. :-(\n", errno);
    }
    case 0:
    {
@@ -879,7 +904,6 @@ int get_tag_or_label (misc_t *misc, my_attribute_t *my_attribute,
       e = errno;
       snprintf (str, MAX_STR, gettext ("Cannot read type: %d"), type);
       failure (misc, str, e);
-      break;
    }
    case XML_READER_TYPE_ELEMENT:
       strncpy (misc->tag, (char *) xmlTextReaderConstName (reader),

@@ -232,7 +232,7 @@ int patch_int32(long address, unsigned long num)
   return 0;
 }
 
-static 
+static
 int finish ()
 {
   int result = 0;

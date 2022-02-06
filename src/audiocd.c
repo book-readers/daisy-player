@@ -23,11 +23,10 @@ void get_cddb_info (misc_t *misc, daisy_t *daisy)
 {
    FILE *r;
    size_t len = 0;
-   char *str = NULL, *cd;
+   char *str = NULL, cd[MAX_STR + 1];
    int i;
 
-   cd = malloc ( strlen (misc->cd_dev) + 50);
-   sprintf (cd, "cddbget -c %s -I -d 2> /dev/null", misc->cd_dev);
+   snprintf (cd, MAX_STR, "cddbget -c %s -I -d 2> /dev/null", misc->cd_dev);
    r = popen (cd, "r");
    i = 0;
    while (1)
