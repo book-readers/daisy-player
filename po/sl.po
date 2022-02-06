@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2017-10-06 17:46+0200\n"
+"POT-Creation-Date: 2017-10-06 22:19+0200\n"
 "PO-Revision-Date: 2015-02-17 17:06+0200\n"
 "Last-Translator: Tadej Čepin <tadej.cepin@gmail.com>\n"
 "Language-Team: Tadej Čepin <tadej.cepin@gmail.com>\n"
@@ -38,15 +38,15 @@ msgstr "eBook-speaker ne more ravnati s to datoteko."
 #: src/common.c:334 src/common.c:410 src/daisy2.02.c:45 src/daisy2.02.c:197
 #: src/daisy3.c:156 src/daisy3.c:225 src/daisy3.c:322 src/daisy3.c:402
 #: src/daisy3.c:502 src/daisy3.c:655 src/daisy3.c:712 src/daisy3.c:803
-#: src/daisy3.c:879 src/daisy3.c:1099 src/daisy3.c:1229 src/daisy-player.c:752
-#: src/daisy-player.c:1691 src/daisy-player.c:1720 src/daisy-player.c:2021
-#: src/daisy-player.c:2167
+#: src/daisy3.c:879 src/daisy3.c:1099 src/daisy3.c:1229 src/daisy-player.c:756
+#: src/daisy-player.c:1695 src/daisy-player.c:1724 src/daisy-player.c:2025
+#: src/daisy-player.c:2171
 #, c-format
 msgid "Cannot read %s"
 msgstr "Ne morem prebrati %s"
 
-#: src/common.c:550 src/daisy3.c:1053 src/daisy-player.c:819
-#: src/daisy-player.c:1193
+#: src/common.c:550 src/daisy3.c:1053 src/daisy-player.c:823
+#: src/daisy-player.c:1197
 msgid "This book has no audio. Play this book with eBook-speaker"
 msgstr "Ta knjiga nima zvoka.  Igraj to knjigo z eBook-speaker"
 
@@ -102,201 +102,201 @@ msgstr "nivo: %d od %d"
 msgid "total length: %02d:%02d:%02d"
 msgstr "skupna dolžina: %02d:%02d:%02d"
 
-#: src/daisy-player.c:619
+#: src/daisy-player.c:623
 msgid "These commands are available in this version:"
 msgstr "V tej različici so na voljo naslednji ukazi:"
 
-#: src/daisy-player.c:623
+#: src/daisy-player.c:627
 msgid "cursor down,2   - move cursor to the next item"
 msgstr "puščica navzdol,2   - premakni utripalko na naslednji element"
 
-#: src/daisy-player.c:625
+#: src/daisy-player.c:629
 msgid "cursor up,8     - move cursor to the previous item"
 msgstr "puščica navzgor,8   - premakni utripalko na predhodni element"
 
-#: src/daisy-player.c:627
+#: src/daisy-player.c:631
 msgid "cursor right,6  - skip to next phrase"
 msgstr "puščica desno,6     - skoči na naslednjo frazo"
 
-#: src/daisy-player.c:629
+#: src/daisy-player.c:633
 msgid "cursor left,4   - skip to previous phrase"
 msgstr "puščica levo,4      - skoči na predhodno frazo"
 
-#: src/daisy-player.c:631
+#: src/daisy-player.c:635
 msgid "page-down,3     - view next page"
 msgstr "stran-dol,3         - pokaži naslednjo stran"
 
-#: src/daisy-player.c:633
+#: src/daisy-player.c:637
 msgid "page-up,9       - view previous page"
 msgstr "stran-gor,9         - pokaži predhodno stran"
 
-#: src/daisy-player.c:635
+#: src/daisy-player.c:639
 msgid "enter           - start playing"
 msgstr "enter               - začni predvajanje"
 
-#: src/daisy-player.c:637
+#: src/daisy-player.c:641
 msgid "space,0         - pause/resume playing"
 msgstr "preslednica,0       - zaustavi/nadaljuj predvajanje"
 
-#: src/daisy-player.c:639
+#: src/daisy-player.c:643
 msgid "home,*          - play on normal speed"
 msgstr "domov,*             - predvajaj z običajno hitrostjo"
 
-#: src/daisy-player.c:641
+#: src/daisy-player.c:645
 msgid "Press any key for next page..."
 msgstr "Za prehod na naslednjo stran pritisni katerokoli tipko..."
 
-#: src/daisy-player.c:647
+#: src/daisy-player.c:651
 msgid "/               - search for a label"
 msgstr "/               - poišči etiketo"
 
-#: src/daisy-player.c:649
+#: src/daisy-player.c:653
 msgid "d               - store current item to disk"
 msgstr "d               - shrani trenutni element na disk"
 
-#: src/daisy-player.c:651
+#: src/daisy-player.c:655
 msgid "D,-             - decrease playing speed"
 msgstr "D,-             - zmanjšaj hitrost predvajanja"
 
-#: src/daisy-player.c:653
+#: src/daisy-player.c:657
 msgid "e,.             - quit daisy-player, place a bookmark and eject"
 msgstr ""
 "e,.             - izhod iz predvajalnika DAISY, nastavi zaznamek in izvrzi "
 
-#: src/daisy-player.c:655
+#: src/daisy-player.c:659
 msgid ""
 "f               - find the currently playing item and place the cursor there"
 msgstr ""
 "f               - najdi trenutno predvajan predmet in nanj postavi utripalko"
 
-#: src/daisy-player.c:658
+#: src/daisy-player.c:662
 msgid "g               - go to time in this song (MM:SS)"
 msgstr "g               - pojdi na čas v tej skladbi (MM:SS)"
 
-#: src/daisy-player.c:661
+#: src/daisy-player.c:665
 msgid "g               - go to time in this item (MM:SS)"
 msgstr "g               - pojdi na čas v tej skladbi (MM:SS)"
 
-#: src/daisy-player.c:664
+#: src/daisy-player.c:668
 msgid "G               - go to page number"
 msgstr "G               - pojdi na stran s številko"
 
-#: src/daisy-player.c:666
+#: src/daisy-player.c:670
 msgid "h,?             - give this help"
 msgstr "h,?             - podaj to pomoč"
 
-#: src/daisy-player.c:668
+#: src/daisy-player.c:672
 msgid "j,5             - just play current item"
 msgstr "j,5             - samo predvajaj trenutni element"
 
-#: src/daisy-player.c:670
+#: src/daisy-player.c:674
 msgid "l               - switch to next level"
 msgstr "l               - preklopi na naslednji nivo"
 
-#: src/daisy-player.c:672
+#: src/daisy-player.c:676
 msgid "L               - switch to previous level"
 msgstr "L               - preklopi na prejšnji nivo"
 
-#: src/daisy-player.c:674
+#: src/daisy-player.c:678
 msgid "n               - search forwards"
 msgstr "n               - išči naprej"
 
-#: src/daisy-player.c:676
+#: src/daisy-player.c:680
 msgid "N               - search backwards"
 msgstr "N               - išči nazaj"
 
-#: src/daisy-player.c:678
+#: src/daisy-player.c:682
 msgid "o               - select next output sound device"
 msgstr "o               - izberi naslednjo izhodno zvočno napravo"
 
-#: src/daisy-player.c:680
+#: src/daisy-player.c:684
 msgid "p               - place a bookmark"
 msgstr "p               - postavi zaznamek"
 
-#: src/daisy-player.c:682
+#: src/daisy-player.c:686
 msgid "q               - quit daisy-player and place a bookmark"
 msgstr "q               - zapusti predvajalnik DAISY in postavi zaznamek"
 
-#: src/daisy-player.c:684
+#: src/daisy-player.c:688
 msgid "s               - stop playing"
 msgstr "s               - zaustavi predvajanje"
 
-#: src/daisy-player.c:686
+#: src/daisy-player.c:690
 msgid "U,+             - increase playing speed"
 msgstr "U,+             - povečaj hitrost predvajanja"
 
-#: src/daisy-player.c:688
+#: src/daisy-player.c:692
 msgid "v,1             - decrease playback volume"
 msgstr "v,1             - zmanjša predvajanja glasnosti"
 
-#: src/daisy-player.c:690
+#: src/daisy-player.c:694
 msgid "V,7             - increase playback volume (beware of Clipping)"
 msgstr "V,7             - povečanje predvajanja volumen (pazi Clipping)"
 
-#: src/daisy-player.c:692
+#: src/daisy-player.c:696
 msgid "Press any key to leave help..."
 msgstr "Za izhod iz menija pomoči pritisni katerokoli tipko..."
 
-#: src/daisy-player.c:838
+#: src/daisy-player.c:842
 msgid "Please wait... -------------------------"
 msgstr "Prosim počakaj... -------------------------"
 
-#: src/daisy-player.c:943
+#: src/daisy-player.c:947
 msgid "What do you search?"
 msgstr "Kaj iščeš?"
 
-#: src/daisy-player.c:1045
+#: src/daisy-player.c:1049
 msgid "Go to time (MM:SS):"
 msgstr "Pojdi na čas (MM:SS):"
 
-#: src/daisy-player.c:1638 src/daisy-player.c:1894 src/daisy-player.c:1912
-#: src/daisy-player.c:2016 src/daisy-player.c:2032
+#: src/daisy-player.c:1642 src/daisy-player.c:1898 src/daisy-player.c:1916
+#: src/daisy-player.c:2020 src/daisy-player.c:2036
 #, c-format
 msgid "Daisy-player - Version %s %s"
 msgstr "Daisy-player - Verzija %s %s"
 
-#: src/daisy-player.c:1641
+#: src/daisy-player.c:1645
 #, c-format
 msgid "Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"
 msgstr "Uporaba: %s [imenik_s_strukturo-DAISY] | [Daisy_book_archive]"
 
-#: src/daisy-player.c:1643
+#: src/daisy-player.c:1647
 msgid "[-c cdrom_device] [-d pulseaudio_sound_device]"
 msgstr "[-c cdrom_naprava] [-d pulseaudio_zvočna_naprava]"
 
-#: src/daisy-player.c:1656
+#: src/daisy-player.c:1660
 msgid "Cannot read /proc/mounts."
 msgstr "Ne morem prebrati /proc/mounts."
 
-#: src/daisy-player.c:1896
+#: src/daisy-player.c:1900
 msgid "A parser to play Daisy CD's with Linux"
 msgstr "Razčlenjevalnik, ki predvaja DAISY CD-je na Linux-u"
 
-#: src/daisy-player.c:1898
+#: src/daisy-player.c:1902
 msgid "Scanning for a Daisy CD..."
 msgstr "Iščem DAISY CD..."
 
-#: src/daisy-player.c:1996 src/daisy-player.c:2126
+#: src/daisy-player.c:2000 src/daisy-player.c:2130
 msgid "No DAISY-CD or Audio-cd found"
 msgstr "Nisem našel nobenega DAISY CD-ja ali zvočnega CD-ja."
 
-#: src/daisy-player.c:2053 src/daisy-player.c:2065 src/daisy-player.c:2093
+#: src/daisy-player.c:2057 src/daisy-player.c:2069 src/daisy-player.c:2097
 msgid "No Daisy CD in drive."
 msgstr "V pogonu ni DAISY CD-ja."
 
-#: src/daisy-player.c:2109
+#: src/daisy-player.c:2113
 msgid "Found an Audio-CD."
 msgstr "Našel sem zvočni CD."
 
-#: src/daisy-player.c:2111
+#: src/daisy-player.c:2115
 msgid "Get titles from freedb.freedb.org..."
 msgstr "Pridobi naslove iz freedb.freedb.org..."
 
-#: src/daisy-player.c:2240
+#: src/daisy-player.c:2244
 #, c-format
 msgid "Daisy-player - Version %s - (C)2017 J. Lemmens"
 msgstr "Daisy-player - Verzija %s - (C)2017 J. Lemmens"
 
-#: src/daisy-player.c:2253
+#: src/daisy-player.c:2257
 msgid "Press 'h' for help"
 msgstr "Za pomoč pritisni tipko 'h'"
