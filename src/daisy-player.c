@@ -545,7 +545,6 @@ void pause_resume (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
       while (kill (misc->player_pid, SIGKILL) == 0);
       if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
       {
-         wait (NULL);
          misc->player_pid = -2;
       }
       else
@@ -1553,10 +1552,6 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          } // if
          misc->volume -= 1;
          set_volume (misc);
-         if (misc->playing == -1)
-            break;
-         pause_resume (misc, my_attribute, daisy);
-         pause_resume (misc, my_attribute, daisy);
          break;
       case 'V':
       case '7':
@@ -1567,10 +1562,6 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          } // if
          misc->volume += 1;
          set_volume (misc);
-         if (misc->playing == -1)
-            break;
-         pause_resume (misc, my_attribute, daisy);
-         pause_resume (misc, my_attribute, daisy);
          break;
       default:
          beep ();
