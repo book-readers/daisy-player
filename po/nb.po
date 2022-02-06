@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2014-08-29 21:28+0200\n"
+"POT-Creation-Date: 2014-09-04 16:36+0200\n"
 "PO-Revision-Date: 2013-01-29 15:06+0200\n"
 "Last-Translator: Ellen <ellenrohaan@hotmail.com>\n"
 "Language-Team: Ellen <ellenrohaan@hotmail.com>\n"
@@ -217,10 +217,10 @@ msgstr "Gå til tidspunktet (MM:SS): "
 msgid "Cannot read /proc/asound/cards"
 msgstr "Kan ikke lese /proc/asound/cards"
 
-#: src/daisy-player.c:1960 src/daisy-player.c:2142
+#: src/daisy-player.c:1960 src/daisy-player.c:2142 src/daisy-player.c:2389
 #, c-format
-msgid "Daisy-player - Version %s\n"
-msgstr "Daisy-player - Versjon %s\n"
+msgid "Daisy-player - Version %s %s"
+msgstr "Daisy-player - Versjon %s %s"
 
 #: src/daisy-player.c:1962
 #, c-format
@@ -277,12 +277,7 @@ msgstr ""
 msgid "Get titles from freedb.freedb.org..."
 msgstr "Henter titler fra freedb.freedb.org..."
 
-#: src/daisy-player.c:2390
-#, c-format
-msgid "Daisy-player - Version %s - (C)2014 J. Lemmens"
-msgstr "Daisy-player - Versjon %s - (C)2014 J. Lemmens"
-
-#: src/daisy-player.c:2404
+#: src/daisy-player.c:2403
 msgid "Press 'h' for help "
 msgstr "Trykk 'h' for hjelp "
 
@@ -294,51 +289,3 @@ msgid ""
 msgstr ""
 "\n"
 "Kan ikke lese type: %d\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"unar\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player trenger \"unar\" programmet.\n"
-
-#~ msgid "Please install it and try again.\n"
-#~ msgstr "Vennligst installer og prøv igjen.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"eject\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player trenger \"eject\" programmet.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"madplay\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player trenger \"madplay\" programmet.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"udisksctl\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player trenger \"udisksctl\" programmet.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Cannot use udisksctl command."
-#~ msgstr ""
-#~ "\n"
-#~ "Kan ikke bruke udisksctl kommando."
-
-#~ msgid "No such directory: %s\n"
-#~ msgstr "Ikke en slik mappe: %s\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Cannot read\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Kan ikke lese\n"

@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2014-08-29 21:28+0200\n"
+"POT-Creation-Date: 2014-09-04 16:36+0200\n"
 "PO-Revision-Date: 2013-01-29 15:06+0200\n"
 "Last-Translator: Hanna Tulleken <hannatulleken@gmail.com>\n"
 "Language-Team: Hanna Tulleken <hannatulleken@gmail.com>\n"
@@ -218,10 +218,10 @@ msgstr "Ir para tiempo (MM:SS): "
 msgid "Cannot read /proc/asound/cards"
 msgstr "No poder leer /proc/sólido/fichas"
 
-#: src/daisy-player.c:1960 src/daisy-player.c:2142
+#: src/daisy-player.c:1960 src/daisy-player.c:2142 src/daisy-player.c:2389
 #, c-format
-msgid "Daisy-player - Version %s\n"
-msgstr "Daisy-player - Versión %s\n"
+msgid "Daisy-player - Version %s %s"
+msgstr "Daisy-player - Versión %s %s"
 
 #: src/daisy-player.c:1962
 #, c-format
@@ -278,12 +278,7 @@ msgstr ""
 msgid "Get titles from freedb.freedb.org..."
 msgstr "Coger títulos de freedb.freedb.org..."
 
-#: src/daisy-player.c:2390
-#, c-format
-msgid "Daisy-player - Version %s - (C)2014 J. Lemmens"
-msgstr "Daisy-player - Versión %s - (C)2014 J. Lemmens"
-
-#: src/daisy-player.c:2404
+#: src/daisy-player.c:2403
 msgid "Press 'h' for help "
 msgstr "Hacer clic 'h' para ayudar "
 
@@ -295,51 +290,3 @@ msgid ""
 msgstr ""
 "\n"
 "No poder leer %d\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"unar\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player necesita la \"unar\" programa.\n"
-
-#~ msgid "Please install it and try again.\n"
-#~ msgstr "Por favor instalar y probar otra vez.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"eject\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player necesita la \"eject\" programa.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"madplay\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player necesita la \"madplay\" programa.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"udisksctl\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player necesita la \"udisksctl\" programa.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Cannot use udisksctl command."
-#~ msgstr ""
-#~ "\n"
-#~ "No poder usar \"udisksctl\" orden."
-
-#~ msgid "No such directory: %s\n"
-#~ msgstr "No tal directorio: %s\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Cannot read\n"
-#~ msgstr ""
-#~ "\n"
-#~ "No poder leer \n"

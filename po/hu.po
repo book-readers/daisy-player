@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2014-08-29 21:28+0200\n"
+"POT-Creation-Date: 2014-09-04 16:36+0200\n"
 "PO-Revision-Date: 2013-12-09 11:06+0200\n"
 "Last-Translator: Hammer Attila <hammera@pickup.hu>\n"
 "Language-Team: Hammer Attila <hammera@pickup.hu>\n"
@@ -131,8 +131,8 @@ msgid ""
 "f               - find the currently playing item and place the cursor "
 "there\n"
 msgstr ""
-"f     - az aktuálisan játszott elem helyének megkeresése, és a kurzor "
-"elhelyezése az elem helyére\n"
+"f     - az aktuálisan játszott elem helyének megkeresése, és\n"
+"        a kurzor elhelyezése az elem helyére\n"
 
 #: src/daisy-player.c:761
 msgid "g               - go to time in this song (MM:SS)\n"
@@ -222,10 +222,10 @@ msgstr "Ugrás egy megadott időtartamra: "
 msgid "Cannot read /proc/asound/cards"
 msgstr "A /proc/asound/cards fájl nem olvasható."
 
-#: src/daisy-player.c:1960 src/daisy-player.c:2142
+#: src/daisy-player.c:1960 src/daisy-player.c:2142 src/daisy-player.c:2389
 #, c-format
-msgid "Daisy-player - Version %s\n"
-msgstr "Daisy-player - %s verzió\n"
+msgid "Daisy-player - Version %s %s"
+msgstr "Daisy-player - %s verzió %s"
 
 #: src/daisy-player.c:1962
 #, c-format
@@ -284,12 +284,7 @@ msgstr ""
 msgid "Get titles from freedb.freedb.org..."
 msgstr "A számcímek lekérése a freedb.freedb.org kiszolgálóról..."
 
-#: src/daisy-player.c:2390
-#, c-format
-msgid "Daisy-player - Version %s - (C)2014 J. Lemmens"
-msgstr "Daisy-player - %s verzió - (C)2014 J. Lemmens"
-
-#: src/daisy-player.c:2404
+#: src/daisy-player.c:2403
 msgid "Press 'h' for help "
 msgstr "A segítségért nyomja meg a H billentyűt. "
 
@@ -301,44 +296,3 @@ msgid ""
 msgstr ""
 "\n"
 "A(z) %d típus nem olvasható\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"unar\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "A Daisy-playernek szüksége van az unar programra.\n"
-
-#~ msgid "Please install it and try again.\n"
-#~ msgstr "Telepítse a megadott csomagot, majd próbálja meg újra.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"eject\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "A Daisy-playernek szüksége van az eject programra.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"madplay\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "A Daisy-playernek szüksége van a Madplay programra.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"udisksctl\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "A Daisy-playernek szüksége van az udisksctl programra.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Cannot use udisksctl command."
-#~ msgstr ""
-#~ "\n"
-#~ "Az udisksctl parancs nem használható."
-
-#~ msgid "No such directory: %s\n"
-#~ msgstr "Nincs ilyen könyvtár: %s\n"

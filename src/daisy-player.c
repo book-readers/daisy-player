@@ -1957,7 +1957,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
 
 void usage ()
 {
-   printf (gettext ("Daisy-player - Version %s\n"), PACKAGE_VERSION);
+   printf (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "\n");
    puts ("(C)2003-2014 J. Lemmens");
    printf (gettext ("\nUsage: %s [directory_with_a_Daisy-structure] "),
            PACKAGE);
@@ -2139,7 +2139,7 @@ int main (int argc, char *argv[])
    fclose (stderr);
    getmaxyx (misc.screenwin, misc.max_y, misc.max_x);
    printw ("(C)2003-2014 J. Lemmens\n");
-   printw (gettext ("Daisy-player - Version %s\n"), PACKAGE_VERSION);
+   printw (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "\n");
    printw (gettext ("A parser to play Daisy CD's with Linux\n"));
 
    printw (gettext ("Scanning for a Daisy CD..."));
@@ -2386,9 +2386,8 @@ int main (int argc, char *argv[])
    } // if misc.audiocd == 0
 
    wattron (misc.titlewin, A_BOLD);
-   snprintf (str, MAX_STR - 1, gettext
-             ("Daisy-player - Version %s - (C)2014 J. Lemmens"),
-             PACKAGE_VERSION);
+   snprintf (str, MAX_STR - 1, gettext ("Daisy-player - Version %s %s"),
+             PACKAGE_VERSION, " - (C)2014 J. Lemmens");
    mvwprintw (misc.titlewin, 0, 0, str);
    wrefresh (misc.titlewin);
 

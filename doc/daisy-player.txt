@@ -44,14 +44,14 @@ d               store current item to disk
 D               decrease playing speed
 e               stop playing and eject
 f               find the currently playing item and place the cursor there
-g (DAISY-CD)    go to page number (if any)
-g (Audio-CD)    go to time in this song (MM:SS)
-h or ?          give this help
+g               go to time in this item or song (MM:SS)
+G (DAISY-CD)    go to page number (if any)
+h or ?          give this help             
 j               just play current item and place a "J" at the first column.
 l               switch to next level
 L               switch to previous level
 n               search forewards
-N               search backwards
+N               search backwards                                          
 o               select next output sound device
 p               place a bookmark
 q               quit daisy-player. The playing-point will be saved as bookmark.

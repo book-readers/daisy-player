@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2014-08-29 21:28+0200\n"
+"POT-Creation-Date: 2014-09-04 16:36+0200\n"
 "PO-Revision-Date: 2014-08-26 15:45+0200\n"
 "Last-Translator: Thais Rizzi <thais.rizzi@gmail.com>\n"
 "Language-Team: Thais Rizzi <thais.rizzi@gmail.com>\n"
@@ -217,10 +217,10 @@ msgstr "Vá para o tempo (MM:SS): "
 msgid "Cannot read /proc/asound/cards"
 msgstr "Não consegue ler /proc/asound/cards"
 
-#: src/daisy-player.c:1960 src/daisy-player.c:2142
+#: src/daisy-player.c:1960 src/daisy-player.c:2142 src/daisy-player.c:2389
 #, c-format
-msgid "Daisy-player - Version %s\n"
-msgstr "Daisy-player-  Versão %s\n"
+msgid "Daisy-player - Version %s %s"
+msgstr "Daisy-player-  Versão %s %s"
 
 #: src/daisy-player.c:1962
 #, c-format
@@ -277,12 +277,7 @@ msgstr ""
 msgid "Get titles from freedb.freedb.org..."
 msgstr "Pegar títulos do freedb.freedb.org..."
 
-#: src/daisy-player.c:2390
-#, c-format
-msgid "Daisy-player - Version %s - (C)2014 J. Lemmens"
-msgstr "Daisy-player - Versão %s - (C)2014 J. Lemmens"
-
-#: src/daisy-player.c:2404
+#: src/daisy-player.c:2403
 msgid "Press 'h' for help "
 msgstr "Pressione 'h' para ajuda "
 
@@ -294,34 +289,3 @@ msgid ""
 msgstr ""
 "\n"
 "Não conseguer ler tipo: %d\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"eject\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player precisa de \"eject\" programme.\n"
-
-#~ msgid "Please install it and try again.\n"
-#~ msgstr "Por favor installe o programa e tente novamente.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"madplay\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player precisa de \"madplay\"programme.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"unar\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player precisa de \"unar\" programme.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Daisy-player needs the \"udisksctl\" programme.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Daisy-player precisa de \"udisksctl\" programme.\n"
