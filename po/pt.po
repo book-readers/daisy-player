@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2018-09-06 19:03+0200\n"
+"POT-Creation-Date: 2018-08-27 14:53+0200\n"
 "PO-Revision-Date: 2014-08-26 15:45+0200\n"
 "Last-Translator: Thais Rizzi <thais.rizzi@gmail.com>\n"
 "Language-Team: Thais Rizzi <thais.rizzi@gmail.com>\n"
@@ -32,46 +32,46 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/common.c:198 src/common.c:277 src/daisy2.02.c:49 src/daisy2.02.c:201
+#: src/common.c:193 src/common.c:272 src/daisy2.02.c:49 src/daisy2.02.c:201
 #: src/daisy3.c:154 src/daisy3.c:223 src/daisy3.c:318 src/daisy3.c:398
 #: src/daisy3.c:498 src/daisy3.c:645 src/daisy3.c:702 src/daisy3.c:793
-#: src/daisy3.c:869 src/daisy3.c:1080 src/daisy3.c:1210 src/daisy-player.c:757
-#: src/daisy-player.c:1706 src/daisy-player.c:1735 src/daisy-player.c:2017
-#: src/daisy-player.c:2164
+#: src/daisy3.c:869 src/daisy3.c:1083 src/daisy3.c:1213 src/daisy-player.c:757
+#: src/daisy-player.c:1706 src/daisy-player.c:1735 src/daisy-player.c:2016
+#: src/daisy-player.c:2165
 #, c-format
 msgid "Cannot read %s"
 msgstr "Não consegue ler %s"
 
-#: src/common.c:392 src/common.c:589
+#: src/common.c:387 src/common.c:584
 msgid "Please try to play this book with daisy-player"
 msgstr "Por favor, tente jogar este livro com o daisy-player"
 
-#: src/common.c:913
+#: src/common.c:914
 #, c-format
 msgid "Cannot read type: %d"
 msgstr "Não conseguer ler tipo: %d"
 
-#: src/common.c:991
+#: src/common.c:992
 msgid "Go to page number:"
 msgstr "Vá para a página número:"
 
-#: src/common.c:1009
+#: src/common.c:1010
 msgid "Please wait..."
 msgstr "Por favor, espere..."
 
-#: src/common.c:1066
+#: src/common.c:1067
 msgid "Select a soundcard:"
 msgstr "Selecione uma placa de som:"
 
-#: src/daisy3.c:1033 src/daisy-player.c:824 src/daisy-player.c:1202
+#: src/daisy3.c:1036 src/daisy-player.c:824 src/daisy-player.c:1202
 msgid "This book has no audio. Play this book with eBook-speaker"
 msgstr "Este livro não tem áudio.  Reproduzir este livro com eBook-speaker"
 
-#: src/daisy3.c:1049
+#: src/daisy3.c:1052
 msgid "No items found. Try option \"-N\"."
 msgstr "Nenhum item encontrado.  Tente a opção \"-N\"."
 
-#: src/daisy3.c:1190
+#: src/daisy3.c:1193
 msgid "No items found. Try option \"-O\"."
 msgstr "Nenhum item encontrado.  Tente a opção \"-O\"."
 
@@ -239,8 +239,8 @@ msgstr "O que você procura?"
 msgid "Go to time (MM:SS):"
 msgstr "Vá para o tempo (MM:SS):"
 
-#: src/daisy-player.c:1653 src/daisy-player.c:1890 src/daisy-player.c:1908
-#: src/daisy-player.c:2012 src/daisy-player.c:2028
+#: src/daisy-player.c:1653 src/daisy-player.c:1889 src/daisy-player.c:1907
+#: src/daisy-player.c:2011 src/daisy-player.c:2027
 #, c-format
 msgid "Daisy-player - Version %s %s"
 msgstr "Daisy-player - Versão %s %s"
@@ -258,36 +258,36 @@ msgstr "[ -c cdrom_dispositivo] [-d pulseaudio_dispositivo_de_som] [-n  | -y]"
 msgid "Cannot read /proc/mounts."
 msgstr "Não consegue ler /proc/mounts."
 
-#: src/daisy-player.c:1892
+#: src/daisy-player.c:1891
 msgid "A parser to play Daisy CD's with Linux"
 msgstr "Um analisador para reproduzir Daisy CD's com o Linux"
 
-#: src/daisy-player.c:1894
+#: src/daisy-player.c:1893
 msgid "Scanning for a Daisy CD..."
 msgstr "Procurando por um CD Daisy..."
 
-#: src/daisy-player.c:1992 src/daisy-player.c:2123
+#: src/daisy-player.c:1991 src/daisy-player.c:2124
 msgid "No DAISY-CD or Audio-cd found"
 msgstr "Nenhum CD DAISY ou CD de áudio identificado"
 
-#: src/daisy-player.c:2049 src/daisy-player.c:2061 src/daisy-player.c:2091
+#: src/daisy-player.c:2048 src/daisy-player.c:2060 src/daisy-player.c:2090
 msgid "No Daisy CD in drive."
 msgstr "Nenhum CD Daisy no drive."
 
-#: src/daisy-player.c:2106
+#: src/daisy-player.c:2107
 msgid "Found an Audio-CD."
 msgstr "CD de áudio identificado."
 
-#: src/daisy-player.c:2108
+#: src/daisy-player.c:2109
 msgid "Get titles from freedb.freedb.org..."
 msgstr "Pegar títulos do freedb.freedb.org..."
 
-#: src/daisy-player.c:2237
+#: src/daisy-player.c:2238
 #, c-format
 msgid "Daisy-player - Version %s - (C)2018 J. Lemmens"
 msgstr "Daisy-player - Versão %s - (C)2018 J. Lemmens"
 
-#: src/daisy-player.c:2250
+#: src/daisy-player.c:2251
 msgid "Press 'h' for help"
 msgstr "Pressione 'h' para ajuda"
 

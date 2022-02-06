@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2018-09-06 19:03+0200\n"
+"POT-Creation-Date: 2018-08-27 14:53+0200\n"
 "PO-Revision-Date: 2013-01-29 15:06+0200\n"
 "Last-Translator: Jos Lemmens <jos@jlemmens.nl>\n"
 "Language-Team: Jos Lemmens <jos@jlemmens.nl>\n"
@@ -31,48 +31,48 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 # 33
-#: src/common.c:198 src/common.c:277 src/daisy2.02.c:49 src/daisy2.02.c:201
+#: src/common.c:193 src/common.c:272 src/daisy2.02.c:49 src/daisy2.02.c:201
 #: src/daisy3.c:154 src/daisy3.c:223 src/daisy3.c:318 src/daisy3.c:398
 #: src/daisy3.c:498 src/daisy3.c:645 src/daisy3.c:702 src/daisy3.c:793
-#: src/daisy3.c:869 src/daisy3.c:1080 src/daisy3.c:1210 src/daisy-player.c:757
-#: src/daisy-player.c:1706 src/daisy-player.c:1735 src/daisy-player.c:2017
-#: src/daisy-player.c:2164
+#: src/daisy3.c:869 src/daisy3.c:1083 src/daisy3.c:1213 src/daisy-player.c:757
+#: src/daisy-player.c:1706 src/daisy-player.c:1735 src/daisy-player.c:2016
+#: src/daisy-player.c:2165
 #, c-format
 msgid "Cannot read %s"
 msgstr "Kan %s niet lezen"
 
-#: src/common.c:392 src/common.c:589
+#: src/common.c:387 src/common.c:584
 msgid "Please try to play this book with daisy-player"
 msgstr "Probeer dit boek met daisy-player af te spelen"
 
 # 33
-#: src/common.c:913
+#: src/common.c:914
 #, c-format
 msgid "Cannot read type: %d"
 msgstr "Kan het type %d niet lezen"
 
 # 15
-#: src/common.c:991
+#: src/common.c:992
 msgid "Go to page number:"
 msgstr "Ga naar pagina nummer:"
 
-#: src/common.c:1009
+#: src/common.c:1010
 msgid "Please wait..."
 msgstr "Even wachten A.U.B...."
 
-#: src/common.c:1066
+#: src/common.c:1067
 msgid "Select a soundcard:"
 msgstr "Selecteer een geluikdskaart:"
 
-#: src/daisy3.c:1033 src/daisy-player.c:824 src/daisy-player.c:1202
+#: src/daisy3.c:1036 src/daisy-player.c:824 src/daisy-player.c:1202
 msgid "This book has no audio. Play this book with eBook-speaker"
 msgstr "Dit boek heeft geen audio. Speel dit boek af met eBook-speaker"
 
-#: src/daisy3.c:1049
+#: src/daisy3.c:1052
 msgid "No items found. Try option \"-N\"."
 msgstr "Geen items gevonden. Probeer optie \"-N\"."
 
-#: src/daisy3.c:1190
+#: src/daisy3.c:1193
 msgid "No items found. Try option \"-O\"."
 msgstr "Geen items gevonden. Probeer optie \"-O\"."
 
@@ -281,8 +281,8 @@ msgid "Go to time (MM:SS):"
 msgstr "Ga naar tijd (MM:SS):"
 
 # 13
-#: src/daisy-player.c:1653 src/daisy-player.c:1890 src/daisy-player.c:1908
-#: src/daisy-player.c:2012 src/daisy-player.c:2028
+#: src/daisy-player.c:1653 src/daisy-player.c:1889 src/daisy-player.c:1907
+#: src/daisy-player.c:2011 src/daisy-player.c:2027
 #, c-format
 msgid "Daisy-player - Version %s %s"
 msgstr "Daisy-player - Versie %s %s"
@@ -303,39 +303,39 @@ msgid "Cannot read /proc/mounts."
 msgstr "Kan /proc/mounts niet lezen."
 
 # 6
-#: src/daisy-player.c:1892
+#: src/daisy-player.c:1891
 msgid "A parser to play Daisy CD's with Linux"
 msgstr "Een programma om Daisy CD's af te spelen"
 
-#: src/daisy-player.c:1894
+#: src/daisy-player.c:1893
 msgid "Scanning for a Daisy CD..."
 msgstr "Zoeken naar een Daisy CD..."
 
-#: src/daisy-player.c:1992 src/daisy-player.c:2123
+#: src/daisy-player.c:1991 src/daisy-player.c:2124
 msgid "No DAISY-CD or Audio-cd found"
 msgstr "Geen DAISY-CD of Audio-CD gevonden"
 
 # 36
-#: src/daisy-player.c:2049 src/daisy-player.c:2061 src/daisy-player.c:2091
+#: src/daisy-player.c:2048 src/daisy-player.c:2060 src/daisy-player.c:2090
 msgid "No Daisy CD in drive."
 msgstr "Geen daisy-cd in speler."
 
-#: src/daisy-player.c:2106
+#: src/daisy-player.c:2107
 msgid "Found an Audio-CD."
 msgstr "Een Audio-CD gevonden."
 
-#: src/daisy-player.c:2108
+#: src/daisy-player.c:2109
 msgid "Get titles from freedb.freedb.org..."
 msgstr "Haal de titels op bij freedb.freedb.org..."
 
 # 13
-#: src/daisy-player.c:2237
+#: src/daisy-player.c:2238
 #, c-format
 msgid "Daisy-player - Version %s - (C)2018 J. Lemmens"
 msgstr "Daisy-player - Versie %s - (C)2018 J. Lemmens"
 
 # 22
-#: src/daisy-player.c:2250
+#: src/daisy-player.c:2251
 msgid "Press 'h' for help"
 msgstr "Druk op'h' voor hulp"
 
