@@ -113,7 +113,7 @@ void get_clips (misc_t *misc, char *orig_begin, char *end)
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
       return;
    if (! *orig_begin)
-      failure ("Error in clip_begin", errno);
+      return;
    strncpy (begin_str, orig_begin,  MAX_STR - 1);
    begin = begin_str;
    while (! isdigit (*begin))
@@ -122,7 +122,7 @@ void get_clips (misc_t *misc, char *orig_begin, char *end)
       *strchr (begin, 's') = 0;
    if (! strchr (begin, ':'))
       misc->clip_begin = (float) atof (begin);
-   else
+   else         
       misc->clip_begin = read_time (begin);
 
 // fill end
@@ -142,63 +142,63 @@ void get_attributes (misc_t *misc, my_attribute_t *my_attribute,
    char attr[MAX_STR];
 
    snprintf (attr, MAX_STR - 1, "%s", (char *)
-        xmlTextReaderGetAttribute (reader, (const xmlChar *) "class"));
+        xmlTextReaderGetAttribute (reader, BAD_CAST "class"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->class, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*) xmlTextReaderGetAttribute
-                          (reader, (const xmlChar *) "clip-begin"));
+                          (reader, BAD_CAST "clip-begin"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->clip_begin, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-           xmlTextReaderGetAttribute (reader, (const xmlChar *) "clipbegin"));
+           xmlTextReaderGetAttribute (reader, BAD_CAST "clipBegin"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->clip_begin, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "clip-end"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "clip-end"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->clip_end, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "clipend"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "clipEnd"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->clip_end, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "href"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "href"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->href, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "id"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "id"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->id, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "idref"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "idref"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->idref, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "item"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "item"));
    if (strcmp (attr, "(null)"))
       misc->current = atoi (attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "level"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "level"));
    if (strcmp (attr, "(null)"))
       misc->level = atoi ((char *) attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "media-type"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "media-type"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->media_type, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "name"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "name"));
    if (strcmp (attr, "(null)"))
    {
       char name[MAX_STR], content[MAX_STR];
 
       *name = 0;
       snprintf (attr, MAX_STR - 1, "%s", (char *)
-                xmlTextReaderGetAttribute (reader, (const xmlChar *) "name"));
+                xmlTextReaderGetAttribute (reader, BAD_CAST "name"));
       if (strcmp (attr, "(null)"))
          snprintf (name, MAX_STR - 1, "%s", attr);
       *content = 0;
       snprintf (attr, MAX_STR - 1, "%s", (char *)
-                xmlTextReaderGetAttribute (reader, (const xmlChar *) "content"));
+                xmlTextReaderGetAttribute (reader, BAD_CAST "content"));
       if (strcmp (attr, "(null)"))
          snprintf (content, MAX_STR - 1, "%s", attr);
       if (strcasestr (name, "dc:format"))
@@ -233,58 +233,58 @@ void get_attributes (misc_t *misc, my_attribute_t *my_attribute,
       } // if
    } // if
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "playorder"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "playorder"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->playorder, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "phrase"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "phrase"));
    if (strcmp (attr, "(null)"))
       misc->phrase_nr = atoi ((char *) attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "seconds"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "seconds"));
    if (strcmp (attr, "(null)"))
    {
-      misc->seconds = atoi (attr);
-      if (misc->seconds < 0)
-         misc->seconds = 0;
+      misc->elapsed_seconds = atoi (attr);
+      if (misc->elapsed_seconds < 0)
+         misc->elapsed_seconds = 0;
    } // if
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-          xmlTextReaderGetAttribute (reader, (const xmlChar *) "smilref"));
+          xmlTextReaderGetAttribute (reader, BAD_CAST "smilref"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->smilref, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "sound_dev"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "sound_dev"));
    if (strcmp (attr, "(null)"))
       snprintf (misc->sound_dev, MAX_STR, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "cd_dev"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "cd_dev"));
    if (strcmp (attr, "(null)"))
       snprintf (misc->cd_dev, MAX_STR, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "cddb_flag"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "cddb_flag"));
    if (strcmp (attr, "(null)"))
       misc->cddb_flag = (char) attr[0];
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "speed"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "speed"));
    if (strcmp (attr, "(null)"))
       misc->speed = atof (attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "src"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "src"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->src, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "tts"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "tts"));
    if (strcmp (attr, "(null)"))
       misc->tts_no = atof ((char *) attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "toc"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "toc"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->toc, MAX_STR - 1, "%s", attr);
    snprintf (attr, MAX_STR - 1, "%s", (char*)
-       xmlTextReaderGetAttribute (reader, (const xmlChar *) "value"));
+       xmlTextReaderGetAttribute (reader, BAD_CAST "value"));
    if (strcmp (attr, "(null)"))
       snprintf (my_attribute->value, MAX_STR - 1, "%s", attr);
-} // get_attributes
+} // get_attributes                               
 
 int get_tag_or_label (misc_t *misc, my_attribute_t *my_attribute,
                       xmlTextReaderPtr reader)

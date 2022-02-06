@@ -112,7 +112,7 @@ typedef struct Misc
    int pause_resume_playing;
    float pause_resume_clip_begin;
    float speed, total_time;
-   float clip_begin, clip_end, start_time;
+   float clip_begin, clip_end;
    xmlTextReaderPtr reader;
    pid_t daisy_player_pid, player_pid;
    char NCC_HTML[MAX_STR], ncc_totalTime[MAX_STR];
@@ -125,7 +125,7 @@ typedef struct Misc
    char *wd, cd_dev[MAX_STR], sound_dev[MAX_STR];
    char cddb_flag, opf_name[MAX_STR], ncx_name[MAX_STR];
    char current_audio_file[MAX_STR], tmp_wav[MAX_STR + 1], mcn[MAX_STR];
-   time_t seconds;
+   time_t elapsed_seconds;
    WINDOW *screenwin, *titlewin;
    cdrom_paranoia_t *par;
    cdrom_drive_t *drv;
