@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: daisy-player 8.5.1\n"
+"Project-Id-Version: daisy-player 8.7\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2014-01-01 13:20+0100\n"
+"POT-Creation-Date: 2014-06-29 13:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,280 +17,242 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/daisy-player.c:266 src/daisy-player.c:292 src/daisy-player.c:360
-#: src/daisy-player.c:513 src/daisy-player.c:1233 src/daisy-player.c:1291
-#: src/daisy-player.c:1943 src/daisy-player.c:1968 src/daisy-player.c:2355
-#: src/daisy3.c:343 src/daisy3.c:394 src/daisy3.c:437 src/daisy3.c:504
-#: src/daisy3.c:544 src/daisy3.c:563 src/daisy3.c:637 src/daisy3.c:706
-#: src/daisy3.c:846
+#: src/daisy-player.c:221 src/daisy-player.c:248 src/daisy-player.c:319
+#: src/daisy-player.c:487 src/daisy-player.c:1236 src/daisy-player.c:1296
+#: src/daisy-player.c:1957 src/daisy-player.c:1984 src/daisy-player.c:2295
+#: src/daisy3.c:385 src/daisy3.c:436 src/daisy3.c:480 src/daisy3.c:548
+#: src/daisy3.c:589 src/daisy3.c:608 src/daisy3.c:683 src/daisy3.c:810
 #, c-format
 msgid ""
 "\n"
 "Cannot read %s\n"
 msgstr ""
 
-#: src/daisy-player.c:458
+#: src/daisy-player.c:422
 msgid "'h' for help -"
 msgstr ""
 
-#: src/daisy-player.c:460
+#: src/daisy-player.c:424
 #, c-format
 msgid " %d pages "
 msgstr ""
 
-#: src/daisy-player.c:461
+#: src/daisy-player.c:425
 #, c-format
 msgid " level: %d of %d "
 msgstr ""
 
-#: src/daisy-player.c:465
+#: src/daisy-player.c:431
 #, c-format
 msgid " total length: %02d:%02d:%02d "
 msgstr ""
 
-#: src/daisy-player.c:747
+#: src/daisy-player.c:734
 msgid ""
 "\n"
 "These commands are available in this version:\n"
 msgstr ""
 
-#: src/daisy-player.c:750
+#: src/daisy-player.c:737
 msgid "cursor down     - move cursor to the next item\n"
 msgstr ""
 
-#: src/daisy-player.c:751
+#: src/daisy-player.c:738
 msgid "cursor up       - move cursor to the previous item\n"
 msgstr ""
 
-#: src/daisy-player.c:752
+#: src/daisy-player.c:739
 msgid "cursor right    - skip to next phrase\n"
 msgstr ""
 
-#: src/daisy-player.c:753
+#: src/daisy-player.c:740
 msgid "cursor left     - skip to previous phrase\n"
 msgstr ""
 
-#: src/daisy-player.c:754
+#: src/daisy-player.c:741
 msgid "page-down       - view next page\n"
 msgstr ""
 
-#: src/daisy-player.c:755
+#: src/daisy-player.c:742
 msgid "page-up         - view previous page\n"
 msgstr ""
 
-#: src/daisy-player.c:756
+#: src/daisy-player.c:743
 msgid "enter           - start playing\n"
 msgstr ""
 
-#: src/daisy-player.c:757
+#: src/daisy-player.c:744
 msgid "space           - pause/resume playing\n"
 msgstr ""
 
-#: src/daisy-player.c:758
+#: src/daisy-player.c:745
 msgid "home            - play on normal speed\n"
 msgstr ""
 
-#: src/daisy-player.c:760
+#: src/daisy-player.c:747
 msgid "Press any key for next page..."
 msgstr ""
 
-#: src/daisy-player.c:765
+#: src/daisy-player.c:752
 msgid ""
 "\n"
 "/               - search for a label\n"
 msgstr ""
 
-#: src/daisy-player.c:766
+#: src/daisy-player.c:753
 msgid "d               - store current item to disk\n"
 msgstr ""
 
-#: src/daisy-player.c:767
+#: src/daisy-player.c:754
 msgid "D               - decrease playing speed\n"
 msgstr ""
 
-#: src/daisy-player.c:769
+#: src/daisy-player.c:756
 msgid ""
 "f               - find the currently playing item and place the cursor "
 "there\n"
 msgstr ""
 
-#: src/daisy-player.c:772
-msgid "g               - go to page number (if any)\n"
-msgstr ""
-
-#: src/daisy-player.c:775
+#: src/daisy-player.c:759
 msgid "g               - go to time in this song (MM:SS)\n"
 msgstr ""
 
-#: src/daisy-player.c:776
+#: src/daisy-player.c:762
+msgid "g               - go to page number (if any)\n"
+msgstr ""
+
+#: src/daisy-player.c:763
 msgid "h or ?          - give this help\n"
 msgstr ""
 
-#: src/daisy-player.c:777
+#: src/daisy-player.c:764
 msgid "j               - just play current item\n"
 msgstr ""
 
-#: src/daisy-player.c:779
+#: src/daisy-player.c:766
 msgid "l               - switch to next level\n"
 msgstr ""
 
-#: src/daisy-player.c:780
+#: src/daisy-player.c:767
 msgid "L               - switch to previous level\n"
 msgstr ""
 
-#: src/daisy-player.c:781
+#: src/daisy-player.c:768
 msgid "n               - search forwards\n"
 msgstr ""
 
-#: src/daisy-player.c:782
+#: src/daisy-player.c:769
 msgid "N               - search backwards\n"
 msgstr ""
 
-#: src/daisy-player.c:783
+#: src/daisy-player.c:770
 msgid "o               - select next output sound device\n"
 msgstr ""
 
-#: src/daisy-player.c:784
+#: src/daisy-player.c:771
 msgid "p               - place a bookmark\n"
 msgstr ""
 
-#: src/daisy-player.c:785
+#: src/daisy-player.c:772
 msgid "q               - quit daisy-player and place a bookmark\n"
 msgstr ""
 
-#: src/daisy-player.c:786
+#: src/daisy-player.c:773
 msgid "s               - stop playing\n"
 msgstr ""
 
-#: src/daisy-player.c:787
+#: src/daisy-player.c:774
 msgid "U               - increase playing speed\n"
 msgstr ""
 
-#: src/daisy-player.c:788
+#: src/daisy-player.c:775
 msgid ""
 "\n"
 "Press any key to leave help..."
 msgstr ""
 
-#: src/daisy-player.c:1024
+#: src/daisy-player.c:1018
 msgid "Please wait... -------------------------"
 msgstr ""
 
-#: src/daisy-player.c:1121
+#: src/daisy-player.c:1118
 msgid "What do you search? "
 msgstr ""
 
-#: src/daisy-player.c:1214
+#: src/daisy-player.c:1213
 msgid "Go to page number: "
 msgstr ""
 
-#: src/daisy-player.c:1346
+#: src/daisy-player.c:1351
 msgid "Go to time (MM:SS): "
 msgstr ""
 
-#: src/daisy-player.c:1372
+#: src/daisy-player.c:1384
 msgid "Cannot read /proc/asound/cards"
 msgstr ""
 
-#: src/daisy-player.c:1891 src/daisy-player.c:2075
+#: src/daisy-player.c:1906 src/daisy-player.c:2088
 #, c-format
 msgid "Daisy-player - Version %s\n"
 msgstr ""
 
-#: src/daisy-player.c:1893
+#: src/daisy-player.c:1908
 #, c-format
 msgid ""
 "\n"
 "Usage: %s [directory_with_a_Daisy-structure] "
 msgstr ""
 
-#: src/daisy-player.c:1895
+#: src/daisy-player.c:1910
 #, c-format
-msgid "[-c cdrom_device] [-d ALSA_sound_device] [-n | -y]\n"
+msgid "[-c cdrom_device] [-d ALSA_sound_device]\n"
 msgstr ""
 
-#: src/daisy-player.c:1910
+#: src/daisy-player.c:1923
 msgid ""
 "\n"
 "Cannot read /proc/mounts."
 msgstr ""
 
-#: src/daisy-player.c:2076
+#: src/daisy-player.c:2089
 msgid "A parser to play Daisy CD's with Linux\n"
 msgstr ""
 
-#: src/daisy-player.c:2081
-#, c-format
-msgid ""
-"\n"
-"Daisy-player needs the \"udisks\" programme.\n"
-msgstr ""
-
-#: src/daisy-player.c:2082 src/daisy-player.c:2091 src/daisy-player.c:2149
-#, c-format
-msgid "Please install it and try again.\n"
-msgstr ""
-
-#: src/daisy-player.c:2090
-#, c-format
-msgid ""
-"\n"
-"Daisy-player needs the \"madplay\" programme.\n"
-msgstr ""
-
-#: src/daisy-player.c:2099
+#: src/daisy-player.c:2091
 msgid "Scanning for a Daisy CD..."
 msgstr ""
 
-#: src/daisy-player.c:2148
-#, c-format
-msgid ""
-"\n"
-"Daisy-player needs the \"unar\" programme.\n"
-msgstr ""
-
-#: src/daisy-player.c:2189 src/daisy3.c:793
+#: src/daisy-player.c:2162 src/daisy-player.c:2256 src/daisy3.c:760
 #, c-format
 msgid ""
 "\n"
 "No DAISY-CD or Audio-cd found\n"
 msgstr ""
 
-#: src/daisy-player.c:2232 src/daisy-player.c:2318
+#: src/daisy-player.c:2192 src/daisy-player.c:2199 src/daisy-player.c:2224
 msgid "No Daisy CD in drive."
 msgstr ""
 
-#: src/daisy-player.c:2284
-msgid ""
-"\n"
-"Cannot use udisks command."
-msgstr ""
-
-#: src/daisy-player.c:2298
+#: src/daisy-player.c:2238
 msgid ""
 "\n"
 "Found an Audio-CD. "
 msgstr ""
 
-#: src/daisy-player.c:2300
+#: src/daisy-player.c:2240
 msgid "Get titles from freedb.freedb.org..."
 msgstr ""
 
 #: src/daisy-player.c:2336
 #, c-format
-msgid "No such directory: %s\n"
-msgstr ""
-
-#: src/daisy-player.c:2397
-#, c-format
 msgid "Daisy-player - Version %s - (C)2014 J. Lemmens"
 msgstr ""
 
-#: src/daisy-player.c:2408
+#: src/daisy-player.c:2350
 msgid "Press 'h' for help "
 msgstr ""
 
-#: src/daisy3.c:279
+#: src/daisy3.c:320
 #, c-format
 msgid ""
 "\n"

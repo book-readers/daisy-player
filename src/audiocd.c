@@ -15,30 +15,18 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */               
+ */
 
 #include "src/daisy.h"
 
-char tag[MAX_TAG], label[max_phrase_len];
-extern char cd_dev[];       
-extern char daisy_title[], bookmark_title[], sound_dev[];
-int current, displaying, total_items, max_y, cddb_flag;
-extern daisy_t daisy[];                   
-pid_t player_pid, daisy_player_pid;
-float speed, total_time;
-extern sox_effects_chain_t *effects_chain;
-CdIo_t *p_cdio;
-                
-int get_tag_or_label (xmlTextReaderPtr);
-
-void get_cddb_info ()
+void get_cddb_info (misc_t *misc, daisy_t *daisy)
 {
    FILE *r;
    size_t len = MAX_STR;
    char *str = NULL, cd[MAX_STR + 1];
    int i;
 
-   snprintf (cd, MAX_STR, "cddbget -c %s -I -d 2> /dev/null", cd_dev);
+   snprintf (cd, MAX_STR, "cddbget -c %s -I -d 2> /dev/null", misc->cd_dev);
    r = popen (cd, "r");
    str = malloc (len + 1);
    i = 0;
@@ -48,18 +36,18 @@ void get_cddb_info ()
          break;
       if (strcasestr (str, "DTITLE"))
       {
-         strncpy (bookmark_title, strchr (str, '=') + 1, MAX_STR - 1);
-         if (strchr (bookmark_title, '\n'))
-            *strchr (bookmark_title, '\n') = 0;
-         if (strchr (bookmark_title, '\r'))
-            *strchr (bookmark_title, '\r') = 0;
-         if (strchr (bookmark_title, '/'))
-            *strchr (bookmark_title, '/') = '-';
-         strncpy (daisy_title, strchr (str, '=') + 1, MAX_STR - 1);
-         if (strchr (daisy_title, '\n'))
-            *strchr (daisy_title, '\n') = 0;
-         if (strchr (daisy_title, '\r'))
-            *strchr (daisy_title, '\r') = 0;
+         strncpy (misc->bookmark_title, strchr (str, '=') + 1, MAX_STR - 1);
+         if (strchr (misc->bookmark_title, '\n'))
+            *strchr (misc->bookmark_title, '\n') = 0;
+         if (strchr (misc->bookmark_title, '\r'))
+            *strchr (misc->bookmark_title, '\r') = 0;
+         if (strchr (misc->bookmark_title, '/'))
+            *strchr (misc->bookmark_title, '/') = '-';
+         strncpy (misc->daisy_title, strchr (str, '=') + 1, MAX_STR - 1);
+         if (strchr (misc->daisy_title, '\n'))
+            *strchr (misc->daisy_title, '\n') = 0;
+         if (strchr (misc->daisy_title, '\r'))
+            *strchr (misc->daisy_title, '\r') = 0;
       } // if
       if (strcasestr (str, "TTITLE"))
       {
@@ -69,7 +57,7 @@ void get_cddb_info ()
 // some titles are spanned over more lines
          if (strstr (str, l) == NULL)
             continue;
-         strncpy (daisy[i].label, strchr (str, '=') + 1, max_phrase_len - 1);
+         strncpy (daisy[i].label, strchr (str, '=') + 1, MAX_PHRASE_LEN - 1);
          if (strchr (daisy[i].label, '\n'))
             *strchr (daisy[i].label, '\n') = 0;
          if (strchr (daisy[i].label, '\r'))
@@ -81,52 +69,70 @@ void get_cddb_info ()
    fclose (r);
 } // get_cddb_info
 
-void get_toc_audiocd (char *dev)
+daisy_t *get_number_of_tracks (misc_t *misc)
+{
+   CdIo_t *cd;
+
+   misc->current = misc->displaying = 0;
+   if ((cd = cdio_open (misc->cd_dev, DRIVER_UNKNOWN)) == NULL)
+   {
+      endwin ();
+      beep ();
+      _exit (0);
+   } // if
+   misc->total_items = cdio_get_num_tracks (cd);
+   return  (daisy_t *) malloc (misc->total_items * sizeof (daisy_t));
+} // get_number_of_tracks
+
+void get_toc_audiocd (misc_t *misc, daisy_t *daisy)
 {
    char *dir;
    CdIo_t *cd;
    track_t first_track;
 
-   current = displaying = 0;
+   misc->current = misc->displaying = 0;
    dir = "";
-   if ((cd = cdio_open (dev, DRIVER_UNKNOWN)) == NULL)
-   {     
+   if ((cd = cdio_open (misc->cd_dev, DRIVER_UNKNOWN)) == NULL)
+   {
       endwin ();
       beep ();
       _exit (0);
    } // if
-   total_items = cdio_get_num_tracks (cd);
+   misc->total_items = cdio_get_num_tracks (cd);
    first_track = cdio_get_first_track_num (cd);
-   for (current = 0; current < total_items; current++)
+   for (misc->current = 0; misc->current < misc->total_items; misc->current++)
    {
-      snprintf (daisy[current].label, 15, "Track %2d", current + 1);
-      snprintf (daisy[current].filename, MAX_STR - 1,
-                "%s/Track %d.wav", dir, current + 1);
-      daisy[current].first_lsn = cdio_get_track_lsn (cd,
-                                                     first_track + current);
-      if (displaying == max_y)
-         displaying = 1;
-      daisy[current].x = 1;
-      daisy[current].screen = current / max_y;
-      daisy[current].y = current - daisy[current].screen * max_y;
-      displaying++;
+      snprintf (daisy[misc->current].label, 15, "Track %2d", misc->current + 1);
+      snprintf (daisy[misc->current].filename, MAX_STR - 1,
+                "%s/Track %d.wav", dir, misc->current + 1);
+      daisy[misc->current].first_lsn = cdio_get_track_lsn (cd,
+                                                     first_track + misc->current);
+      if (misc->displaying == misc->max_y)
+         misc->displaying = 1;
+      daisy[misc->current].x = 1;
+      daisy[misc->current].screen = misc->current / misc->max_y;
+      daisy[misc->current].y =
+                      misc->current - daisy[misc->current].screen * misc->max_y;
+      misc->displaying++;
    } // for
-   for (current = 0; current < total_items; current++)
+   for (misc->current = 0; misc->current < misc->total_items; misc->current++)
    {
-      daisy[current].last_lsn = daisy[current + 1].first_lsn;
-      daisy[current].duration =
-               (daisy[current].last_lsn - daisy[current].first_lsn) / 75;
+      daisy[misc->current].last_lsn = daisy[misc->current + 1].first_lsn;
+      daisy[misc->current].duration =
+               (daisy[misc->current].last_lsn - daisy[misc->current].first_lsn) / 75;
    } // for
-   daisy[--current].last_lsn = cdio_get_track_lsn (cd, CDIO_CDROM_LEADOUT_TRACK);
-   daisy[current].duration =
-               (daisy[current].last_lsn - daisy[current].first_lsn) / 75;
-   total_time = (daisy[current].last_lsn - daisy[0].first_lsn) / 75;
+   daisy[--misc->current].last_lsn = cdio_get_track_lsn (cd, CDIO_CDROM_LEADOUT_TRACK);
+   daisy[misc->current].duration =
+               (daisy[misc->current].last_lsn - daisy[misc->current].first_lsn) / 75;
+   misc->total_time = (daisy[misc->current].last_lsn - daisy[0].first_lsn) / 75;
    cdio_destroy (cd);
-   if (cddb_flag != 'n')
-      get_cddb_info ();
+   if (misc->cddb_flag != 'n')
+      get_cddb_info (misc, daisy);
 } // get_toc_audiocd
 
-void set_drive_speed (int drive_speed)
+void set_drive_speed (misc_t *misc, int drive_speed)
 {
-   cdio_set_speed (p_cdio, drive_speed);
-} // set_drive_speed                  
+   if (misc->cd_type == CDIO_DISC_MODE_CD_DA || \
+       misc->cd_type == CDIO_DISC_MODE_CD_DATA)
+      cdio_set_speed (misc->p_cdio, drive_speed);
+} // set_drive_speed

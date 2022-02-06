@@ -9,12 +9,12 @@ REQUIREMENTS
 Be sure the following extra packages exist on your system:
 
    libncursesw5
-   libsox1b
+   libsox2
    libxml2
    libmagic1
    madplay
    gettext
-   udisks
+   udisks2
    language-pack-af
    language-pack-de
    language-pack-es
@@ -22,6 +22,7 @@ Be sure the following extra packages exist on your system:
    language-pack-hu
    language-pack-nb
    language-pack-nl
+   language-pack-pl
    libcdio-cdda1
    libcdio-paranoia1
    libcddb-get-perl
@@ -56,6 +57,11 @@ of that item.
 Daisy-player plays the audio on the default sound device.
 
 For keyboard navigation, plese press 'h' or '?'.
+
+daisy-player is multilingual. The following languages are currently
+supported:
+dutch, english, french, german, hungarian, norwegian, polish,
+south-african, spanish.
 
 Enjoy
 

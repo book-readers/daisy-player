@@ -1,5 +1,5 @@
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = man doc src po
+SUBDIRS = man doc po src 
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -7,7 +7,7 @@ EXTRA_DIST = config.rpath m4/Makefile.in src/gettext.h doc/COMPILE \
              doc/Changelog doc/License doc/Readme doc/daisy-player.* \
              man/daisy-player.1 icons/daisy-player.svg \
              icons/48x48/daisy-player.png icons/72x72/daisy-player.png \
-             ltmain.sh  
+             ltmain.sh
 
 
 check-gettext:
