@@ -311,11 +311,3 @@ Samuel Thibault <sthibault@debian.org>
 	Solved compiler warnings.
 	Thanks to Colomban Wendling <cwendling@hypra.fr> for his
 	patch to gracefully quit daisy-player upon receiving a signal.
-11.7.1	In the function select_next_output_device () the value of
-	the pactl field "Description:" is replaced by the value of
-	field "alsa.card_name".
-	Suggested by Didier Spaier <didier@slint.fr>.
-11.7.2	OOPS. Had forgotten to remove debug-lines in the previous version.
-11.7.3	Sometimes the function select_next_output_device () went wrong when
-	a sound-card is blacklisted in /etc/modprobe.d.
-11.7.4	Added an Italian translation.

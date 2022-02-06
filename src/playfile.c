@@ -66,7 +66,7 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
                char *out_file, char *out_type, char *tempo)
 {
   sox_format_t *in, *out; /* input and output files */
-  sox_effects_chain_t *chain;                         
+  sox_effects_chain_t *chain;
   sox_effect_t *e;
   sox_signalinfo_t interm_signal;
   char *args[10];
@@ -80,13 +80,7 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
   if (! (out = sox_open_write (out_file, &in->signal, NULL, out_type,
                              NULL, NULL)))
   {
-    int e;
-
-    e = errno;
-    beep ();
-    endwin ();
-    printf ("\n\npulseaudio %s: %s\n", out_file, strerror (e));
-    kill (misc->main_pid, SIGTERM);
+    failure (misc, out_file, errno);
   } // if
   chain = sox_create_effects_chain(&in->encoding, &out->encoding);
   interm_signal = in->signal; /* NB: deep copy */

@@ -177,6 +177,7 @@ void parse_content_ncx (misc_t *misc, my_attribute_t *my_attribute,
    htmlDocPtr doc;
    xmlTextReaderPtr content;
 
+#ifdef DAISY_PLAYER
    daisy[misc->current].clips_file = realloc (daisy[misc->current].clips_file,
                strlen (misc->daisy_mp) + strlen (my_attribute->src) + 5);
    sprintf (daisy[misc->current].clips_file, "%s/%s",
@@ -195,6 +196,14 @@ void parse_content_ncx (misc_t *misc, my_attribute_t *my_attribute,
       misc->ncx_failed = 1;
       return;
    } // if
+#endif
+#ifdef EBOOK_SPEAKER
+   if (! (doc = htmlParseFile (daisy[misc->current].smil_file, "UTF-8")))
+   {
+      misc->ncx_failed = 1;
+      return;
+   } // if
+#endif
    if (! (content = xmlReaderWalker (doc)))
    {
       misc->ncx_failed = 1;
@@ -223,6 +232,7 @@ void parse_content_ncx (misc_t *misc, my_attribute_t *my_attribute,
    {
       if (! get_tag_or_label (misc, my_attribute, content))
          break;
+#ifdef DAISY_PLAYER
       if (*my_attribute->id)
       {
          if (! *daisy[misc->current].first_id)
@@ -231,6 +241,11 @@ void parse_content_ncx (misc_t *misc, my_attribute_t *my_attribute,
       } // if
       if (strcasecmp (misc->tag, "audio") == 0)
          break;
+#endif
+#ifdef EBOOK_SPEAKER
+      if (strcasecmp (misc->tag, "text") == 0)
+         break;
+#endif
       if (misc->current + 1 < misc->total_items)
       {
          if (*daisy[misc->current + 1].smil_anchor)
@@ -260,8 +275,10 @@ void parse_ncx (misc_t *misc, my_attribute_t *my_attribute,
    misc->total_items = misc->items_in_ncx;
    if (misc->total_items == 0)
       misc->total_items = 1;
+#ifdef DAISY_PLAYER
    for (i = 0; i < misc->items_in_ncx; i++)
       *daisy[i].first_id = 0;
+#endif
    fill_smil_anchor_ncx (misc, my_attribute, daisy);
    if (! (doc = htmlParseFile (misc->ncx_name, "UTF-8")))
    {
@@ -283,12 +300,14 @@ void parse_ncx (misc_t *misc, my_attribute_t *my_attribute,
          break;
       if (! get_tag_or_label (misc, my_attribute, ncx))
          break;
+#ifdef DAISY_PLAYER
       if (! *daisy[misc->current].first_id)
       {
          if (*my_attribute->id)
             strncpy (daisy[misc->current].first_id, my_attribute->id,
                      MAX_STR);
       } // if
+#endif
       if (strcasecmp (misc->tag, "docAuthor") == 0)
       {
          if (xmlTextReaderIsEmptyElement (ncx))
@@ -304,6 +323,10 @@ void parse_ncx (misc_t *misc, my_attribute_t *my_attribute,
          misc->level++;
          if (misc->level > misc->depth)
             misc->depth = misc->level;
+#ifdef EBOOK_SPEAKER
+         strncpy (daisy[misc->current].my_class, my_attribute->my_class,
+                  MAX_STR - 1);
+#endif
          while (1)
          {
             if (! get_tag_or_label (misc, my_attribute, ncx))
@@ -357,5 +380,13 @@ void parse_ncx (misc_t *misc, my_attribute_t *my_attribute,
 
    for (i = 0; i < misc->items_in_ncx; i++)
    {
+#ifdef EBOOK_SPEAKER
+      *daisy[i].class = 0;
+      if (misc->verbose)
+      {
+         printf ("\r\norig %d %s ", i, daisy[i].smil_file);
+         fflush (stdout);
+      } // if
+#endif
    } //for
 } // parse_ncx

@@ -26,6 +26,7 @@ int get_page_number_3 (misc_t *misc, my_attribute_t *my_attribute)
    {
       if (! get_tag_or_label (misc, my_attribute, misc->reader))
          return 0;
+#ifdef DAISY_PLAYER
       if (strcasecmp (misc->tag, "text") == 0)
       {
          char *file, *anchor;
@@ -96,6 +97,19 @@ int get_page_number_3 (misc_t *misc, my_attribute_t *my_attribute)
             } // if
          } // while
       } // if pagenum
+#endif
+
+#ifdef EBOOK_SPEAKER
+      if (*misc->label)
+      {
+         misc->current_page_number = atoi (misc->label);
+         return 1;
+      } // if
+      if (! get_tag_or_label (misc, my_attribute, misc->reader))
+      {
+         return 0;
+      } // if
+#endif
    } // while
 } // get_page_number_3
 

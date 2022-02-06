@@ -10,7 +10,7 @@
 GETTEXT_MACRO_VERSION = 0.19
 
 PACKAGE = daisy-player
-VERSION = 11.7.4
+VERSION = 11.7
 PACKAGE_BUGREPORT = jos@jlemmens.nl
 
 SED = /bin/sed
@@ -34,12 +34,12 @@ INSTALL_DATA = ${INSTALL} -m 644
 # We use $(mkdir_p).
 # In automake <= 1.9.x, $(mkdir_p) is defined either as "mkdir -p --" or as
 # "$(mkinstalldirs)" or as "$(install_sh) -d". For these automake versions,
-# ${SHELL} /home/jos/daisy-player-11.7.4/install-sh does not start with $(SHELL), so we add it.
+# ${SHELL} /home/jos/src/own_stuff/daisy-player/install-sh does not start with $(SHELL), so we add it.
 # In automake >= 1.10, $(MKDIR_P) is derived from ${MKDIR_P}, which is defined
 # either as "/path/to/mkdir -p" or ".../install-sh -c -d". For these automake
 # versions, $(mkinstalldirs) and $(install_sh) are unused.
-mkinstalldirs = $(SHELL) ${SHELL} /home/jos/daisy-player-11.7.4/install-sh -d
-install_sh = $(SHELL) ${SHELL} /home/jos/daisy-player-11.7.4/install-sh
+mkinstalldirs = $(SHELL) ${SHELL} /home/jos/src/own_stuff/daisy-player/install-sh -d
+install_sh = $(SHELL) ${SHELL} /home/jos/src/own_stuff/daisy-player/install-sh
 MKDIR_P = /bin/mkdir -p
 mkdir_p = $(MKDIR_P)
 
@@ -66,10 +66,10 @@ MSGINIT = msginit
 MSGCONV = msgconv
 MSGFILTER = msgfilter
 
-POFILES =  af.po cs.po de.po en@quot.po en@boldquot.po es_ES.po es_GT.po fi.po fr.po hu.po it.po ml.po nb.po nl.po pl.po pt.po sl.po sv.po
-GMOFILES =  af.gmo cs.gmo de.gmo en@quot.gmo en@boldquot.gmo es_ES.gmo es_GT.gmo fi.gmo fr.gmo hu.gmo it.gmo ml.gmo nb.gmo nl.gmo pl.gmo pt.gmo sl.gmo sv.gmo
-UPDATEPOFILES =  af.po-update cs.po-update de.po-update en@quot.po-update en@boldquot.po-update es_ES.po-update es_GT.po-update fi.po-update fr.po-update hu.po-update it.po-update ml.po-update nb.po-update nl.po-update pl.po-update pt.po-update sl.po-update sv.po-update
-DUMMYPOFILES =  af.nop cs.nop de.nop en@quot.nop en@boldquot.nop es_ES.nop es_GT.nop fi.nop fr.nop hu.nop it.nop ml.nop nb.nop nl.nop pl.nop pt.nop sl.nop sv.nop
+POFILES =  af.po cs.po de.po en@quot.po en@boldquot.po es_ES.po es_GT.po fi.po fr.po hu.po ml.po nb.po nl.po pl.po pt.po sl.po sv.po
+GMOFILES =  af.gmo cs.gmo de.gmo en@quot.gmo en@boldquot.gmo es_ES.gmo es_GT.gmo fi.gmo fr.gmo hu.gmo ml.gmo nb.gmo nl.gmo pl.gmo pt.gmo sl.gmo sv.gmo
+UPDATEPOFILES =  af.po-update cs.po-update de.po-update en@quot.po-update en@boldquot.po-update es_ES.po-update es_GT.po-update fi.po-update fr.po-update hu.po-update ml.po-update nb.po-update nl.po-update pl.po-update pt.po-update sl.po-update sv.po-update
+DUMMYPOFILES =  af.nop cs.nop de.nop en@quot.nop en@boldquot.nop es_ES.nop es_GT.nop fi.nop fr.nop hu.nop ml.nop nb.nop nl.nop pl.nop pt.nop sl.nop sv.nop
 DISTFILES.common = Makefile.in.in remove-potcdate.sin \
 $(DISTFILES.common.extra1) $(DISTFILES.common.extra2) $(DISTFILES.common.extra3)
 DISTFILES = $(DISTFILES.common) Makevars POTFILES.in \
@@ -84,7 +84,7 @@ POTFILES = \
      ../src/ncx.c \
      ../src/opf.c
 
-CATALOGS =  af.gmo cs.gmo de.gmo en@quot.gmo en@boldquot.gmo es_ES.gmo es_GT.gmo fi.gmo fr.gmo hu.gmo it.gmo ml.gmo nb.gmo nl.gmo pl.gmo pt.gmo sl.gmo sv.gmo
+CATALOGS =  af.gmo cs.gmo de.gmo en@quot.gmo en@boldquot.gmo es_ES.gmo es_GT.gmo fi.gmo fr.gmo hu.gmo ml.gmo nb.gmo nl.gmo pl.gmo pt.gmo sl.gmo sv.gmo
 
 POFILESDEPS_ = $(srcdir)/$(DOMAIN).pot
 POFILESDEPS_yes = $(POFILESDEPS_)
@@ -242,7 +242,7 @@ $(DOMAIN).pot-update: $(POTFILES) $(srcdir)/POTFILES.in remove-potcdate.sed
 	      --files-from=$(srcdir)/POTFILES.in \
 	      --copyright-holder='$(COPYRIGHT_HOLDER)' \
 	      --package-name="$${package_prefix}daisy-player" \
-	      --package-version='11.7.4' \
+	      --package-version='11.7' \
 	      --msgid-bugs-address="$$msgid_bugs_address" \
 	    ;; \
 	esac
