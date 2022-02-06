@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([daisy-player],[11.4.2],[jos@jlemmens.nl],[],[www.jlemmens.nl])
+AC_INIT([daisy-player],[11.4],[jos@jlemmens.nl],[],[www.jlemmens.nl])
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
@@ -238,4 +238,4 @@ echo
 echo "configure madplay..."
 echo
 
-(cd src/madplay && ./configure)
+cd src/madplay && ./configure

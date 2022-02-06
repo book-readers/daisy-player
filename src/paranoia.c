@@ -76,6 +76,7 @@ pid_t play_track (misc_t *misc, char *out_file, char *type,
 #endif
       snprintf (path, MAX_STR, "/dev/fd/%d", misc->pipefd[0]);
       snprintf (misc->str, MAX_STR, "%f", misc->speed);
+      misc->cdda_pid = setpgrp ();
       playfile (misc, path, "cdda", out_file, type, misc->str);
       close (misc->pipefd[0]);
       _exit (0);

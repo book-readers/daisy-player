@@ -18,7 +18,7 @@
  */
 
 #include "daisy.h"
-
+          
 void put_bookmark (misc_t *misc)
 {
    xmlTextWriterPtr writer;
@@ -303,7 +303,7 @@ void view_time (misc_t *misc, daisy_t *daisy)
 
 void view_screen (misc_t *misc, daisy_t *daisy)
 {
-   int i, x, x2,  hours, minutes, seconds;
+   int i, x, x2;
    float time;
 
    mvwprintw (misc->titlewin, 1, 0,
@@ -322,9 +322,9 @@ void view_screen (misc_t *misc, daisy_t *daisy)
             misc->level, misc->depth);
    wprintw (misc->titlewin, " ");
    time = misc->total_time / misc->speed;
-   hours   = time / 3600;
-   minutes = (time - hours * 3600) / 60;
-   seconds = time - (hours * 3600 + minutes * 60);
+   int hours   = time / 3600;
+   int minutes = (time - hours * 3600) / 60;
+   int seconds = time - (hours * 3600 + minutes * 60);
    mvwprintw (misc->titlewin, 1, 47, " ");
    wprintw (misc->titlewin, gettext ("total length: %02d:%02d:%02d"),
               hours, minutes,seconds);
@@ -373,7 +373,7 @@ void view_screen (misc_t *misc, daisy_t *daisy)
    wrefresh (misc->screenwin);
    view_page (misc, daisy);
    view_time (misc, daisy);
-} // view_screen         
+} // view_screen
 
 void start_playing (misc_t *misc, daisy_t *daisy)
 {
@@ -394,7 +394,8 @@ void start_playing (misc_t *misc, daisy_t *daisy)
       return;
    } // switch
 
-   char tempo_str[15], begin[20], duration[20];
+   char tempo_str[15];
+   char begin[20], duration[20];
 
    view_page (misc, daisy);
    lseek (misc->tmp_wav_fd, SEEK_SET, 0);
@@ -402,6 +403,7 @@ void start_playing (misc_t *misc, daisy_t *daisy)
    snprintf (duration, 20, "%f", misc->clip_end - misc->clip_begin);
    madplay (misc->current_audio_file, begin, duration, misc->tmp_wav);
    snprintf (tempo_str, 10, "%lf", misc->speed);
+   misc->player_pid = setpgrp ();
    playfile (misc, misc->tmp_wav, "wav", misc->sound_dev, "pulseaudio",
              tempo_str);
    _exit (0);
@@ -549,8 +551,6 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
 
 void pause_resume (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
 {
-   if (misc->playing < 0 && misc->pause_resume_playing < 0)
-      return;
    if (misc->playing > -1)
    {
       misc->pause_resume_playing = misc->playing;
@@ -569,6 +569,8 @@ void pause_resume (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
                                      misc->pause_resume_lsn_cursor - 75 * 4);
       return;
    } // if
+   if (misc->playing < 0)
+      return;
    open_clips_file (misc, my_attribute, daisy[misc->playing].clips_file,
                     daisy[misc->playing].clips_anchor);
    while (1)
@@ -922,9 +924,6 @@ void quit_daisy_player (misc_t *misc, daisy_t *daisy)
    unlink (misc->tmp_wav);
    puts ("");
    remove_tmp_dir (misc);
-   snprintf (misc->cmd, MAX_CMD,
-             "udisksctl unmount -b %s --force > /dev/null", misc->cd_dev);
-   system (misc->cmd);
 } // quit_daisy_player
 
 void search (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy,
@@ -1407,7 +1406,6 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
             misc->player_pid = -2;
          misc->playing = misc->just_this_item = -1;
-         misc->pause_resume_playing = -1;
          view_screen (misc, daisy);
          wmove (misc->screenwin, daisy[misc->current].y,
                                  daisy[misc->current].x);

@@ -68,12 +68,12 @@ NOTES
 When playing an Audio-CD skip-left and skip-right react a little late. The same for commands like 'U', 'D' and HOME.
 
 THANKS TO
-Daniel Veillard <daniel@veillard.com>  for the XML2 library.
+Daniel Veillard <daniel@veillard.com>
+Rob Sykes <aquegg@yahoo.co.uk>  for the XML2 library.
 
 Robert Leslie <rob@mars.org>  for the MPEG audio decoder (madplay).
 
-Chris Bagwell <cbagwell@users.sourceforge.net>
-Rob Sykes <aquegg@yahoo.co.uk>  for sox.
+Chris Bagwell <cbagwell@users.sourceforge.net>  for sox.
 
 Kim Nilsson <kim.nilsson@no-substitute.com>
 

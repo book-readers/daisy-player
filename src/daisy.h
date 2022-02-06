@@ -18,6 +18,10 @@
 
 #define _GNU_SOURCE
 
+#ifdef HAVE_CONFIG_H
+  #include "config.h"
+#endif
+
 #include <string.h>
 #include <libgen.h>
 #include <stdio.h>
@@ -37,12 +41,14 @@
 #include <libintl.h>
 #include <sox.h>
 #include <errno.h>
+#include <time.h>
 #include <sys/ioctl.h>
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
 #include <libxml/HTMLparser.h>
 #include <cdio/cdio.h>
 #ifdef HAVE_CDIO_PARANOIA_CDDA_H
+   #include <cdio/paranoia/cdda.h>
    #include <cdio/paranoia/paranoia.h>
 #else
    #include <cdio/cdda.h>
@@ -53,7 +59,6 @@
 #include <alsa/asoundlib.h>
 #include <alsa/mixer.h>
 #include <fnmatch.h>
-#include <sys/select.h>
 
 #undef PACKAGE
 #undef PACKAGE_BUGREPORT
@@ -63,9 +68,7 @@
 #undef PACKAGE_URL
 #undef PACKAGE_VERSION
 #undef VERSION
-#ifdef HAVE_CONFIG_H
-   #include "config.h"
-#endif
+#include "config.h"
 
 #define MAX_CMD 512
 #define MAX_STR 256
