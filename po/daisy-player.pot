@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: daisy-player 10.6.3\n"
+"Project-Id-Version: daisy-player 10.6.4.1\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2017-09-10 16:17+0200\n"
+"POT-Creation-Date: 2017-09-21 09:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,15 +24,15 @@ msgstr ""
 #: src/common.c:301 src/common.c:377 src/daisy2.02.c:45 src/daisy2.02.c:197
 #: src/daisy3.c:156 src/daisy3.c:225 src/daisy3.c:322 src/daisy3.c:402
 #: src/daisy3.c:502 src/daisy3.c:655 src/daisy3.c:712 src/daisy3.c:803
-#: src/daisy3.c:879 src/daisy3.c:1099 src/daisy3.c:1229 src/daisy-player.c:750
-#: src/daisy-player.c:1721 src/daisy-player.c:1750 src/daisy-player.c:2028
-#: src/daisy-player.c:2174
+#: src/daisy3.c:879 src/daisy3.c:1099 src/daisy3.c:1229 src/daisy-player.c:749
+#: src/daisy-player.c:1705 src/daisy-player.c:1734 src/daisy-player.c:2031
+#: src/daisy-player.c:2177
 #, c-format
 msgid "Cannot read %s"
 msgstr ""
 
-#: src/common.c:515 src/daisy3.c:1053 src/daisy-player.c:817
-#: src/daisy-player.c:1190
+#: src/common.c:515 src/daisy3.c:1053 src/daisy-player.c:816
+#: src/daisy-player.c:1199
 msgid "This book has no audio. Play this book with eBook-speaker"
 msgstr ""
 
@@ -69,21 +69,21 @@ msgstr ""
 msgid "No items found. Try option \"-O\"."
 msgstr ""
 
-#: src/daisy-player.c:316
+#: src/daisy-player.c:314
 msgid "'h' for help -"
 msgstr ""
 
-#: src/daisy-player.c:320
+#: src/daisy-player.c:318
 #, c-format
 msgid "%d pages"
 msgstr ""
 
-#: src/daisy-player.c:325
+#: src/daisy-player.c:323
 #, c-format
 msgid "level: %d of %d"
 msgstr ""
 
-#: src/daisy-player.c:333
+#: src/daisy-player.c:331
 #, c-format
 msgid "total length: %02d:%02d:%02d"
 msgstr ""
@@ -221,66 +221,66 @@ msgstr ""
 msgid "Press any key to leave help..."
 msgstr ""
 
-#: src/daisy-player.c:836
+#: src/daisy-player.c:835
 msgid "Please wait... -------------------------"
 msgstr ""
 
-#: src/daisy-player.c:941
+#: src/daisy-player.c:947
 msgid "What do you search?"
 msgstr ""
 
-#: src/daisy-player.c:1042
+#: src/daisy-player.c:1051
 msgid "Go to time (MM:SS):"
 msgstr ""
 
-#: src/daisy-player.c:1668 src/daisy-player.c:1902 src/daisy-player.c:1920
-#: src/daisy-player.c:2023 src/daisy-player.c:2039
+#: src/daisy-player.c:1652 src/daisy-player.c:1904 src/daisy-player.c:1922
+#: src/daisy-player.c:2026 src/daisy-player.c:2042
 #, c-format
 msgid "Daisy-player - Version %s %s"
 msgstr ""
 
-#: src/daisy-player.c:1671
+#: src/daisy-player.c:1655
 #, c-format
 msgid "Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"
 msgstr ""
 
-#: src/daisy-player.c:1673
+#: src/daisy-player.c:1657
 msgid "[-c cdrom_device] [-d ALSA_sound_device]"
 msgstr ""
 
-#: src/daisy-player.c:1686
+#: src/daisy-player.c:1670
 msgid "Cannot read /proc/mounts."
 msgstr ""
 
-#: src/daisy-player.c:1904
+#: src/daisy-player.c:1906
 msgid "A parser to play Daisy CD's with Linux"
 msgstr ""
 
-#: src/daisy-player.c:1906
+#: src/daisy-player.c:1908
 msgid "Scanning for a Daisy CD..."
 msgstr ""
 
-#: src/daisy-player.c:2003 src/daisy-player.c:2133
+#: src/daisy-player.c:2006 src/daisy-player.c:2136
 msgid "No DAISY-CD or Audio-cd found"
 msgstr ""
 
-#: src/daisy-player.c:2060 src/daisy-player.c:2072 src/daisy-player.c:2100
+#: src/daisy-player.c:2063 src/daisy-player.c:2075 src/daisy-player.c:2103
 msgid "No Daisy CD in drive."
 msgstr ""
 
-#: src/daisy-player.c:2116
+#: src/daisy-player.c:2119
 msgid "Found an Audio-CD."
 msgstr ""
 
-#: src/daisy-player.c:2118
+#: src/daisy-player.c:2121
 msgid "Get titles from freedb.freedb.org..."
 msgstr ""
 
-#: src/daisy-player.c:2247
+#: src/daisy-player.c:2250
 #, c-format
 msgid "Daisy-player - Version %s - (C)2017 J. Lemmens"
 msgstr ""
 
-#: src/daisy-player.c:2260
+#: src/daisy-player.c:2263
 msgid "Press 'h' for help"
 msgstr ""
