@@ -1,15 +1,6 @@
-# List of source files containing translatable strings.
-# Copyright (C) 1995 Free Software Foundation, Inc.
+# List of source files which contain translatable strings.
 
-# Package source files
-
-src/alsa_ctl.c
 src/audiocd.c
-src/common.c
-src/daisy2.02.c
-src/daisy3.c
 src/daisy-player.c
-src/ncx.c
-src/opf.c
+src/daisy3.c
 src/paranoia.c
-src/playfile.c

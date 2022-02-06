@@ -1,14 +1,10 @@
 NAME
 daisy-player - player for DAISY Digital Talking Books or Audio-CD's
-
 SYNOPSIS
-daisy-player [directory_with_a_Daisy-structure |
-Daisy_book_archive] [-c cdrom_device] [-d audio_device:audio_type] [-h]
-[-i] [-T] [-n | -y] [-v]
-
+daisy-player [directory_with_a_Daisy-structure | Daisy_book_in_ZIP_format] [-c cdrom_device] [-d ALSA_sound_device] [-n | -y]
 DESCRIPTION
 Daisy-player reads a Daisy-CD and plays the audio-files.
-DAISY versions 2.02 and 3 are currently supported, as well as media with multiple books. (discinfo)
+DAISY versions 2.02 and 3 are currently supported, as well as volumes with multiple books.
 
 Daisy-player also can play Audio-CD's and tries to get CD-information from a cddb-database.
 
@@ -16,89 +12,56 @@ A list of items on the Daisy-CD or Audio-CD will appear. Press <ENTER> to start 
 
 OPTIONS
 directory_with_a_Daisy-structure  One could also give a directory with a daisy structure as argument to daisy-player.
-Daisy_book_archive  One could also give an archive with a daisy structure as  argument to daisy-player. Many archive-formats are supported like .tar.gz or .zip. The archive will be unpacked using the "unar"-utility.
--c cdrom_device  Use DEVICE as the CD device. DEVICE is the device special file name of the CD-ROM device. The default is /dev/sr0. Be sure the user is a member of the group cdrom.
--d audio_device:audio_type  Daisy-player will play on this sound device of given audio_type. The value must be of the form "audio_device:audio_type". Example: "-d default:alsa", "hw:0:alsa" or "0:pulseaudio". This option overrules the value in the ~/.daisy-player.xml config file. Be sure the user is a member of the group "audio".
--h  Display this help and exit.
--i  Ignore reading of the bookmarks.
--T  Do not display the time passing during playback.
+Daisy_book_in_ZIP_format  One could also give a file in ZIP-format with a daisy structure as  argument to daisy-player.
+-c cdrom_device  Use DEVICE as the CD device. DEVICE is the device special file name of the CD-ROM device. The default is /dev/sr0.
+-d ALSA_sound_device  Daisy-player will play on this sound device. Default is "hw:0".
 -n  Don't fetch cddb-information of an Audio-CD from the internet.
 -y  Fetch cddb-information of an Audio-CD from the internet.
--v  Be more verbose, so one can se what's going on while initializing.
-
 SCREEN
 The name and version of this program and the name of the author will be displayed left aligned at the top of the screen. The name of the current loaded book will be displayed right aligned.
 
 The second row of the screen will display the number of pages of the current loaded book (if any), the current selected level and the total number of levels, the total playing time, the current displayed screen and the total number of screens.
 
-The next rows will display the title of the item, the first page of that item within brackets (if there are pages) and the playing time. Items in higher levels will be indented. (Three spaces each level.) When "just playing this item" is active, a "J" will be viewed at the first column of that item.
-
+The next rows will display the title of the item, the first page of the item within brackets (if there are pages) and the playing time. Items in higher levels will be indented. (Three spaces each level.) When "just playing this item" is active, a "J" will be viewed at the first column of that item.
 CONTROL KEYS
 Daisy-player recognizes the following keyboard-commands:
-cursor down,2   move cursor to the next item
-cursor up,8     move cursor to the previous item
-cursor right,6  skip 10 seconds forwards
-cursor left,4   skip 10 seconds backwards
-page-down,3     view next screen
-page-up,9       view previous screen
+cursor down     move cursor to the next item
+cursor up       move cursor to the previous item
+cursor right    skip to next phrase
+cursor left     skip to previous phrase
+page-down       view next screen
+page-up         view previous screen
 enter           Start playing
-space,0         pause/resume playing
-home,*          play on normal speed
+space           pause/resume playing
+home            play on normal speed
 /               search for a label
-d               store current item to disk. (Take into account the selected level)
-D,-             decrease playing speed
-e,.             stop playing and eject
+d               store current item to disk
+D               decrease playing speed
+e               stop playing and eject
 f               find the currently playing item and place the cursor there
-g               go to time in this item or song (MM:SS)
-G (DAISY-CD)    go to page number (if any)
-h,?             give this help
-j,5             just play current item and place a "J" at the first column.
+g (DAISY-CD)    go to page number (if any)
+g (Audio-CD)    go to time in this song (MM:SS)
+h or ?          give this help
+j               just play current item and place a "J" at the first column.
 l               switch to next level
 L               switch to previous level
-m               mute sound on/off
 n               search forewards
 N               search backwards
-o               select next output sound device. The volume levels and the "mute" states of all cards ar shown and can be altered
+o               select next output sound device
 p               place a bookmark
 q               quit daisy-player. The playing-point will be saved as bookmark.
 s               stop playing
-T               display the time passing during playback on/off
-U,+             increase playing speed
-v,1             decrease playback volume
-V,7             increase playback volume (beware of Clipping)
-
+U               increase playing speed
 NOTES
 When playing an Audio-CD skip-left and skip-right react a little late. The same for commands like 'U', 'D' and HOME.
-
-A DAISY 2.02-medium normally contains a single book. If more than one DAISY book is provided on the same medium, each book is stored in a separate folder (directory) of its own. In the root of the CD, DVD, or other media a file called discinfo.html is created that contains links to all books on the medium.
-(See <https://daisy.org/activities/standards/daisy/daisy-2/daisy-format-2-0-specification/>)
-
-A DAISY 3-book has two index-files for navigation, a NCX and an OPF file. Daisy-player tries to detemine which of these two files give the best result. But sometimes daisy-playr is not able to make the best choice. When in doubt use option "--N" to force the use of NCX or "-O" to force the OPF. This is only for DAISY format 3 books.
-
-THANKS TO
-Daniel Veillard <daniel@veillard.com>  for the XML2 library.
-
-Robert Leslie <rob@mars.org>  for the MPEG audio decoder (madplay).
-
-Chris Bagwell <cbagwell@users.sourceforge.net>
-Rob Sykes <aquegg@yahoo.co.uk>  for the sox library.     
-
-Kim Nilsson <kim.nilsson@no-substitute.com>
-
-Lennart Poettering  for pulseaudio.
-
-Colomban Wendling <cwendling@hypra.fr>  for some patches.
-
 FILES
-~/.daisy-player/  This directory contains the bookmarks in XML-format. . Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level.
-~/.daisy-player.xml  This file, in XML-format, contains the current sink in the list of the available sound devices, the desired playing speed, the current cdrom-device and wether or not to fetch cddb-information.
-
+~/.daisy-player/  This directory contains the bookmarks. Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level, each on a own line.
+~/.daisy-player.rc  This file contains the name of the desired audio device and the desired playing speed.
 SEE ALSO
-cddbget(1), unar(1), eject(1), udisksctl(1), pulseaudio(1), 
-pactl(1), amixer(1), alsamixer(1), usermod(8) 
+cddbget(1), unzip(1)
 AUTHOR
 Jos Lemmens <jos@jlemmens.nl>
 COPYRIGHT
-Copyright (C)2003-2021 Jos Lemmens <jos@jlemmens.nl>
+Copyright (C)2003-2013 Jos Lemmens <jos@jlemmens.nl>
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program (see the file COPYING); if not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA

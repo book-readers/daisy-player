@@ -2,22 +2,18 @@
 <HTML><HEAD><TITLE>Man page of daisy-player</TITLE>
 </HEAD><BODY>
 <H1>daisy-player</H1>
-Section: Linux Reference Manual (1)<BR>Updated: 21 February 2021<BR><A HREF="#index">Index</A>
+Section: Linux Reference Manual (1)<BR>Updated: 14 July 2013<BR><A HREF="#index">Index</A>
 <A HREF="/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
 <H2>NAME</H2>
 
 <B>daisy-player </B>- player for DAISY Digital Talking Books or Audio-CD's
-<B>
-</B><A NAME="lbAC">&nbsp;</A>
+<A NAME="lbAC">&nbsp;</A>
 <H2>SYNOPSIS</H2>
 
 <PRE>
-<B>daisy-player</B> [<I>directory_with_a_Daisy-structure</I> |
-Daisy_book_archive] [<B>-c</B> <I>cdrom_device</I>] [<B>-d</B> <I>audio_device:audio_type</I>] [<B>-h</B>]
-[<B>-i</B>] [<B>-T</B>] [<B>-n</B> | <B>-y</B>] [<B>-v</B>]
-
+<B>daisy-player</B> [<I>directory_with_a_Daisy-structure</I> | <I>Daisy_book_in_ZIP_format</I>] [<B>-c</B> <I>cdrom_device</I>] [<B>-d</B> <I>ALSA_sound_device</I>] [<B>-n</B> | <B>-y</B>]
 </PRE>
 
 
@@ -26,7 +22,7 @@ Daisy_book_archive] [<B>-c</B> <I>cdrom_device</I>] [<B>-d</B> <I>audio_device:a
 <H2>DESCRIPTION</H2>
 
 Daisy-player reads a Daisy-CD and plays the audio-files.
-DAISY versions 2.02 and 3 are currently supported, as well as media with multiple books. (discinfo)
+DAISY versions 2.02 and 3 are currently supported, as well as volumes with multiple books.
 <P>
 
 Daisy-player also can play Audio-CD's and tries to get CD-information from a cddb-database.
@@ -41,30 +37,18 @@ A list of items on the Daisy-CD or Audio-CD will appear. Press &lt;ENTER&gt; to 
 
 <DD>
 One could also give a directory with a daisy structure as argument to <B>daisy-player</B>.
-<DT><B>Daisy_book_archive</B>
+<DT><B></B><I>Daisy_book_in_ZIP_format</I>
 
 <DD>
-One could also give an archive with a daisy structure as  argument to daisy-player. Many archive-formats are supported like .tar.gz or .zip. The archive will be unpacked using the &quot;unar&quot;<B>-utility</B>.
+One could also give a file in ZIP-format with a daisy structure as  argument to <B>daisy-player</B>.
 <DT><B>-c</B> <I>cdrom_device</I>
 
 <DD>
-Use DEVICE as the CD device. DEVICE is the device special file name of the CD-ROM device. The default is /dev/sr0. Be sure the user is a member of the group cdrom.
-<DT><B>-d</B> <I>audio_device:audio_type</I>
+Use DEVICE as the CD device. DEVICE is the device special file name of the CD-ROM device. The default is /dev/sr0.
+<DT><B>-d</B> <I>ALSA_sound_device</I>
 
 <DD>
-Daisy-player will play on this sound device of given audio_type. The value must be of the form &quot;<I>audio_device:audio_type</I>&quot;. Example: &quot;<B>-d</B> default:alsa&quot;, &quot;hw:0:alsa&quot; or &quot;0:pulseaudio&quot;. This option overrules the value in the ~/.daisy-player.xml config file. Be sure the user is a member of the group &quot;audio&quot;.
-<DT><B>-h</B>
-
-<DD>
-Display this help and exit.
-<DT><B>-i</B>
-
-<DD>
-Ignore reading of the bookmarks.
-<DT><B>-T</B>
-
-<DD>
-Do not display the time passing during playback.
+Daisy-player will play on this sound device. Default is &quot;hw:0&quot;.
 <DT><B>-n</B>
 
 <DD>
@@ -73,10 +57,6 @@ Don't fetch cddb-information of an Audio-CD from the internet.
 
 <DD>
 Fetch cddb-information of an Audio-CD from the internet.
-<DT><B>-v</B>
-
-<DD>
-Be more verbose, so one can se what's going on while initializing.
 </DL>
 <A NAME="lbAF">&nbsp;</A>
 <H2>SCREEN</H2>
@@ -87,33 +67,33 @@ The name and version of this program and the name of the author will be displaye
 The second row of the screen will display the number of pages of the current loaded book (if any), the current selected level and the total number of levels, the total playing time, the current displayed screen and the total number of screens.
 <P>
 
-The next rows will display the title of the item, the first page of that item within brackets (if there are pages) and the playing time. Items in higher levels will be indented. (Three spaces each level.) When &quot;just playing this item&quot; is active, a &quot;J&quot; will be viewed at the first column of that item.
+The next rows will display the title of the item, the first page of the item within brackets (if there are pages) and the playing time. Items in higher levels will be indented. (Three spaces each level.) When &quot;just playing this item&quot; is active, a &quot;J&quot; will be viewed at the first column of that item.
 <A NAME="lbAG">&nbsp;</A>
 <H2>CONTROL KEYS</H2>
 
 Daisy-player recognizes the following keyboard-commands:
 <DL COMPACT>
-<DT><B>cursor down,2</B>
+<DT><B>cursor down</B>
 
 <DD>
 move cursor to the next item
-<DT><B>cursor up,8</B>
+<DT><B>cursor up</B>
 
 <DD>
 move cursor to the previous item
-<DT><B>cursor right,6</B>
+<DT><B>cursor right</B>
 
 <DD>
-skip 10 seconds forwards
-<DT><B>cursor left,4</B>
+skip to next phrase
+<DT><B>cursor left</B>
 
 <DD>
-skip 10 seconds backwards
-<DT><B>page-down,3</B>
+skip to previous phrase
+<DT><B>page-down</B>
 
 <DD>
 view next screen
-<DT><B>page-up,9</B>
+<DT><B>page-up</B>
 
 <DD>
 view previous screen
@@ -121,11 +101,11 @@ view previous screen
 
 <DD>
 Start playing
-<DT><B>space,0</B>
+<DT><B>space</B>
 
 <DD>
 pause/resume playing
-<DT><B>home,*</B>
+<DT><B>home</B>
 
 <DD>
 play on normal speed
@@ -136,12 +116,12 @@ search for a label
 <DT><B>d</B>
 
 <DD>
-store current item to disk. (Take into account the selected level)
-<DT><B>D,-</B>
+store current item to disk
+<DT><B>D</B>
 
 <DD>
 decrease playing speed
-<DT><B>e,.</B>
+<DT><B>e</B>
 
 <DD>
 stop playing and eject
@@ -149,19 +129,19 @@ stop playing and eject
 
 <DD>
 find the currently playing item and place the cursor there
-<DT><B>g</B>
-
-<DD>
-go to time in this item or song (MM:SS)
-<DT><B>G (DAISY-CD)</B>
+<DT><B>g (DAISY-CD)</B>
 
 <DD>
 go to page number (if any)
-<DT><B>h,?</B>
+<DT><B>g (Audio-CD)</B>
+
+<DD>
+go to time in this song (MM:SS)
+<DT><B>h or ?</B>
 
 <DD>
 give this help
-<DT><B>j,5</B>
+<DT><B>j</B>
 
 <DD>
 just play current item and place a &quot;J&quot; at the first column.
@@ -173,10 +153,6 @@ switch to next level
 
 <DD>
 switch to previous level
-<DT><B>m</B>
-
-<DD>
-mute sound on/off
 <DT><B>n</B>
 
 <DD>
@@ -188,7 +164,7 @@ search backwards
 <DT><B>o</B>
 
 <DD>
-select next output sound device. The volume levels and the &quot;mute&quot; states of all cards ar shown and can be altered
+select next output sound device
 <DT><B>p</B>
 
 <DD>
@@ -201,95 +177,40 @@ quit <B>daisy-player</B>. The playing-point will be saved as bookmark.
 
 <DD>
 stop playing
-<DT><B>T</B>
-
-<DD>
-display the time passing during playback on/off
-<DT><B>U,+</B>
+<DT><B>U</B>
 
 <DD>
 increase playing speed
-<DT><B>v,1</B>
-
-<DD>
-decrease playback volume
-<DT><B>V,7</B>
-
-<DD>
-increase playback volume (beware of Clipping)
 </DL>
 <A NAME="lbAH">&nbsp;</A>
 <H2>NOTES</H2>
 
 When playing an Audio-CD skip-left and skip-right react a little late. The same for commands like 'U', 'D' and HOME.
-<P>
-
-A DAISY 2.02-medium normally contains a single book. If more than one DAISY book is provided on the same medium, each book is stored in a separate folder (directory) of its own. In the root of the CD, DVD, or other media a file called discinfo.html is created that contains links to all books on the medium.
-(See &lt;<A HREF="https://daisy.org/activities/standards/daisy/daisy-2/daisy-format-2-0-specification/">https://daisy.org/activities/standards/daisy/daisy-2/daisy-format-2-0-specification/</A>&gt;)
-<P>
-
-A DAISY 3-book has two index-files for navigation, a NCX and an OPF file. Daisy-player tries to detemine which of these two files give the best result. But sometimes daisy-playr is not able to make the best choice. When in doubt use option &quot;<B>--N</B>&quot; to force the use of NCX or &quot;<B>-O</B>&quot; to force the OPF. This is only for DAISY format 3 books.
 <A NAME="lbAI">&nbsp;</A>
-<H2>THANKS TO</H2>
-
-<DL COMPACT>
-<DT><B>Daniel Veillard &lt;<A HREF="mailto:daniel@veillard.com">daniel@veillard.com</A>&gt;</B>
-
-<DD>
-for the XML2 library.
-<DT><B>Robert Leslie &lt;<A HREF="mailto:rob@mars.org">rob@mars.org</A>&gt;</B>
-
-<DD>
-for the MPEG audio decoder (madplay).
-</DL>
-<P>
-
-Chris Bagwell &lt;<A HREF="mailto:cbagwell@users.sourceforge.net">cbagwell@users.sourceforge.net</A>&gt;
-<DL COMPACT>
-<DT><B>Rob Sykes &lt;<A HREF="mailto:aquegg@yahoo.co.uk">aquegg@yahoo.co.uk</A>&gt;</B>
-
-<DD>
-for the sox library.     
-</DL>
-<P>
-
-Kim Nilsson &lt;<A HREF="mailto:kim.nilsson@no-substitute.com">kim.nilsson@no-substitute.com</A>&gt;
-<DL COMPACT>
-<DT><B>Lennart Poettering</B>
-
-<DD>
-for pulseaudio.
-<DT><B>Colomban Wendling &lt;<A HREF="mailto:cwendling@hypra.fr">cwendling@hypra.fr</A>&gt;</B>
-
-<DD>
-for some patches.
-</DL>
-<A NAME="lbAJ">&nbsp;</A>
 <H2>FILES</H2>
 
 <DL COMPACT>
 <DT><B>~/.daisy-player</B>/
 
 <DD>
-This directory contains the bookmarks in XML-format. . Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level.
-<DT><B>~/.daisy-player.xml</B>
+This directory contains the bookmarks. Each file has the name of the book and contains the name of the current item, the start-time of that item and the current level, each on a own line.
+<DT><B>~/.daisy-player.rc</B>
 
 <DD>
-This file, in XML-format, contains the current sink in the list of the available sound devices, the desired playing speed, the current cdrom-device and wether or not to fetch cddb-information.
+This file contains the name of the desired audio device and the desired playing speed.
 </DL>
-<A NAME="lbAK">&nbsp;</A>
+<A NAME="lbAJ">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
-<B><A HREF="/cgi-bin/man/man2html?1+cddbget">cddbget</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+unar">unar</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+eject">eject</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+udisksctl">udisksctl</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+pulseaudio">pulseaudio</A></B>(1), 
-<B><A HREF="/cgi-bin/man/man2html?1+pactl">pactl</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+amixer">amixer</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+alsamixer">alsamixer</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?8+usermod">usermod</A></B>(8) 
-<A NAME="lbAL">&nbsp;</A>
+<B><A HREF="/cgi-bin/man/man2html?1+cddbget">cddbget</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+unzip">unzip</A></B>(1)
+<A NAME="lbAK">&nbsp;</A>
 <H2>AUTHOR</H2>
 
 Jos Lemmens &lt;<A HREF="mailto:jos@jlemmens.nl">jos@jlemmens.nl</A>&gt;
-<A NAME="lbAM">&nbsp;</A>
+<A NAME="lbAL">&nbsp;</A>
 <H2>COPYRIGHT</H2>
 
-Copyright (C)2003-2021 Jos Lemmens &lt;<A HREF="mailto:jos@jlemmens.nl">jos@jlemmens.nl</A>&gt;
+Copyright (C)2003-2013 Jos Lemmens &lt;<A HREF="mailto:jos@jlemmens.nl">jos@jlemmens.nl</A>&gt;
 <P>
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program (see the file COPYING); if not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
@@ -305,16 +226,15 @@ This program is free software; you can redistribute it and/or modify it under th
 <DT><A HREF="#lbAF">SCREEN</A><DD>
 <DT><A HREF="#lbAG">CONTROL KEYS</A><DD>
 <DT><A HREF="#lbAH">NOTES</A><DD>
-<DT><A HREF="#lbAI">THANKS TO</A><DD>
-<DT><A HREF="#lbAJ">FILES</A><DD>
-<DT><A HREF="#lbAK">SEE ALSO</A><DD>
-<DT><A HREF="#lbAL">AUTHOR</A><DD>
-<DT><A HREF="#lbAM">COPYRIGHT</A><DD>
+<DT><A HREF="#lbAI">FILES</A><DD>
+<DT><A HREF="#lbAJ">SEE ALSO</A><DD>
+<DT><A HREF="#lbAK">AUTHOR</A><DD>
+<DT><A HREF="#lbAL">COPYRIGHT</A><DD>
 </DL>
 <HR>
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 18:37:31 GMT, February 21, 2021
+Time: 19:08:44 GMT, July 14, 2013
 </BODY>
 </HTML>

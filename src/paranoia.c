@@ -1,6 +1,6 @@
 /* paranoia.c
  *
- *  Copyright (C)2017 J. Lemmens
+ *  Copyright (C) 2013 J. Lemmens
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -17,36 +17,49 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "daisy.h"
+#include "src/daisy.h"
 
-char *get_mcn (misc_t *misc)
+pid_t player_pid;
+extern daisy_t daisy[];
+extern char sound_dev[], tmp_wav[];
+int sector_ptr, pipefd[2], audiocd;
+cdrom_paranoia_t *par;
+cdrom_drive_t *drv;
+CdIo_t *p_cdio;
+lsn_t lsn_cursor;
+char mcn[MAX_STR];
+
+void view_screen ();
+void playfile (char *, char *, char *, char *, char *);
+
+char *get_mcn ()
 {
-   if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
+   if (audiocd == 1)
    {
-      snprintf (misc->mcn, MAX_STR, ".MCN_%s", cdio_get_mcn (misc->p_cdio));
-      return misc->mcn;
+      snprintf (mcn, MAX_STR, ".MCN_%s", cdio_get_mcn (p_cdio));
+      return mcn;;
    } // if
    return "";
 } // get_mcn
 
-void init_paranoia (misc_t *misc)
+void init_paranoia (char *cd_dev)
 {
-   misc->p_cdio = cdio_open (misc->cd_dev, DRIVER_UNKNOWN);
-   if (! (misc->drv = cdio_cddap_identify_cdio (misc->p_cdio, 0, NULL)))
+   p_cdio = cdio_open (cd_dev, DRIVER_UNKNOWN);
+   if (! (drv = cdio_cddap_identify_cdio (p_cdio, 0, NULL)))
    {
       endwin ();
       beep ();
       printf ("Unable to identify audio CD disc.\n");
       kill (getppid (), SIGKILL);
    } // if
-   if (cdda_open (misc->drv) != 0)
+   if (cdda_open (drv) != 0)
    {
       endwin ();
       beep ();
       printf ("Unable to open disc.\n");
       kill (getppid (), SIGKILL);
    } // if
-   if (pipe (misc->pipefd) == -1)
+   if (pipe (pipefd) == -1)
    {
       int e;
 
@@ -56,34 +69,37 @@ void init_paranoia (misc_t *misc)
       printf ("pipe: %s\n", strerror (e));
       kill (getppid (), SIGKILL);
    } // if
-   misc->par = paranoia_init (misc->drv);
-   paranoia_modeset (misc->par, PARANOIA_MODE_FULL ^ PARANOIA_MODE_NEVERSKIP);
+   par = paranoia_init (drv);
+   paranoia_modeset (par, PARANOIA_MODE_FULL ^ PARANOIA_MODE_NEVERSKIP);
 } // init_paranoia
 
-pid_t play_track (misc_t *misc, audio_info_t *sound_devices, lsn_t from)
+pid_t play_track (char *cd_dev, char *out_file, char *type,
+                  lsn_t from, float speed)
 {
-   init_paranoia (misc);
+   int ret;
 
-   switch (misc->cdda_pid = fork ())
+   cdio_paranoia_free (par);
+   init_paranoia (cd_dev);
+   switch (player_pid = fork ())
    {
    case 0: /* Child reads from pipe */
    {
-      char path[MAX_STR + 1];
+      char path[MAX_STR + 1], str[MAX_STR + 1];
 
-      reset_term_signal_handlers_after_fork ();
-      close (misc->pipefd[1]);     /* don't need this in child */
+      close (pipefd[1]);     /* don't need this in child */
 #ifdef F_SETPIPE_SZ
-      fcntl (misc->pipefd[0], F_SETPIPE_SZ, 1024000);
+      fcntl (pipefd[0], F_SETPIPE_SZ, 1024000);
 #endif
-      snprintf (path, MAX_STR, "/dev/fd/%d", misc->pipefd[0]);
-      snprintf (misc->str, MAX_STR, "%f", misc->speed);
-      playfile (misc, sound_devices, path, "cdda", misc->str);
-      close (misc->pipefd[0]);
-      _exit (EXIT_SUCCESS);
+      snprintf (path, MAX_STR, "/dev/fd/%d", pipefd[0]);
+      snprintf (str, MAX_STR, "%f", speed);
+      playfile (path, "cdda", out_file, type, str);
+      close (pipefd[0]);
+      _exit (0);
    }
    default:
-      paranoia_seek (misc->par, from, SEEK_SET);
-      misc->lsn_cursor = from;
-      return misc->cdda_pid;
+      paranoia_seek (par, from, SEEK_SET);
+      lsn_cursor = from;
+      return player_pid;
    } // switch
+   ret = ret;
 } // play_track
