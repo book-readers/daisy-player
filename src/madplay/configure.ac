@@ -68,6 +68,8 @@ AC_MSG_RESULT(${enable_profiling-no})
 AC_MSG_CHECKING([whether to enable debugging])
 AC_MSG_RESULT(${enable_experimental-no})
 
+AM_SILENT_RULES([yes])
+
 dnl Create output files.
 
 AC_TYPE_SSIZE_T

@@ -18,10 +18,6 @@
 
 #define _GNU_SOURCE
 
-#ifdef HAVE_CONFIG_H
-  #include "config.h"
-#endif
-
 #include <string.h>
 #include <libgen.h>
 #include <stdio.h>
@@ -41,14 +37,12 @@
 #include <libintl.h>
 #include <sox.h>
 #include <errno.h>
-#include <time.h>
 #include <sys/ioctl.h>
 #include <libxml/xmlreader.h>
 #include <libxml/xmlwriter.h>
 #include <libxml/HTMLparser.h>
 #include <cdio/cdio.h>
 #ifdef HAVE_CDIO_PARANOIA_CDDA_H
-   #include <cdio/paranoia/cdda.h>
    #include <cdio/paranoia/paranoia.h>
 #else
    #include <cdio/cdda.h>
@@ -56,9 +50,8 @@
 #endif
 #include <cdio/disc.h>
 #include <magic.h>
-#include <alsa/asoundlib.h>
-#include <alsa/mixer.h>
 #include <fnmatch.h>
+#include <sys/select.h>
 
 #undef PACKAGE
 #undef PACKAGE_BUGREPORT
@@ -68,7 +61,9 @@
 #undef PACKAGE_URL
 #undef PACKAGE_VERSION
 #undef VERSION
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+   #include "config.h"
+#endif
 
 #define MAX_CMD 512
 #define MAX_STR 256
@@ -122,7 +117,7 @@ typedef struct Misc
    int items_in_opf, items_in_ncx;
    int tts_no, depth, total_pages;
    int pipefd[2], tmp_wav_fd, has_audio_tag;
-   int pause_resume_playing;
+   int pause_resume_playing, mounted_by_daisy_player;
    char *pause_resume_id, *prev_id, *current_id, *audio_id;
    float speed, total_time, clip_begin, clip_end;
    long min_vol, max_vol, volume;
@@ -137,7 +132,7 @@ typedef struct Misc
    int label_len;
    char bookmark_title[MAX_STR];
    char *search_str, *path_name;
-   char cd_dev[MAX_STR], *sound_dev;
+   char cd_dev[MAX_STR], *pulseaudio_device;
    char cddb_flag, opf_name[MAX_STR], ncx_name[MAX_STR];
    char use_ncx, use_opf;
    char *current_audio_file, tmp_wav[MAX_STR + 1], mcn[MAX_STR];
@@ -196,9 +191,10 @@ extern void parse_smil_3 (misc_t *, my_attribute_t *, daisy_t *);
 extern void remove_tmp_dir (misc_t *);
 extern void make_tmp_dir (misc_t *);
 extern char *find_index_name (misc_t *, char *);
-extern void select_next_output_device (misc_t *, my_attribute_t *, daisy_t *);
+extern void select_next_output_device (misc_t *, daisy_t *);
 extern void get_volume (misc_t *);
 extern void set_volume (misc_t *);
 extern int madplay (char *, char *, char *, char *);
 extern void kill_player (misc_t *);
 extern void get_path_name (misc_t *, char *, char *);
+extern long time (char *);

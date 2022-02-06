@@ -65,19 +65,27 @@ static sox_effect_handler_t const *output_effect_fn (void)
 void playfile (misc_t *misc, char *in_file, char *in_type,
                char *out_file, char *out_type, char *tempo)
 {
-  static sox_format_t * in, * out; /* input and output files */
+  static sox_format_t *in, *out; /* input and output files */
   sox_effects_chain_t * chain;
   sox_effect_t * e;
   sox_signalinfo_t interm_signal;
   char * args[10];
 
   sox_init();
+
   if ((in = sox_open_read (in_file, NULL, NULL, in_type)) == NULL)
     failure (misc, "sox_open_read", errno);
   if (strcasecmp (in_type, "cdda") == 0)
     in->encoding.reverse_bytes = 0;
-  if ((out = sox_open_write (out_file, &in->signal, NULL, out_type, NULL, NULL)) == NULL)
-     failure (misc, "sox_open_write", errno);
+  if ((out = sox_open_write (out_file, &in->signal, NULL, out_type,
+                             NULL, NULL)) == NULL)
+  {
+    int e;
+    
+    e  = errno;
+    sprintf (misc->str, "sox_open_write: %s", misc->pulseaudio_device);
+    failure (misc, misc->str, e);
+  } // if
 
   chain = sox_create_effects_chain(&in->encoding, &out->encoding);
   interm_signal = in->signal; /* NB: deep copy */
@@ -95,12 +103,13 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
   sox_add_effect (chain, e, &interm_signal, &in->signal);
   free(e);
 
-  if (in->signal.rate != out->signal.rate) {
+  if (in->signal.rate != out->signal.rate)
+  {
     e = sox_create_effect(sox_find_effect("rate"));
     sox_effect_options (e, 0, NULL);
     sox_add_effect (chain, e, &interm_signal, &out->signal);
     free(e);
-  }
+  } // if
 
   if (in->signal.channels != out->signal.channels)
   {
@@ -108,7 +117,7 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
     sox_effect_options (e, 0, NULL);
     sox_add_effect (chain, e, &interm_signal, &out->signal);
     free(e);
-  }
+  } // if
 
   e = sox_create_effect(output_effect_fn());
   args[0] = (char *)out, sox_effect_options(e, 1, args);

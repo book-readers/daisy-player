@@ -2,7 +2,7 @@
 <HTML><HEAD><TITLE>Man page of daisy-player</TITLE>
 </HEAD><BODY>
 <H1>daisy-player</H1>
-Section: Linux Reference Manual (1)<BR>Updated: 10 March 2018<BR><A HREF="#index">Index</A>
+Section: Linux Reference Manual (1)<BR>Updated: 06 June 2018<BR><A HREF="#index">Index</A>
 <A HREF="/cgi-bin/man/man2html">Return to Main Contents</A><HR>
 
 <A NAME="lbAB">&nbsp;</A>
@@ -52,7 +52,7 @@ Use DEVICE as the CD device. DEVICE is the device special file name of the CD-RO
 <DT><B>-d</B> <I>pulseaudio_sound_device</I>
 
 <DD>
-Daisy-player will play on this sound device. Default is &quot;0&quot;. (The first soundcard).  Be sure the user is a member of the group audio.
+Daisy-player will play on this sound device. Default is &quot;0&quot;. (The first soundcard).  Be sure the user is a member of the group pulse.
 <DT><B>-h</B>
 
 <DD>
@@ -210,9 +210,8 @@ When playing an Audio-CD skip-left and skip-right react a little late. The same 
 <A NAME="lbAI">&nbsp;</A>
 <H2>THANKS TO</H2>
 
-Daniel Veillard &lt;<A HREF="mailto:daniel@veillard.com">daniel@veillard.com</A>&gt;
 <DL COMPACT>
-<DT><B>Rob Sykes &lt;<A HREF="mailto:aquegg@yahoo.co.uk">aquegg@yahoo.co.uk</A>&gt;</B>
+<DT><B>Daniel Veillard &lt;<A HREF="mailto:daniel@veillard.com">daniel@veillard.com</A>&gt;</B>
 
 <DD>
 for the XML2 library.
@@ -220,7 +219,12 @@ for the XML2 library.
 
 <DD>
 for the MPEG audio decoder (madplay).
-<DT><B>Chris Bagwell &lt;<A HREF="mailto:cbagwell@users.sourceforge.net">cbagwell@users.sourceforge.net</A>&gt;</B>
+</DL>
+<P>
+
+Chris Bagwell &lt;<A HREF="mailto:cbagwell@users.sourceforge.net">cbagwell@users.sourceforge.net</A>&gt;
+<DL COMPACT>
+<DT><B>Rob Sykes &lt;<A HREF="mailto:aquegg@yahoo.co.uk">aquegg@yahoo.co.uk</A>&gt;</B>
 
 <DD>
 for sox.
@@ -239,12 +243,12 @@ This directory contains the bookmarks in XML-format. . Each file has the name of
 <DT><B>~/.daisy-player.xml</B>
 
 <DD>
-This file, in XML-format, contains the name of the desired audio device and the desired playing speed.
+This file, in XML-format, contains the name of the desired pulseaudio device and the desired playing speed.
 </DL>
 <A NAME="lbAK">&nbsp;</A>
 <H2>SEE ALSO</H2>
 
-<B><A HREF="/cgi-bin/man/man2html?1+cddbget">cddbget</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+unar">unar</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+eject">eject</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+udisksctl">udisksctl</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+pulseaudio">pulseaudio</A></B>(1)
+<B><A HREF="/cgi-bin/man/man2html?1+cddbget">cddbget</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+unar">unar</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+eject">eject</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+udisksctl">udisksctl</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?1+pulseaudio">pulseaudio</A></B>(1), <B><A HREF="/cgi-bin/man/man2html?8+usermod">usermod</A></B>(8)
 <A NAME="lbAL">&nbsp;</A>
 <H2>AUTHOR</H2>
 
@@ -278,6 +282,6 @@ This program is free software; you can redistribute it and/or modify it under th
 This document was created by
 <A HREF="/cgi-bin/man/man2html">man2html</A>,
 using the manual pages.<BR>
-Time: 19:38:45 GMT, March 10, 2018
+Time: 17:41:03 GMT, June 06, 2018
 </BODY>
 </HTML>

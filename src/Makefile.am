@@ -1,10 +1,10 @@
 AUTOMAKE_OPTIONS = foreign
 
 AM_CFLAGS = -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
-            -Wunused-function -Wuninitialized -Winit-self -fno-common \
             -g -I /usr/include/libxml2/ -O3 \
             --param=ssp-buffer-size=4 -Wformat -Werror=format-security \
-            -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
+            -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\" \
+            -fkeep-static-functions
 
 bin_PROGRAMS = daisy-player
 
@@ -20,8 +20,9 @@ libtool: $(LIBTOOL_DEPS)
 	$(SHELL) ./config.status --recheck
 
 .c.s:
+	(cd madplay && make)
 	$(COMPILE) -S $<
-
+                                                   
 again:
 	$(MAKE) clean
 	$(MAKE)
