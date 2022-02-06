@@ -109,7 +109,7 @@ int parse_xing(struct tag_xing *xing,
  * DESCRIPTION:	parse a LAME tag
  */
 static
-int parse_lame (struct tag_lame *lame,
+int parse_lame(struct tag_lame *lame,
 	       struct mad_bitptr *ptr, unsigned int *bitlen,
 	       unsigned short crc)
 {
@@ -123,7 +123,7 @@ int parse_lame (struct tag_lame *lame,
   /* bytes $9A-$A4: Encoder short VersionString */
 
   magic   = mad_bit_read(ptr, 4 * 8);
-  version = mad_bit_nextbyte (ptr);
+  version = mad_bit_nextbyte(ptr);
 
   mad_bit_skip(ptr, 5 * 8);
 

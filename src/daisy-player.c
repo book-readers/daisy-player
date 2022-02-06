@@ -23,13 +23,14 @@ void put_bookmark (misc_t *misc)
 {
    xmlTextWriterPtr writer;
    struct passwd *pw;;
+   char name[MAX_CMD];
 
    pw = getpwuid (geteuid ());
    snprintf (misc->str, MAX_STR - 1, "%s/.daisy-player", pw->pw_dir);
    mkdir (misc->str, 0755);
-   snprintf (misc->str, MAX_STR - 1, "%s/.daisy-player/%s%s",
+   snprintf (name, MAX_CMD - 1, "%s/.daisy-player/%s%s",
              pw->pw_dir, misc->bookmark_title, get_mcn (misc));
-   if (! (writer = xmlNewTextWriterFilename (misc->str, 0)))
+   if (! (writer = xmlNewTextWriterFilename (name, 0)))
       return;
    xmlTextWriterStartDocument (writer, NULL, NULL, NULL);
    xmlTextWriterStartElement (writer, BAD_CAST "bookmark");
@@ -90,7 +91,7 @@ void get_clips (misc_t *misc, my_attribute_t *my_attribute)
 float read_time (char *p)
 {
    char *h, *m, *s;
-              
+
    s = strrchr (p, ':') + 1;
    if (s > p)
       *(s - 1) = 0;
@@ -114,16 +115,20 @@ void get_bookmark (misc_t *misc, my_attribute_t *my_attribute,
    xmlTextReaderPtr local_reader;
    htmlDocPtr local_doc;
    struct passwd *pw;
-   char *id;
+   char *id, *name;
+   int len;
 
    if (misc->ignore_bookmark == 1)
       return;
    pw = getpwuid (geteuid ());
    if (! *misc->bookmark_title)
       return;
-   snprintf (misc->str, MAX_STR - 1, "%s/.daisy-player/%s%s",
+   len = strlen (pw->pw_dir) + strlen (misc->bookmark_title) +
+         strlen (get_mcn (misc)) + 100;
+   name = malloc (len);
+   snprintf (name, len, "%s/.daisy-player/%s%s",
              pw->pw_dir, misc->bookmark_title, get_mcn (misc));
-   local_doc = htmlParseFile (misc->str, "UTF-8");
+   local_doc = htmlParseFile (name, "UTF-8");
    if (! (local_reader = xmlReaderWalker (local_doc)))
    {
       xmlFreeDoc (local_doc);
@@ -146,8 +151,6 @@ void get_bookmark (misc_t *misc, my_attribute_t *my_attribute,
    misc->displaying = misc->playing = misc->current;
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
    {
-      misc->player_pid = play_track (misc, misc->sound_dev, "alsa",
-            daisy[misc->current].first_lsn + (misc->elapsed_seconds * 75));
       misc->elapsed_seconds = time (NULL) - misc->elapsed_seconds;
       return;
    } // if
@@ -157,20 +160,17 @@ void get_bookmark (misc_t *misc, my_attribute_t *my_attribute,
    while (1)
    {
       if (strcmp (misc->current_id, id) == 0)
-      {
-         start_playing (misc, daisy);
          break;
-      } // if
       get_next_clips (misc, my_attribute, daisy);
    } // while
-   if (misc->level < 1)                                                    
+   if (misc->level < 1)
       misc->level = 1;
    misc->current_page_number = daisy[misc->playing].page_number - 1;
    misc->just_this_item = -1;
    pause_resume (misc, my_attribute, daisy);
    pause_resume (misc, my_attribute, daisy);
    view_screen (misc, daisy);
-} // get_bookmark
+} // get_bookmark        
 
 void get_next_clips (misc_t *misc, my_attribute_t *my_attribute,
                     daisy_t *daisy)
@@ -213,12 +213,17 @@ void get_next_clips (misc_t *misc, my_attribute_t *my_attribute,
             if (++misc->playing >= misc->total_items)
             {
                struct passwd *pw;
+               int len;
+               char *name;
 
                pw = getpwuid (geteuid ());
                quit_daisy_player (misc, daisy);
-               snprintf (misc->str, MAX_STR - 1, "%s/.daisy-player/%s%s",
+               len = strlen (pw->pw_dir) + strlen (misc->bookmark_title) +
+                     strlen (get_mcn (misc)) + 100;
+               name = malloc (len);
+               snprintf (name, len, "%s/.daisy-player/%s%s",
                          pw->pw_dir, misc->bookmark_title, get_mcn (misc));
-               unlink (misc->str);
+               unlink (name);
                _exit (0);
             } // if
             if (daisy[misc->playing].level <= misc->level)
@@ -293,7 +298,7 @@ void view_time (misc_t *misc, daisy_t *daisy)
    wattroff (misc->screenwin, A_BOLD);
    wmove (misc->screenwin, daisy[misc->current].y, daisy[misc->current].x);
    wrefresh (misc->screenwin);
-} // view_time                                                       
+} // view_time
 
 void view_screen (misc_t *misc, daisy_t *daisy)
 {
@@ -397,7 +402,8 @@ void start_playing (misc_t *misc, daisy_t *daisy)
    snprintf (duration, 20, "%f", misc->clip_end - misc->clip_begin);
    madplay (misc->current_audio_file, begin, duration, misc->tmp_wav);
    snprintf (tempo_str, 10, "%lf", misc->speed);
-   playfile (misc, misc->tmp_wav, "wav", misc->sound_dev, "alsa", tempo_str);
+   misc->player_pid = setpgrp ();
+   playfile (misc, misc->tmp_wav, "wav", misc->sound_dev, "pulseaudio", tempo_str);
    _exit (0);
 } // start_playing
 
@@ -441,17 +447,20 @@ void open_clips_file (misc_t *misc, my_attribute_t *my_attribute,
 void write_wav (misc_t *misc, my_attribute_t *my_attribute,
                 daisy_t *daisy, char *label)
 {
-   char in_file[MAX_STR], out_file[MAX_STR];
-   char  out_cdr[MAX_STR], complete_cdr[MAX_STR];
+   char *in_file, *out_file, *out_cdr, *complete_cdr;
    struct passwd *pw;
    int old_playing, old_displaying, old_current, old_just_this_item;
    char begin[20], duration[20];
    int w;
 
    pw = getpwuid (geteuid ());
-   snprintf (out_file, MAX_STR, "%s/%s.wav", pw->pw_dir, label);
+   out_file = malloc (strlen (pw->pw_dir) + strlen (label) + 10);
+   sprintf (out_file, "%s/%s.wav", pw->pw_dir, label);
    while (access (out_file, R_OK) == 0)
-      strncat (out_file, ".wav", MAX_STR - 1);
+   {
+      out_file = realloc (out_file, 5);
+      strcat (out_file, ".wav");
+   } // while
 
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
    {
@@ -473,6 +482,7 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
       if (misc->par)
          paranoia_free (misc->par);
 // The .wav file is not correctly closed; I don't know the solution, sorry.
+      free (out_file);
       kill (pid, SIGQUIT);
       return;
    } // if
@@ -483,9 +493,12 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
    old_just_this_item = misc->just_this_item;
    misc->just_this_item = misc->playing = misc->current;
 
-   snprintf (out_cdr, MAX_STR, "%s/out.cdr", misc->tmp_dir);
-   snprintf (complete_cdr, MAX_STR, "%s/complete.cdr", misc->tmp_dir);
+   out_cdr = malloc (strlen (misc->tmp_dir) + 10);
+   sprintf (out_cdr, "%s/out.cdr", misc->tmp_dir);
+   complete_cdr = malloc (strlen (misc->tmp_dir) + 20);
+   sprintf (complete_cdr, "%s/complete.cdr", misc->tmp_dir);
    w = open (complete_cdr, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
+   in_file = malloc (0);
    while (1)
    {
 #define BUF_SIZE 8192
@@ -498,8 +511,9 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
       get_next_clips (misc, my_attribute, daisy);
       snprintf (begin, 20, "%f", daisy[misc->current].begin);
       snprintf (duration, 20, "%f", daisy[misc->current].duration);
-      snprintf (in_file, MAX_STR, "%s/%s",
-                misc->daisy_mp, misc->current_audio_file);
+      in_file = realloc (in_file,
+          strlen (misc->daisy_mp) + strlen (misc->current_audio_file) + 5);
+      sprintf (in_file, "%s/%s", misc->daisy_mp, misc->current_audio_file);
       if (access (in_file, R_OK) != 0)
          failure (misc, in_file, errno);
       madplay (in_file, begin, duration, out_cdr);
@@ -512,13 +526,17 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
       } // while
       close (r);
       if (misc->current + 1 >= misc->total_items)
-        break;
+         break;
       if (daisy[misc->current + 1].level <= misc->level)
          break;
       misc->current += 1;
    } // while
    close (w);
    playfile (misc, complete_cdr, "cdr", out_file, "wav", "1");
+   free (in_file);
+   free (out_file);
+   free (out_cdr);
+   free (complete_cdr);
    misc->playing = old_playing;
    misc->displaying = old_displaying;
    misc->current= old_current;
@@ -534,12 +552,7 @@ void pause_resume (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
       misc->pause_resume_id = misc->current_id;
       misc->playing = -1;
       misc->pause_resume_lsn_cursor = misc->lsn_cursor;
-      kill (misc->player_pid, SIGKILL);
-      if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
-      {
-         wait (NULL);
-         misc->player_pid = -2;
-      } // if
+      kill_player (misc);
       return;
    } // if
 
@@ -547,7 +560,7 @@ void pause_resume (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
    misc->lsn_cursor = misc->pause_resume_lsn_cursor;
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
    {
-      misc->player_pid = play_track (misc, misc->sound_dev, "alsa",
+      misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
                                      misc->pause_resume_lsn_cursor - 75 * 4);
       return;
    } // if
@@ -682,8 +695,7 @@ void help (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
    nodelay (misc->screenwin, TRUE);
    view_screen (misc, daisy);
    wmove (misc->screenwin, y, x);
-   if (playing > -1)
-      pause_resume (misc, my_attribute, daisy);
+   pause_resume (misc, my_attribute, daisy);
 } // help
 
 void previous_item (misc_t *misc, daisy_t *daisy)
@@ -853,7 +865,7 @@ void load_xml (misc_t *misc, my_attribute_t *my_attribute)
    doc = xmlRecoverFile (str);
    if (! (reader = xmlReaderWalker (doc)))
    {
-      strncpy (misc->sound_dev, "hw:0", MAX_STR - 1);
+      strncpy (misc->sound_dev, "0", MAX_STR - 1);
       return;
    } // if
    do
@@ -898,9 +910,9 @@ void quit_daisy_player (misc_t *misc, daisy_t *daisy)
 {
    view_screen (misc, daisy);
    endwin ();
-   kill (misc->player_pid, SIGKILL);
-   if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
-      kill (misc->cdda_pid, SIGKILL);
+   if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
+      xmlTextReaderClose (misc->reader);
+   kill_player (misc);
    put_bookmark (misc);
    save_xml (misc);
    close (misc->tmp_wav_fd);
@@ -916,7 +928,7 @@ void search (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy,
 
    if (misc->playing > -1)
    {
-      kill (misc->player_pid, SIGKILL);
+      pause_resume (misc, my_attribute, daisy);
       misc->player_pid = -2;
       misc->playing = misc->just_this_item = -1;
       view_screen (misc, daisy);
@@ -987,7 +999,7 @@ void search (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy,
       if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
       {
          misc->elapsed_seconds = time (NULL);
-         misc->player_pid = play_track (misc, misc->sound_dev, "alsa",
+         misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
                 daisy[misc->current].first_lsn);
       }
       else
@@ -1017,8 +1029,8 @@ void go_to_time (misc_t *misc, daisy_t *daisy, my_attribute_t *my_attribute)
 {
    char time_str[10];
    int secs;
-
-   kill (misc->player_pid, SIGKILL);
+                                
+   kill_player (misc);
    if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
       misc->player_pid = -2;
    misc->just_this_item = -1;
@@ -1026,6 +1038,7 @@ void go_to_time (misc_t *misc, daisy_t *daisy, my_attribute_t *my_attribute)
    view_screen (misc, daisy);
    mvwprintw (misc->titlewin, 1, 0, "----------------------------------------");
    wprintw (misc->titlewin, "----------------------------------------");
+   *time_str = 0;
    while (1)
    {
       mvwprintw (misc->titlewin, 1, 0, "%s ",
@@ -1057,7 +1070,7 @@ void go_to_time (misc_t *misc, daisy_t *daisy, my_attribute_t *my_attribute)
    } // if
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
    {
-      misc->player_pid = play_track (misc, misc->sound_dev, "alsa",
+      misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
                          daisy[misc->current].first_lsn + (secs * 75));
       misc->elapsed_seconds = time (NULL) - secs;
       misc->prev_id = strdup (misc->current_id);
@@ -1100,7 +1113,7 @@ void skip_left (misc_t *misc, my_attribute_t *my_attribute,
    } // if first item
    if (misc->player_pid > -1)
    {
-      while (kill (misc->player_pid, SIGKILL) != 0);
+      kill_player (misc);
       misc->player_pid = -2;
    } // if
    if (misc->reader)
@@ -1144,7 +1157,6 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
              daisy_t *daisy, char *wd)
 {
    int old_screen, i;
-   char str[MAX_STR];
 
    for (misc->current = 0; misc->current < misc->total_items; misc->current++)
    {
@@ -1166,7 +1178,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          daisy[i].page_number = 0;
       } // for
       misc->depth = 1;
-      misc->player_pid = play_track (misc, misc->sound_dev, "alsa",
+      misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
                       daisy[misc->current].first_lsn + (misc->seconds * 75));
       misc->elapsed_seconds = time (NULL) - misc->seconds;
    } // if
@@ -1193,16 +1205,24 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          misc->current_id = strdup ("");
          misc->current_page_number = daisy[misc->playing].page_number;
          if (misc->player_pid > -1)
-            kill (misc->player_pid, SIGKILL);
+            kill_player (misc);
          misc->player_pid = -2;
          if (misc->discinfo)
          {
-            snprintf (str, MAX_STR - 1,
+            int len;
+            char *str;
+
+            len = strlen (wd) + strlen ( PACKAGE) +
+                  strlen (misc->daisy_mp) +
+                  strlen (daisy[misc->current].daisy_mp) +
+                  strlen (misc->sound_dev) + 100;
+            str = malloc (len);
+            snprintf (str, len,
                       "cd \"%s\"; \"%s\" \"%s\"/\"%s\" -d %s",
                       wd, PACKAGE, misc->daisy_mp,
                       daisy[misc->current].daisy_mp, misc->sound_dev);
             switch (system (str));
-            snprintf (str, MAX_STR - 1,
+            snprintf (str, len,
                       "cd \"%s\"; \"%s\" \"%s\" -d %s\n", wd, PACKAGE,
                       misc->daisy_mp, misc->sound_dev);
             switch (system (str));
@@ -1211,7 +1231,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          } // if
          if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
          {
-            misc->player_pid = play_track (misc, misc->sound_dev, "alsa",
+            misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
                 daisy[misc->current].first_lsn);
             misc->elapsed_seconds = time (NULL);
             break;
@@ -1256,14 +1276,12 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
             beep ();
             break;
          } // if
-         xmlTextReaderClose (misc->reader);
          quit_daisy_player (misc, daisy);
-         while (kill (misc->player_pid, 0) == 0);
-         snprintf (misc->cmd, MAX_CMD, "eject -pm %s", misc->cd_dev);
-         switch (system (misc->cmd));
+         snprintf (misc->cmd, MAX_CMD, "eject -mp %s", misc->cd_dev);
+         switch  (system (misc->cmd));
          _exit (0);
       case 'f':
-         if (misc->playing == -1)
+         if (misc->playing <= -1)
          {
             beep ();
             break;
@@ -1307,17 +1325,19 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          {
             misc->just_this_item = misc->displaying = misc->playing =
                                    misc->current;
-            kill (misc->player_pid, SIGKILL);
+            kill_player (misc);
             misc->player_pid = -2;
             if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
             {
-               misc->player_pid = play_track (misc, misc->sound_dev, "alsa",
+               misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
                    daisy[misc->current].first_lsn);
             }
             else
+            {
                open_clips_file (misc, my_attribute,
                  daisy[misc->current].clips_file,
                  daisy[misc->current].clips_anchor);
+            } // if
          } // if
          wattron (misc->screenwin, A_BOLD);
          if (misc->just_this_item != -1 &&
@@ -1366,12 +1386,13 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          break;
       case 'p':
          put_bookmark (misc);
+         save_xml (misc);
          break;
       case 'q':
          quit_daisy_player (misc, daisy);
          _exit (0);
       case 's':
-         kill (misc->player_pid, SIGKILL);
+         kill_player (misc);
          if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
             misc->player_pid = -2;
          misc->playing = misc->just_this_item = -1;
@@ -1398,7 +1419,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
       case '6':
          if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
          {
-            kill (misc->player_pid, SIGKILL);
+            kill_player (misc);
             misc->lsn_cursor += 8 * 75;
             if (misc->lsn_cursor >= daisy[misc->playing].last_lsn)
             {
@@ -1414,16 +1435,22 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
                if (misc->current >= misc->total_items)
                {
                   struct passwd *pw;
+                  int len;
+                  char *str;
 
                   pw = getpwuid (geteuid ());
                   quit_daisy_player (misc, daisy);
-                  snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s%s",
+                  len = strlen (pw->pw_dir) +
+                        strlen (misc->bookmark_title) +
+                        strlen (get_mcn (misc) + 100);
+                  str = malloc (len);
+                  snprintf (str, len, "%s/.daisy-player/%s%s",
                             pw->pw_dir, misc->bookmark_title, get_mcn (misc));
                   unlink (str);
                   _exit (0);
                } // if
             } // if
-            misc->player_pid = play_track (misc, misc->sound_dev, "alsa",
+            misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
                                misc->lsn_cursor);
             break;
          } // if
@@ -1433,7 +1460,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
       case '4':
          if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
          {
-            kill (misc->player_pid, SIGKILL);
+            kill_player (misc);
             misc->lsn_cursor -= 12 * 75;
             if (misc->lsn_cursor < daisy[misc->playing].first_lsn)
             {
@@ -1446,7 +1473,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
                   if (misc->lsn_cursor < daisy[misc->playing].first_lsn)
                      misc->lsn_cursor = daisy[misc->playing].first_lsn;
             } // if
-            misc->player_pid = play_track (misc, misc->sound_dev, "alsa",
+            misc->player_pid = play_track (misc, misc->sound_dev, "pulseaudio",
                         misc->lsn_cursor);
             break;
          } // if
@@ -1489,15 +1516,6 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          } // if
          pause_resume (misc, my_attribute, daisy);
          misc->speed += 0.1;
-         if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
-         {
-            kill (misc->player_pid, SIGKILL);
-            misc->player_pid =
-                 play_track (misc, misc->sound_dev, "alsa", misc->lsn_cursor);
-            pause_resume (misc, my_attribute, daisy);
-            view_screen (misc, daisy);
-            break;
-         } // if
          pause_resume (misc, my_attribute, daisy);
          view_screen (misc, daisy);
          break;
@@ -1510,15 +1528,6 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          } // if
          pause_resume (misc, my_attribute, daisy);
          misc->speed -= 0.1;
-         if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
-         {
-            kill (misc->player_pid, SIGKILL);
-            misc->player_pid =
-                 play_track (misc, misc->sound_dev, "alsa", misc->lsn_cursor);
-            pause_resume (misc, my_attribute, daisy);     
-            view_screen (misc, daisy);
-            break;
-         } // if
          pause_resume (misc, my_attribute, daisy);
          view_screen (misc, daisy);
          break;
@@ -1526,14 +1535,6 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
       case '*':
          pause_resume (misc, my_attribute, daisy);
          misc->speed = 1;
-         if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
-         {
-            misc->player_pid =
-                 play_track (misc, misc->sound_dev, "alsa", misc->lsn_cursor);
-            pause_resume (misc, my_attribute, daisy);
-            view_screen (misc, daisy);
-            break;
-         } // if
          pause_resume (misc, my_attribute, daisy);
          view_screen (misc, daisy);
          break;
@@ -1546,10 +1547,6 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          } // if
          misc->volume -= 1;
          set_volume (misc);
-         if (misc->playing == -1)
-            break;
-         pause_resume (misc, my_attribute, daisy);
-         pause_resume (misc, my_attribute, daisy);
          break;
       case 'V':
       case '7':
@@ -1560,10 +1557,6 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          } // if
          misc->volume += 1;
          set_volume (misc);
-         if (misc->playing == -1)
-            break;
-         pause_resume (misc, my_attribute, daisy);
-         pause_resume (misc, my_attribute, daisy);
          break;
       default:
          beep ();
@@ -1613,17 +1606,23 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
             if (misc->current >= misc->total_items)
             {
                struct passwd *pw;
+               int len;
+               char *str;
 
                pw = getpwuid (geteuid ());
                quit_daisy_player (misc, daisy);
-               snprintf (str, MAX_STR - 1, "%s/.daisy-player/%s%s",
+               len = strlen (pw->pw_dir) +
+                     strlen (misc->bookmark_title) +
+                     strlen (get_mcn (misc)) + 100;
+               str = malloc (len);
+               snprintf (str, len, "%s/.daisy-player/%s%s",
                          pw->pw_dir, misc->bookmark_title, get_mcn (misc));
                unlink (str);
                _exit (0);
             } // if
             if (misc->just_this_item > -1)
             {
-               kill (misc->player_pid, SIGKILL);
+               kill_player (misc);
                misc->playing = misc->just_this_item = -1;
             } // if
             view_screen (misc, daisy);
@@ -1634,18 +1633,17 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
    } // for
 } // browse
 
-void usage ()
+void usage (int e)
 {
-   beep ();
    printf (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "\n");
    puts ("(C)2003-2017 J. Lemmens\n");
    printf (gettext
     ("Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"),
     PACKAGE);
-   printf ("\n%s ", gettext ("[-c cdrom_device] [-d ALSA_sound_device]"));
-   printf ("[-i] [-n | -y]\n");
+   printf ("\n%s ", gettext ("[-c cdrom_device] [-d pulseaudio_sound_device]"));
+   printf ("[-h] [-i] [-n | -y]\n");
    fflush (stdout);
-   _exit (1);
+   _exit (e);
 } // usage
 
 char *get_mount_point (misc_t *misc)
@@ -1766,6 +1764,7 @@ int main (int argc, char *argv[])
 {
    int opt;
    char str[MAX_STR], DISCINFO_HTML[MAX_STR], *start_wd;
+   char *c_opt, *d_opt, cddb_opt;
    misc_t misc;
    my_attribute_t my_attribute;
    daisy_t *daisy;
@@ -1784,7 +1783,7 @@ int main (int argc, char *argv[])
    misc.ignore_bookmark = 0;
    *misc.bookmark_title = 0;
    misc.current_id = strdup ("");
-   misc.prev_id = misc.audio_id = strdup (""); 
+   misc.prev_id = misc.audio_id = strdup ("");
    misc.total_time = 0;
    *misc.daisy_title = 0;
    *misc.ncc_html = 0;
@@ -1793,7 +1792,12 @@ int main (int argc, char *argv[])
    usr_action.sa_flags = 0;
    sigaction (SIGCHLD, &usr_action, NULL);
    *misc.xmlversion = 0;
-   load_xml (&misc, &my_attribute);
+// If option '-h' exit before load_xml ()
+   make_tmp_dir (&misc);
+   if (access ("/usr/bin/sox", R_OK) != 0)
+      failure (&misc, "daisy-player needs the sox package.", errno);
+   strncpy (misc.sound_dev, "0", MAX_STR - 1);
+   misc.cddb_flag = 'y';
    if (! setlocale (LC_ALL, ""))
       failure (&misc, "setlocale ()", errno);
    if (! setlocale (LC_NUMERIC, "C"))
@@ -1801,51 +1805,47 @@ int main (int argc, char *argv[])
    textdomain (PACKAGE);
    snprintf (str, MAX_STR, "%s/", LOCALEDIR);
    bindtextdomain (PACKAGE, str);
-   make_tmp_dir (&misc);
    start_wd = strdup (get_current_dir_name ());
-   if (snd_mixer_open (&handle, 0) != 0)
-      failure (&misc, "snd_mixer_open", errno);
-   snd_mixer_attach (handle, misc.sound_dev);
-   snd_mixer_selem_register (handle, NULL, NULL);
-   snd_mixer_load (handle);
-   snd_mixer_selem_id_alloca (&sid);
-   snd_mixer_selem_id_set_index (sid, 0);
-   snd_mixer_selem_id_set_name (sid, "Master");
-   if ((elem = snd_mixer_find_selem (handle, sid)) == NULL)
-      failure (&misc, "snd_mixer_find_selem", errno);
-   snd_mixer_selem_get_playback_volume_range (elem,
-                                              &misc.min_vol, &misc.max_vol);
-   cid = 0;
-   snd_mixer_selem_get_playback_volume (elem, cid, &misc.volume);
-   snd_mixer_close (handle);
    opterr = 0;
    misc.use_OPF = misc.use_NCX = 0;
-   while ((opt = getopt (argc, argv, "c:d:ijnyON")) != -1)
+   c_opt = d_opt = NULL;
+   cddb_opt = 0;
+   while ((opt = getopt (argc, argv, "c:d:hijnyON")) != -1)
    {
       switch (opt)
       {
       case 'c':
          strncpy (misc.cd_dev, optarg, MAX_STR - 1);
+         c_opt = strdup (misc.cd_dev);
          break;
       case 'd':
          strncpy (misc.sound_dev, optarg, 15);
+         d_opt = strdup (misc.sound_dev);
+         break;
+      case 'h':
+         free (start_wd);
+         remove_tmp_dir (&misc);
+         usage (0);
          break;
       case 'i':
          misc.ignore_bookmark = 1;
          break;
       case 'n':
          misc.cddb_flag = 'n';
+         cddb_opt = misc.cddb_flag;
          break;
       case 'y':
       case 'j':
          misc.cddb_flag = 'y';
+         cddb_opt = misc.cddb_flag;
          switch (system ("cddbget -c null > /dev/null 2>&1"))
-         // if cddbget is installed
+// if cddbget is installed
          {
          case 0:
             break;
          default:
             misc.cddb_flag = 'n';
+            cddb_opt = misc.cddb_flag;
          } // switch
          break;
       case 'N':
@@ -1855,11 +1855,35 @@ int main (int argc, char *argv[])
          misc.use_OPF = 1;
          break;
       default:
-         beep ();
+         beep ();             
          remove_tmp_dir (&misc);
-         usage ();
+         usage (1);
       } // switch
    } // while
+   if (misc.ignore_bookmark == 0)
+      load_xml (&misc, &my_attribute);
+   if (c_opt)
+      strncpy (misc.cd_dev, c_opt, MAX_STR - 1);
+   if (d_opt)
+      strncpy (misc.sound_dev, d_opt, MAX_STR - 1);
+   if (cddb_opt)
+      misc.cddb_flag = cddb_opt;
+   if (snd_mixer_open (&handle, 0) != 0)
+      failure (&misc, "No pulseaudio sound device found", errno);
+   snprintf (misc.str, 3, "hw:%s", misc.sound_dev);
+   snd_mixer_attach (handle, misc.str);
+   snd_mixer_selem_register (handle, NULL, NULL);
+   snd_mixer_load (handle);
+   snd_mixer_selem_id_alloca (&sid);
+   snd_mixer_selem_id_set_index (sid, 0);
+   snd_mixer_selem_id_set_name (sid, "Master");
+   if ((elem = snd_mixer_find_selem (handle, sid)) == NULL)
+      failure (&misc, "No pulseaudio sound device found", errno);
+   snd_mixer_selem_get_playback_volume_range (elem,
+                                              &misc.min_vol, &misc.max_vol);
+   cid = 0;
+   snd_mixer_selem_get_playback_volume (elem, cid, &misc.volume);
+   snd_mixer_close (handle);
    initscr ();
    if (! (misc.titlewin = newwin (2, 80,  0, 0)) ||
        ! (misc.screenwin = newwin (23, 80, 2, 0)))
@@ -1890,7 +1914,8 @@ int main (int argc, char *argv[])
          puts ("(C)2003-2017 J. Lemmens");
          beep ();
          remove_tmp_dir (&misc);
-         failure (&misc, argv[optind], e);
+         printf ("%s: %s\n", argv[optind], strerror (e));
+         _exit (1);
       } // if
 
 // determine filetype
@@ -1908,7 +1933,7 @@ int main (int argc, char *argv[])
          beep ();
          fflush (stdout);
          remove_tmp_dir (&misc);
-         usage ();
+         usage (1);
       } // if
       if (strcasestr (magic_file (myt, argv[optind]), "directory"))
       {
@@ -1971,7 +1996,7 @@ int main (int argc, char *argv[])
          printf ("\n%s\n", gettext ("No DAISY-CD or Audio-cd found"));
          beep ();
          remove_tmp_dir (&misc);
-         usage ();
+         usage (1);
       } // if
       magic_close (myt);
    } // if there is an argument
@@ -2058,6 +2083,7 @@ int main (int argc, char *argv[])
          case CDIO_DISC_MODE_DVD_PR_DL: /**< DVD+R DL */
          case CDIO_DISC_MODE_CD_MIXED:
          {
+            endwin ();
             do
 // if not found a mounted cd, try to mount one
             {
@@ -2073,6 +2099,8 @@ int main (int argc, char *argv[])
                switch (system (misc.cmd));
                get_mount_point (&misc);
             } while (! get_mount_point (&misc));
+            misc.titlewin = newwin (2, 80,  0, 0);
+            misc.screenwin = newwin (23, 80, 2, 0);
             break;
          } // TRACK_COUNT_DATA"
          case CDIO_DISC_MODE_CD_DA: /**< CD-DA */

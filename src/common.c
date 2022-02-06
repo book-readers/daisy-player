@@ -21,20 +21,22 @@
 
 void set_volume (misc_t *misc)
 {
+   char dev[5];
    snd_mixer_t *handle;
    snd_mixer_selem_id_t *sid;
    snd_mixer_elem_t *elem;
 
    if (snd_mixer_open (&handle, 0) != 0)
       failure (misc, "snd_mixer_open", errno);
-   snd_mixer_attach (handle, misc->sound_dev);
+   snprintf (dev, 3, "hw:%s", misc->sound_dev);
+   snd_mixer_attach (handle, dev);
    snd_mixer_selem_register (handle, NULL, NULL);
    snd_mixer_load (handle);
    snd_mixer_selem_id_alloca (&sid);
    snd_mixer_selem_id_set_index (sid, 0);
    snd_mixer_selem_id_set_name (sid, "Master");
    if ((elem = snd_mixer_find_selem (handle, sid)) == NULL)
-      return;
+      failure (misc, "No ALSA device found", errno);
    snd_mixer_selem_set_playback_volume_all (elem, misc->volume);
    snd_mixer_close (handle);
 } // set_volume
@@ -152,7 +154,7 @@ void failure (misc_t *misc, char *str, int e)
 {
    endwin ();
    beep ();
-   printf ("\n%s: %s\n", str, strerror (e));
+   fprintf (stderr, "\n%s: %s\n", str, strerror (e));
    fflush (stdout);
    remove_tmp_dir (misc);
    _exit (-1);
@@ -161,6 +163,36 @@ void failure (misc_t *misc, char *str, int e)
 void playfile (misc_t *misc, char *in_file, char *in_type,
                char *out_file, char *out_type, char *tempo)
 {
+/*
+   This function goes wrong with pulseaudio. I can't find the solution.
+   For now, the external command sox will be used instead.
+*/
+
+   char *cmd;
+
+   fclose (stdin);
+   fclose (stdout);
+   fclose (stderr);
+   if (strcmp (in_type, "cdda") == 0)
+   {
+      cmd = malloc (strlen (in_type) + strlen (in_file) +
+                    strlen (out_type) + strlen (out_file) + 50);
+      sprintf (cmd, "sox -t cdda -L \"%s\" -t %s \"%s\" tempo -m %s",
+               in_file, out_type, out_file, tempo);
+   }
+   else
+   {
+      cmd = malloc (strlen (in_type) + strlen (in_file) +
+                    strlen (out_type) + strlen (out_file) + 50);
+      sprintf (cmd, "sox -t %s \"%s\" -t %s \"%s\" tempo -s %s",
+               in_type, in_file, out_type, out_file, tempo);
+   } // if
+   switch (system (cmd));
+   free (cmd);
+   unlink (in_file);
+   unlink (misc->tmp_wav);
+
+/*
    sox_format_t *sox_in, *sox_out;
    sox_effects_chain_t *chain;
    sox_effect_t *e;
@@ -176,43 +208,18 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
       e = errno;
       beep ();
       endwin ();
-      printf ("%s: %s\n", in_file, strerror (e));
+      printf ("\n%s: %s\n", in_file, strerror (e));
       fflush (stdout);
       remove_tmp_dir (misc);
       kill (0, SIGTERM);
    } // if
    if ((sox_out = sox_open_write (out_file, &sox_in->signal,
-                                  NULL, out_type, NULL, NULL)) == NULL)
+       NULL, out_type, NULL, NULL)) == NULL)
    {
-      if (strcmp (out_type, "alsa") == 0)
-      {
-// if cannot write to out_file (pulseaudio?), try ALSA default
-         if ((sox_out = sox_open_write ("default", &sox_in->signal,
-                                        NULL, "alsa", NULL, NULL)) == NULL)
-         {
-            int e;
-
-            e = errno;
-            beep ();
-            endwin ();
-            printf ("\n%s: %s\n\n", out_file, strerror (e));
-            fflush (stdout);
-            put_bookmark (misc);
-            strncpy (misc->sound_dev, "hw:0", MAX_STR - 1);
-            save_xml (misc);
-            kill (0, SIGTERM);
-         } // if
-      }
-      else
-      {
-         int e;
-
-         e = errno;
-         beep ();
-         endwin ();
-         printf ("%s: strerror (%d)\n", out_file, e);
-         kill (0, SIGTERM);
-      } // if
+      beep ();
+      endwin ();
+      printf ("\n%s: %s\n", out_file, strerror (EBUSY));
+      kill (0, SIGTERM);
    } // if
    if (strcmp (in_type, "cdda") == 0)
    {
@@ -227,7 +234,9 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
    args[0] = (char *) sox_in, sox_effect_options (e, 1, args);
    sox_add_effect (chain, e, &sox_in->signal, &sox_in->signal);
 
-/* Don't use the sox trim effect. It works nice, but is far too slow
+/ *
+   Don't use the sox trim effect. It works nice, but is far too slow.
+   Use madplay instead.
    char str2[MAX_STR];
    snprintf (str,  MAX_STR - 1, "%f", misc->clip_begin);
    snprintf (str2, MAX_STR - 1, "%f", misc->clip_end - misc->clip_begin);
@@ -236,7 +245,7 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
    args[1] = str2;
    sox_effect_options (e, 2, args);
    sox_add_effect (chain, e, &sox_in->signal, &sox_in->signal);
-*/
+* /
 
    e = sox_create_effect (sox_find_effect ("tempo"));
 #ifdef DAISY_PLAYER
@@ -270,7 +279,8 @@ void playfile (misc_t *misc, char *in_file, char *in_type,
    unlink (in_file);
    sox_quit ();
    unlink (misc->tmp_wav);
-} // playfile
+*/
+} // playfile    
 
 void player_ended ()
 {
@@ -445,12 +455,14 @@ int get_page_number_3 (misc_t *misc, my_attribute_t *my_attribute)
 
 void kill_player (misc_t *misc)
 {
-   kill (misc->player_pid, SIGKILL);
+   while (killpg (misc->player_pid, SIGHUP) == 0);
 #ifdef EBOOK_SPEAKER
    unlink (misc->eBook_speaker_txt);
    unlink (misc->tmp_wav);
 #endif
 #ifdef DAISY_PLAYER
+   if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
+      while (killpg (misc->cdda_pid, SIGKILL) == 0);
    unlink (misc->tmp_wav);
 #endif
 } // kill_player
@@ -585,11 +597,7 @@ daisy_t *create_daisy_struct (misc_t *misc, my_attribute_t *my_attribute)
    misc->total_items = misc->items_in_ncx;
    if (misc->items_in_opf > misc->items_in_ncx)
       misc->total_items = misc->items_in_opf;
-   switch (chdir (misc->daisy_mp))
-   {
-   default:
-      break;
-   } // switch
+   switch (chdir (misc->daisy_mp));
 #ifdef EBOOK_SPEAKER
    snprintf (misc->eBook_speaker_txt, MAX_STR,
              "%s/eBook-speaker.txt", misc->daisy_mp);
@@ -642,7 +650,8 @@ void remove_tmp_dir (misc_t *misc)
          int e;
 
          e = errno;
-         snprintf (misc->str, MAX_STR, "%s: %s\n", misc->cmd, strerror (e));
+         snprintf (misc->cmd, MAX_CMD + strlen (strerror (e)),
+                   "%s: %s\n", misc->cmd, strerror (e));
          failure (misc, misc->str, e);
       } // if
    } // if
@@ -882,7 +891,8 @@ int get_tag_or_label (misc_t *misc, my_attribute_t *my_attribute,
    {
       failure (misc, "xmlTextReaderRead ()\n"
                "Can't handle this DTB structure!\n"
-               "Don't know how to handle it yet, sorry. :-(\n", errno);
+               "Don't know how to handle it yet, sorry. (-:\n", errno);
+      break;
    }
    case 0:
    {
@@ -904,6 +914,7 @@ int get_tag_or_label (misc_t *misc, my_attribute_t *my_attribute,
       e = errno;
       snprintf (str, MAX_STR, gettext ("Cannot read type: %d"), type);
       failure (misc, str, e);
+      break;
    }
    case XML_READER_TYPE_ELEMENT:
       strncpy (misc->tag, (char *) xmlTextReaderConstName (reader),
@@ -965,11 +976,11 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
 {
    char pn[15];
 
-   kill (misc->player_pid, SIGKILL);
+   kill_player (misc);
 #ifdef DAISY_PLAYER
    if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
-#endif
       misc->player_pid = -2;
+#endif
    misc->playing = misc->just_this_item = -1;
    view_screen (misc, daisy);
 #ifdef EBOOK_SPEAKER
@@ -1054,8 +1065,7 @@ void select_next_output_device (misc_t *misc, my_attribute_t *my_attribute,
    char *list[10], *trash;
 
    playing= misc->playing;
-   if (playing > -1)
-      pause_resume (misc, my_attribute, daisy);
+   pause_resume (misc, my_attribute, daisy);
    wclear (misc->screenwin);
    wprintw (misc->screenwin, "\n%s\n\n", gettext ("Select a soundcard:"));
    if (! (r = fopen ("/proc/asound/cards", "r")))
@@ -1081,7 +1091,7 @@ void select_next_output_device (misc_t *misc, my_attribute_t *my_attribute,
       switch (wgetch (misc->screenwin))
       {
       case 13: //
-         snprintf (misc->sound_dev, MAX_STR - 1, "hw:%i", y - 3);
+         snprintf (misc->sound_dev, MAX_STR - 1, "%d", y - 3);
          view_screen (misc, daisy);
          nodelay (misc->screenwin, TRUE);
          if (playing > -1)

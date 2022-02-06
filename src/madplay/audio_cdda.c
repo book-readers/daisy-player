@@ -124,7 +124,7 @@ int finish ()
   return result;
 }
 
-int audio_cdda (union audio_control *control)
+int audio_cdda(union audio_control *control)
 {
   audio_error = 0;
 

@@ -259,3 +259,16 @@ Samuel Thibault <sthibault@debian.org>
 	of the soundfile itself with sox.
         The external madplay application is no longer needed.
         "store current item to disk" now takes in account the current level.
+10.6.1	Test for the existence of an ALSA sound device.
+10.6.4	Option -h will not read .daisy-player.xml.
+	Processes hanged while playing Audio-CD's. Solved.
+10.6.4.1 Forgot to update the TODO and Changelog files in the previous
+	version.
+11.0	On some soundcards (especially onboard cards) the alsa driver
+	only can play one file at a time.
+	daisy-player crashes sometimes on these cards.
+	From this version on the pulseaudio sound-driver will be used
+	instead. pulseaudio has no problems with these cards.
+	I don't know how to play with pulseaudio in the C function
+	sox_open_write ().,
+	For now, the external command sox will be used instead.

@@ -1,8 +1,8 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])
-AC_INIT([daisy-player],[10.6],[jos@jlemmens.nl],[],[www.jlemmens.nl])
+AC_PREREQ([2.69])                                               
+AC_INIT([daisy-player],[11.0],[jos@jlemmens.nl],[],[www.jlemmens.nl])
 AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
@@ -38,7 +38,7 @@ AC_CHECK_LIB([magic], [main])
 # FIXME: Replace `main' with a function in `-lncursesw':
 AC_CHECK_LIB([ncursesw], [main])
 # FIXME: Replace `main' with a function in `-lsox':
-AC_CHECK_LIB([sox], [main])
+#AC_CHECK_LIB([sox], [main])                      
 # FIXME: Replace `main' with a function in `-lxml2':
 AC_CHECK_LIB([xml2], [main])
 # FIXME: Replace `main' with a function in `-lasound':
@@ -126,7 +126,7 @@ AC_CONFIG_SRCDIR([src/madplay])
 AM_INIT_AUTOMAKE
 
 
-dnl System type.         
+dnl System type.
 
 AC_CANONICAL_HOST
 
@@ -289,3 +289,4 @@ test -n "$optimize" && CFLAGS="$CFLAGS $optimize"
 test -n "$profile"  && CFLAGS="$CFLAGS $profile" LDFLAGS="$LDFLAGS $profile"
 AC_DEFINE([AUDIO_DEFAULT], [], [audio_wav])
 AC_OUTPUT
+

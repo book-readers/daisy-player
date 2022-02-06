@@ -112,6 +112,8 @@ am_daisy_player_OBJECTS = audiocd.$(OBJEXT) paranoia.$(OBJEXT) \
 	madplay/filter.$(OBJEXT) madplay/audio_cdda.$(OBJEXT)
 daisy_player_OBJECTS = $(am_daisy_player_OBJECTS)
 daisy_player_LDADD = $(LDADD)
+am__DEPENDENCIES_1 =
+daisy_player_DEPENDENCIES = $(am__DEPENDENCIES_1)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -317,13 +319,9 @@ AM_CFLAGS = -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
             --param=ssp-buffer-size=4 -Wformat -Werror=format-security \
             -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
 
-AM_LDFLAGS = -lncursesw -lsox -lxml2 -lcdio -lcdio_cdda -lcdio_paranoia \
-             -lmagic -lasound -lmad
-
 ldadd = $(depend) @LTLIBINTL@
-DEPENDENCIES = $(depend) \
-LDADD =			$(ldadd)
-
+DEPENDENCIES = $(depend)
+LDADD = $(ldadd)
 CLEANFILES = $(EXTRA_PROGRAMS)
 daisy_player_SOURCES = daisy.h audiocd.c paranoia.c common.c daisy2.02.c \
                        daisy3.c daisy-player.c \
@@ -704,7 +702,7 @@ libtool: $(LIBTOOL_DEPS)
 
 again:
 	$(MAKE) clean
-	$(MAKE)            
+	$(MAKE)
 
 .PHONY: profile again
 
