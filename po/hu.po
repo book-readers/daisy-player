@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2013-10-20 14:35+0200\n"
-"PO-Revision-Date: 2013-01-29 15:06+0200\n"
+"POT-Creation-Date: 2013-12-11 18:42+0100\n"
+"PO-Revision-Date: 2013-12-09 11:06+0200\n"
 "Last-Translator: Hammer Attila <hammera@pickup.hu>\n"
 "Language-Team: Hammer Attila <hammera@pickup.hu>\n"
 "Language: hu\n"
@@ -31,8 +31,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/daisy-player.c:266 src/daisy-player.c:292 src/daisy-player.c:360
-#: src/daisy-player.c:513 src/daisy-player.c:1232 src/daisy-player.c:1290
-#: src/daisy-player.c:1939 src/daisy-player.c:1964 src/daisy-player.c:2346
+#: src/daisy-player.c:513 src/daisy-player.c:1233 src/daisy-player.c:1291
+#: src/daisy-player.c:1939 src/daisy-player.c:1964 src/daisy-player.c:2348
 #: src/daisy3.c:343 src/daisy3.c:394 src/daisy3.c:437 src/daisy3.c:504
 #: src/daisy3.c:544 src/daisy3.c:563 src/daisy3.c:637 src/daisy3.c:706
 #: src/daisy3.c:846
@@ -201,23 +201,23 @@ msgstr ""
 msgid "Please wait... -------------------------"
 msgstr "Kérem várjon..."
 
-#: src/daisy-player.c:1120
+#: src/daisy-player.c:1121
 msgid "What do you search? "
 msgstr "Mit keres? "
 
-#: src/daisy-player.c:1213
+#: src/daisy-player.c:1214
 msgid "Go to page number: "
 msgstr "Ugrás a megadott oldalra: "
 
-#: src/daisy-player.c:1345
+#: src/daisy-player.c:1346
 msgid "Go to time (MM:SS): "
 msgstr "Ugrás egy megadott időtartamra: "
 
-#: src/daisy-player.c:1371
+#: src/daisy-player.c:1372
 msgid "Cannot read /proc/asound/cards"
 msgstr "A /proc/asound/cards fájl nem olvasható."
 
-#: src/daisy-player.c:1887 src/daisy-player.c:2069
+#: src/daisy-player.c:1887 src/daisy-player.c:2067
 #, c-format
 msgid "Daisy-player - Version %s\n"
 msgstr "Daisy-player - %s verzió\n"
@@ -244,13 +244,13 @@ msgstr ""
 "\n"
 "A /proc csatolások nem olvashatók."
 
-#: src/daisy-player.c:2070
+#: src/daisy-player.c:2068
 msgid "A parser to play Daisy CD's with Linux\n"
 msgstr ""
 "Egy feldolgozó program, melynek segítségével Daisy könyveket játszhat le "
 "Linux alatt\n"
 
-#: src/daisy-player.c:2075
+#: src/daisy-player.c:2073
 #, c-format
 msgid ""
 "\n"
@@ -259,12 +259,12 @@ msgstr ""
 "\n"
 "A Daisy-playernek szüksége van az udisks programra.\n"
 
-#: src/daisy-player.c:2076 src/daisy-player.c:2085 src/daisy-player.c:2143
+#: src/daisy-player.c:2074 src/daisy-player.c:2083 src/daisy-player.c:2141
 #, c-format
 msgid "Please install it and try again.\n"
-msgstr "Telepítse fel a madplay csomagot, majd próbálja meg újra.\n"
+msgstr "Telepítse a megadott csomagot, majd próbálja meg újra.\n"
 
-#: src/daisy-player.c:2084
+#: src/daisy-player.c:2082
 #, c-format
 msgid ""
 "\n"
@@ -273,11 +273,11 @@ msgstr ""
 "\n"
 "A Daisy-playernek szüksége van a Madplay programra.\n"
 
-#: src/daisy-player.c:2093
+#: src/daisy-player.c:2091
 msgid "Scanning for a Daisy CD..."
 msgstr "DAISY CD keresése..."
 
-#: src/daisy-player.c:2142
+#: src/daisy-player.c:2140
 #, c-format
 msgid ""
 "\n"
@@ -286,7 +286,7 @@ msgstr ""
 "\n"
 "A Daisy-playernek szüksége van az unar programra.\n"
 
-#: src/daisy-player.c:2183 src/daisy3.c:793
+#: src/daisy-player.c:2181 src/daisy3.c:793
 #, c-format
 msgid ""
 "\n"
@@ -295,19 +295,19 @@ msgstr ""
 "\n"
 "Nem található DAISY CD vagy audio CD a meghajtóban.\n"
 
-#: src/daisy-player.c:2228 src/daisy-player.c:2309
+#: src/daisy-player.c:2225 src/daisy-player.c:2311
 msgid "No Daisy CD in drive."
 msgstr "A meghajtóban nincs Daisy lemez."
 
-#: src/daisy-player.c:2275
+#: src/daisy-player.c:2277
 msgid ""
 "\n"
 "Cannot use udisks command."
 msgstr ""
 "\n"
-"Az udisks parancs nem használható.."
+"Az udisks parancs nem használható."
 
-#: src/daisy-player.c:2289
+#: src/daisy-player.c:2291
 msgid ""
 "\n"
 "Found an Audio-CD. "
@@ -315,21 +315,21 @@ msgstr ""
 "\n"
 "Az audio CD megtalálva. "
 
-#: src/daisy-player.c:2291
+#: src/daisy-player.c:2293
 msgid "Get titles from freedb.freedb.org..."
 msgstr "A számcímek lekérése a freedb.freedb.org kiszolgálóról..."
 
-#: src/daisy-player.c:2327
+#: src/daisy-player.c:2329
 #, c-format
 msgid "No such directory: %s\n"
 msgstr "Nincs ilyen könyvtár: %s\n"
 
-#: src/daisy-player.c:2388
+#: src/daisy-player.c:2390
 #, c-format
 msgid "Daisy-player - Version %s - (C)2013 J. Lemmens"
 msgstr "Daisy-player - %s verzió - (C)2013 J. Lemmens"
 
-#: src/daisy-player.c:2399
+#: src/daisy-player.c:2401
 msgid "Press 'h' for help "
 msgstr "A segítségért nyomja meg a H billentyűt. "
 
@@ -340,11 +340,4 @@ msgid ""
 "Cannot read type: %d\n"
 msgstr ""
 "\n"
-"A(z) type: %d nem olvasható\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Cannot read\n"
-#~ msgstr ""
-#~ "\n"
-#~ "olvasási hiba\n"
+"A(z) %d típus nem olvasható\n"

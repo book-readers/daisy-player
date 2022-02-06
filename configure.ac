@@ -1,8 +1,8 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])
-AC_INIT([daisy-player], [8.4.1], [jos@jlemmens.nl])
+AC_PREREQ([2.69])             
+AC_INIT([daisy-player], [8.4.5], [jos@jlemmens.nl])
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
@@ -49,6 +49,7 @@ AC_FUNC_FORK
 AC_FUNC_MALLOC
 AC_FUNC_STRTOD
 AC_CHECK_FUNCS([atexit ftruncate mkdir select setlocale strcasecmp strchr strdup strerror strrchr strstr])
+AC_CHECK_FUNCS([isascii])
 
 AC_CONFIG_FILES([Makefile
                  doc/Makefile

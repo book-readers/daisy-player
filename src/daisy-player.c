@@ -19,7 +19,7 @@
 
 #include "src/daisy.h"
 
-#define DAISY_PLAYER_VERSION "8.4.1"
+#define DAISY_PLAYER_VERSION "8.4.5"
 
 int discinfo = 0, displaying = 0, phrase_nr, tts_no;
 int playing, just_this_item, current_playorder = 1, audiocd;
@@ -1102,6 +1102,7 @@ void quit_daisy_player ()
 // reset the CD speed
    set_drive_speed (100);
    close (tmp_wav_fd);
+   puts ("");
 } // quit_daisy_player
 
 void search (int start, char mode)
@@ -1432,7 +1433,6 @@ void browse ()
 
    for (;;)
    {
-      signal (SIGCHLD, player_ended);
       switch (wgetch (screenwin))
       {
       case 13: // ENTER
@@ -2008,19 +2008,18 @@ int main (int argc, char *argv[])
    int opt;
    char str[MAX_STR], DISCINFO_HTML[MAX_STR];
 
+
    LIBXML_TEST_VERSION // libxml2
    strncpy (prog_name, basename (argv[0]), MAX_STR - 1);
    daisy_player_pid = getpid ();
    speed = 1;
    strncpy (cd_dev, "/dev/sr0", 15);
    atexit (quit_daisy_player);
+   signal (SIGCHLD, player_ended);
+// jos   signal (SIGTERM, quit_daisy_player);
    read_rc ();
-   setlocale (LC_ALL, getenv ("LC_ALL"));
-   setlocale (LC_ALL, getenv ("LANGUAGE"));
-   setlocale (LC_ALL, getenv ("LANG"));
-   textdomain (prog_name);
-   snprintf (str, MAX_STR, "%s/", LOCALEDIR);
-   bindtextdomain (prog_name, str);
+   setlocale (LC_ALL, "");
+   setlocale (LC_NUMERIC, "C");
    textdomain (prog_name);
    opterr = 0;
    while ((opt = getopt (argc, argv, "c:d:ny")) != -1)
@@ -2064,7 +2063,6 @@ int main (int argc, char *argv[])
    } // if
    fclose (stderr);
    getmaxyx (screenwin, max_y, max_x);
-   max_y--;
    printw ("(C)2003-2013 J. Lemmens\n");
    printw (gettext ("Daisy-player - Version %s\n"), DAISY_PLAYER_VERSION);
    printw (gettext ("A parser to play Daisy CD's with Linux\n"));
@@ -2192,8 +2190,7 @@ int main (int argc, char *argv[])
 // when no mount-point is given try to mount the cd
    {
       FILE *r;
-      char *str, cd[MAX_STR + 1];
-      size_t s;
+      char cd[MAX_STR + 1];
       double start;
       magic_t myt;
 
@@ -2254,6 +2251,11 @@ int main (int argc, char *argv[])
          r = fopen ("/run/udev/data/b11:0", "r");
          while (1)
          {
+            char *str;;
+            size_t s;
+
+            str = (char *) malloc (MAX_STR);
+            s = MAX_STR - 1;
             switch (getline (&str, &s, r))
             {
             default:
