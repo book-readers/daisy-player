@@ -1,0 +1,72 @@
+Daisy-player - A parser to play Daisy CD's with Linux
+(C)2003-2015 J. Lemmens
+
+DESCRIPTION
+Daisy-player reads a DAISY-CD and plays its audio-files.
+Daisy-player also CAN PLAY Audio-cd's and tries to fetch info using cddbget.
+
+REQUIREMENTS
+Be sure the following extra packages exist on your system:
+
+   libncursesw5
+   libsox2
+   libxml2
+   libmagic1
+   madplay
+   gettext
+   udisks2
+   language-pack-af
+   language-pack-de
+   language-pack-es
+   language-pack-fr
+   language-pack-hu
+   language-pack-nb
+   language-pack-nl
+   language-pack-pl
+   language-pack-pt
+   language-pack-sv
+   libcdio-cdda1
+   libcdio-paranoia1
+   libcddb-get-perl
+   tex-common
+   unar
+
+The following packages are needed to make the manual and the html document:
+
+   txt2man
+   man2html
+
+USAGE
+As a mortal user, put a DAISY-cd or an Audio-cd in your cd-player and,
+on the command line, give:
+
+   $ daisy-player
+
+This starts reading the cd and printing the content on
+the screen. After giving an [ENTER], playing the audio files starts.
+
+One could also give a directory or a ZIP-file with a daisy
+structure as argument to daisy-player:
+
+   $ daisy-player /home/jos/daisy_dir
+   $ daisy-player /home/jos/daisy.zip
+
+A list of items on the DAISY-CD will appear. Press <ENTER>
+to start playing. When reading of an item has finished, daisy-player will
+play the next item and the cursor will automatically skip
+to that item, so that your braille-terminal will display the name
+of that item.
+Daisy-player plays the audio on the default sound device.
+
+For keyboard navigation, plese press 'h' or '?'.
+
+daisy-player is multilingual. The following languages are currently
+supported:
+dutch, english, french, german, hungarian, norwegian, polish,
+south-african, spanish.
+
+Enjoy
+
+Jos Lemmens
+jos@jlemmens.nl
+http://www.jlemmens.nl

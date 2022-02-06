@@ -1,0 +1,25 @@
+To compile daisy-player, be sure the following extra packages are installed:
+
+   libncursesw5-dev
+   libsox-dev
+   libxml2-dev
+   libcdio-dev
+   libcdio-cdda-dev
+   libcdio-paranoia-dev
+   libmagic-dev
+
+Give the following commands:        
+
+   $ ./configure
+   $ make
+
+As root:
+
+   # make install
+
+NOTE:
+
+In the playfile() function, the typedef enum sox_option_no is used. This
+is for libsox versions => 14.4.
+To compile this package for older libSoX versions, use SOX_OPTION_NO.
+See /usr/include/sox.h.
