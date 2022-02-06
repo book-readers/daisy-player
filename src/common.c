@@ -152,7 +152,7 @@ void failure (misc_t *misc, char *str, int e)
 {
    endwin ();
    beep ();
-   fprintf (stderr, "\n%s: %s\n", str, strerror (e));
+   fprintf (stderr, "\n%s: %s\n", str, strerror (e)); 
    fflush (stdout);
    remove_tmp_dir (misc);
    _exit (-1);
@@ -941,11 +941,11 @@ void go_to_page_number (misc_t *misc, my_attribute_t *my_attribute,
 {
    char pn[15];
 
-   while (kill (misc->player_pid, SIGKILL) == 0);
+   kill (misc->player_pid, SIGKILL);
 #ifdef DAISY_PLAYER
    if (misc->cd_type != CDIO_DISC_MODE_CD_DA)
-      misc->player_pid = -2;
 #endif
+      misc->player_pid = -2;
    misc->playing = misc->just_this_item = -1;
    view_screen (misc, daisy);
 #ifdef EBOOK_SPEAKER

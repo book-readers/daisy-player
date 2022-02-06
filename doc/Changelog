@@ -260,6 +260,3 @@ Samuel Thibault <sthibault@debian.org>
         The external madplay application is no longer needed.
         "store current item to disk" now takes in account the current level.
 10.6.1	Test for the existence of an ALSA sound device.
-10.6.4	Option -h will not read .daisy-player.xml.
-	Processes hanged while playing Audio-CD's. Solved.
-10.6.4.1 Forgot to update the TODO and Changelog files in the previous version.
