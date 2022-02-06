@@ -31,6 +31,8 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
    misc->current = 0;
    while (1)
    {
+      if (! daisy[misc->current].clips_file)
+         continue;
       if (*daisy[misc->current].clips_file == 0)
          continue;
       if (! (doc = htmlParseFile (daisy[misc->current].clips_file, "UTF-8")))
@@ -169,7 +171,7 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
 
 void get_label_2 (misc_t *misc, daisy_t *daisy, int indent)
 {
-   strncpy (daisy[misc->current].label, misc->label, 80);
+   strncpy (daisy[misc->current].label, misc->label, COLS);
    if (misc->displaying == misc->max_y)
       misc->displaying = 1;
    if (*daisy[misc->current].class)
@@ -205,6 +207,7 @@ void fill_daisy_struct_2 (misc_t *misc, my_attribute_t *my_attribute,
         misc->current++)
    {
       *daisy[misc->current].label = 0;
+      daisy[misc->current].clips_file = strdup ("");
       daisy[misc->current].page_number = 0;
 #ifdef DAISY_PLAYER
       *daisy[misc->current].class = 0;

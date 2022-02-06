@@ -275,5 +275,13 @@ Samuel Thibault <sthibault@debian.org>
 11.1	store to disk now works.
 11.2	Altering the playback volume only worked on the first soundcard.
 	Now playback volume works on all found cards.
-11.3	Search filenames case-insensitive. 
+11.3	Search filenames case-insensitive.
 	(ISO9660 fs is case-insensitive by default)
+11.3.1	Added a Czech translation
+11.3.2	Convert ALSA devicename into pulseaudio devicename.
+11.3.3	Another polish translation added.
+11.4	Another French translation added.
+	The external command sox is no longer needed.
+	daisy-player now uses the sox library.
+11.4.1	Little mistake in "THANKS TO" solved. (manual)
+	pause_resume() function improvements.

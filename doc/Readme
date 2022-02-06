@@ -1,5 +1,5 @@
 Daisy-player - A parser to play Daisy CD's with Linux
-(C)2003-2017 J. Lemmens
+(C)2003-2018 J. Lemmens
 
 DESCRIPTION
 
@@ -11,12 +11,14 @@ Be sure the following extra packages exist on your system:
 
    libncursesw5
    libsox2
+   libsox-fmt-pulse
    libxml2
    libmagic1
    libmad0
    gettext
    udisks2
    language-pack-af
+   language-pack-cs
    language-pack-de
    language-pack-es
    language-pack-fi

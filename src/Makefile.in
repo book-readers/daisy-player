@@ -91,7 +91,13 @@ host_triplet = @host@
 bin_PROGRAMS = daisy-player$(EXEEXT)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
+	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intlmacosx.m4 \
+	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
+	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/nls.m4 \
+	$(top_srcdir)/m4/onceonly.m4 $(top_srcdir)/m4/po.m4 \
+	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/m4/stdbool.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -104,12 +110,13 @@ PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_daisy_player_OBJECTS = audiocd.$(OBJEXT) paranoia.$(OBJEXT) \
 	common.$(OBJEXT) daisy2.02.$(OBJEXT) daisy3.$(OBJEXT) \
-	daisy-player.$(OBJEXT) madplay/madplay.$(OBJEXT) \
-	madplay/audio.$(OBJEXT) madplay/crc.$(OBJEXT) \
-	madplay/version.$(OBJEXT) madplay/tag.$(OBJEXT) \
-	madplay/player.$(OBJEXT) madplay/audio_wave.$(OBJEXT) \
-	madplay/resample.$(OBJEXT) madplay/rgain.$(OBJEXT) \
-	madplay/filter.$(OBJEXT) madplay/audio_cdda.$(OBJEXT)
+	daisy-player.$(OBJEXT) playfile.$(OBJEXT) \
+	madplay/madplay.$(OBJEXT) madplay/audio.$(OBJEXT) \
+	madplay/crc.$(OBJEXT) madplay/version.$(OBJEXT) \
+	madplay/tag.$(OBJEXT) madplay/player.$(OBJEXT) \
+	madplay/audio_wave.$(OBJEXT) madplay/resample.$(OBJEXT) \
+	madplay/rgain.$(OBJEXT) madplay/filter.$(OBJEXT) \
+	madplay/audio_cdda.$(OBJEXT)
 daisy_player_OBJECTS = $(am_daisy_player_OBJECTS)
 daisy_player_LDADD = $(LDADD)
 am__DEPENDENCIES_1 =
@@ -324,7 +331,7 @@ DEPENDENCIES = $(depend)
 LDADD = $(ldadd)
 CLEANFILES = $(EXTRA_PROGRAMS)
 daisy_player_SOURCES = daisy.h audiocd.c paranoia.c common.c daisy2.02.c \
-                       daisy3.c daisy-player.c \
+                       daisy3.c daisy-player.c playfile.c \
                        madplay/global.h madplay/madplay.c madplay/audio.c \
                        madplay/version.h madplay/audio.h \
                        madplay/crc.c madplay/version.c madplay/tag.c \
@@ -348,9 +355,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src//Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign src//Makefile
+	  $(AUTOMAKE) --foreign src/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
@@ -456,6 +463,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/daisy2.02.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/daisy3.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/paranoia.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/playfile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/audio.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/audio_cdda.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/audio_wave.Po@am__quote@

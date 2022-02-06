@@ -18,6 +18,10 @@
 
 #define _GNU_SOURCE
 
+#ifdef HAVE_CONFIG_H
+  #include "config.h"
+#endif
+
 #include <string.h>
 #include <libgen.h>
 #include <stdio.h>
@@ -35,7 +39,7 @@
 #include <pwd.h>
 #include <locale.h>
 #include <libintl.h>
-// #include <sox.h>
+#include <sox.h>
 #include <errno.h>
 #include <time.h>
 #include <sys/ioctl.h>
@@ -44,7 +48,6 @@
 #include <libxml/HTMLparser.h>
 #include <cdio/cdio.h>
 #ifdef HAVE_CDIO_PARANOIA_CDDA_H
-   #include <cdio/paranoia/cdda.h>
    #include <cdio/paranoia/paranoia.h>
 #else
    #include <cdio/cdda.h>
@@ -133,7 +136,7 @@ typedef struct Misc
    int label_len;
    char bookmark_title[MAX_STR];
    char *search_str, *path_name;
-   char cd_dev[MAX_STR], sound_dev[MAX_STR];
+   char cd_dev[MAX_STR], *sound_dev;
    char cddb_flag, opf_name[MAX_STR], ncx_name[MAX_STR];
    char use_ncx, use_opf;
    char *current_audio_file, tmp_wav[MAX_STR + 1], mcn[MAX_STR];

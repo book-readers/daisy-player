@@ -17,8 +17,8 @@ A list of items on the Daisy-CD or Audio-CD will appear. Press <ENTER> to start 
 OPTIONS
 directory_with_a_Daisy-structure  One could also give a directory with a daisy structure as argument to daisy-player.
 Daisy_book_in_ZIP_format  One could also give a file in ZIP-format with a daisy structure as  argument to daisy-player.
--c cdrom_device  Use DEVICE as the CD device. DEVICE is the device special file name of the CD-ROM device. The default is /dev/sr0.
--d pulseaudio_sound_device  Daisy-player will play on this sound device. Default is "0". (The first soundcard)
+-c cdrom_device  Use DEVICE as the CD device. DEVICE is the device special file name of the CD-ROM device. The default is /dev/sr0. Be sure the user is a member of the group cdrom.
+-d pulseaudio_sound_device  Daisy-player will play on this sound device. Default is "0". (The first soundcard).  Be sure the user is a member of the group audio.
 -h  Display this help and exit.
 -i  Ignore reading of the bookmarks.
 -n  Don't fetch cddb-information of an Audio-CD from the internet.
@@ -64,10 +64,7 @@ V,7             increase playback volume (beware of Clipping)
 v,1             decrease playback volume
 
 NOTES
-On some soundcards (especially onboard cards) the alsa driver only can play one file at a time. daisy-player crashes sometimes on these cards. From this version on the pulseaudio sound-driver will be used instead. The pulseaudio sound system has no problems with these cards.
-
-I don't know how to play with pulseaudio in the C function sox_open_write (). For now, the external command sox will be used instead.
-
+                 
 When playing an Audio-CD skip-left and skip-right react a little late. The same for commands like 'U', 'D' and HOME.
 
 THANKS TO
@@ -75,7 +72,8 @@ Daniel Veillard <daniel@veillard.com>  for the XML2 library.
 
 Robert Leslie <rob@mars.org>  for the MPEG audio decoder (madplay).
 
-Chris Bagwell <cbagwell@users.sourceforge.net>  for sox.
+Chris Bagwell <cbagwell@users.sourceforge.net>
+Rob Sykes <aquegg@yahoo.co.uk>  for sox.
 
 Kim Nilsson <kim.nilsson@no-substitute.com>
 
@@ -84,7 +82,7 @@ FILES
 ~/.daisy-player.xml  This file, in XML-format, contains the name of the desired audio device and the desired playing speed.
 
 SEE ALSO
-cddbget(1), unar(1), eject(1), udisksctl(1), sox(1)
+cddbget(1), unar(1), eject(1), udisksctl(1), pulseaudio(1)
 AUTHOR
 Jos Lemmens <jos@jlemmens.nl>
 COPYRIGHT
