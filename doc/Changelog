@@ -234,5 +234,19 @@ Samuel Thibault <sthibault@debian.org>
 10.2.4.1
 	Little bug in time viewing for Audio CD's solved.
 10.3	Daisy-player only worked on a cd with ISO9660 filesystem.
-	Now it also works on cd's with a Universal Disk Format (UDF) 
+	Now it also works on cd's with a Universal Disk Format (UDF)
 	filesystem.
+10.4	html entities are converted correctly again.
+	daisy-player now uses the htmlParseFile() function of libxml2.
+	All files will be treated now as UTF-8.
+	Playback volume can be altered with 'v' and 'V'.
+	The skip_left() function has been simplified.
+	New language added: Guatemala. Should also be usefull for
+	other Central American countries.
+	Updated the French translation.
+	Filenames now will be treated case insensitive.
+	The external executable "find" has been dropped in favour
+	of an internal function that scans for the "ncc.html",
+	"*.ncx" and "*.opf" files.
+	man/Makefile.am changes.
+	Finnish translation by Jani Kinnunen <janikinnunen340@gmail.com>.

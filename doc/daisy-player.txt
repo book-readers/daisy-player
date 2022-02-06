@@ -38,7 +38,7 @@ cursor right,6  skip to next phrase
 cursor left,4   skip to previous phrase
 page-down,3     view next screen
 page-up,9       view previous screen
-enter           Start playing
+enter           Start playing         
 space,0         pause/resume playing
 home,*          play on normal speed
 /               search for a label
@@ -59,6 +59,8 @@ p               place a bookmark
 q               quit daisy-player. The playing-point will be saved as bookmark.
 s               stop playing
 U,+             increase playing speed
+V,7             increase playback volume (beware of Clipping)
+v,1             decrease playback volume
 
 NOTES
 Daisy-player uses the sox-library and the ALSA sound-driver for audio-output. On some systems daisy-player quits with the message that the soundcard cannot be used. I don't know how to solve this problem yet, sorry.
@@ -79,6 +81,6 @@ cddbget(1), unar(1), eject(1), udisksctl(1)
 AUTHOR
 Jos Lemmens <jos@jlemmens.nl>
 COPYRIGHT
-Copyright (C)2003-2015 Jos Lemmens <jos@jlemmens.nl>
+Copyright (C)2003-2017 Jos Lemmens <jos@jlemmens.nl>
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program (see the file COPYING); if not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
