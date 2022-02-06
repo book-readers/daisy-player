@@ -18,50 +18,51 @@
 #
 # translated by Jani Kinnunen <janikinnunen340@gmail.com>
 #               Iiro Rinta-Jouppi <irj@iki.fi>
+#               Jani Kinnunen <jani.kinnunen@wippies.fi>
 msgid ""
 msgstr ""
 "Project-Id-Version: gettext 0.11.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2020-08-21 19:34+0200\n"
+"POT-Creation-Date: 2020-09-16 11:49+0200\n"
 "PO-Revision-Date: 2017-06-19 17:45+0200\n"
-"Last-Translator: Iiro Rinta-Jouppi <irj@iki.fi>\n"
-"Language-Team: Iiro Rinta-Jouppi <irj@iki.fi>\n"
+"Last-Translator: Jani Kinnunen <jani.kinnunen@wippies.fi>\n"
+"Language-Team: Jani Kinnunen <jani.kinnunen@wippies.fi>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/common.c:30 src/common.c:314 src/common.c:512
+#: src/common.c:31 src/common.c:315 src/common.c:513
 msgid "Please try to play this book with \"eBook-speaker\""
-msgstr "Yrit toistaa tm kirja \"eBook-speaker\" ohjelmalla"
+msgstr "Yritä toistaa tämä kirja eBook-speakerilla"
 
-#: src/common.c:786
+#: src/common.c:787
 #, c-format
 msgid "Cannot read type: %d"
-msgstr "Ei voida lukea tyyppi: %d"
+msgstr "Ei voida lukea tyyppiä: %d"
 
-#: src/common.c:859
+#: src/common.c:860
 msgid "Go to page number:"
 msgstr "Siirry sivunumeroon:"
 
-#: src/common.c:876
+#: src/common.c:877
 msgid "Please wait..."
 msgstr "Odota..."
 
-#: src/common.c:951
+#: src/common.c:1016
 msgid "Select a soundcard:"
-msgstr "Valitse nikortti:"
+msgstr "Valitse äänikortti:"
 
 #: src/daisy2.02.c:48 src/daisy2.02.c:134 src/daisy2.02.c:287
-#: src/daisy-player.c:793 src/daisy-player.c:1866 src/daisy-player.c:1911
-#: src/daisy-player.c:2294 src/daisy-player.c:2465
+#: src/daisy-player.c:798 src/daisy-player.c:1870 src/daisy-player.c:1915
+#: src/daisy-player.c:2298 src/daisy-player.c:2469
 #, c-format
 msgid "Cannot read %s"
 msgstr "Ei voi lukea %s"
 
 #: src/daisy-player.c:337
 msgid "'h' for help -"
-msgstr "Saat ohjeita painamalla 'h' -"
+msgstr "Saat ohjeita painamalla 'h'"
 
 #: src/daisy-player.c:341
 #, c-format
@@ -73,234 +74,231 @@ msgstr "%d sivua"
 msgid "level: %d of %d"
 msgstr "taso: %d / %d"
 
-#: src/daisy-player.c:354 src/daisy-player.c:1957
+#: src/daisy-player.c:354 src/daisy-player.c:1961
 #, c-format
 msgid "total length: %02d:%02d:%02d"
 msgstr "kokonaiskesto: %02d:%02d:%02d"
 
-#: src/daisy-player.c:640
+#: src/daisy-player.c:645
 msgid "These commands are available in this version:"
-msgstr "Seuraavat komennot ovat kytettviss tss versiossa:"
+msgstr "Seuraavat komennot ovat käytettävissä tässä versiossa:"
 
-#: src/daisy-player.c:644
+#: src/daisy-player.c:649
 msgid "cursor down,2   - move cursor to the next item"
 msgstr "nuoli alas,2       - siirr kohdistin seuraavaan kohteeseen"
 
-#: src/daisy-player.c:646
+#: src/daisy-player.c:651
 msgid "cursor up,8     - move cursor to the previous item"
 msgstr "nuoli yls,8       - siirr kohdistin edelliseen kohteeseen"
 
-#: src/daisy-player.c:648
-msgid "cursor right,6  - skip to next phrase"
-msgstr "nuoli oikealle,6   - siirry seuraavaan virkkeeseen"
+#: src/daisy-player.c:653
+msgid "cursor right,6  - skip 10 seconds forwards"
+msgstr ""
 
-#: src/daisy-player.c:650
-msgid "cursor left,4   - skip to previous phrase"
-msgstr "nuoli vasemmalle,4 - siirry edelliseen virkkeeseen"
+#: src/daisy-player.c:655
+msgid "cursor left,4   - skip 10 seconds backwards"
+msgstr ""
 
-#: src/daisy-player.c:652
+#: src/daisy-player.c:657
 msgid "page-down,3     - view next page"
-msgstr " page-down,3      - nyt seuraava sivu"
+msgstr "page-down,3      - nyt seuraava sivu"
 
-#: src/daisy-player.c:654
+#: src/daisy-player.c:659
 msgid "page-up,9       - view previous page"
 msgstr "page-up,9        - nyt edellinen sivu"
 
-#: src/daisy-player.c:656
+#: src/daisy-player.c:661
 msgid "enter           - start playing"
 msgstr "enter            - aloita toisto"
 
-#: src/daisy-player.c:658
+#: src/daisy-player.c:663
 msgid "space,0         - pause/resume playing"
 msgstr "vlilynti,0     - pysyt/jatka toistoa"
 
-#: src/daisy-player.c:660
+#: src/daisy-player.c:665
 msgid "home,*          - play on normal speed"
 msgstr "home,*           - toista normaalilla nopeudella"
 
-#: src/daisy-player.c:662 src/daisy-player.c:695
+#: src/daisy-player.c:667 src/daisy-player.c:700
 msgid "Press any key for next page..."
 msgstr "Siirry seuraavalle sivulle painamalla jotain nppint..."
 
-#: src/daisy-player.c:668
+#: src/daisy-player.c:673
 msgid "/               - search for a label"
 msgstr "/                - etsi nimekett"
 
-#: src/daisy-player.c:670
+#: src/daisy-player.c:675
 msgid "d               - store current item to disk"
 msgstr "d                - tallenna nykyinen kohde levylle"
 
-#: src/daisy-player.c:672
+#: src/daisy-player.c:677
 msgid "D,-             - decrease playing speed"
 msgstr "D,-              - vhenn toistonopeutta"
 
-#: src/daisy-player.c:674
+#: src/daisy-player.c:679
 msgid "e,.             - quit daisy-player, place a bookmark and eject"
 msgstr ""
-" e,.              - poistu daisy-playerista, lis kirjanmerkki ja poista levy "
+"e,.              - poistu daisy-playerista, lis kirjanmerkki ja poista levy "
 "asemasta"
 
-#: src/daisy-player.c:676
+#: src/daisy-player.c:681
 msgid ""
 "f               - find the currently playing item and place the cursor there"
 msgstr ""
 "f                - etsi tll hetkell toistettava kohde ja siirr kohdistin sen "
 "kohdalle"
 
-#: src/daisy-player.c:679
+#: src/daisy-player.c:684
 msgid "g               - go to time in this song (MM:SS)"
 msgstr "g                - siirry mrttyyn aikaan tss kappaleessa (MM:SS)"
 
-#: src/daisy-player.c:682
+#: src/daisy-player.c:687
 msgid "g               - go to time in this item (MM:SS)"
 msgstr "g                - siirry mrttyyn aikaan tss kohteessa (MM:SS)"
 
-#: src/daisy-player.c:685
+#: src/daisy-player.c:690
 msgid "G               - go to page number"
 msgstr "G                - siirry sivulle"
 
-#: src/daisy-player.c:687
+#: src/daisy-player.c:692
 msgid "h,?             - give this help"
-msgstr " h,?              - nyt tm ohje"
+msgstr "h,?              - nyt tm ohje"
 
-#: src/daisy-player.c:689
+#: src/daisy-player.c:694
 msgid "j,5             - just play current item"
 msgstr "j,5              - toista vain nykyinen kohde"
 
-#: src/daisy-player.c:691
+#: src/daisy-player.c:696
 msgid "l               - switch to next level"
-msgstr " l                - vaihda seuraavalle tasolle"
+msgstr "l                - vaihda seuraavalle tasolle"
 
-#: src/daisy-player.c:693
+#: src/daisy-player.c:698
 msgid "L               - switch to previous level"
 msgstr "L                - vaihda edelliselle tasolle"
 
-#: src/daisy-player.c:701
+#: src/daisy-player.c:706
 msgid "m               - mute sound output on/off"
-msgstr " m                - vaimenna nen ulostulo plle/pois"
+msgstr "m                - vaimenna nen ulostulo plle/pois"
 
-#: src/daisy-player.c:703
+#: src/daisy-player.c:708
 msgid "n               - search forwards"
 msgstr "n                - etsi eteenpin"
 
-#: src/daisy-player.c:705
+#: src/daisy-player.c:710
 msgid "N               - search backwards"
 msgstr "N                - etsi taaksepin"
 
-#: src/daisy-player.c:707
+#: src/daisy-player.c:712
 msgid "o               - select next output sound device"
 msgstr "o                - valitse seuraava nilaite kappaleen toistamiseen"
 
-#: src/daisy-player.c:709
+#: src/daisy-player.c:714
 msgid "p               - place a bookmark"
 msgstr "p                - lis kirjanmerkki"
 
-#: src/daisy-player.c:711
+#: src/daisy-player.c:716
 msgid "q               - quit daisy-player and place a bookmark"
 msgstr "q                - poistu daisy-playerista ja lis kirjanmerkki"
 
-#: src/daisy-player.c:713
+#: src/daisy-player.c:718
 msgid "s               - stop playing"
 msgstr "s                - keskeyt toisto"
 
-#: src/daisy-player.c:715
+#: src/daisy-player.c:720
 msgid "T               - display the time passing during playback on/off"
 msgstr ""
 
-#: src/daisy-player.c:717
+#: src/daisy-player.c:722
 msgid "U,+             - increase playing speed"
 msgstr "U,+              - lis toistonopeutta"
 
-#: src/daisy-player.c:719
+#: src/daisy-player.c:724
 msgid "v,1             - decrease playback volume"
 msgstr "v,1              - vhenn toiston nenvoimakkuutta"
 
-#: src/daisy-player.c:721
+#: src/daisy-player.c:726
 msgid "V,7             - increase playback volume (beware of Clipping)"
 msgstr "V,7             - lis toiston nenvoimakkuutta (varo leikkautumista)"
 
-#: src/daisy-player.c:723
+#: src/daisy-player.c:728
 msgid "Press any key to leave help..."
 msgstr "Poistu ohjeesta painamalla jotain nppint..."
 
-#: src/daisy-player.c:861 src/daisy-player.c:1267
+#: src/daisy-player.c:866 src/daisy-player.c:1271
 msgid "This book has no audio. Play this book with \"eBook-speaker\""
 msgstr "Tss kirjassa ei ole nt. Kyt toistamiseen \"eBook-speaker\" ohjelmaa"
 
-#: src/daisy-player.c:881
+#: src/daisy-player.c:886
 msgid "Please wait... -------------------------"
 msgstr "Odota... -------------------------"
 
-#: src/daisy-player.c:993
+#: src/daisy-player.c:998
 msgid "What do you search?"
 msgstr "Mit etsit?"
 
-#: src/daisy-player.c:1103
+#: src/daisy-player.c:1108
 msgid "Go to time (MM:SS):"
 msgstr "Siirry aikaan (MM:SS):"
 
-#: src/daisy-player.c:1791 src/daisy-player.c:2165 src/daisy-player.c:2183
-#: src/daisy-player.c:2289 src/daisy-player.c:2306
+#: src/daisy-player.c:1795 src/daisy-player.c:2169 src/daisy-player.c:2187
+#: src/daisy-player.c:2293 src/daisy-player.c:2310
 #, c-format
 msgid "Daisy-player - Version %s %s"
 msgstr "Daisy-player - versio %s %s"
 
-#: src/daisy-player.c:1794
+#: src/daisy-player.c:1798
 #, c-format
 msgid "Usage: %s [directory_with_a_Daisy-structure] | [Daisy_book_archive]"
 msgstr "Kytt: %s [Daisy-kirjan_hakemisto] | [Daisy-kirjojen_arkisto]"
 
-#: src/daisy-player.c:1797
+#: src/daisy-player.c:1801
 msgid "[-c cdrom_device] [-d pulseaudio_sound_device]"
 msgstr "[-c cdrom-laite] [-d pulseaudio-nilaite]"
 
-#: src/daisy-player.c:1810
+#: src/daisy-player.c:1814
 msgid "Cannot read /proc/mounts."
 msgstr "Liitoskohtaa /proc/mounts ei voi lukea."
 
-#: src/daisy-player.c:1847 src/daisy-player.c:2574
+#: src/daisy-player.c:1851 src/daisy-player.c:2578
 #, c-format
 msgid "Daisy-player - Version %s - (C)2020 J. Lemmens"
 msgstr "Daisy-player - versio %s - (C)2020 J. Lemmens"
 
-#: src/daisy-player.c:1962
+#: src/daisy-player.c:1966
 msgid "Select an Audio_book:"
 msgstr ""
 
-#: src/daisy-player.c:2167
+#: src/daisy-player.c:2171
 #, c-format
 msgid "A parser to play Daisy CD's with Linux"
 msgstr "Jsennin Daisy-CD-levyjen toistamiseen Linuxissa"
 
-#: src/daisy-player.c:2169
+#: src/daisy-player.c:2173
 #, c-format
 msgid "Scanning for a Daisy CD..."
 msgstr "Etsitn Daisy-CD:t..."
 
-#: src/daisy-player.c:2270 src/daisy-player.c:2408
+#: src/daisy-player.c:2274 src/daisy-player.c:2412
 msgid "No DAISY-CD or Audio-cd found"
 msgstr "DAISY- tai ni-CD:t ei lytynyt"
 
-#: src/daisy-player.c:2326 src/daisy-player.c:2337 src/daisy-player.c:2365
+#: src/daisy-player.c:2330 src/daisy-player.c:2341 src/daisy-player.c:2369
 msgid "No Daisy CD in drive."
 msgstr "Asemassa ei ole Daisy-CD:t."
 
-#: src/daisy-player.c:2380
+#: src/daisy-player.c:2384
 msgid "Found an Audio-CD."
 msgstr "Lytyi ni-CD."
 
-#: src/daisy-player.c:2385
+#: src/daisy-player.c:2389
 #, c-format
 msgid "Get titles from freedb.freedb.org..."
 msgstr "Hae kappaleiden nimet freedb.freedb.org:ista..."
 
-#: src/daisy-player.c:2587
+#: src/daisy-player.c:2591
 msgid "Press 'h' for help"
 msgstr "Saat ohjeita painamalla 'h'"
 
 #: src/ncx.c:262
 msgid "No items found. Try option \"-O\"."
-msgstr "Kohteita ei lytynyt. Kokeile valitsinta \"-O\"."
-
-#~ msgid "Please try to play this book with daisy-player"
-#~ msgstr "Yrit toistaa tm kirja  \"daisy-player\" ohjelmalla"
+msgstr "Kohteita ei löytynyt. Kokeile valitsinta \"-O\"."

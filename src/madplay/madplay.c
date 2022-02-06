@@ -221,6 +221,7 @@ mad_timer_t get_time(char const *str, int positive, char const *name)
  * NAME:	main()
  * DESCRIPTION:	program entry point
  */
+
 int madplay (char *in_file, char *begin, char *duration, char *out_file)
 {
   struct player player;

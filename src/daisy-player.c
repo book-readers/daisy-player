@@ -464,7 +464,8 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
 {
    char *out_file, *out_cdr, *complete_cdr;
    struct passwd *pw;
-   int old_playing, old_displaying, old_current, old_just_this_item;
+   int old_playing, old_displaying, old_just_this_item;
+   int old_current, org_current;
    char begin[20], duration[20];
    int w;
 
@@ -503,7 +504,7 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
 
    old_playing = misc->playing;
    old_displaying = misc->displaying;
-   old_current = misc->current;
+   old_current = org_current = misc->current;
    old_just_this_item = misc->just_this_item;
    misc->just_this_item = misc->playing = misc->current;
 
@@ -512,18 +513,27 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
    complete_cdr = malloc (strlen (misc->tmp_dir) + 20);
    sprintf (complete_cdr, "%s/complete.cdr", misc->tmp_dir);
    w = open (complete_cdr, O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
+   open_smil_file (misc, my_attribute, daisy[misc->current].smil_file,
+                                       daisy[misc->current].smil_anchor);
    while (1)
    {
 #define BUF_SIZE 8192
       int r;
       char buffer[BUF_SIZE];
-      ssize_t in, out;
+      size_t in, out;
 
-      open_smil_file (misc, my_attribute, daisy[misc->current].smil_file,
-                       daisy[misc->current].smil_anchor);
+      misc->clip_begin = misc->clip_end = -1;
       get_next_audio_tag (misc, my_attribute, daisy);
-      snprintf (begin, 20, "%f", daisy[misc->current].begin);
-      snprintf (duration, 20, "%f", daisy[misc->current].duration);
+      if (misc->clip_begin == -1 || misc->clip_end == -1)
+         continue;
+      if (misc->current != old_current)
+      {
+         old_current = misc->current;
+         if (daisy[misc->current].level <= misc->level)
+            break;
+      } // if
+      snprintf (begin, 20, "%f", misc->clip_begin);
+      snprintf (duration, 20, "%f", misc->clip_end - misc->clip_begin);
       if (access (misc->current_audio_file, R_OK) == -1)
       {
          int e;
@@ -534,7 +544,7 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
          printf ("%s: %s\n", misc->current_audio_file, strerror (e));
          _exit (EXIT_FAILURE);
       } // if
-      madplay (misc->current_audio_file, begin, duration, out_cdr);
+      (void) madplay (misc->current_audio_file, begin, duration, out_cdr);
       r = open (out_cdr, O_RDONLY);
       while ((in = read (r, &buffer, BUF_SIZE)) > 0)
       {
@@ -543,11 +553,6 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
             failure (misc, "read/write", errno);
       } // while
       close (r);
-      if (misc->current + 1 >= misc->total_items)
-         break;
-      if (daisy[misc->current + 1].level <= misc->level)
-         break;
-      misc->current += 1;
    } // while
    close (w);
    playfile (misc, complete_cdr, "cdr", out_file, "wav", "1");
@@ -556,9 +561,9 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
    free (complete_cdr);
    misc->playing = old_playing;
    misc->displaying = old_displaying;
-   misc->current= old_current;
+   misc->current = org_current;
    misc->just_this_item = old_just_this_item;
-   wmove (misc->screenwin, daisy[misc->playing].y, daisy[misc->playing].x);
+   wmove (misc->screenwin, daisy[misc->current].y, daisy[misc->current].x);
 } // write_wav
 
 void pause_resume (misc_t *misc, my_attribute_t *my_attribute,
@@ -645,9 +650,9 @@ void help (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
    wprintw (misc->screenwin, "%s\n", gettext
             ("cursor up,8     - move cursor to the previous item"));
    wprintw (misc->screenwin, "%s\n", gettext
-            ("cursor right,6  - skip to next phrase"));
+            ("cursor right,6  - skip 10 seconds forwards"));
    wprintw (misc->screenwin, "%s\n", gettext
-            ("cursor left,4   - skip to previous phrase"));
+            ("cursor left,4   - skip 10 seconds backwards"));
    wprintw (misc->screenwin, "%s\n", gettext
             ("page-down,3     - view next page"));
    wprintw (misc->screenwin, "%s\n", gettext
@@ -1239,12 +1244,11 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
    misc->pause_resume_playing = misc->just_this_item = -1;
    misc->label_len = 0;
    get_bookmark (misc, my_attribute, daisy);
-   if (misc->pulseaudio_device == -1)
-      select_next_output_device (misc, daisy);
+   check_pulseaudio_device (misc, daisy);
    if (misc->cd_type == CDIO_DISC_MODE_CD_DA)
    {
       char dev[5];
-      
+
       sprintf (dev, "%d", misc->pulseaudio_device);
       for (i = 0; i < misc->total_items; i++)
       {

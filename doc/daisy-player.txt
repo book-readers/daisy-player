@@ -94,7 +94,7 @@ FILES
 ~/.daisy-player.xml  This file, in XML-format, contains the name of the desired pulseaudio device and the desired playing speed.
 
 SEE ALSO
-cddbget(1), unar(1), eject(1), udisksctl(1), pulseaudio(1), usermod(8)
+cddbget(1), unar(1), eject(1), udisksctl(1), pulseaudio(1), pactl(1), usermod(8)
 AUTHOR
 Jos Lemmens <jos@jlemmens.nl>
 COPYRIGHT
