@@ -1,13 +1,16 @@
 AUTOMAKE_OPTIONS = foreign
 
-AM_CFLAGS = -I . -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
+AM_CFLAGS = -I . -I /usr/include/cdio/ -I /usr/include/cdio/paranoia/ \
+            -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
+            -Wunused -Wunused-variable -Wunused-function \
+            -Wmissing-declarations \
             -g -I /usr/include/libxml2/ -O3 \
-            --param=ssp-buffer-size=4 -Wformat -Werror=format-security \
+            -Wuninitialized -Winit-self \
             -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
 
 bin_PROGRAMS = daisy-player
 
-ldadd = $(depend) @LTLIBINTL@ -lpulse
+ldadd = $(depend) @LTLIBINTL@
 
 DEPENDENCIES = $(depend)
 
@@ -20,10 +23,10 @@ libtool: $(LIBTOOL_DEPS)
 
 .c.s:
 	(cd madplay && make)
-	(cd pulseaudio/src && make)
+	(cd pactl/src && make)
 	$(COMPILE) -S $<
 
-again:                    
+again:
 	$(MAKE) clean
 	$(MAKE)
 
@@ -34,10 +37,11 @@ daisy_player_SOURCES = madplay/madplay.c madplay/audio.c \
                        madplay/player.c madplay/audio_wave.c \
                        madplay/resample.c madplay/rgain.c \
                        madplay/filter.c madplay/audio_cdda.c \
-                       pulseaudio/src/core-util.c \
-                       pulseaudio/src/strbuf.c \
-                       pulseaudio/src/pactl.c \
+                       pactl/src/core-util.c \
+                       pactl/src/strbuf.c \
+                       pactl/src/pactl.c \
                        audiocd.c paranoia.c common.c daisy2.02.c \
-                       daisy3.c daisy-player.c playfile.c
+                       daisy3.c daisy-player.c playfile.c \
+                       ncx.c opf.c
 
 localedir = $(datadir)/locale

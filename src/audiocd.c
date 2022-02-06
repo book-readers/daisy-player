@@ -95,17 +95,23 @@ void get_toc_audiocd (misc_t *misc, daisy_t *daisy)
    dir = "";
    if ((cd = cdio_open (misc->cd_dev, DRIVER_UNKNOWN)) == NULL)
    {
+      int e = errno;
       endwin ();
       beep ();
-      _exit (0);
+      printf ("open %s: %s\n", misc->cd_dev, strerror (e));
+      _exit (EXIT_FAILURE);
    } // if
    misc->total_items = cdio_get_num_tracks (cd);
    first_track = cdio_get_first_track_num (cd);
    for (misc->current = 0; misc->current < misc->total_items; misc->current++)
    {
-      snprintf (daisy[misc->current].label, 15, "Track %2d", misc->current + 1);
-      snprintf (daisy[misc->current].filename, MAX_STR - 1,
-                "%s/Track %d.wav", dir, misc->current + 1);
+      int x;
+
+      sprintf (daisy[misc->current].label, "Track %2d", misc->current + 1);
+      x = strlen (dir) + 25;
+      daisy[misc->current].filename = malloc (x);
+      snprintf (daisy[misc->current].filename, x,
+                "%s/Track-%02d.wav", dir, misc->current + 1);
       daisy[misc->current].first_lsn = cdio_get_track_lsn (cd,
                                                      first_track + misc->current);
       if (misc->displaying == misc->max_y)

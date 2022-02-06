@@ -244,7 +244,7 @@ Samuel Thibault <sthibault@debian.org>
 	New language added: Guatemala. Should also be usefull for
 	other Central American countries.
 	Updated the French translation.
-	Filenames now will be treated case insensitive.
+	Filenames now will be treated case-insensitive.
 	The external executable "find" has been dropped in favour
 	of an internal function that scans for the "ncc.html",
 	"*.ncx" and "*.opf" files.
@@ -291,3 +291,28 @@ Samuel Thibault <sthibault@debian.org>
 	Only unmount cd if daisy-player has mounted it by itself.
 11.6	The external command pactl is no longer needed.
 	pactl is now built-in.
+11.6.1	The map src/pulseaudio is renamed to src/pactl.
+	Filenames now will be treated case-insensitive.
+	Now also in href, src and alike attributes.
+11.6.2
+	Playback sound can be muted/unmuted with 'm'.
+	With 'o' a soundcard can be selected. The volume levels and
+	the "mute" states of all cards ar shown and can be altered
+	using 'm', 'v' and 'V'.
+11.6.2.1
+	Reset the terminal after daisy-player exits.
+11.6.2.2
+	fr.po patched by  Samuel Thibault <samuel.thibault@ens-lyon.org>.
+11.7	Thanks to Didier Spaier <didier@slint.fr> for his patch to common.c:
+	- if ((p = popen ("/usr/bin/pactl list sinks", "r")) == NULL)
+	+ if ((p = popen ("LANG=C /usr/bin/pactl list sinks", "r")) == NULL)
+	Added a new -v option for verbosity while readding a book,
+	so one can see what's going on.
+	Solved compiler warnings.
+	Thanks to Colomban Wendling <cwendling@hypra.fr> for his
+	patch to gracefully quit daisy-player upon receiving a signal.
+11.7.1	In the function select_next_output_device () the value of 
+	the pactl field "Description:" is replaced by the value of
+	field "alsa.card_name".
+	Suggested by Didier Spaier <didier@slint.fr>.
+11.7.2	OOPS. Had forgotten to remove debug-lines in the previous version.

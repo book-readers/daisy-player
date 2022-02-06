@@ -95,8 +95,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intlmacosx.m4 \
 	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
 	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/nls.m4 \
-	$(top_srcdir)/m4/onceonly.m4 $(top_srcdir)/m4/po.m4 \
-	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/m4/stdbool.m4 \
+	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/progtest.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -114,11 +113,11 @@ am_daisy_player_OBJECTS = madplay/madplay.$(OBJEXT) \
 	madplay/player.$(OBJEXT) madplay/audio_wave.$(OBJEXT) \
 	madplay/resample.$(OBJEXT) madplay/rgain.$(OBJEXT) \
 	madplay/filter.$(OBJEXT) madplay/audio_cdda.$(OBJEXT) \
-	pulseaudio/src/core-util.$(OBJEXT) \
-	pulseaudio/src/strbuf.$(OBJEXT) pulseaudio/src/pactl.$(OBJEXT) \
-	audiocd.$(OBJEXT) paranoia.$(OBJEXT) common.$(OBJEXT) \
-	daisy2.02.$(OBJEXT) daisy3.$(OBJEXT) daisy-player.$(OBJEXT) \
-	playfile.$(OBJEXT)
+	pactl/src/core-util.$(OBJEXT) pactl/src/strbuf.$(OBJEXT) \
+	pactl/src/pactl.$(OBJEXT) audiocd.$(OBJEXT) paranoia.$(OBJEXT) \
+	common.$(OBJEXT) daisy2.02.$(OBJEXT) daisy3.$(OBJEXT) \
+	daisy-player.$(OBJEXT) playfile.$(OBJEXT) ncx.$(OBJEXT) \
+	opf.$(OBJEXT)
 daisy_player_OBJECTS = $(am_daisy_player_OBJECTS)
 daisy_player_LDADD = $(LDADD)
 am__DEPENDENCIES_1 =
@@ -322,12 +321,15 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
-AM_CFLAGS = -I . -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
+AM_CFLAGS = -I . -I /usr/include/cdio/ -I /usr/include/cdio/paranoia/ \
+            -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
+            -Wunused -Wunused-variable -Wunused-function \
+            -Wmissing-declarations \
             -g -I /usr/include/libxml2/ -O3 \
-            --param=ssp-buffer-size=4 -Wformat -Werror=format-security \
+            -Wuninitialized -Winit-self \
             -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
 
-ldadd = $(depend) @LTLIBINTL@ -lpulse
+ldadd = $(depend) @LTLIBINTL@
 DEPENDENCIES = $(depend)
 LDADD = $(ldadd)
 CLEANFILES = $(EXTRA_PROGRAMS)
@@ -336,11 +338,12 @@ daisy_player_SOURCES = madplay/madplay.c madplay/audio.c \
                        madplay/player.c madplay/audio_wave.c \
                        madplay/resample.c madplay/rgain.c \
                        madplay/filter.c madplay/audio_cdda.c \
-                       pulseaudio/src/core-util.c \
-                       pulseaudio/src/strbuf.c \
-                       pulseaudio/src/pactl.c \
+                       pactl/src/core-util.c \
+                       pactl/src/strbuf.c \
+                       pactl/src/pactl.c \
                        audiocd.c paranoia.c common.c daisy2.02.c \
-                       daisy3.c daisy-player.c playfile.c
+                       daisy3.c daisy-player.c playfile.c \
+                       ncx.c opf.c
 
 all: all-am
 
@@ -445,18 +448,18 @@ madplay/filter.$(OBJEXT): madplay/$(am__dirstamp) \
 	madplay/$(DEPDIR)/$(am__dirstamp)
 madplay/audio_cdda.$(OBJEXT): madplay/$(am__dirstamp) \
 	madplay/$(DEPDIR)/$(am__dirstamp)
-pulseaudio/src/$(am__dirstamp):
-	@$(MKDIR_P) pulseaudio/src
-	@: > pulseaudio/src/$(am__dirstamp)
-pulseaudio/src/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) pulseaudio/src/$(DEPDIR)
-	@: > pulseaudio/src/$(DEPDIR)/$(am__dirstamp)
-pulseaudio/src/core-util.$(OBJEXT): pulseaudio/src/$(am__dirstamp) \
-	pulseaudio/src/$(DEPDIR)/$(am__dirstamp)
-pulseaudio/src/strbuf.$(OBJEXT): pulseaudio/src/$(am__dirstamp) \
-	pulseaudio/src/$(DEPDIR)/$(am__dirstamp)
-pulseaudio/src/pactl.$(OBJEXT): pulseaudio/src/$(am__dirstamp) \
-	pulseaudio/src/$(DEPDIR)/$(am__dirstamp)
+pactl/src/$(am__dirstamp):
+	@$(MKDIR_P) pactl/src
+	@: > pactl/src/$(am__dirstamp)
+pactl/src/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) pactl/src/$(DEPDIR)
+	@: > pactl/src/$(DEPDIR)/$(am__dirstamp)
+pactl/src/core-util.$(OBJEXT): pactl/src/$(am__dirstamp) \
+	pactl/src/$(DEPDIR)/$(am__dirstamp)
+pactl/src/strbuf.$(OBJEXT): pactl/src/$(am__dirstamp) \
+	pactl/src/$(DEPDIR)/$(am__dirstamp)
+pactl/src/pactl.$(OBJEXT): pactl/src/$(am__dirstamp) \
+	pactl/src/$(DEPDIR)/$(am__dirstamp)
 
 daisy-player$(EXEEXT): $(daisy_player_OBJECTS) $(daisy_player_DEPENDENCIES) $(EXTRA_daisy_player_DEPENDENCIES) 
 	@rm -f daisy-player$(EXEEXT)
@@ -465,7 +468,7 @@ daisy-player$(EXEEXT): $(daisy_player_OBJECTS) $(daisy_player_DEPENDENCIES) $(EX
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f madplay/*.$(OBJEXT)
-	-rm -f pulseaudio/src/*.$(OBJEXT)
+	-rm -f pactl/src/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
@@ -475,6 +478,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/daisy-player.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/daisy2.02.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/daisy3.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ncx.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/opf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/paranoia.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/playfile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/audio.Po@am__quote@
@@ -488,9 +493,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/rgain.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/tag.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@madplay/$(DEPDIR)/version.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@pulseaudio/src/$(DEPDIR)/core-util.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@pulseaudio/src/$(DEPDIR)/pactl.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@pulseaudio/src/$(DEPDIR)/strbuf.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@pactl/src/$(DEPDIR)/core-util.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@pactl/src/$(DEPDIR)/pactl.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@pactl/src/$(DEPDIR)/strbuf.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -626,8 +631,8 @@ distclean-generic:
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
 	-rm -f madplay/$(DEPDIR)/$(am__dirstamp)
 	-rm -f madplay/$(am__dirstamp)
-	-rm -f pulseaudio/src/$(DEPDIR)/$(am__dirstamp)
-	-rm -f pulseaudio/src/$(am__dirstamp)
+	-rm -f pactl/src/$(DEPDIR)/$(am__dirstamp)
+	-rm -f pactl/src/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -637,7 +642,7 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR) madplay/$(DEPDIR) pulseaudio/src/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) madplay/$(DEPDIR) pactl/src/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -683,7 +688,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR) madplay/$(DEPDIR) pulseaudio/src/$(DEPDIR)
+	-rm -rf ./$(DEPDIR) madplay/$(DEPDIR) pactl/src/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -725,10 +730,10 @@ libtool: $(LIBTOOL_DEPS)
 
 .c.s:
 	(cd madplay && make)
-	(cd pulseaudio/src && make)
+	(cd pactl/src && make)
 	$(COMPILE) -S $<
 
-again:                    
+again:
 	$(MAKE) clean
 	$(MAKE)
 
