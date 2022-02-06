@@ -168,7 +168,6 @@ EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib ChangeLog compile \
              src/pactl/src/Makefile.am \
              src/pactl/src/Makefile.in \
              src/pactl/src/pactl.c \
-             src/pactl/src/pactl-set-cmd.c \
              src/pactl/src/socket.h \
              src/pactl/src/strbuf.h \
              src/pactl/src/strlist.h \
@@ -204,9 +203,17 @@ force-update-gmo-%: check-gettext
 	cd po && $(MAKE) $(AM_MAKEFLAGS) update-gmo
 	
 checkinstall:
+	@echo
 	@echo "checkinstall..."
+	@echo
 	make distdir
-	checkinstall
+	cd $(PACKAGE)-$(VERSION)
+	checkinstall -D --fstrans --pkgname "$(PACKAGE)" \
+	--pkgversion $(VERSION) --pkggroup audio \
+	--maintainer "Jos Lemmens \<jos\@jlemmens.nl\>" \
+	--provides "daisy-player" \
+	--strip --stripso \
+	--review-control
 
 .PHONY:
 	hcheck-gettext update-po update-gmo force-update-gmo

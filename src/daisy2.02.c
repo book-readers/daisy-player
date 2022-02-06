@@ -175,8 +175,7 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
             if (! *daisy[misc->current].first_id)
             {
                if (*my_attribute->id)
-                  strncpy (daisy[misc->current].first_id, my_attribute->id,
-                           MAX_STR);
+                  strcpy (daisy[misc->current].first_id, my_attribute->id);
             } // if
             misc->has_audio_tag = 1;
             misc->current_audio_file = realloc
@@ -192,8 +191,7 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
             while (1)
             {
                if (*my_attribute->id)
-                  strncpy (daisy[misc->current].last_id, my_attribute->id,
-                           MAX_STR);
+                  strcpy (daisy[misc->current].last_id, my_attribute->id);
                if (! get_tag_or_label (misc, my_attribute, parse))
                   break;
                if (misc->current + 1 < misc->total_items &&

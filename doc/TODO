@@ -1,2 +1,5 @@
 - go to page
 - skip left read pagenumber
+- gzipped files
+- Florian: the displayed time still elapses in real seconds,
+  so there is time left when a track is finished.

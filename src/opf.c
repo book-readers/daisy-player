@@ -141,7 +141,7 @@ void parse_smil_opf (misc_t *misc, my_attribute_t *my_attribute,
          break;
       if (*my_attribute->id)
       {
-         strncpy (daisy[i].first_id, my_attribute->id, MAX_STR);
+         strcpy (daisy[i].first_id, my_attribute->id);
       } // if
       if (strcasecmp (misc->tag, "text") == 0)
       {

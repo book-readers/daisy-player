@@ -25,13 +25,13 @@ libtool: $(LIBTOOL_DEPS)
 	$(SHELL) ./config.status --recheck
 
 .c.s:
-	(cd madplay && make)
-	(cd pactl/src && make)
+	(cd madplay && $(MAKE))
+	(cd pactl/src && $(MAKE))
 	$(COMPILE) -S $<
 
 again:
 	$(MAKE) clean
-	$(MAKE)
+	$(MAKE)                 
 
 .PHONY: profile again
 
@@ -43,6 +43,7 @@ daisy_player_SOURCES = madplay/madplay.c madplay/audio.c \
                        pactl/src/core-util.c \
                        pactl/src/strbuf.c \
                        pactl/src/pactl.c \
+                       alsa_ctl.c \
                        audiocd.c paranoia.c common.c daisy2.02.c \
                        daisy3.c daisy-player.c playfile.c \
                        ncx.c opf.c

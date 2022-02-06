@@ -10,7 +10,7 @@
 GETTEXT_MACRO_VERSION = 0.19
 
 PACKAGE = daisy-player
-VERSION = 12.1
+VERSION = 13.0
 PACKAGE_BUGREPORT = jos@jlemmens.nl
 
 SED = /bin/sed
@@ -66,10 +66,10 @@ MSGINIT = msginit
 MSGCONV = msgconv
 MSGFILTER = msgfilter
 
-POFILES =  af.po cs.po de.po en@quot.po en@boldquot.po es_ES.po es_GT.po fi.po fr.po hu.po it.po ml.po nb.po nl.po pl.po pt.po sl.po sv.po
-GMOFILES =  af.gmo cs.gmo de.gmo en@quot.gmo en@boldquot.gmo es_ES.gmo es_GT.gmo fi.gmo fr.gmo hu.gmo it.gmo ml.gmo nb.gmo nl.gmo pl.gmo pt.gmo sl.gmo sv.gmo
-UPDATEPOFILES =  af.po-update cs.po-update de.po-update en@quot.po-update en@boldquot.po-update es_ES.po-update es_GT.po-update fi.po-update fr.po-update hu.po-update it.po-update ml.po-update nb.po-update nl.po-update pl.po-update pt.po-update sl.po-update sv.po-update
-DUMMYPOFILES =  af.nop cs.nop de.nop en@quot.nop en@boldquot.nop es_ES.nop es_GT.nop fi.nop fr.nop hu.nop it.nop ml.nop nb.nop nl.nop pl.nop pt.nop sl.nop sv.nop
+POFILES =  af.po cs.po de.po en@quot.po en@boldquot.po es_ES.po es_GT.po fi.po fr.po hu.po it.po ml.po nb.po nl.po pl.po pt.po ru.po sl.po sv.po
+GMOFILES =  af.gmo cs.gmo de.gmo en@quot.gmo en@boldquot.gmo es_ES.gmo es_GT.gmo fi.gmo fr.gmo hu.gmo it.gmo ml.gmo nb.gmo nl.gmo pl.gmo pt.gmo ru.gmo sl.gmo sv.gmo
+UPDATEPOFILES =  af.po-update cs.po-update de.po-update en@quot.po-update en@boldquot.po-update es_ES.po-update es_GT.po-update fi.po-update fr.po-update hu.po-update it.po-update ml.po-update nb.po-update nl.po-update pl.po-update pt.po-update ru.po-update sl.po-update sv.po-update
+DUMMYPOFILES =  af.nop cs.nop de.nop en@quot.nop en@boldquot.nop es_ES.nop es_GT.nop fi.nop fr.nop hu.nop it.nop ml.nop nb.nop nl.nop pl.nop pt.nop ru.nop sl.nop sv.nop
 DISTFILES.common = Makefile.in.in remove-potcdate.sin \
 $(DISTFILES.common.extra1) $(DISTFILES.common.extra2) $(DISTFILES.common.extra3)
 DISTFILES = $(DISTFILES.common) Makevars POTFILES.in \
@@ -77,14 +77,18 @@ $(POFILES) $(GMOFILES) \
 $(DISTFILES.extra1) $(DISTFILES.extra2) $(DISTFILES.extra3)
 
 POTFILES = \
+     ../src/alsa_ctl.c \
+     ../src/audiocd.c \
      ../src/common.c \
      ../src/daisy2.02.c \
      ../src/daisy3.c \
      ../src/daisy-player.c \
      ../src/ncx.c \
-     ../src/opf.c
+     ../src/opf.c \
+     ../src/paranoia.c \
+     ../src/playfile.c
 
-CATALOGS =  af.gmo cs.gmo de.gmo en@quot.gmo en@boldquot.gmo es_ES.gmo es_GT.gmo fi.gmo fr.gmo hu.gmo it.gmo ml.gmo nb.gmo nl.gmo pl.gmo pt.gmo sl.gmo sv.gmo
+CATALOGS =  af.gmo cs.gmo de.gmo en@quot.gmo en@boldquot.gmo es_ES.gmo es_GT.gmo fi.gmo fr.gmo hu.gmo it.gmo ml.gmo nb.gmo nl.gmo pl.gmo pt.gmo ru.gmo sl.gmo sv.gmo
 
 POFILESDEPS_ = $(srcdir)/$(DOMAIN).pot
 POFILESDEPS_yes = $(POFILESDEPS_)
@@ -242,7 +246,7 @@ $(DOMAIN).pot-update: $(POTFILES) $(srcdir)/POTFILES.in remove-potcdate.sed
 	      --files-from=$(srcdir)/POTFILES.in \
 	      --copyright-holder='$(COPYRIGHT_HOLDER)' \
 	      --package-name="$${package_prefix}daisy-player" \
-	      --package-version='12.1' \
+	      --package-version='13.0' \
 	      --msgid-bugs-address="$$msgid_bugs_address" \
 	    ;; \
 	esac
