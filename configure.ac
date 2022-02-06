@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])                                               
-AC_INIT([daisy-player],[11.2],[jos@jlemmens.nl],[],[www.jlemmens.nl])
-AM_INIT_AUTOMAKE([subdir-objects])
+AC_INIT([daisy-player],[11.3.1],[jos@jlemmens.nl],[],[www.jlemmens.nl])
+AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 
@@ -28,7 +28,12 @@ AC_CHECK_LIB([cdio], [main])
 # FIXME: Replace `main' with a function in `-lid3':
 AC_CHECK_LIB([id3], [main])
 # FIXME: Replace `main' with a function in `-lid3tag':
-AC_CHECK_LIB([id3tag], [main])
+AC_CHECK_LIB(id3tag, id3_tag_parse, :, [
+        AC_MSG_ERROR([libid3tag was not found
+*** You must first install libid3tag before you can build this package.
+*** If libid3tag is already installed, you may need to use the LDFLAGS
+*** environment variable to specify its installed location, e.g. -L<dir>.])
+], [-lz])
 # FIXME: Replace `main' with a function in `-lcdio_cdda':
 AC_CHECK_LIB([cdio_cdda], [main])
 # FIXME: Replace `main' with a function in `-lcdio_paranoia':
@@ -38,19 +43,15 @@ AC_CHECK_LIB([magic], [main])
 # FIXME: Replace `main' with a function in `-lncursesw':
 AC_CHECK_LIB([ncursesw], [main])
 # FIXME: Replace `main' with a function in `-lsox':
-#AC_CHECK_LIB([sox], [main])                      
+AC_CHECK_LIB([sox], [main])
 # FIXME: Replace `main' with a function in `-lxml2':
 AC_CHECK_LIB([xml2], [main])
 # FIXME: Replace `main' with a function in `-lasound':
 AC_CHECK_LIB([asound], [main])
 # FIXME: Replace `main' with a function in `-lmad':
-AC_CHECK_LIB(id3tag, id3_tag_parse, :, [
-        AC_MSG_ERROR([libid3tag was not found
-*** You must first install libid3tag before you can build this package.
-*** If libid3tag is already installed, you may need to use the LDFLAGS
-*** environment variable to specify its installed location, e.g. -L<dir>.])
-], [-lz])
 AC_CHECK_LIB([mad], [main])
+
+AC_CHECK_HEADERS([cdio/paranoia/cdda.h])
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h libintl.h locale.h stdlib.h string.h strings.h \
@@ -93,38 +94,13 @@ AC_CONFIG_FILES([Makefile
 AM_GNU_GETTEXT([external])
 AC_PROG_LN_S
 
-dnl madplay stuff
-
-dnl -*- m4 -*-
-dnl
-dnl madplay - MPEG audio decoder and player
-dnl Copyright (C) 2000-2004 Robert Leslie
-dnl
-dnl This program is free software; you can redistribute it and/or modify
-dnl it under the terms of the GNU General Public License as published by
-dnl the Free Software Foundation; either version 2 of the License, or
-dnl (at your option) any later version.
-dnl
-dnl This program is distributed in the hope that it will be useful,
-dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
-dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-dnl GNU General Public License for more details.
-dnl
-dnl You should have received a copy of the GNU General Public License
-dnl along with this program; if not, write to the Free Software
-dnl Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-dnl
-AC_REVISION([$Id: configure.ac,v 1.17 2004/02/23 21:34:53 rob Exp $])dnl
-
 dnl Process this file with autoconf to produce a configure script.
 
-#AC_INIT([MPEG audio decoder and player],[0.15.2b],[rob@mars.org],[madplay])
 AC_PREREQ([2.69])
 
 AC_CONFIG_SRCDIR([src/madplay])
 
 AM_INIT_AUTOMAKE
-
 
 dnl System type.
 

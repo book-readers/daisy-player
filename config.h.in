@@ -37,6 +37,9 @@
 /* Define to 1 if you have the `atexit' function. */
 #undef HAVE_ATEXIT
 
+/* Define to 1 if you have the <cdio/paranoia/cdda.h> header file. */
+#undef HAVE_CDIO_PARANOIA_CDDA_H
+
 /* Define to 1 if you have the Mac OS X function CFLocaleCopyCurrent in the
    CoreFoundation framework. */
 #undef HAVE_CFLOCALECOPYCURRENT
@@ -103,9 +106,6 @@
 /* Define to 1 if you have the `id3' library (-lid3). */
 #undef HAVE_LIBID3
 
-/* Define to 1 if you have the `id3tag' library (-lid3tag). */
-#undef HAVE_LIBID3TAG
-
 /* Define to 1 if you have the <libintl.h> header file. */
 #undef HAVE_LIBINTL_H
 
@@ -117,6 +117,9 @@
 
 /* Define to 1 if you have the `ncursesw' library (-lncursesw). */
 #undef HAVE_LIBNCURSESW
+
+/* Define to 1 if you have the `sox' library (-lsox). */
+#undef HAVE_LIBSOX
 
 /* Define to 1 if you have the `xml2' library (-lxml2). */
 #undef HAVE_LIBXML2
