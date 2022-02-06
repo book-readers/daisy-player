@@ -30,10 +30,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: daisy-player 11.6.2.1\n"
+"Project-Id-Version: daisy-player 11.6.2.2\n"
 "Report-Msgid-Bugs-To: <jos@jlemmens.nl>\n"
-"POT-Creation-Date: 2018-12-19 09:16+0100\n"
-"PO-Revision-Date: 2018-12-19 09:16+0100\n"
+"POT-Creation-Date: 2018-12-19 22:07+0100\n"
+"PO-Revision-Date: 2018-12-19 22:07+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@boldquot\n"
