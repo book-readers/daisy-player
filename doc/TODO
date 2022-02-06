@@ -1,6 +1,4 @@
 - time-viewing starts on 00:00 when next page starts in daisy 3 files
 - command d - take into account the current level
-- HTML parser error
-/home/jos/.daisy-player.xml:2: HTML parser error : Tag prefs invalid
-<prefs sound_dev="hw:0" speed="1.000000" cd_dev="/dev/sr0" cddb_flag="y"/>
-                                                                        ^
+- alter  playback volume with ALSA instead off altering the volume
+  of the soundfile itself with sox.
