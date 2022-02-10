@@ -1,12 +1,13 @@
-Daisy-player - A parser to play Daisy CD's with Linux
+== daisy-player
+
+Daisy-player - A parser to play Daisy CD's with Linux +
 (C)2003-2020 J. Lemmens
 
-DESCRIPTION
-
-Daisy-player reads a DAISY-CD and plays its audio-files.
+=== Description
+Daisy-player reads a DAISY-CD and plays its audio-files. +
 Daisy-player also CAN PLAY Audio-cd's and tries to fetch info using cddbget.
 
-REQUIREMENTS
+=== Requirements
 Be sure the following extra packages exist on your system:
 
    libncursesw5
@@ -43,11 +44,11 @@ The following packages are needed to make the manual and the html document:
    txt2man
    man2html
 
-USAGE
+=== Usage
 As a mortal user, put a DAISY-cd or an Audio-cd in your cd-player and,
 on the command line, give:
 
-   $ daisy-player
+   $ Daisy-player
 
 This starts reading the cd and printing the content on
 the screen. After giving an [ENTER], playing the audio files starts.
@@ -62,13 +63,13 @@ A list of items on the DAISY-CD will appear. Press <ENTER>
 to start playing. When reading of an item has finished, daisy-player will
 play the next item and the cursor will automatically skip
 to that item, so that your braille-terminal will display the name
-of that item.
+of that item. +
 Daisy-player plays the audio on the default sound device.
 
 For keyboard navigation, plese press 'h' or '?'.
 
 daisy-player is multilingual. The following languages are currently
-supported:
+supported: +
 czech, dutch, english, finish, french, german, hungarian, italian,
 kerala, norwegian, polish, portuguese, slovenian, south-african, spanish,
 Swedish.
@@ -76,5 +77,9 @@ Swedish.
 Enjoy
 
 Jos Lemmens
-jos@jlemmens.nl
-http://www.jlemmens.nl
+
+==== Note
+From his brother Kees on November 9, 2021 : I am very sorry to inform you that Jos quietly passed away this morning.
+He will be remembered as our own dear, clever, little "Stephen Hawking".
+
+On behalf of users of eBook-speaker and Daisy-player, current mainteners would also thank him for his tremendous work. Jos, we miss you.
