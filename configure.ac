@@ -86,8 +86,6 @@ AC_CONFIG_FILES([Makefile
                  src/madplay/Makefile
                  src/pactl/Makefile])
 
-AM_INIT_AUTOMAKE
-
 dnl System type.
 
 AC_CANONICAL_HOST
