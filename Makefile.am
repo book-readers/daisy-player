@@ -2,6 +2,8 @@ AUTOMAKE_OPTIONS = foreign
 
 SUBDIRS = man doc po src
 
+docdir = $(datadir)/doc/@PACKAGE@
+
 ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib ChangeLog compile \
@@ -11,7 +13,7 @@ EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib ChangeLog compile \
              doc/daisy-player.description doc/daisy-player.desktop \
              doc/daisy-player.html doc/daisy-player.menu \
              doc/daisy-player.png doc/daisy-player.txt doc/License \
-             doc/Makefile.am doc/Makefile.in doc/Readme doc/TODO \
+             doc/Makefile.am doc/Makefile.in doc/TODO \
              icons INSTALL install-sh m4 \
              Makefile.am Makefile.in man missing mkinstalldirs \
              po/af.gmo \
@@ -172,6 +174,8 @@ EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib ChangeLog compile \
              src/pactl/src/strbuf.h \
              src/pactl/src/strlist.h \
              src/pactl/todo
+
+doc_DATA = README.adoc
 
 check-gettext:
 	@if test x$(USE_NLS) != "xyes" ; then \
