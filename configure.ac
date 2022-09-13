@@ -149,7 +149,7 @@ AC_CHECK_FUNCS([mempcpy])
 AC_CHECK_FUNCS([stpcpy])
 AC_CHECK_FUNCS([strtoul])
 AC_CHECK_HEADERS([argz.h])
-AC_CHECK_HEADERS([limits.h])               nn
+AC_CHECK_HEADERS([limits.h])
 AC_CHECK_HEADERS([stddef.h])
 AC_CHECK_HEADERS([sys/param.h])
 AC_FUNC_ALLOCA
