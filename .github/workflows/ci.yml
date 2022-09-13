@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+    - uses: actions/checkout@v2
+    - name: dependencies
+      run: sudo apt-get update && sudo apt-get install
+               autopoint
+               libpulse-dev libasound2-dev libsndfile1-dev
+               libncursesw5-dev
+               libcdio-cdda-dev libcdio-dev libcdio-paranoia-dev
+               libid3tag0-dev
+               libmad0-dev
+               libmagic-dev
+               librsvg2-bin
+               libsox-dev
+               libxml2-dev
+               man2html txt2man
+    - name: autoconf
+      run: autoreconf -vfi
+    - name: configure
+      run: ./configure
+    - name: make
+      run: make
