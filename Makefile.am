@@ -82,7 +82,6 @@ EXTRA_DIST = ABOUT-NLS aclocal.m4 am ar-lib ChangeLog compile \
              src/Makefile.am src/Makefile.in \
              src/madplay/ABOUT-NLS \
              src/madplay/aclocal.m4 \
-             src/madplay/am \
              src/madplay/ar-lib \
              src/madplay/audio.h \
              src/madplay/CHANGES \
