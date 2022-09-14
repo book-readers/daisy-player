@@ -42,8 +42,8 @@
 #include <libxml/xmlwriter.h>
 #include <libxml/HTMLparser.h>
 #include <cdio/cdio.h>
-#include <cdda.h>
-#include <paranoia.h>
+#include <cdio/paranoia/cdda.h>
+#include <cdio/paranoia/paranoia.h>
 #include <cdio/disc.h>
 #include <magic.h>
 #include <fnmatch.h>

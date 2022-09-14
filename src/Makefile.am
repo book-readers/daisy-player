@@ -1,15 +1,35 @@
 AUTOMAKE_OPTIONS = foreign
 
-AM_CFLAGS = -I . -I /usr/include/cdio/ -I /usr/include/cdio/paranoia/ \
-            -I /usr/include/libxml2/ \
-            -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
+AM_CPPFLAGS = $(CDIO_CFLAGS) \
+	$(CDIO_CDDA_CFLAGS) \
+	$(CDIO_PARANOIA_CFLAGS) \
+	$(MAGIC_CFLAGS) \
+	$(NCURSESW_CFLAGS) \
+	$(SOX_CFLAGS) \
+	$(XML2_CFLAGS) \
+	$(MAD_CFLAGS) \
+	$(PULSE_CFLAGS) \
+	$(ASOUND_CFLAGS)
+
+AM_CFLAGS = -I . -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
             -Wunused -Wunused-variable -Wunused-function \
             -Wmissing-declarations \
-            -g -I /usr/include/libxml2/ -O3 \
+            -g -O3 \
             -Wuninitialized -Winit-self \
             -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
 
 #AM_LDFLAGS = -static # jos
+
+LIBS += $(CDIO_LIBS) \
+	$(CDIO_CDDA_LIBS) \
+	$(CDIO_PARANOIA_LIBS) \
+	$(MAGIC_LIBS) \
+	$(NCURSESW_LIBS) \
+	$(SOX_LIBS) \
+	$(XML2_LIBS) \
+	$(MAD_LIBS) \
+	$(PULSE_LIBS) \
+	$(ASOUND_LIBS)
 
 bin_PROGRAMS = daisy-player
 

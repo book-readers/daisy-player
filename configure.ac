@@ -22,27 +22,20 @@ AC_PROG_MKDIR_P
 AM_PROG_AS
 AM_PROG_GCJ
 
+# locate pkg-config
+PKG_PROG_PKG_CONFIG
+
 # Checks for libraries.
-# FIXME: Replace `main' with a function in `-lcdio':
-AC_CHECK_LIB([cdio], [main])
-# FIXME: Replace `main' with a function in `-lcdio_cdda':
-AC_CHECK_LIB([cdio_cdda], [main])
-# FIXME: Replace `main' with a function in `-lcdio_paranoia':
-AC_CHECK_LIB([cdio_paranoia], [main])
-# FIXME: Replace `main' with a function in `-lmagic':
-AC_CHECK_LIB([magic], [main])
-# FIXME: Replace `main' with a function in `-lncursesw':
-AC_CHECK_LIB([ncursesw], [main])
-# FIXME: Replace `main' with a function in `-lsox':
-AC_CHECK_LIB([sox], [main])
-# FIXME: Replace `main' with a function in `-lxml2':
-AC_CHECK_LIB([xml2], [main])
-# FIXME: Replace `main' with a function in `-lmad':
-AC_CHECK_LIB([mad], [main])
-# FIXME: Replace `main' with a function in `-lpulse':
-AC_CHECK_LIB([pulse], [main])
-# FIXME: Replace `main' with a function in `-lasound':
-AC_CHECK_LIB([asound], [main])
+PKG_CHECK_MODULES([CDIO], [libcdio])
+PKG_CHECK_MODULES([CDIO_CDDA], [libcdio_cdda])
+PKG_CHECK_MODULES([CDIO_PARANOIA], [libcdio_paranoia])
+PKG_CHECK_MODULES([MAGIC], [libmagic])
+PKG_CHECK_MODULES([NCURSESW], [ncursesw])
+PKG_CHECK_MODULES([SOX], [sox])
+PKG_CHECK_MODULES([XML2], [libxml-2.0])
+PKG_CHECK_MODULES([MAD], [mad])
+PKG_CHECK_MODULES([PULSE], [libpulse])
+PKG_CHECK_MODULES([ASOUND], [alsa])
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h libintl.h locale.h stdlib.h string.h strings.h \
