@@ -27,7 +27,7 @@ jobs:
                libxml2-dev
                man2html txt2man
     - name: autoconf
-      run: autoreconf -vfi
+      run: ./autogen
     - name: configure
       run: ./configure
     - name: make
