@@ -29,7 +29,9 @@ PKG_PROG_PKG_CONFIG
 PKG_CHECK_MODULES([CDIO], [libcdio])
 PKG_CHECK_MODULES([CDIO_CDDA], [libcdio_cdda])
 PKG_CHECK_MODULES([CDIO_PARANOIA], [libcdio_paranoia])
-PKG_CHECK_MODULES([MAGIC], [libmagic])
+# FIXME: when it will be largely available
+# PKG_CHECK_MODULES([MAGIC], [libmagic])
+AC_CHECK_LIB([magic], [main])
 PKG_CHECK_MODULES([NCURSESW], [ncursesw])
 PKG_CHECK_MODULES([SOX], [sox])
 PKG_CHECK_MODULES([XML2], [libxml-2.0])
