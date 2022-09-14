@@ -67,7 +67,7 @@ void get_cddb_info (misc_t *misc, daisy_t *daisy)
          i++;
       } // if
    } // while
-   fclose (r);
+   pclose (r);
 } // get_cddb_info
 
 daisy_t *get_number_of_tracks (misc_t *misc)
