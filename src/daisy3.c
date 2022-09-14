@@ -197,7 +197,6 @@ void parse_page_number (misc_t *misc, my_attribute_t *my_attribute,
          if (! (text = xmlReaderWalker (doc)))
          {
             free (anchor);
-            free (src);
             failure (misc, src, errno);
          } // if
 
