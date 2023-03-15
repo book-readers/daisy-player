@@ -540,6 +540,7 @@ void write_wav (misc_t *misc, my_attribute_t *my_attribute,
          endwin ();
          beep ();
          printf ("%s: %s\n", misc->current_audio_file, strerror (e));
+         remove_tmp_dir (misc);
          _exit (EXIT_FAILURE);
       } // if
       (void) madplay (misc->current_audio_file, begin, duration, out_cdr);
