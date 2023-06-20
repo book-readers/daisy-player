@@ -37,6 +37,7 @@ PKG_CHECK_MODULES([XML2], [libxml-2.0])
 PKG_CHECK_MODULES([MAD], [mad])
 PKG_CHECK_MODULES([PULSE], [libpulse])
 PKG_CHECK_MODULES([ASOUND], [alsa])
+AC_CHECK_HEADER(id3tag.h,, [PKG_CHECK_MODULES([ID3TAG], [id3tag])])
 
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h libintl.h locale.h stdlib.h string.h strings.h \
@@ -130,12 +131,6 @@ AC_CHECK_HEADERS([locale.h])
 AC_CHECK_HEADERS([malloc.h])
 AC_CHECK_HEADERS([stdio_ext.h])
 AC_CHECK_HEADER_STDBOOL
-AC_CHECK_HEADER(id3tag.h, [], [
-        AC_MSG_ERROR([id3tag.h was not found
-*** You must first install libid3tag before you can build this package.
-*** If libid3tag is already installed, you may need to use the CPPFLAGS
-*** environment variable to specify its installed location, e.g. -I<dir>.])
-])
 AC_CHECK_TYPES([ptrdiff_t])
 AC_CHECK_FUNCS([getcwd])
 AC_CHECK_FUNCS([mempcpy])
