@@ -9,6 +9,7 @@ AM_CPPFLAGS = $(CDIO_CFLAGS) \
 	$(XML2_CFLAGS) \
 	$(MAD_CFLAGS) \
 	$(PULSE_CFLAGS) \
+	$(ID3TAG_CFLAGS) \
 	$(ASOUND_CFLAGS)
 
 AM_CFLAGS = -I . -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
@@ -29,6 +30,7 @@ LIBS += $(CDIO_LIBS) \
 	$(XML2_LIBS) \
 	$(MAD_LIBS) \
 	$(PULSE_LIBS) \
+	$(ID3TAG_LIBS) \
 	$(ASOUND_LIBS)
 
 bin_PROGRAMS = daisy-player
