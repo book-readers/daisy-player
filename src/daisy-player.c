@@ -2463,8 +2463,6 @@ int main (int argc, char *argv[])
             {
                daisy[misc.current].smil_file = strdup ("");
                daisy[misc.current].smil_anchor = strdup ("");
-               daisy[misc.current].smil_file = strdup ("");
-               daisy[misc.current].smil_anchor = strdup ("");
             } // for
             break;
          } //  TRACK_COUNT_AUDIO
@@ -2504,8 +2502,6 @@ int main (int argc, char *argv[])
       daisy = create_daisy_struct (&misc, &my_attribute, daisy);
       for (misc.current = 0; misc.current < misc.total_items; misc.current++)
       {
-         daisy[misc.current].smil_file = strdup ("");
-         daisy[misc.current].smil_anchor = strdup ("");
          daisy[misc.current].smil_file = strdup ("");
          daisy[misc.current].smil_anchor = strdup ("");
       } // for
