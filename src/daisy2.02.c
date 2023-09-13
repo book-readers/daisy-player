@@ -216,30 +216,6 @@ void parse_smil_2 (misc_t *misc, my_attribute_t *my_attribute, daisy_t *daisy)
                             daisy[misc->current + 1].smil_anchor) == 0)
                      break;
          } // if (strcasecmp (misc->tag, "audio") == 0)
-         if (strcasecmp (misc->tag, "text") == 0)
-         {
-            free (daisy[misc->current].smil_anchor);
-            daisy[misc->current].smil_anchor = strdup ("");
-            if (strchr (my_attribute->src, '#'))
-            {
-               free (daisy[misc->current].smil_anchor);
-               daisy[misc->current].smil_anchor =
-                    strdup (strchr (my_attribute->src, '#') + 1);
-               *strchr (my_attribute->src, '#') = 0;
-            } // if
-            daisy[misc->current].smil_file = realloc
-                   (daisy[misc->current].smil_file,
-                    strlen (misc->daisy_mp) + strlen (my_attribute->src) + 5);
-            get_realpath_name (misc->daisy_mp, convert_URL_name (misc,
-                           my_attribute->src), daisy[misc->current].smil_file);
-            if (misc->current + 1 < misc->total_items &&
-                *daisy[misc->current + 1].smil_anchor &&
-                strcasecmp (my_attribute->id,
-                            daisy[misc->current + 1].smil_anchor) == 0)
-            {
-               break;
-            } // if
-         } // if
       } // while
       xmlTextReaderClose (parse);
       xmlFreeDoc (doc);
