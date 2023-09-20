@@ -78,7 +78,8 @@ AC_CONFIG_FILES([Makefile
                  po/Makefile.in
                  src/Makefile
                  src/madplay/Makefile
-                 src/pactl/Makefile])
+                 src/pactl/Makefile
+                 tests/Makefile])
 
 dnl System type.
 

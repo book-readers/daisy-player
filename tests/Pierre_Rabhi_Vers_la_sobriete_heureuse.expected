@@ -1,0 +1,67 @@
+[H[2J[3J(C)2003-2021 J. Lemmens
+Daisy-player - Version 13.0 
+A parser to play Daisy CD's with Linux
+Scanning for a Daisy CD...
+
+SPINE (61):
+   1: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0002.smil#tcp70
+   2: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0003.smil#tcp78
+   3: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0004.smil#tcp83
+   4: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0005.smil#tcp96
+   5: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0006.smil#tcp97
+   6: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0007.smil#tcp144
+   7: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0008.smil#tcp175
+   8: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0009.smil#tcp191
+   9: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0010.smil#tcp224
+  10: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0011.smil#tcp242
+  11: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0012.smil#tcp270
+  12: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0013.smil#tcp301
+  13: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0014.smil#tcp308
+  14: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0015.smil#tcp394
+  15: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0016.smil#tcp454
+  16: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0017.smil#tcp539
+  17: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0018.smil#tcp547
+  18: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0019.smil#tcp615
+  19: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0020.smil#tcp658
+  20: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0021.smil#tcp671
+  21: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0022.smil#tcp695
+  22: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0023.smil#tcp742
+  23: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0024.smil#tcp765
+  24: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0025.smil#tcp795
+  25: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0026.smil#tcp796
+  26: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0027.smil#tcp880
+  27: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0028.smil#tcp932
+  28: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0029.smil#tcp941
+  29: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0030.smil#tcp963
+  30: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0031.smil#tcp999
+  31: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0032.smil#tcp1030
+  32: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0033.smil#tcp1078
+  33: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0034.smil#tcp1140
+  34: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0035.smil#tcp1153
+  35: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0036.smil#tcp1156
+  36: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0037.smil#tcp1157
+  37: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0038.smil#tcp1161
+  38: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0039.smil#tcp1165
+  39: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0040.smil#tcp1168
+  40: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0041.smil#tcp1175
+  41: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0042.smil#tcp1176
+  42: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0043.smil#tcp1181
+  43: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0044.smil#tcp1185
+  44: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0045.smil#tcp1188
+  45: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0046.smil#tcp1192
+  46: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0047.smil#tcp1195
+  47: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0048.smil#tcp1199
+  48: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0049.smil#tcp1203
+  49: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0050.smil#tcp1213
+  50: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0051.smil#tcp1228
+  51: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0052.smil#tcp1242
+  52: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0053.smil#tcp1245
+  53: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0054.smil#tcp1248
+  54: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0055.smil#tcp1255
+  55: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0056.smil#tcp1272
+  56: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0057.smil#tcp1286
+  57: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0058.smil#tcp1302
+  58: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0059.smil#tcp1322
+  59: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0060.smil#tcp1338
+  60: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0061.smil#tcp1348
+  61: Pierre_Rabhi_Vers_la_sobriete_heureuse/speechgen0062.smil#tcp1358

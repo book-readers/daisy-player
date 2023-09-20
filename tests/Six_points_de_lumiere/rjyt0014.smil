@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:01:03.404"/>
+		<meta name="ncc:totalElapsedTime" content="00:00:38.761"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 078206"/>
+        <meta name="title" content="Presentation"/>
+        <meta name="dc:title" content="Six points de lumiere"/>
+        <meta name="dc:identifier" content="Unknown"/>
+    </head>
+	<body>
+		<seq dur="63.404s">
+			<par endsync="last">
+				<text src="ncc.html#rjyt_0013" id="rjyt_0013"/>
+				<seq>
+					<audio src="03_Presentation.mp3" clip-begin="npt=0.000s" clip-end="npt=63.404s" id="audio_0001"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

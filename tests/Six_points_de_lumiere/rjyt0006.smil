@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:25:59.365"/>
+		<meta name="ncc:totalElapsedTime" content="01:08:08.041"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 078206"/>
+        <meta name="title" content="Chapitre_3"/>
+        <meta name="dc:title" content="Six points de lumiere"/>
+        <meta name="dc:identifier" content="Unknown"/>
+    </head>
+	<body>
+		<seq dur="1559.365s">
+			<par endsync="last">
+				<text src="ncc.html#rjyt_0005" id="rjyt_0005"/>
+				<seq>
+					<audio src="10_Chapitre_3.mp3" clip-begin="npt=0.000s" clip-end="npt=0.022s" id="audio_0001"/>
+				</seq>
+			</par>
+			<par endsync="last" id="erls_0001" system-required="pagenumber-on">
+				<text src="ncc.html#rjyt_002c" id="erls_0003"/>
+			</par>
+			<par endsync="last">
+				<text src="ncc.html#rjyt_0005" id="erls_0004"/>
+				<seq>
+					<audio src="10_Chapitre_3.mp3" clip-begin="npt=0.022s" clip-end="npt=1559.365s" id="audio_0002"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>
