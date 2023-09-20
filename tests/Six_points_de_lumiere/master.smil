@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 078206"/>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="dc:title" content="Six points de lumiere"/>
+        <meta name="dc:identifier" content="Unknown"/>
+        <meta name="ncc:timeInThisSmil" content="05:28:28.028"/>
+        <layout>
+            <region id="txtView"/>
+        </layout>
+    </head>
+    <body>
+        <ref title="Six_points_de_lumiere" src="rjyt0002.smil#rjyt_0001" id="smil_0001"/>
+        <ref title="Annonce" src="rjyt0013.smil#rjyt_0012" id="smil_0002"/>
+        <ref title="Presentation" src="rjyt0014.smil#rjyt_0013" id="smil_0003"/>
+        <ref title="Table" src="rjyt0015.smil#rjyt_0015" id="smil_0004"/>
+        <ref title="Dédicace" src="rjyt0016.smil#rjyt_0025" id="smil_0005"/>
+        <ref title="Remerciements" src="rjyt0017.smil#rjyt_0026" id="smil_0006"/>
+        <ref title="Preface" src="rjyt0003.smil#rjyt_0002" id="smil_0007"/>
+        <ref title="Chapitre_1" src="rjyt0004.smil#rjyt_0003" id="smil_0008"/>
+        <ref title="Chapitre_2" src="rjyt0005.smil#rjyt_0004" id="smil_0009"/>
+        <ref title="Chapitre_3" src="rjyt0006.smil#rjyt_0005" id="smil_0010"/>
+        <ref title="Chapitre_4" src="rjyt0007.smil#rjyt_0006" id="smil_0011"/>
+        <ref title="Chapitre_5" src="rjyt0008.smil#rjyt_0007" id="smil_0012"/>
+        <ref title="Chapitre_6" src="rjyt0009.smil#rjyt_0008" id="smil_0013"/>
+        <ref title="Chapitre_7" src="rjyt000a.smil#rjyt_0009" id="smil_0014"/>
+        <ref title="Chapitre_8" src="rjyt000b.smil#rjyt_000a" id="smil_0015"/>
+        <ref title="Chapitre_9" src="rjyt000c.smil#rjyt_000b" id="smil_0016"/>
+        <ref title="Chapitre_10" src="rjyt000d.smil#rjyt_000c" id="smil_0017"/>
+        <ref title="Chapitre_11" src="rjyt000e.smil#rjyt_000d" id="smil_0018"/>
+        <ref title="Chapitre_12" src="rjyt0012.smil#rjyt_0011" id="smil_0019"/>
+        <ref title="Epilogue" src="rjyt000f.smil#rjyt_000e" id="smil_0020"/>
+        <ref title="Sources" src="rjyt0010.smil#rjyt_000f" id="smil_0021"/>
+        <ref title="Desannonce" src="rjyt0011.smil#rjyt_0014" id="smil_0022"/>
+    </body>
+</smil>

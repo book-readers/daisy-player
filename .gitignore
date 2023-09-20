@@ -24,3 +24,5 @@ Makefile
 /src/madplay/#
 /src/madplay/am--include-marker
 /src/daisy-player
+/tests/*.log
+/tests/*.trs

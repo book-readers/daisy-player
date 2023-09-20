@@ -2075,6 +2075,7 @@ sig = sig;
 int main (int argc, char *argv[])
 {
    int opt;
+   int test_mode = 0;
    char str[MAX_STR], DISCINFO_HTML[MAX_STR];
    char *c_opt, cddb_opt;
    misc_t misc;
@@ -2141,7 +2142,7 @@ int main (int argc, char *argv[])
    c_opt = NULL;
    cddb_opt = 0;
    misc.option_d = NULL;
-   while ((opt = getopt (argc, argv, "c:d:hijnvyONT")) != -1)
+   while ((opt = getopt (argc, argv, "c:d:hijnvyONTD")) != -1)
    {
       switch (opt)
       {
@@ -2215,6 +2216,9 @@ int main (int argc, char *argv[])
       case 'O':
          misc.use_OPF = 1;
          misc.use_NCX = 0;
+         break;
+      case 'D':
+         test_mode = 1;
          break;
       default:
          beep ();
@@ -2622,6 +2626,20 @@ int main (int argc, char *argv[])
             misc.bookmark_title[i++] = '-';
       } // if
    } // if
+
+   /* TEST only: prints out the "spine" of the document.  Used by the tests to
+    * verify that the parsing keeps working */
+   if (test_mode)
+   {
+      printf("\n\r\nSPINE (%d):\n", misc.total_items);
+      for (int i = 0; i < misc.total_items; i++)
+      {
+         printf("% 4d: %s#%s\n", i + 1, daisy[i].smil_file, daisy[i].smil_anchor);
+         fflush(stdout);
+      }
+      remove_tmp_dir (&misc);
+      return 0;
+   }
 
    misc.level = 1;
    snprintf (misc.tmp_wav, MAX_STR, "%s/daisy-player.wav", misc.tmp_dir);

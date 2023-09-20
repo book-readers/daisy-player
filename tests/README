@@ -1,0 +1,9 @@
+To generate the expected result for a new test (assuming it's behaving already), use:
+
+    abs_srcdir=$PWD/ ./run1.sh --generate ../src/daisy-player TEST_DIR_NAME.expected
+
+You can adjust TEST_DIR_NAME.expected as need to match the actual expectations.
+
+
+DISCLAIMER: For the moment, the tests are just validating the current behavior,
+no attempt has been made to verify it is actually correct.

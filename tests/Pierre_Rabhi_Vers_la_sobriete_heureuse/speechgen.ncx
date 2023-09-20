@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN" "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="fr-FR">
+	  <head>
+		    <meta content="fr-sesame-t-164156" name="dtb:uid"/>
+		    <meta content="3" name="dtb:depth"/>
+		
+		    <meta content="TPB Narrator" name="dtb:generator"/>
+		    <meta content="0" name="dtb:totalPageCount"/>
+		    <meta content="0" name="dtb:maxPageNumber"/>
+	     <smilCustomTest bookStruct="NOTE_REFERENCE" defaultState="false" id="noteref" override="visible"/>
+      <smilCustomTest bookStruct="NOTE" defaultState="false" id="note" override="visible"/>
+   </head>
+  
+	  <docTitle>
+	     <text>Vers la sobriété heureuse</text>
+      <audio clipBegin="0:00:00.000" clipEnd="0:00:02.575" src="speechgen0001.mp3"/>
+   </docTitle>
+  
+	  <docAuthor>
+	     <text>Pierre Rabhi</text>
+      <audio clipBegin="0:00:02.575" clipEnd="0:00:04.992" src="speechgen0001.mp3"/>
+   </docAuthor>
+	
+	  <navMap id="navMap">
+      <navPoint class="h1" id="ncx-1" playOrder="1">
+         <navLabel>
+            <text>Quatrième de couverture</text>
+            <audio clipBegin="0:00:00.000" clipEnd="0:00:04.552" src="speechgen0002.mp3"/>
+         </navLabel>
+         <content src="speechgen0002.smil#tcp70"/>
+      </navPoint>
+      <navPoint class="h1" id="ncx-2" playOrder="2">
+         <navLabel>
+            <text>Citation</text>
+            <audio clipBegin="0:00:00.000" clipEnd="0:00:03.805" src="speechgen0003.mp3"/>
+         </navLabel>
+         <content src="speechgen0003.smil#tcp78"/>
+      </navPoint>
+      <navPoint class="h1" id="ncx-3" playOrder="3">
+         <navLabel>
+            <text>AVANT-PROPOS</text>
+            <audio clipBegin="0:00:00.000" clipEnd="0:00:03.823" src="speechgen0004.mp3"/>
+         </navLabel>
+         <content src="speechgen0004.smil#tcp83"/>
+      </navPoint>
+      <navPoint class="h1" id="ncx-4" playOrder="4">
+         <navLabel>
+            <text>LES SEMENCES DE LA RÉBELLION</text>
+            <audio clipBegin="0:00:00.000" clipEnd="0:00:04.521" src="speechgen0005.mp3"/>
+         </navLabel>
+         <content src="speechgen0005.smil#tcp96"/>
+         <navPoint class="h2" id="ncx-5" playOrder="5">
+            <navLabel>
+               <text>LE CHANT DU FORGERON</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:04.237" src="speechgen0006.mp3"/>
+            </navLabel>
+            <content src="speechgen0006.smil#tcp97"/>
+         </navPoint>
+         <navPoint class="h2" id="ncx-6" playOrder="6">
+            <navLabel>
+               <text>LA FIN D'UN MONDE SÉCULAIRE</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:04.651" src="speechgen0007.mp3"/>
+            </navLabel>
+            <content src="speechgen0007.smil#tcp144"/>
+            <navPoint class="h3" id="ncx-7" playOrder="7">
+               <navLabel>
+                  <text>LE SILENCE DE L'ENCLUME</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.496" src="speechgen0008.mp3"/>
+               </navLabel>
+               <content src="speechgen0008.smil#tcp175"/>
+            </navPoint>
+         </navPoint>
+         <navPoint class="h2" id="ncx-8" playOrder="8">
+            <navLabel>
+               <text>LA DÉSILLUSION</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:04.089" src="speechgen0009.mp3"/>
+            </navLabel>
+            <content src="speechgen0009.smil#tcp191"/>
+         </navPoint>
+         <navPoint class="h2" id="ncx-9" playOrder="9">
+            <navLabel>
+               <text>LE DÉCLIN DU MONDE PAYSAN</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:04.431" src="speechgen0010.mp3"/>
+            </navLabel>
+            <content src="speechgen0010.smil#tcp224"/>
+            <navPoint class="h3" id="ncx-10" playOrder="10">
+               <navLabel>
+                  <text>LE DRAME DE L'EXIL</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.277" src="speechgen0011.mp3"/>
+               </navLabel>
+               <content src="speechgen0011.smil#tcp242"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-11" playOrder="11">
+               <navLabel>
+                  <text>L'ALIÉNATION DU MONDE RURAL</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.750" src="speechgen0012.mp3"/>
+               </navLabel>
+               <content src="speechgen0012.smil#tcp270"/>
+            </navPoint>
+         </navPoint>
+      </navPoint>
+      <navPoint class="h1" id="ncx-12" playOrder="12">
+         <navLabel>
+            <text>LA MODERNITÉ, UNE IMPOSTURE ?</text>
+            <audio clipBegin="0:00:00.000" clipEnd="0:00:05.563" src="speechgen0013.mp3"/>
+         </navLabel>
+         <content src="speechgen0013.smil#tcp301"/>
+         <navPoint class="h2" id="ncx-13" playOrder="13">
+            <navLabel>
+               <text>LE PROGRÈS : ENTRE MYTHE ET RÉALITÉ</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:05.138" src="speechgen0014.mp3"/>
+            </navLabel>
+            <content src="speechgen0014.smil#tcp308"/>
+         </navPoint>
+         <navPoint class="h2" id="ncx-14" playOrder="14">
+            <navLabel>
+               <text>LA SUBORDINATION AU LUCRE</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:04.696" src="speechgen0015.mp3"/>
+            </navLabel>
+            <content src="speechgen0015.smil#tcp394"/>
+         </navPoint>
+         <navPoint class="h2" id="ncx-15" playOrder="15">
+            <navLabel>
+               <text>LE BOULEVERSEMENT DES REPÈRES UNIVERSELS</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:05.197" src="speechgen0016.mp3"/>
+            </navLabel>
+            <content src="speechgen0016.smil#tcp454"/>
+         </navPoint>
+      </navPoint>
+      <navPoint class="h1" id="ncx-16" playOrder="16">
+         <navLabel>
+            <text>LA SOBRIÉTÉ, UNE SAGESSE ANCESTRALE</text>
+            <audio clipBegin="0:00:00.000" clipEnd="0:00:05.509" src="speechgen0017.mp3"/>
+         </navLabel>
+         <content src="speechgen0017.smil#tcp539"/>
+         <navPoint class="h2" id="ncx-17" playOrder="17">
+            <navLabel>
+               <text>UN VILLAGE AFRICAIN</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:04.085" src="speechgen0018.mp3"/>
+            </navLabel>
+            <content src="speechgen0018.smil#tcp547"/>
+         </navPoint>
+         <navPoint class="h2" id="ncx-18" playOrder="18">
+            <navLabel>
+               <text>NOUS SOMMES EN 1985</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:05.168" src="speechgen0019.mp3"/>
+            </navLabel>
+            <content src="speechgen0019.smil#tcp615"/>
+         </navPoint>
+         <navPoint class="h2" id="ncx-19" playOrder="19">
+            <navLabel>
+               <text>RIEN NE SE CRÉE, RIEN NE SE PERD, TOUT SE TRANSFORME</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:06.582" src="speechgen0020.mp3"/>
+            </navLabel>
+            <content src="speechgen0020.smil#tcp658"/>
+            <navPoint class="h3" id="ncx-20" playOrder="20">
+               <navLabel>
+                  <text>LES PAYSANS CÉVENOLS</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.462" src="speechgen0021.mp3"/>
+               </navLabel>
+               <content src="speechgen0021.smil#tcp671"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-21" playOrder="21">
+               <navLabel>
+                  <text>UNE SAGESSE ANCESTRALE</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.426" src="speechgen0022.mp3"/>
+               </navLabel>
+               <content src="speechgen0022.smil#tcp695"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-22" playOrder="22">
+               <navLabel>
+                  <text>UN ART DE VIVRE ENSEMBLE</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.488" src="speechgen0023.mp3"/>
+               </navLabel>
+               <content src="speechgen0023.smil#tcp742"/>
+            </navPoint>
+         </navPoint>
+      </navPoint>
+      <navPoint class="h1" id="ncx-23" playOrder="23">
+         <navLabel>
+            <text>LE LIEN AVEC LE CARACTÈRE SACRÉ DE LA VIE</text>
+            <audio clipBegin="0:00:00.000" clipEnd="0:00:05.207" src="speechgen0024.mp3"/>
+         </navLabel>
+         <content src="speechgen0024.smil#tcp765"/>
+      </navPoint>
+      <navPoint class="h1" id="ncx-24" playOrder="24">
+         <navLabel>
+            <text>VERS LA SOBRIÉTÉ HEUREUSE</text>
+            <audio clipBegin="0:00:00.000" clipEnd="0:00:04.668" src="speechgen0025.mp3"/>
+         </navLabel>
+         <content src="speechgen0025.smil#tcp795"/>
+         <navPoint class="h2" id="ncx-25" playOrder="25">
+            <navLabel>
+               <text>LA PAUVRETÉ EN TANT QUE VALEUR DE BIEN-ÊTRE</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:05.400" src="speechgen0026.mp3"/>
+            </navLabel>
+            <content src="speechgen0026.smil#tcp796"/>
+         </navPoint>
+         <navPoint class="h2" id="ncx-26" playOrder="26">
+            <navLabel>
+               <text>L'AUTOLIMITATION VOLONTAIRE</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:04.855" src="speechgen0027.mp3"/>
+            </navLabel>
+            <content src="speechgen0027.smil#tcp880"/>
+         </navPoint>
+         <navPoint class="h2" id="ncx-27" playOrder="27">
+            <navLabel>
+               <text>UN CHANGEMENT HUMAIN</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:03.984" src="speechgen0028.mp3"/>
+            </navLabel>
+            <content src="speechgen0028.smil#tcp932"/>
+            <navPoint class="h3" id="ncx-28" playOrder="28">
+               <navLabel>
+                  <text>METTRE L'HUMAIN ET LA NATURE AU COEUR DE NOS PRÉOCCUPATIONS</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:06.442" src="speechgen0029.mp3"/>
+               </navLabel>
+               <content src="speechgen0029.smil#tcp941"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-29" playOrder="29">
+               <navLabel>
+                  <text>UN RÉÉQUILIBRAGE MASCULIN/FÉMININ</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:05.583" src="speechgen0030.mp3"/>
+               </navLabel>
+               <content src="speechgen0030.smil#tcp963"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-30" playOrder="30">
+               <navLabel>
+                  <text>UNE PÉDAGOGIE DE L'ÊTRE</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.382" src="speechgen0031.mp3"/>
+               </navLabel>
+               <content src="speechgen0031.smil#tcp999"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-31" playOrder="31">
+               <navLabel>
+                  <text>LA CONDITION DE NOS AÎNÉS</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.479" src="speechgen0032.mp3"/>
+               </navLabel>
+               <content src="speechgen0032.smil#tcp1030"/>
+            </navPoint>
+         </navPoint>
+         <navPoint class="h2" id="ncx-32" playOrder="32">
+            <navLabel>
+               <text>POUR UNE INDIGNATION CONSTRUCTIVE</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:05.076" src="speechgen0033.mp3"/>
+            </navLabel>
+            <content src="speechgen0033.smil#tcp1078"/>
+         </navPoint>
+      </navPoint>
+      <navPoint class="h1" id="ncx-33" playOrder="33">
+         <navLabel>
+            <text>DES SONGES HEUREUX POUR ENSEMENCER LES SIÈCLES</text>
+            <audio clipBegin="0:00:00.000" clipEnd="0:00:05.313" src="speechgen0034.mp3"/>
+         </navLabel>
+         <content src="speechgen0034.smil#tcp1140"/>
+      </navPoint>
+      <navPoint class="h1" id="ncx-34" playOrder="34">
+         <navLabel>
+            <text>CHARTE INTERNATIONALE POUR LA TERRE ET L'HUMANISME -QUELLE PLANÈTE LAISSERONS-NOUS À NOS ENFANTS : QUELS ENFANTS LAISSERONS-NOUS À LA PLANÈTE:</text>
+            <audio clipBegin="0:00:00.000" clipEnd="0:00:10.523" src="speechgen0035.mp3"/>
+         </navLabel>
+         <content src="speechgen0035.smil#tcp1153"/>
+         <navPoint class="h2" id="ncx-35" playOrder="35">
+            <navLabel>
+               <text>CONSTATS : LA TERRE ET L'HUMANITÉ GRAVEMENT MENACÉES</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:05.846" src="speechgen0036.mp3"/>
+            </navLabel>
+            <content src="speechgen0036.smil#tcp1156"/>
+            <navPoint class="h3" id="ncx-36" playOrder="36">
+               <navLabel>
+                  <text>Le mythe de la croissance indéfinie</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.943" src="speechgen0037.mp3"/>
+               </navLabel>
+               <content src="speechgen0037.smil#tcp1157"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-37" playOrder="37">
+               <navLabel>
+                  <text>Les pleins pouvoirs de l'argent</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.487" src="speechgen0038.mp3"/>
+               </navLabel>
+               <content src="speechgen0038.smil#tcp1161"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-38" playOrder="38">
+               <navLabel>
+                  <text>Le désastre de l'agriculture chimique</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:05.384" src="speechgen0039.mp3"/>
+               </navLabel>
+               <content src="speechgen0039.smil#tcp1165"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-39" playOrder="39">
+               <navLabel>
+                  <text>Humanitaire à défaut d'humanisme</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.977" src="speechgen0040.mp3"/>
+               </navLabel>
+               <content src="speechgen0040.smil#tcp1168"/>
+            </navPoint>
+         </navPoint>
+         <navPoint class="h2" id="ncx-40" playOrder="40">
+            <navLabel>
+               <text>PROPOSITIONS : VIVRE ET PRENDRE SOIN DE LA VIE</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:05.812" src="speechgen0041.mp3"/>
+            </navLabel>
+            <content src="speechgen0041.smil#tcp1175"/>
+            <navPoint class="h3" id="ncx-41" playOrder="41">
+               <navLabel>
+                  <text>Incarner l'utopie</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.149" src="speechgen0042.mp3"/>
+               </navLabel>
+               <content src="speechgen0042.smil#tcp1176"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-42" playOrder="42">
+               <navLabel>
+                  <text>La terre et l'humanisme</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.396" src="speechgen0043.mp3"/>
+               </navLabel>
+               <content src="speechgen0043.smil#tcp1181"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-43" playOrder="43">
+               <navLabel>
+                  <text>La logique du vivant</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.226" src="speechgen0044.mp3"/>
+               </navLabel>
+               <content src="speechgen0044.smil#tcp1185"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-44" playOrder="44">
+               <navLabel>
+                  <text>Le féminin au coeur du changement</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.724" src="speechgen0045.mp3"/>
+               </navLabel>
+               <content src="speechgen0045.smil#tcp1188"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-45" playOrder="45">
+               <navLabel>
+                  <text>Agroécologie</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.120" src="speechgen0046.mp3"/>
+               </navLabel>
+               <content src="speechgen0046.smil#tcp1192"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-46" playOrder="46">
+               <navLabel>
+                  <text>Sobriété heureuse</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.229" src="speechgen0047.mp3"/>
+               </navLabel>
+               <content src="speechgen0047.smil#tcp1195"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-47" playOrder="47">
+               <navLabel>
+                  <text>Relocalisation de l'économie</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.946" src="speechgen0048.mp3"/>
+               </navLabel>
+               <content src="speechgen0048.smil#tcp1199"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-48" playOrder="48">
+               <navLabel>
+                  <text>Une autre éducation</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.071" src="speechgen0049.mp3"/>
+               </navLabel>
+               <content src="speechgen0049.smil#tcp1203"/>
+            </navPoint>
+         </navPoint>
+         <navPoint class="h2" id="ncx-49" playOrder="49">
+            <navLabel>
+               <text>LES AMANINS : NAISSANCE D'UN SITE ÉCOLOGIQUE, SOLIDAIRE ET PÉDAGOGIQUE{$$EN 4}</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:08.994" src="speechgen0050.mp3"/>
+            </navLabel>
+            <content src="speechgen0050.smil#tcp1213"/>
+         </navPoint>
+         <navPoint class="h2" id="ncx-50" playOrder="50">
+            <navLabel>
+               <text>COLIBRIS : UNE PLATEFORME DE RENCONTRE ET D'ÉCHANGE</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:06.103" src="speechgen0051.mp3"/>
+            </navLabel>
+            <content src="speechgen0051.smil#tcp1228"/>
+            <navPoint class="h3" id="ncx-51" playOrder="51">
+               <navLabel>
+                  <text>Insurrection des consciences</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.863" src="speechgen0052.mp3"/>
+               </navLabel>
+               <content src="speechgen0052.smil#tcp1242"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-52" playOrder="52">
+               <navLabel>
+                  <text>Incarnation</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:03.850" src="speechgen0053.mp3"/>
+               </navLabel>
+               <content src="speechgen0053.smil#tcp1245"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-53" playOrder="53">
+               <navLabel>
+                  <text>Modélisation et partage</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.875" src="speechgen0054.mp3"/>
+               </navLabel>
+               <content src="speechgen0054.smil#tcp1248"/>
+            </navPoint>
+         </navPoint>
+         <navPoint class="h2" id="ncx-54" playOrder="54">
+            <navLabel>
+               <text>LA FERME DES ENFANTS ET LE HAMEAU DES BUIS : CONSTRUIRE L'AVENIR DANS LE RESPECT DE LA VIE</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:07.231" src="speechgen0055.mp3"/>
+            </navLabel>
+            <content src="speechgen0055.smil#tcp1255"/>
+         </navPoint>
+         <navPoint class="h2" id="ncx-55" playOrder="55">
+            <navLabel>
+               <text>LE MAPIC : POUR UNE INSURRECTION DES CONSCIENCES</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:06.164" src="speechgen0056.mp3"/>
+            </navLabel>
+            <content src="speechgen0056.smil#tcp1272"/>
+         </navPoint>
+         <navPoint class="h2" id="ncx-56" playOrder="56">
+            <navLabel>
+               <text>LE MOUVEMENT DES OASIS EN TOUS LIEUX : UNE PROPOSITION ALTERNATIVE DE MODE DE VIE</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:07.513" src="speechgen0057.mp3"/>
+            </navLabel>
+            <content src="speechgen0057.smil#tcp1286"/>
+         </navPoint>
+         <navPoint class="h2" id="ncx-57" playOrder="57">
+            <navLabel>
+               <text>LE MONASTÈRE DE SOLAN : UNE UNION DE LA LITURGIE ET DU TRAVAIL DE LA TERRE</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:07.341" src="speechgen0058.mp3"/>
+            </navLabel>
+            <content src="speechgen0058.smil#tcp1302"/>
+         </navPoint>
+         <navPoint class="h2" id="ncx-58" playOrder="58">
+            <navLabel>
+               <text>TERRE &amp; HUMANISME : TRANSMETTRE L'AGRO-ÉCOLOGIE ICI ET AILLEURS...</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:08.031" src="speechgen0059.mp3"/>
+            </navLabel>
+            <content src="speechgen0059.smil#tcp1322"/>
+         </navPoint>
+         <navPoint class="h2" id="ncx-59" playOrder="59">
+            <navLabel>
+               <text>RAYONNEMENT ET PERSPECTIVES D'AVENIR</text>
+               <audio clipBegin="0:00:00.000" clipEnd="0:00:04.940" src="speechgen0060.mp3"/>
+            </navLabel>
+            <content src="speechgen0060.smil#tcp1338"/>
+            <navPoint class="h3" id="ncx-60" playOrder="60">
+               <navLabel>
+                  <text>DES PROGRAMMES INTERNATIONAUX</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:04.752" src="speechgen0061.mp3"/>
+               </navLabel>
+               <content src="speechgen0061.smil#tcp1348"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-61" playOrder="61">
+               <navLabel>
+                  <text>VERS UN PLUS GRAND DÉPLOIEMENT DE L'AGROÉCOLOGIE À TRAVERS LE MONDE</text>
+                  <audio clipBegin="0:00:00.000" clipEnd="0:00:06.660" src="speechgen0062.mp3"/>
+               </navLabel>
+               <content src="speechgen0062.smil#tcp1358"/>
+            </navPoint>
+         </navPoint>
+      </navPoint>
+   </navMap>
+	
+	
+  
+   <navList class="note" id="note-navList">
+      <navLabel>
+         <text>note</text>
+      </navLabel>
+      <navTarget class="note" id="ncx-62" playOrder="62">
+         <navLabel>
+            <text>Lire La Planète au pillage de Fairfield Osborn (1949 ; Actes Sud, 2008).</text>
+            <audio clipBegin="0:02:00.844" clipEnd="0:02:09.225" src="speechgen0062.mp3"/>
+         </navLabel>
+         <content src="speechgen0062.smil#tcp1368"/>
+      </navTarget>
+      <navTarget class="note" id="ncx-63" playOrder="63">
+         <navLabel>
+            <text>Actes Sud, 2003.</text>
+            <audio clipBegin="0:02:09.225" clipEnd="0:02:13.418" src="speechgen0062.mp3"/>
+         </navLabel>
+         <content src="speechgen0062.smil#tcp1369"/>
+      </navTarget>
+      <navTarget class="note" id="ncx-64" playOrder="64">
+         <navLabel>
+            <text>Produit intérieur brut.</text>
+            <audio clipBegin="0:02:13.418" clipEnd="0:02:17.360" src="speechgen0062.mp3"/>
+         </navLabel>
+         <content src="speechgen0062.smil#tcp1370"/>
+      </navTarget>
+      <navTarget class="note" id="ncx-65" playOrder="65">
+         <navLabel>
+            <text>Produit national brut.</text>
+            <audio clipBegin="0:02:17.360" clipEnd="0:02:21.270" src="speechgen0062.mp3"/>
+         </navLabel>
+         <content src="speechgen0062.smil#tcp1371"/>
+      </navTarget>
+      <navTarget class="note" id="ncx-66" playOrder="66">
+         <navLabel>
+            <text>Les structures présentées dans les pages qui viennent le sont par ordre alphabétique.</text>
+            <audio clipBegin="0:02:21.270" clipEnd="0:02:27.951" src="speechgen0062.mp3"/>
+         </navLabel>
+         <content src="speechgen0062.smil#tcp1372"/>
+      </navTarget>
+   </navList>
+</ncx>
