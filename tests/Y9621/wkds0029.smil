@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:05:24.363"/>
+		<meta name="ncc:totalElapsedTime" content="01:32:59.115"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 071325"/>
+		<meta name="title" content="Chapitre 25"/>
+		<meta name="dc:title" content="Le Petit Prince"/>
+		<meta name="dc:identifier" content="1441A400"/>
+	</head>
+	<body>
+		<seq dur="324.363s">
+			<par endsync="last" id="aloj_0002">
+				<text src="1441a400_petit_prince.html#aloj_0035" id="ibrx_0001"/>
+				<seq>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=0.000s" clip-end="npt=62.094s" id="audio_0001"/>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=62.094s" clip-end="npt=76.957s" id="audio_0002"/>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=76.957s" clip-end="npt=131.710s" id="audio_0003"/>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=131.710s" clip-end="npt=167.772s" id="audio_0004"/>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=167.772s" clip-end="npt=211.122s" id="audio_0005"/>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=211.122s" clip-end="npt=219.207s" id="audio_0006"/>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=219.207s" clip-end="npt=245.878s" id="audio_0007"/>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=245.878s" clip-end="npt=277.813s" id="audio_0008"/>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=277.813s" clip-end="npt=287.974s" id="audio_0009"/>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=287.974s" clip-end="npt=292.389s" id="audio_0010"/>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=292.389s" clip-end="npt=297.339s" id="audio_0011"/>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=297.339s" clip-end="npt=310.335s" id="audio_0012"/>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=310.335s" clip-end="npt=311.720s" id="audio_0013"/>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=311.720s" clip-end="npt=316.396s" id="audio_0014"/>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=316.396s" clip-end="npt=323.514s" id="audio_0015"/>
+					<audio src="30_Chapitre_25.mp3" clip-begin="npt=323.514s" clip-end="npt=324.363s" id="audio_0016"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

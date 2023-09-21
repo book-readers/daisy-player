@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:01:19.974"/>
+		<meta name="ncc:totalElapsedTime" content="01:13:41.682"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 071325"/>
+		<meta name="title" content="Chapitre 19"/>
+		<meta name="dc:title" content="Le Petit Prince"/>
+		<meta name="dc:identifier" content="1441A400"/>
+	</head>
+	<body>
+		<seq dur="79.974s">
+			<par endsync="last" id="aloj_0002">
+				<text src="1441a400_petit_prince.html#aloj_0029" id="ytdd_0001"/>
+				<seq>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=0.000s" clip-end="npt=12.800s" id="audio_0001"/>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=12.800s" clip-end="npt=20.768s" id="audio_0002"/>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=20.768s" clip-end="npt=29.401s" id="audio_0003"/>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=29.401s" clip-end="npt=35.266s" id="audio_0004"/>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=35.266s" clip-end="npt=36.624s" id="audio_0005"/>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=36.624s" clip-end="npt=39.262s" id="audio_0006"/>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=39.262s" clip-end="npt=45.937s" id="audio_0007"/>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=45.937s" clip-end="npt=50.835s" id="audio_0008"/>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=50.835s" clip-end="npt=56.621s" id="audio_0009"/>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=56.621s" clip-end="npt=59.050s" id="audio_0010"/>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=59.050s" clip-end="npt=61.166s" id="audio_0011"/>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=61.166s" clip-end="npt=63.099s" id="audio_0012"/>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=63.099s" clip-end="npt=67.762s" id="audio_0013"/>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=67.762s" clip-end="npt=70.400s" id="audio_0014"/>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=70.400s" clip-end="npt=72.869s" id="audio_0015"/>
+					<audio src="24_Chapitre_19.mp3" clip-begin="npt=72.869s" clip-end="npt=79.974s" id="audio_0016"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

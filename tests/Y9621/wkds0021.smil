@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:03:53.704"/>
+		<meta name="ncc:totalElapsedTime" content="01:09:02.081"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 071325"/>
+		<meta name="title" content="Chapitre 17"/>
+		<meta name="dc:title" content="Le Petit Prince"/>
+		<meta name="dc:identifier" content="1441A400"/>
+	</head>
+	<body>
+		<seq dur="233.704s">
+			<par endsync="last" id="aloj_0002">
+				<text src="1441a400_petit_prince.html#aloj_0027" id="bsbl_0001"/>
+				<seq>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=0.000s" clip-end="npt=8.659s" id="audio_0001"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=8.659s" clip-end="npt=14.537s" id="audio_0002"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=14.537s" clip-end="npt=17.959s" id="audio_0003"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=17.959s" clip-end="npt=24.385s" id="audio_0004"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=24.385s" clip-end="npt=30.445s" id="audio_0005"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=30.445s" clip-end="npt=36.362s" id="audio_0006"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=36.362s" clip-end="npt=39.575s" id="audio_0007"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=39.575s" clip-end="npt=42.462s" id="audio_0008"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=42.462s" clip-end="npt=46.380s" id="audio_0009"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=46.380s" clip-end="npt=52.493s" id="audio_0010"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=52.493s" clip-end="npt=59.716s" id="audio_0011"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=59.716s" clip-end="npt=60.395s" id="audio_0012"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=60.395s" clip-end="npt=65.410s" id="audio_0013"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=65.410s" clip-end="npt=68.480s" id="audio_0014"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=68.480s" clip-end="npt=73.757s" id="audio_0015"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=73.757s" clip-end="npt=75.206s" id="audio_0016"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=75.206s" clip-end="npt=78.863s" id="audio_0017"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=78.863s" clip-end="npt=82.220s" id="audio_0018"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=82.220s" clip-end="npt=87.118s" id="audio_0019"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=87.118s" clip-end="npt=92.029s" id="audio_0020"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=92.029s" clip-end="npt=93.113s" id="audio_0021"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=93.113s" clip-end="npt=96.875s" id="audio_0022"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=96.875s" clip-end="npt=100.571s" id="audio_0023"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=100.571s" clip-end="npt=104.268s" id="audio_0024"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=104.268s" clip-end="npt=111.007s" id="audio_0025"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=111.007s" clip-end="npt=113.463s" id="audio_0026"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=113.463s" clip-end="npt=119.732s" id="audio_0027"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=119.732s" clip-end="npt=123.533s" id="audio_0028"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=123.533s" clip-end="npt=127.360s" id="audio_0029"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=127.360s" clip-end="npt=130.011s" id="audio_0030"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=130.011s" clip-end="npt=134.243s" id="audio_0031"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=134.243s" clip-end="npt=137.574s" id="audio_0032"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=137.574s" clip-end="npt=139.768s" id="audio_0033"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=139.768s" clip-end="npt=140.382s" id="audio_0034"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=140.382s" clip-end="npt=141.518s" id="audio_0035"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=141.518s" clip-end="npt=143.543s" id="audio_0036"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=143.543s" clip-end="npt=146.860s" id="audio_0037"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=146.860s" clip-end="npt=149.943s" id="audio_0038"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=149.943s" clip-end="npt=153.743s" id="audio_0039"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=153.743s" clip-end="npt=158.785s" id="audio_0040"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=158.785s" clip-end="npt=162.481s" id="audio_0041"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=162.481s" clip-end="npt=165.995s" id="audio_0042"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=165.995s" clip-end="npt=169.208s" id="audio_0043"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=169.208s" clip-end="npt=173.897s" id="audio_0044"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=173.897s" clip-end="npt=181.982s" id="audio_0045"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=181.982s" clip-end="npt=186.736s" id="audio_0046"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=186.736s" clip-end="npt=192.365s" id="audio_0047"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=192.365s" clip-end="npt=196.898s" id="audio_0048"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=196.898s" clip-end="npt=199.014s" id="audio_0049"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=199.014s" clip-end="npt=203.585s" id="audio_0050"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=203.585s" clip-end="npt=207.699s" id="audio_0051"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=207.699s" clip-end="npt=212.454s" id="audio_0052"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=212.454s" clip-end="npt=216.672s" id="audio_0053"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=216.672s" clip-end="npt=218.292s" id="audio_0054"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=218.292s" clip-end="npt=221.414s" id="audio_0055"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=221.414s" clip-end="npt=225.645s" id="audio_0056"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=225.645s" clip-end="npt=229.734s" id="audio_0057"/>
+					<audio src="22_Chapitre_17.mp3" clip-begin="npt=229.734s" clip-end="npt=233.704s" id="audio_0058"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

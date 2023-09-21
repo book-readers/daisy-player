@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:00:12.356"/>
+		<meta name="ncc:totalElapsedTime" content="00:00:13.976"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 071325"/>
+		<meta name="title" content="Avertissement légal"/>
+		<meta name="dc:title" content="Le Petit Prince"/>
+		<meta name="dc:identifier" content="1441A400"/>
+	</head>
+	<body>
+		<seq dur="12.356s">
+			<par endsync="last" id="aloj_0002">
+				<text src="1441a400_petit_prince.html#aloj_0004" id="yjbz_0001"/>
+				<seq>
+					<audio src="02_Avertisseme.mp3" clip-begin="npt=0.000s" clip-end="npt=0.483s" id="audio_0001"/>
+					<audio src="02_Avertisseme.mp3" clip-begin="npt=0.483s" clip-end="npt=2.039s" id="audio_0002"/>
+				</seq>
+			</par>
+			<par endsync="last" id="aloj_0003">
+				<text src="1441a400_petit_prince.html#aloj_0005" id="yjbz_0002"/>
+				<seq>
+					<audio src="02_Avertisseme.mp3" clip-begin="npt=2.039s" clip-end="npt=2.887s" id="audio_0003"/>
+					<audio src="02_Avertisseme.mp3" clip-begin="npt=2.887s" clip-end="npt=7.919s" id="audio_0004"/>
+				</seq>
+			</par>
+			<par endsync="last" id="aloj_0004">
+				<text src="1441a400_petit_prince.html#aloj_0006" id="yjbz_0003"/>
+				<seq>
+					<audio src="02_Avertisseme.mp3" clip-begin="npt=7.919s" clip-end="npt=8.464s" id="audio_0005"/>
+					<audio src="02_Avertisseme.mp3" clip-begin="npt=8.464s" clip-end="npt=12.356s" id="audio_0006"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:10:16.783"/>
+		<meta name="ncc:totalElapsedTime" content="01:38:23.478"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 071325"/>
+		<meta name="title" content="Chapitre 26"/>
+		<meta name="dc:title" content="Le Petit Prince"/>
+		<meta name="dc:identifier" content="1441A400"/>
+	</head>
+	<body>
+		<seq dur="616.783s">
+			<par endsync="last" id="aloj_0002">
+				<text src="1441a400_petit_prince.html#aloj_0036" id="hloa_0001"/>
+				<seq>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=0.000s" clip-end="npt=16.431s" id="audio_0001"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=16.431s" clip-end="npt=22.570s" id="audio_0002"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=22.570s" clip-end="npt=32.248s" id="audio_0003"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=32.248s" clip-end="npt=54.700s" id="audio_0004"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=54.700s" clip-end="npt=59.115s" id="audio_0005"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=59.115s" clip-end="npt=64.875s" id="audio_0006"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=64.875s" clip-end="npt=87.262s" id="audio_0007"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=87.262s" clip-end="npt=105.208s" id="audio_0008"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=105.208s" clip-end="npt=113.502s" id="audio_0009"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=113.502s" clip-end="npt=119.340s" id="audio_0010"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=119.340s" clip-end="npt=125.897s" id="audio_0011"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=125.897s" clip-end="npt=129.345s" id="audio_0012"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=129.345s" clip-end="npt=133.368s" id="audio_0013"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=133.368s" clip-end="npt=139.337s" id="audio_0014"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=139.337s" clip-end="npt=141.858s" id="audio_0015"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=141.858s" clip-end="npt=142.550s" id="audio_0016"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=142.550s" clip-end="npt=149.042s" id="audio_0017"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=149.042s" clip-end="npt=150.674s" id="audio_0018"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=150.674s" clip-end="npt=156.891s" id="audio_0019"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=156.891s" clip-end="npt=161.136s" id="audio_0020"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=161.136s" clip-end="npt=169.626s" id="audio_0021"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=169.626s" clip-end="npt=171.847s" id="audio_0022"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=171.847s" clip-end="npt=175.582s" id="audio_0023"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=175.582s" clip-end="npt=206.877s" id="audio_0024"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=206.877s" clip-end="npt=220.095s" id="audio_0025"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=220.095s" clip-end="npt=228.558s" id="audio_0026"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=228.558s" clip-end="npt=244.206s" id="audio_0027"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=244.206s" clip-end="npt=253.610s" id="audio_0028"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=253.610s" clip-end="npt=264.908s" id="audio_0029"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=264.908s" clip-end="npt=269.349s" id="audio_0030"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=269.349s" clip-end="npt=271.582s" id="audio_0031"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=271.582s" clip-end="npt=282.945s" id="audio_0032"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=282.945s" clip-end="npt=297.339s" id="audio_0033"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=297.339s" clip-end="npt=321.006s" id="audio_0034"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=321.006s" clip-end="npt=323.030s" id="audio_0035"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=323.030s" clip-end="npt=327.902s" id="audio_0036"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=327.902s" clip-end="npt=335.739s" id="audio_0037"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=335.739s" clip-end="npt=357.133s" id="audio_0038"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=357.133s" clip-end="npt=420.049s" id="audio_0039"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=420.049s" clip-end="npt=425.012s" id="audio_0040"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=425.012s" clip-end="npt=432.144s" id="audio_0041"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=432.144s" clip-end="npt=441.339s" id="audio_0042"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=441.339s" clip-end="npt=444.774s" id="audio_0043"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=444.774s" clip-end="npt=456.973s" id="audio_0044"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=456.973s" clip-end="npt=468.415s" id="audio_0045"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=468.415s" clip-end="npt=485.094s" id="audio_0046"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=485.094s" clip-end="npt=489.953s" id="audio_0047"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=489.953s" clip-end="npt=495.739s" id="audio_0048"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=495.739s" clip-end="npt=516.976s" id="audio_0049"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=516.976s" clip-end="npt=539.951s" id="audio_0050"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=539.951s" clip-end="npt=543.020s" id="audio_0051"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=543.020s" clip-end="npt=552.490s" id="audio_0052"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=552.490s" clip-end="npt=554.527s" id="audio_0053"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=554.527s" clip-end="npt=557.427s" id="audio_0054"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=557.427s" clip-end="npt=561.933s" id="audio_0055"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=561.933s" clip-end="npt=580.702s" id="audio_0056"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=580.702s" clip-end="npt=590.393s" id="audio_0057"/>
+					<audio src="31_Chapitre_26.mp3" clip-begin="npt=590.393s" clip-end="npt=616.783s" id="audio_0058"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:01:46.750"/>
+		<meta name="ncc:totalElapsedTime" content="01:07:15.331"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 071325"/>
+		<meta name="title" content="Chapitre 16"/>
+		<meta name="dc:title" content="Le Petit Prince"/>
+		<meta name="dc:identifier" content="1441A400"/>
+	</head>
+	<body>
+		<seq dur="106.750s">
+			<par endsync="last" id="aloj_0002">
+				<text src="1441a400_petit_prince.html#aloj_0026" id="wijo_0001"/>
+				<seq>
+					<audio src="21_Chapitre_16.mp3" clip-begin="npt=0.000s" clip-end="npt=3.540s" id="audio_0001"/>
+					<audio src="21_Chapitre_16.mp3" clip-begin="npt=3.540s" clip-end="npt=6.387s" id="audio_0002"/>
+					<audio src="21_Chapitre_16.mp3" clip-begin="npt=6.387s" clip-end="npt=25.483s" id="audio_0003"/>
+					<audio src="21_Chapitre_16.mp3" clip-begin="npt=25.483s" clip-end="npt=43.664s" id="audio_0004"/>
+					<audio src="21_Chapitre_16.mp3" clip-begin="npt=43.664s" clip-end="npt=46.903s" id="audio_0005"/>
+					<audio src="21_Chapitre_16.mp3" clip-begin="npt=46.903s" clip-end="npt=50.887s" id="audio_0006"/>
+					<audio src="21_Chapitre_16.mp3" clip-begin="npt=50.887s" clip-end="npt=56.764s" id="audio_0007"/>
+					<audio src="21_Chapitre_16.mp3" clip-begin="npt=56.764s" clip-end="npt=70.191s" id="audio_0008"/>
+					<audio src="21_Chapitre_16.mp3" clip-begin="npt=70.191s" clip-end="npt=80.118s" id="audio_0009"/>
+					<audio src="21_Chapitre_16.mp3" clip-begin="npt=80.118s" clip-end="npt=82.534s" id="audio_0010"/>
+					<audio src="21_Chapitre_16.mp3" clip-begin="npt=82.534s" clip-end="npt=90.044s" id="audio_0011"/>
+					<audio src="21_Chapitre_16.mp3" clip-begin="npt=90.044s" clip-end="npt=106.750s" id="audio_0012"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>
