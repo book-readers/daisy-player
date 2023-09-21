@@ -83,6 +83,8 @@ EXTRA_DIST = ChangeLog \
              src/pactl/Makefile.am src/pactl/Makefile.in \
              src/pactl/NEWS \
              src/pactl/README \
+             src/pactl/m4/Makefile.in \
+             src/pactl/m4/Makefile.am \
              src/pactl/src/core-error.h \
              src/pactl/src/core-util.h \
              src/pactl/src/i18n.h \
