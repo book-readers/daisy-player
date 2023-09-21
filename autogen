@@ -1,2 +1,4 @@
 #!/bin/sh
 autoreconf -ivf -I m4
+(cd src/madplay && autoreconf -ivf -I m4)
+(cd src/pactl && autoreconf -ivf -I m4)
