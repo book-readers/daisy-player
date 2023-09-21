@@ -95,7 +95,7 @@ EXTRA_DIST = ChangeLog \
              src/pactl/src/strlist.h \
              src/pactl/todo
 
-doc_DATA = README.adoc
+dist_doc_DATA = README.adoc
 
 check-gettext:
 	@if test x$(USE_NLS) != "xyes" ; then \
