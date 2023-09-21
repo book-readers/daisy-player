@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="00:02:41.237"/>
+        <meta name="ncc:totalElapsedTime" content="00:48:36.590"/>
+        <layout>
+            <region id="txtView"/>
+        </layout>
+        <meta name="ncc:generator" content="SCENARI 6.0.5 / paon 1.1.3"/>
+        <meta name="title" content="Chapitre 17"/>
+        <meta name="dc:title" content="Le Petit Prince"/>
+        <meta name="dc:identifier" content="FR-AVH-9782075155540-AUD"/>
+    </head>
+    <body>
+        <seq dur="161.237233s">
+            <par endsync="last" id="par_021_Chapitre_17_0_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_0_0" id="tts_021_Chapitre_17_0_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=0.050022s" id="audio_021_Chapitre_17_0_0" clip-end="npt=1.869024s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_1_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_1_0" id="tts_021_Chapitre_17_1_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=1.869024s" id="audio_021_Chapitre_17_1_0" clip-end="npt=5.052426s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_1_1">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_1_1" id="tts_021_Chapitre_17_1_1"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=5.052426s" id="audio_021_Chapitre_17_1_1" clip-end="npt=8.645306s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_1_2">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_1_2" id="tts_021_Chapitre_17_1_2"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=8.645306s" id="audio_021_Chapitre_17_1_2" clip-end="npt=12.737505s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_1_3">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_1_3" id="tts_021_Chapitre_17_1_3"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=12.737505s" id="audio_021_Chapitre_17_1_3" clip-end="npt=15.231882s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_1_4">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_1_4" id="tts_021_Chapitre_17_1_4"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=15.231882s" id="audio_021_Chapitre_17_1_4" clip-end="npt=24.237551s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_1_5">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_1_5" id="tts_021_Chapitre_17_1_5"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=24.237551s" id="audio_021_Chapitre_17_1_5" clip-end="npt=28.196553s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_2_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_2_0" id="tts_021_Chapitre_17_2_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=28.196553s" id="audio_021_Chapitre_17_2_0" clip-end="npt=31.554467s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_2_1">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_2_1" id="tts_021_Chapitre_17_2_1"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=31.554467s" id="audio_021_Chapitre_17_2_1" clip-end="npt=33.782539s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_2_2">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_2_2" id="tts_021_Chapitre_17_2_2"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=33.782539s" id="audio_021_Chapitre_17_2_2" clip-end="npt=36.317596s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_2_3">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_2_3" id="tts_021_Chapitre_17_2_3"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=36.317596s" id="audio_021_Chapitre_17_2_3" clip-end="npt=38.79034s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_2_4">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_2_4" id="tts_021_Chapitre_17_2_4"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=38.79034s" id="audio_021_Chapitre_17_2_4" clip-end="npt=41.184897s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_2_5">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_2_5" id="tts_021_Chapitre_17_2_5"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=41.184897s" id="audio_021_Chapitre_17_2_5" clip-end="npt=43.612743s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_2_6">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_2_6" id="tts_021_Chapitre_17_2_6"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=43.612743s" id="audio_021_Chapitre_17_2_6" clip-end="npt=44.94204s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_2_7">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_2_7" id="tts_021_Chapitre_17_2_7"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=44.94204s" id="audio_021_Chapitre_17_2_7" clip-end="npt=46.547664s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_3_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_3_0" id="tts_021_Chapitre_17_3_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=46.547664s" id="audio_021_Chapitre_17_3_0" clip-end="npt=51.059365s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_3_1">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_3_1" id="tts_021_Chapitre_17_3_1"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=51.059365s" id="audio_021_Chapitre_17_3_1" clip-end="npt=56.441133s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_4_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_4_0" id="tts_021_Chapitre_17_4_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=56.441133s" id="audio_021_Chapitre_17_4_0" clip-end="npt=59.252154s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_5_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_5_0" id="tts_021_Chapitre_17_5_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=59.252154s" id="audio_021_Chapitre_17_5_0" clip-end="npt=61.180634s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_6_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_6_0" id="tts_021_Chapitre_17_6_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=61.180634s" id="audio_021_Chapitre_17_6_0" clip-end="npt=63.037505s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_6_1">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_6_1" id="tts_021_Chapitre_17_6_1"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=63.037505s" id="audio_021_Chapitre_17_6_1" clip-end="npt=64.904489s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_7_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_7_0" id="tts_021_Chapitre_17_7_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=64.904489s" id="audio_021_Chapitre_17_7_0" clip-end="npt=68.131201s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_8_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_8_0" id="tts_021_Chapitre_17_8_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=68.131201s" id="audio_021_Chapitre_17_8_0" clip-end="npt=68.789705s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_8_1">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_8_1" id="tts_021_Chapitre_17_8_1"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=68.789705s" id="audio_021_Chapitre_17_8_1" clip-end="npt=70.823083s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_9_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_9_0" id="tts_021_Chapitre_17_9_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=70.823083s" id="audio_021_Chapitre_17_9_0" clip-end="npt=72.41365s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_9_1">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_9_1" id="tts_021_Chapitre_17_9_1"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=72.41365s" id="audio_021_Chapitre_17_9_1" clip-end="npt=74.275555s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_9_2">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_9_2" id="tts_021_Chapitre_17_9_2"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=74.275555s" id="audio_021_Chapitre_17_9_2" clip-end="npt=76.556507s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_10_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_10_0" id="tts_021_Chapitre_17_10_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=76.556507s" id="audio_021_Chapitre_17_10_0" clip-end="npt=80.244263s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_11_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_11_0" id="tts_021_Chapitre_17_11_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=80.244263s" id="audio_021_Chapitre_17_11_0" clip-end="npt=85.496507s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_11_1">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_11_1" id="tts_021_Chapitre_17_11_1"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=85.496507s" id="audio_021_Chapitre_17_11_1" clip-end="npt=87.125351s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_11_2">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_11_2" id="tts_021_Chapitre_17_11_2"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=87.125351s" id="audio_021_Chapitre_17_11_2" clip-end="npt=89.767029s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_12_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_12_0" id="tts_021_Chapitre_17_12_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=89.767029s" id="audio_021_Chapitre_17_12_0" clip-end="npt=91.733333s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_12_1">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_12_1" id="tts_021_Chapitre_17_12_1"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=91.733333s" id="audio_021_Chapitre_17_12_1" clip-end="npt=93.267392s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_13_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_13_0" id="tts_021_Chapitre_17_13_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=93.267392s" id="audio_021_Chapitre_17_13_0" clip-end="npt=96.760408s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_14_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_14_0" id="tts_021_Chapitre_17_14_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=96.760408s" id="audio_021_Chapitre_17_14_0" clip-end="npt=97.418911s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_14_1">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_14_1" id="tts_021_Chapitre_17_14_1"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=97.418911s" id="audio_021_Chapitre_17_14_1" clip-end="npt=98.558503s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_15_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_15_0" id="tts_021_Chapitre_17_15_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=98.558503s" id="audio_021_Chapitre_17_15_0" clip-end="npt=99.749659s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_16_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_16_0" id="tts_021_Chapitre_17_16_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=99.749659s" id="audio_021_Chapitre_17_16_0" clip-end="npt=100.907482s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_16_1">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_16_1" id="tts_021_Chapitre_17_16_1"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=100.907482s" id="audio_021_Chapitre_17_16_1" clip-end="npt=102.96907s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_16_2">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_16_2" id="tts_021_Chapitre_17_16_2"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=102.96907s" id="audio_021_Chapitre_17_16_2" clip-end="npt=105.002448s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_17_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_17_0" id="tts_021_Chapitre_17_17_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=105.002448s" id="audio_021_Chapitre_17_17_0" clip-end="npt=107.711111s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_18_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_18_0" id="tts_021_Chapitre_17_18_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=107.711111s" id="audio_021_Chapitre_17_18_0" clip-end="npt=109.834331s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_19_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_19_0" id="tts_021_Chapitre_17_19_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=109.834331s" id="audio_021_Chapitre_17_19_0" clip-end="npt=113.593696s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_20_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_20_0" id="tts_021_Chapitre_17_20_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=113.593696s" id="audio_021_Chapitre_17_20_0" clip-end="npt=116.801678s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_21_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_21_0" id="tts_021_Chapitre_17_21_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=116.801678s" id="audio_021_Chapitre_17_21_0" clip-end="npt=118.725124s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_22_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_22_0" id="tts_021_Chapitre_17_22_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=118.725124s" id="audio_021_Chapitre_17_22_0" clip-end="npt=123.116916s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_23_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_23_0" id="tts_021_Chapitre_17_23_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=123.116916s" id="audio_021_Chapitre_17_23_0" clip-end="npt=126.324897s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_24_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_24_0" id="tts_021_Chapitre_17_24_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=126.324897s" id="audio_021_Chapitre_17_24_0" clip-end="npt=130.352562s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_25_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_25_0" id="tts_021_Chapitre_17_25_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=130.352562s" id="audio_021_Chapitre_17_25_0" clip-end="npt=134.872471s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_25_1">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_25_1" id="tts_021_Chapitre_17_25_1"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=134.872471s" id="audio_021_Chapitre_17_25_1" clip-end="npt=136.944126s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_26_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_26_0" id="tts_021_Chapitre_17_26_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=136.944126s" id="audio_021_Chapitre_17_26_0" clip-end="npt=138.900907s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_27_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_27_0" id="tts_021_Chapitre_17_27_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=138.900907s" id="audio_021_Chapitre_17_27_0" clip-end="npt=142.821632s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_27_1">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_27_1" id="tts_021_Chapitre_17_27_1"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=142.821632s" id="audio_021_Chapitre_17_27_1" clip-end="npt=145.748707s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_27_2">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_27_2" id="tts_021_Chapitre_17_27_2"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=145.748707s" id="audio_021_Chapitre_17_27_2" clip-end="npt=146.683582s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_28_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_28_0" id="tts_021_Chapitre_17_28_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=146.683582s" id="audio_021_Chapitre_17_28_0" clip-end="npt=147.375374s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_28_1">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_28_1" id="tts_021_Chapitre_17_28_1"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=147.375374s" id="audio_021_Chapitre_17_28_1" clip-end="npt=152.119727s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_29_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_29_0" id="tts_021_Chapitre_17_29_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=152.119727s" id="audio_021_Chapitre_17_29_0" clip-end="npt=154.528798s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_30_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_30_0" id="tts_021_Chapitre_17_30_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=154.528798s" id="audio_021_Chapitre_17_30_0" clip-end="npt=155.719954s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_31_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_31_0" id="tts_021_Chapitre_17_31_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=155.719954s" id="audio_021_Chapitre_17_31_0" clip-end="npt=156.95746s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_021_Chapitre_17_32_0">
+                <text src="Le_Petit_Prince.html#s021_Chapitre_17_32_0" id="tts_021_Chapitre_17_32_0"/>
+                <seq>
+                    <audio src="021_Chapitre_17.mp3" clip-begin="npt=156.95746s" id="audio_021_Chapitre_17_32_0" clip-end="npt=160.750113s"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

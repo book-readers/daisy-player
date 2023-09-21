@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="00:00:34.777"/>
+        <meta name="ncc:totalElapsedTime" content="01:01:33.857"/>
+        <layout>
+            <region id="txtView"/>
+        </layout>
+        <meta name="ncc:generator" content="SCENARI 6.0.5 / paon 1.1.3"/>
+        <meta name="title" content="Chapitre 23"/>
+        <meta name="dc:title" content="Le Petit Prince"/>
+        <meta name="dc:identifier" content="FR-AVH-9782075155540-AUD"/>
+    </head>
+    <body>
+        <seq dur="34.777324s">
+            <par endsync="last" id="par_027_Chapitre_23_0_0">
+                <text src="Le_Petit_Prince.html#s027_Chapitre_23_0_0" id="tts_027_Chapitre_23_0_0"/>
+                <seq>
+                    <audio src="027_Chapitre_23.mp3" clip-begin="npt=0.050022s" id="audio_027_Chapitre_23_0_0" clip-end="npt=1.79746s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_027_Chapitre_23_1_0">
+                <text src="Le_Petit_Prince.html#s027_Chapitre_23_1_0" id="tts_027_Chapitre_23_1_0"/>
+                <seq>
+                    <audio src="027_Chapitre_23.mp3" clip-begin="npt=1.79746s" id="audio_027_Chapitre_23_1_0" clip-end="npt=4.158684s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_027_Chapitre_23_2_0">
+                <text src="Le_Petit_Prince.html#s027_Chapitre_23_2_0" id="tts_027_Chapitre_23_2_0"/>
+                <seq>
+                    <audio src="027_Chapitre_23.mp3" clip-begin="npt=4.158684s" id="audio_027_Chapitre_23_2_0" clip-end="npt=6.168299s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_027_Chapitre_23_3_0">
+                <text src="Le_Petit_Prince.html#s027_Chapitre_23_3_0" id="tts_027_Chapitre_23_3_0"/>
+                <seq>
+                    <audio src="027_Chapitre_23.mp3" clip-begin="npt=6.168299s" id="audio_027_Chapitre_23_3_0" clip-end="npt=9.561496s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_027_Chapitre_23_3_1">
+                <text src="Le_Petit_Prince.html#s027_Chapitre_23_3_1" id="tts_027_Chapitre_23_3_1"/>
+                <seq>
+                    <audio src="027_Chapitre_23.mp3" clip-begin="npt=9.561496s" id="audio_027_Chapitre_23_3_1" clip-end="npt=13.059546s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_027_Chapitre_23_4_0">
+                <text src="Le_Petit_Prince.html#s027_Chapitre_23_4_0" id="tts_027_Chapitre_23_4_0"/>
+                <seq>
+                    <audio src="027_Chapitre_23.mp3" clip-begin="npt=13.059546s" id="audio_027_Chapitre_23_4_0" clip-end="npt=14.516916s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_027_Chapitre_23_4_1">
+                <text src="Le_Petit_Prince.html#s027_Chapitre_23_4_1" id="tts_027_Chapitre_23_4_1"/>
+                <seq>
+                    <audio src="027_Chapitre_23.mp3" clip-begin="npt=14.516916s" id="audio_027_Chapitre_23_4_1" clip-end="npt=16.117505s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_027_Chapitre_23_5_0">
+                <text src="Le_Petit_Prince.html#s027_Chapitre_23_5_0" id="tts_027_Chapitre_23_5_0"/>
+                <seq>
+                    <audio src="027_Chapitre_23.mp3" clip-begin="npt=16.117505s" id="audio_027_Chapitre_23_5_0" clip-end="npt=19.04916s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_027_Chapitre_23_5_1">
+                <text src="Le_Petit_Prince.html#s027_Chapitre_23_5_1" id="tts_027_Chapitre_23_5_1"/>
+                <seq>
+                    <audio src="027_Chapitre_23.mp3" clip-begin="npt=19.04916s" id="audio_027_Chapitre_23_5_1" clip-end="npt=20.989297s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_027_Chapitre_23_5_2">
+                <text src="Le_Petit_Prince.html#s027_Chapitre_23_5_2" id="tts_027_Chapitre_23_5_2"/>
+                <seq>
+                    <audio src="027_Chapitre_23.mp3" clip-begin="npt=20.989297s" id="audio_027_Chapitre_23_5_2" clip-end="npt=23.621859s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_027_Chapitre_23_6_0">
+                <text src="Le_Petit_Prince.html#s027_Chapitre_23_6_0" id="tts_027_Chapitre_23_6_0"/>
+                <seq>
+                    <audio src="027_Chapitre_23.mp3" clip-begin="npt=23.621859s" id="audio_027_Chapitre_23_6_0" clip-end="npt=25.983083s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_027_Chapitre_23_7_0">
+                <text src="Le_Petit_Prince.html#s027_Chapitre_23_7_0" id="tts_027_Chapitre_23_7_0"/>
+                <seq>
+                    <audio src="027_Chapitre_23.mp3" clip-begin="npt=25.983083s" id="audio_027_Chapitre_23_7_0" clip-end="npt=27.561269s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_027_Chapitre_23_8_0">
+                <text src="Le_Petit_Prince.html#s027_Chapitre_23_8_0" id="tts_027_Chapitre_23_8_0"/>
+                <seq>
+                    <audio src="027_Chapitre_23.mp3" clip-begin="npt=27.561269s" id="audio_027_Chapitre_23_8_0" clip-end="npt=34.290204s"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

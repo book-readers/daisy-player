@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="00:00:27.237"/>
+        <meta name="ncc:totalElapsedTime" content="01:20:47.371"/>
+        <layout>
+            <region id="txtView"/>
+        </layout>
+        <meta name="ncc:generator" content="SCENARI 6.0.5 / paon 1.1.3"/>
+        <meta name="title" content="Fondation Antoine de Saint-Exupéry"/>
+        <meta name="dc:title" content="Le Petit Prince"/>
+        <meta name="dc:identifier" content="FR-AVH-9782075155540-AUD"/>
+    </head>
+    <body>
+        <seq dur="27.237188s">
+            <par endsync="last" id="par_033-001_Fondation_Antoine_de_Saint-Exupery_0_0">
+                <text src="Le_Petit_Prince.html#s033-001_Fondation_Antoine_de_Saint-Exupery_0_0" id="tts_033-001_Fondation_Antoine_de_Saint-Exupery_0_0"/>
+                <seq>
+                    <audio src="033-001_Fondation_Antoine_de_Saint-Exupery.mp3" clip-begin="npt=0.050022s" id="audio_033-001_Fondation_Antoine_de_Saint-Exupery_0_0" clip-end="npt=2.624625s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-001_Fondation_Antoine_de_Saint-Exupery_1_0">
+                <text src="Le_Petit_Prince.html#s033-001_Fondation_Antoine_de_Saint-Exupery_1_0" id="tts_033-001_Fondation_Antoine_de_Saint-Exupery_1_0"/>
+                <seq>
+                    <audio src="033-001_Fondation_Antoine_de_Saint-Exupery.mp3" clip-begin="npt=2.624625s" id="audio_033-001_Fondation_Antoine_de_Saint-Exupery_1_0" clip-end="npt=7.699682s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-001_Fondation_Antoine_de_Saint-Exupery_2_0">
+                <text src="Le_Petit_Prince.html#s033-001_Fondation_Antoine_de_Saint-Exupery_2_0" id="tts_033-001_Fondation_Antoine_de_Saint-Exupery_2_0"/>
+                <seq>
+                    <audio src="033-001_Fondation_Antoine_de_Saint-Exupery.mp3" clip-begin="npt=7.699682s" id="audio_033-001_Fondation_Antoine_de_Saint-Exupery_2_0" clip-end="npt=14.437188s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-001_Fondation_Antoine_de_Saint-Exupery_3_0">
+                <text src="Le_Petit_Prince.html#s033-001_Fondation_Antoine_de_Saint-Exupery_3_0" id="tts_033-001_Fondation_Antoine_de_Saint-Exupery_3_0"/>
+                <seq>
+                    <audio src="033-001_Fondation_Antoine_de_Saint-Exupery.mp3" clip-begin="npt=14.437188s" id="audio_033-001_Fondation_Antoine_de_Saint-Exupery_3_0" clip-end="npt=24.055192s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-001_Fondation_Antoine_de_Saint-Exupery_4_0">
+                <text src="Le_Petit_Prince.html#s033-001_Fondation_Antoine_de_Saint-Exupery_4_0" id="tts_033-001_Fondation_Antoine_de_Saint-Exupery_4_0"/>
+                <seq>
+                    <audio src="033-001_Fondation_Antoine_de_Saint-Exupery.mp3" clip-begin="npt=24.055192s" id="audio_033-001_Fondation_Antoine_de_Saint-Exupery_4_0" clip-end="npt=26.750068s"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

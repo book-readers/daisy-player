@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="00:00:14.909"/>
+        <meta name="ncc:totalElapsedTime" content="01:21:14.609"/>
+        <layout>
+            <region id="txtView"/>
+        </layout>
+        <meta name="ncc:generator" content="SCENARI 6.0.5 / paon 1.1.3"/>
+        <meta name="title" content="À la rencontre d’Antoine de Saint-Exupéry (1900-1944)"/>
+        <meta name="dc:title" content="Le Petit Prince"/>
+        <meta name="dc:identifier" content="FR-AVH-9782075155540-AUD"/>
+    </head>
+    <body>
+        <seq dur="14.909024s">
+            <par endsync="last" id="par_033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_0_0">
+                <text src="Le_Petit_Prince.html#s033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_0_0" id="tts_033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_0_0"/>
+                <seq>
+                    <audio src="033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900.mp3" clip-begin="npt=0.050022s" id="audio_033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_0_0" clip-end="npt=5.12916s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_1_0">
+                <text src="Le_Petit_Prince.html#s033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_1_0" id="tts_033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_1_0"/>
+                <seq>
+                    <audio src="033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900.mp3" clip-begin="npt=5.12916s" id="audio_033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_1_0" clip-end="npt=6.366666s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_2_0">
+                <text src="Le_Petit_Prince.html#s033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_2_0" id="tts_033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_2_0"/>
+                <seq>
+                    <audio src="033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900.mp3" clip-begin="npt=6.366666s" id="audio_033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_2_0" clip-end="npt=9.89297s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_3_0">
+                <text src="Le_Petit_Prince.html#s033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_3_0" id="tts_033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_3_0"/>
+                <seq>
+                    <audio src="033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900.mp3" clip-begin="npt=9.89297s" id="audio_033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_3_0" clip-end="npt=14.421904s"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

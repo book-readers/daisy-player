@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="00:01:26.738"/>
+        <meta name="ncc:totalElapsedTime" content="01:23:38.518"/>
+        <layout>
+            <region id="txtView"/>
+        </layout>
+        <meta name="ncc:generator" content="SCENARI 6.0.5 / paon 1.1.3"/>
+        <meta name="title" content="Pilote et écrivain"/>
+        <meta name="dc:title" content="Le Petit Prince"/>
+        <meta name="dc:identifier" content="FR-AVH-9782075155540-AUD"/>
+    </head>
+    <body>
+        <seq dur="86.738185s">
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_0_0">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_0_0" id="tts_033-002-003_Pilote_et_ecrivain_0_0"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=0.050022s" id="audio_033-002-003_Pilote_et_ecrivain_0_0" clip-end="npt=1.602721s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_1_0">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_1_0" id="tts_033-002-003_Pilote_et_ecrivain_1_0"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=1.602721s" id="audio_033-002-003_Pilote_et_ecrivain_1_0" clip-end="npt=7.6156s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_1_1">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_1_1" id="tts_033-002-003_Pilote_et_ecrivain_1_1"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=7.6156s" id="audio_033-002-003_Pilote_et_ecrivain_1_1" clip-end="npt=14.570566s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_1_2">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_1_2" id="tts_033-002-003_Pilote_et_ecrivain_1_2"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=14.570566s" id="audio_033-002-003_Pilote_et_ecrivain_1_2" clip-end="npt=20.293877s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_1_3">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_1_3" id="tts_033-002-003_Pilote_et_ecrivain_1_3"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=20.293877s" id="audio_033-002-003_Pilote_et_ecrivain_1_3" clip-end="npt=27.020861s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_2_0">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_2_0" id="tts_033-002-003_Pilote_et_ecrivain_2_0"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=27.020861s" id="audio_033-002-003_Pilote_et_ecrivain_2_0" clip-end="npt=28.258367s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_3_0">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_3_0" id="tts_033-002-003_Pilote_et_ecrivain_3_0"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=28.258367s" id="audio_033-002-003_Pilote_et_ecrivain_3_0" clip-end="npt=30.514739s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_4_0">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_4_0" id="tts_033-002-003_Pilote_et_ecrivain_4_0"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=30.514739s" id="audio_033-002-003_Pilote_et_ecrivain_4_0" clip-end="npt=31.782448s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_5_0">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_5_0" id="tts_033-002-003_Pilote_et_ecrivain_5_0"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=31.782448s" id="audio_033-002-003_Pilote_et_ecrivain_5_0" clip-end="npt=34.865941s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_5_1">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_5_1" id="tts_033-002-003_Pilote_et_ecrivain_5_1"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=34.865941s" id="audio_033-002-003_Pilote_et_ecrivain_5_1" clip-end="npt=36.228526s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_5_2">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_5_2" id="tts_033-002-003_Pilote_et_ecrivain_5_2"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=36.228526s" id="audio_033-002-003_Pilote_et_ecrivain_5_2" clip-end="npt=38.861088s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_6_0">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_6_0" id="tts_033-002-003_Pilote_et_ecrivain_6_0"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=38.861088s" id="audio_033-002-003_Pilote_et_ecrivain_6_0" clip-end="npt=40.098321s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_7_0">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_7_0" id="tts_033-002-003_Pilote_et_ecrivain_7_0"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=40.098321s" id="audio_033-002-003_Pilote_et_ecrivain_7_0" clip-end="npt=41.660634s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_8_0">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_8_0" id="tts_033-002-003_Pilote_et_ecrivain_8_0"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=41.660634s" id="audio_033-002-003_Pilote_et_ecrivain_8_0" clip-end="npt=42.89814s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_9_0">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_9_0" id="tts_033-002-003_Pilote_et_ecrivain_9_0"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=42.89814s" id="audio_033-002-003_Pilote_et_ecrivain_9_0" clip-end="npt=46.957052s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_10_0">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_10_0" id="tts_033-002-003_Pilote_et_ecrivain_10_0"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=46.957052s" id="audio_033-002-003_Pilote_et_ecrivain_10_0" clip-end="npt=54.101723s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_10_1">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_10_1" id="tts_033-002-003_Pilote_et_ecrivain_10_1"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=54.101723s" id="audio_033-002-003_Pilote_et_ecrivain_10_1" clip-end="npt=56.629387s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_10_2">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_10_2" id="tts_033-002-003_Pilote_et_ecrivain_10_2"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=56.629387s" id="audio_033-002-003_Pilote_et_ecrivain_10_2" clip-end="npt=61.420634s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_10_3">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_10_3" id="tts_033-002-003_Pilote_et_ecrivain_10_3"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=61.420634s" id="audio_033-002-003_Pilote_et_ecrivain_10_3" clip-end="npt=63.282539s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_10_4">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_10_4" id="tts_033-002-003_Pilote_et_ecrivain_10_4"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=63.282539s" id="audio_033-002-003_Pilote_et_ecrivain_10_4" clip-end="npt=67.185079s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_11_0">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_11_0" id="tts_033-002-003_Pilote_et_ecrivain_11_0"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=67.185079s" id="audio_033-002-003_Pilote_et_ecrivain_11_0" clip-end="npt=76.127301s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_11_1">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_11_1" id="tts_033-002-003_Pilote_et_ecrivain_11_1"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=76.127301s" id="audio_033-002-003_Pilote_et_ecrivain_11_1" clip-end="npt=79.886621s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_11_2">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_11_2" id="tts_033-002-003_Pilote_et_ecrivain_11_2"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=79.886621s" id="audio_033-002-003_Pilote_et_ecrivain_11_2" clip-end="npt=81.92s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_12_0">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_12_0" id="tts_033-002-003_Pilote_et_ecrivain_12_0"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=81.92s" id="audio_033-002-003_Pilote_et_ecrivain_12_0" clip-end="npt=83.157505s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-003_Pilote_et_ecrivain_13_0">
+                <text src="Le_Petit_Prince.html#s033-002-003_Pilote_et_ecrivain_13_0" id="tts_033-002-003_Pilote_et_ecrivain_13_0"/>
+                <seq>
+                    <audio src="033-002-003_Pilote_et_ecrivain.mp3" clip-begin="npt=83.157505s" id="audio_033-002-003_Pilote_et_ecrivain_13_0" clip-end="npt=86.251065s"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

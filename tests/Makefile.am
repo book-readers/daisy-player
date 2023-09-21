@@ -10,4 +10,5 @@ TESTS = \
 	Pierre_Rabhi_Vers_la_sobriete_heureuse.expected \
 	Six_points_de_lumiere.expected \
 	Y9621.expected \
+	S07241.expected \
 	$(null)
