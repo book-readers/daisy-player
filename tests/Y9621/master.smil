@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 071325"/>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="dc:title" content="Le Petit Prince"/>
+		<meta name="dc:identifier" content="1441A400"/>
+		<meta name="ncc:timeInThisSmil" content="01:52:12.781"/>
+		<layout>
+			<region id="txtView"/>
+		</layout>
+	</head>
+	<body>
+		<ref title="Le Petit Prince, auteur : Antoine de Saint-Exupéry" src="wkds0001.smil#aloj_0002" id="smil_0001"/>
+		<ref title="Avertissement légal" src="wkds0002.smil#aloj_0002" id="smil_0002"/>
+		<ref title="A propos de ce livre numérique daisy" src="wkds000a.smil#wkds_0001" id="smil_0003"/>
+		<ref title="Quatrième de couverture" src="wkds0003.smil#aloj_0002" id="smil_0004"/>
+		<ref title="Table des niveaux" src="wkds0004.smil#aloj_0002" id="smil_0005"/>
+		<ref title="Chapitre 1" src="wkds0005.smil#aloj_0002" id="smil_0006"/>
+		<ref title="Chapitre 2" src="wkds0006.smil#aloj_0002" id="smil_0007"/>
+		<ref title="Chapitre 3" src="wkds0007.smil#aloj_0002" id="smil_0008"/>
+		<ref title="Chapitre 4" src="wkds0008.smil#aloj_0002" id="smil_0009"/>
+		<ref title="Chapitre 5" src="wkds0009.smil#aloj_0002" id="smil_0010"/>
+		<ref title="Chapitre 6" src="wkds0010.smil#aloj_0002" id="smil_0011"/>
+		<ref title="Chapitre 7" src="wkds0011.smil#aloj_0002" id="smil_0012"/>
+		<ref title="Chapitre 8" src="wkds0012.smil#aloj_0002" id="smil_0013"/>
+		<ref title="Chapitre 9" src="wkds0013.smil#aloj_0002" id="smil_0014"/>
+		<ref title="Chapitre 10" src="wkds0014.smil#aloj_0002" id="smil_0015"/>
+		<ref title="Chapitre 11" src="wkds0015.smil#aloj_0002" id="smil_0016"/>
+		<ref title="Chapitre 12" src="wkds0016.smil#aloj_0002" id="smil_0017"/>
+		<ref title="Chapitre 13" src="wkds0017.smil#aloj_0002" id="smil_0018"/>
+		<ref title="Chapitre 14" src="wkds0018.smil#aloj_0002" id="smil_0019"/>
+		<ref title="Chapitre 15" src="wkds0019.smil#aloj_0002" id="smil_0020"/>
+		<ref title="Chapitre 16" src="wkds0020.smil#aloj_0002" id="smil_0021"/>
+		<ref title="Chapitre 17" src="wkds0021.smil#aloj_0002" id="smil_0022"/>
+		<ref title="Chapitre 18" src="wkds0022.smil#aloj_0002" id="smil_0023"/>
+		<ref title="Chapitre 19" src="wkds0023.smil#aloj_0002" id="smil_0024"/>
+		<ref title="Chapitre 20" src="wkds0024.smil#aloj_0002" id="smil_0025"/>
+		<ref title="Chapitre 21" src="wkds0025.smil#aloj_0002" id="smil_0026"/>
+		<ref title="Chapitre 22" src="wkds0026.smil#aloj_0002" id="smil_0027"/>
+		<ref title="Chapitre 23" src="wkds0027.smil#aloj_0002" id="smil_0028"/>
+		<ref title="Chapitre 24" src="wkds0028.smil#aloj_0002" id="smil_0029"/>
+		<ref title="Chapitre 25" src="wkds0029.smil#aloj_0002" id="smil_0030"/>
+		<ref title="Chapitre 26" src="wkds0030.smil#aloj_0002" id="smil_0031"/>
+		<ref title="Chapitre 27" src="wkds0031.smil#aloj_0002" id="smil_0032"/>
+		<ref title="Annonce de fin" src="wkds0032.smil#aloj_0002" id="smil_0033"/>
+	</body>
+</smil>

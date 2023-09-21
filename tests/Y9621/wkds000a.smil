@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:00:10.436"/>
+		<meta name="ncc:totalElapsedTime" content="00:00:26.332"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 071325"/>
+		<meta name="title" content="A propos de ce livre numérique daisy"/>
+		<meta name="dc:title" content="Le Petit Prince"/>
+		<meta name="dc:identifier" content="1441A400"/>
+	</head>
+	<body>
+		<seq dur="10.436s">
+			<par endsync="last">
+				<text src="1441a400_petit_prince.html#yjms_0001" id="wkds_0001"/>
+				<seq>
+					<audio src="03_A_propos_de.mp3" clip-begin="npt=0.000s" clip-end="npt=0.718s" id="audio_0001"/>
+					<audio src="03_A_propos_de.mp3" clip-begin="npt=0.718s" clip-end="npt=3.419s" id="audio_0002"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="1441a400_petit_prince.html#yjms_0003" id="wkds_0002"/>
+				<seq>
+					<audio src="03_A_propos_de.mp3" clip-begin="npt=3.419s" clip-end="npt=4.323s" id="audio_0003"/>
+					<audio src="03_A_propos_de.mp3" clip-begin="npt=4.323s" clip-end="npt=6.661s" id="audio_0004"/>
+					<audio src="03_A_propos_de.mp3" clip-begin="npt=6.661s" clip-end="npt=10.436s" id="audio_0005"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

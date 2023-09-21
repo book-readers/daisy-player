@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:03:03.719"/>
+		<meta name="ncc:totalElapsedTime" content="00:35:28.341"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 071325"/>
+		<meta name="title" content="Chapitre 9"/>
+		<meta name="dc:title" content="Le Petit Prince"/>
+		<meta name="dc:identifier" content="1441A400"/>
+	</head>
+	<body>
+		<seq dur="183.719s">
+			<par endsync="last" id="aloj_0002">
+				<text src="1441a400_petit_prince.html#aloj_0019" id="ibpf_0001"/>
+				<seq>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=0.000s" clip-end="npt=6.074s" id="audio_0001"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=6.074s" clip-end="npt=13.976s" id="audio_0002"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=13.976s" clip-end="npt=16.810s" id="audio_0003"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=16.810s" clip-end="npt=21.408s" id="audio_0004"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=21.408s" clip-end="npt=24.333s" id="audio_0005"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=24.333s" clip-end="npt=27.768s" id="audio_0006"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=27.768s" clip-end="npt=31.700s" id="audio_0007"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=31.700s" clip-end="npt=38.008s" id="audio_0008"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=38.008s" clip-end="npt=41.692s" id="audio_0009"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=41.692s" clip-end="npt=46.720s" id="audio_0010"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=46.720s" clip-end="npt=52.101s" id="audio_0011"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=52.101s" clip-end="npt=58.057s" id="audio_0012"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=58.057s" clip-end="npt=61.793s" id="audio_0013"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=61.793s" clip-end="npt=68.402s" id="audio_0014"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=68.402s" clip-end="npt=75.050s" id="audio_0015"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=75.050s" clip-end="npt=79.308s" id="audio_0016"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=79.308s" clip-end="npt=80.483s" id="audio_0017"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=80.483s" clip-end="npt=83.409s" id="audio_0018"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=83.409s" clip-end="npt=86.505s" id="audio_0019"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=86.505s" clip-end="npt=92.408s" id="audio_0020"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=92.408s" clip-end="npt=96.405s" id="audio_0021"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=96.405s" clip-end="npt=99.448s" id="audio_0022"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=99.448s" clip-end="npt=101.447s" id="audio_0023"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=101.447s" clip-end="npt=104.542s" id="audio_0024"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=104.542s" clip-end="npt=112.470s" id="audio_0025"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=112.470s" clip-end="npt=117.329s" id="audio_0026"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=117.329s" clip-end="npt=120.516s" id="audio_0027"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=120.516s" clip-end="npt=123.599s" id="audio_0028"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=123.599s" clip-end="npt=126.172s" id="audio_0029"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=126.172s" clip-end="npt=129.006s" id="audio_0030"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=129.006s" clip-end="npt=130.730s" id="audio_0031"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=130.730s" clip-end="npt=134.270s" id="audio_0032"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=134.270s" clip-end="npt=136.399s" id="audio_0033"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=136.399s" clip-end="npt=138.528s" id="audio_0034"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=138.528s" clip-end="npt=142.668s" id="audio_0035"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=142.668s" clip-end="npt=145.254s" id="audio_0036"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=145.254s" clip-end="npt=149.421s" id="audio_0037"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=149.421s" clip-end="npt=151.667s" id="audio_0038"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=151.667s" clip-end="npt=155.899s" id="audio_0039"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=155.899s" clip-end="npt=160.653s" id="audio_0040"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=160.653s" clip-end="npt=164.741s" id="audio_0041"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=164.741s" clip-end="npt=167.236s" id="audio_0042"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=167.236s" clip-end="npt=170.018s" id="audio_0043"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=170.018s" clip-end="npt=173.754s" id="audio_0044"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=173.754s" clip-end="npt=176.692s" id="audio_0045"/>
+					<audio src="14_Chapitre_9.mp3" clip-begin="npt=176.692s" clip-end="npt=183.719s" id="audio_0046"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

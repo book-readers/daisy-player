@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:03:15.004"/>
+		<meta name="ncc:totalElapsedTime" content="00:09:52.263"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 071325"/>
+		<meta name="title" content="Chapitre 3"/>
+		<meta name="dc:title" content="Le Petit Prince"/>
+		<meta name="dc:identifier" content="1441A400"/>
+	</head>
+	<body>
+		<seq dur="195.004s">
+			<par endsync="last" id="aloj_0002">
+				<text src="1441a400_petit_prince.html#aloj_0013" id="aloj_0003"/>
+				<seq>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=0.000s" clip-end="npt=3.761s" id="audio_0001"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=3.761s" clip-end="npt=9.691s" id="audio_0002"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=9.691s" clip-end="npt=15.882s" id="audio_0003"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=15.882s" clip-end="npt=20.192s" id="audio_0004"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=20.192s" clip-end="npt=25.900s" id="audio_0005"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=25.900s" clip-end="npt=28.499s" id="audio_0006"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=28.499s" clip-end="npt=31.882s" id="audio_0007"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=31.882s" clip-end="npt=35.657s" id="audio_0008"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=35.657s" clip-end="npt=37.982s" id="audio_0009"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=37.982s" clip-end="npt=40.986s" id="audio_0010"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=40.986s" clip-end="npt=43.311s" id="audio_0011"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=43.311s" clip-end="npt=46.080s" id="audio_0012"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=46.080s" clip-end="npt=49.646s" id="audio_0013"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=49.646s" clip-end="npt=52.349s" id="audio_0014"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=52.349s" clip-end="npt=59.677s" id="audio_0015"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=59.677s" clip-end="npt=63.242s" id="audio_0016"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=63.242s" clip-end="npt=69.316s" id="audio_0017"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=69.316s" clip-end="npt=77.113s" id="audio_0018"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=77.113s" clip-end="npt=79.334s" id="audio_0019"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=79.334s" clip-end="npt=81.019s" id="audio_0020"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=81.019s" clip-end="npt=84.101s" id="audio_0021"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=84.101s" clip-end="npt=88.986s" id="audio_0022"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=88.986s" clip-end="npt=90.018s" id="audio_0023"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=90.018s" clip-end="npt=95.987s" id="audio_0024"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=95.987s" clip-end="npt=100.480s" id="audio_0025"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=100.480s" clip-end="npt=109.035s" id="audio_0026"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=109.035s" clip-end="npt=116.388s" id="audio_0027"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=116.388s" clip-end="npt=119.484s" id="audio_0028"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=119.484s" clip-end="npt=122.266s" id="audio_0029"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=122.266s" clip-end="npt=124.251s" id="audio_0030"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=124.251s" clip-end="npt=128.575s" id="audio_0031"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=128.575s" clip-end="npt=129.293s" id="audio_0032"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=129.293s" clip-end="npt=134.139s" id="audio_0033"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=134.139s" clip-end="npt=138.331s" id="audio_0034"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=138.331s" clip-end="npt=142.537s" id="audio_0035"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=142.537s" clip-end="npt=150.308s" id="audio_0036"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=150.308s" clip-end="npt=154.410s" id="audio_0037"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=154.410s" clip-end="npt=156.186s" id="audio_0038"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=156.186s" clip-end="npt=158.354s" id="audio_0039"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=158.354s" clip-end="npt=163.827s" id="audio_0040"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=163.827s" clip-end="npt=166.517s" id="audio_0041"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=166.517s" clip-end="npt=169.482s" id="audio_0042"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=169.482s" clip-end="npt=173.231s" id="audio_0043"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=173.231s" clip-end="npt=177.541s" id="audio_0044"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=177.541s" clip-end="npt=179.200s" id="audio_0045"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=179.200s" clip-end="npt=183.275s" id="audio_0046"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=183.275s" clip-end="npt=188.042s" id="audio_0047"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=188.042s" clip-end="npt=194.325s" id="audio_0048"/>
+					<audio src="08_Chapitre_3.mp3" clip-begin="npt=194.325s" clip-end="npt=195.004s" id="audio_0049"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

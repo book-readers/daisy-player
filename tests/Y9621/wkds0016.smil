@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:01:15.415"/>
+		<meta name="ncc:totalElapsedTime" content="00:49:37.451"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 071325"/>
+		<meta name="title" content="Chapitre 12"/>
+		<meta name="dc:title" content="Le Petit Prince"/>
+		<meta name="dc:identifier" content="1441A400"/>
+	</head>
+	<body>
+		<seq dur="75.415s">
+			<par endsync="last" id="aloj_0002">
+				<text src="1441a400_petit_prince.html#aloj_0022" id="jmgd_0001"/>
+				<seq>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=0.000s" clip-end="npt=3.552s" id="audio_0001"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=3.552s" clip-end="npt=9.822s" id="audio_0002"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=9.822s" clip-end="npt=11.324s" id="audio_0003"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=11.324s" clip-end="npt=20.532s" id="audio_0004"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=20.532s" clip-end="npt=21.995s" id="audio_0005"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=21.995s" clip-end="npt=25.991s" id="audio_0006"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=25.991s" clip-end="npt=27.637s" id="audio_0007"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=27.637s" clip-end="npt=30.067s" id="audio_0008"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=30.067s" clip-end="npt=35.030s" id="audio_0009"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=35.030s" clip-end="npt=36.858s" id="audio_0010"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=36.858s" clip-end="npt=40.920s" id="audio_0011"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=40.920s" clip-end="npt=47.412s" id="audio_0012"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=47.412s" clip-end="npt=48.992s" id="audio_0013"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=48.992s" clip-end="npt=53.877s" id="audio_0014"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=53.877s" clip-end="npt=56.071s" id="audio_0015"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=56.071s" clip-end="npt=64.992s" id="audio_0016"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=64.992s" clip-end="npt=69.616s" id="audio_0017"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=69.616s" clip-end="npt=74.814s" id="audio_0018"/>
+					<audio src="17_Chapitre_12.mp3" clip-begin="npt=74.814s" clip-end="npt=75.415s" id="audio_0019"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:00:45.897"/>
+		<meta name="ncc:totalElapsedTime" content="01:12:55.785"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 071325"/>
+		<meta name="title" content="Chapitre 18"/>
+		<meta name="dc:title" content="Le Petit Prince"/>
+		<meta name="dc:identifier" content="1441A400"/>
+	</head>
+	<body>
+		<seq dur="45.897s">
+			<par endsync="last" id="aloj_0002">
+				<text src="1441a400_petit_prince.html#aloj_0028" id="xobv_0001"/>
+				<seq>
+					<audio src="23_Chapitre_18.mp3" clip-begin="npt=0.000s" clip-end="npt=8.464s" id="audio_0001"/>
+					<audio src="23_Chapitre_18.mp3" clip-begin="npt=8.464s" clip-end="npt=11.468s" id="audio_0002"/>
+					<audio src="23_Chapitre_18.mp3" clip-begin="npt=11.468s" clip-end="npt=14.446s" id="audio_0003"/>
+					<audio src="23_Chapitre_18.mp3" clip-begin="npt=14.446s" clip-end="npt=19.684s" id="audio_0004"/>
+					<audio src="23_Chapitre_18.mp3" clip-begin="npt=19.684s" clip-end="npt=24.294s" id="audio_0005"/>
+					<audio src="23_Chapitre_18.mp3" clip-begin="npt=24.294s" clip-end="npt=25.835s" id="audio_0006"/>
+					<audio src="23_Chapitre_18.mp3" clip-begin="npt=25.835s" clip-end="npt=29.166s" id="audio_0007"/>
+					<audio src="23_Chapitre_18.mp3" clip-begin="npt=29.166s" clip-end="npt=31.791s" id="audio_0008"/>
+					<audio src="23_Chapitre_18.mp3" clip-begin="npt=31.791s" clip-end="npt=33.959s" id="audio_0009"/>
+					<audio src="23_Chapitre_18.mp3" clip-begin="npt=33.959s" clip-end="npt=35.762s" id="audio_0010"/>
+					<audio src="23_Chapitre_18.mp3" clip-begin="npt=35.762s" clip-end="npt=39.288s" id="audio_0011"/>
+					<audio src="23_Chapitre_18.mp3" clip-begin="npt=39.288s" clip-end="npt=42.306s" id="audio_0012"/>
+					<audio src="23_Chapitre_18.mp3" clip-begin="npt=42.306s" clip-end="npt=45.897s" id="audio_0013"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

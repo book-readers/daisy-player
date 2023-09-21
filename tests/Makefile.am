@@ -9,4 +9,5 @@ AM_TESTS_ENVIRONMENT = abs_srcdir=$(abs_srcdir)
 TESTS = \
 	Pierre_Rabhi_Vers_la_sobriete_heureuse.expected \
 	Six_points_de_lumiere.expected \
+	Y9621.expected \
 	$(null)

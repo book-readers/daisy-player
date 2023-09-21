@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:01:48.703"/>
+		<meta name="ncc:totalElapsedTime" content="01:25:44.569"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.02 Build 025 # 071325"/>
+		<meta name="title" content="Chapitre 22"/>
+		<meta name="dc:title" content="Le Petit Prince"/>
+		<meta name="dc:identifier" content="1441A400"/>
+	</head>
+	<body>
+		<seq dur="108.703s">
+			<par endsync="last" id="aloj_0002">
+				<text src="1441a400_petit_prince.html#aloj_0032" id="rbny_0001"/>
+				<seq>
+					<audio src="27_Chapitre_22.mp3" clip-begin="npt=0.000s" clip-end="npt=29.087s" id="audio_0001"/>
+					<audio src="27_Chapitre_22.mp3" clip-begin="npt=29.087s" clip-end="npt=32.940s" id="audio_0002"/>
+					<audio src="27_Chapitre_22.mp3" clip-begin="npt=32.940s" clip-end="npt=35.644s" id="audio_0003"/>
+					<audio src="27_Chapitre_22.mp3" clip-begin="npt=35.644s" clip-end="npt=41.247s" id="audio_0004"/>
+					<audio src="27_Chapitre_22.mp3" clip-begin="npt=41.247s" clip-end="npt=108.703s" id="audio_0005"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>
