@@ -4,4 +4,4 @@ doc_DATA = Changelog COMPILE COPYING daisy-player.description \
            daisy-player.png daisy-player.txt License Makefile.am \
            TODO
 
-dist_html_DATA = daisy-player.html
+html_DATA = daisy-player.html
