@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="00:00:11.505"/>
+        <meta name="ncc:totalElapsedTime" content="00:00:46.957"/>
+        <layout>
+            <region id="txtView"/>
+        </layout>
+        <meta name="ncc:generator" content="SCENARI 6.0.5 / paon 1.1.3"/>
+        <meta name="title" content="Quatrième de couverture"/>
+        <meta name="dc:title" content="Le Petit Prince"/>
+        <meta name="dc:identifier" content="FR-AVH-9782075155540-AUD"/>
+    </head>
+    <body>
+        <seq dur="11.50585s">
+            <par endsync="last" id="par_002_Quatrieme_de_couverture_0_0">
+                <text src="Le_Petit_Prince.html#s002_Quatrieme_de_couverture_0_0" id="tts_002_Quatrieme_de_couverture_0_0"/>
+                <seq>
+                    <audio src="002_Quatrieme_de_couverture.mp3" clip-begin="npt=0.050022s" id="audio_002_Quatrieme_de_couverture_0_0" clip-end="npt=2.10204s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_002_Quatrieme_de_couverture_1_0">
+                <text src="Le_Petit_Prince.html#s002_Quatrieme_de_couverture_1_0" id="tts_002_Quatrieme_de_couverture_1_0"/>
+                <seq>
+                    <audio src="002_Quatrieme_de_couverture.mp3" clip-begin="npt=2.10204s" id="audio_002_Quatrieme_de_couverture_1_0" clip-end="npt=8.724081s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_002_Quatrieme_de_couverture_2_0">
+                <text src="Le_Petit_Prince.html#s002_Quatrieme_de_couverture_2_0" id="tts_002_Quatrieme_de_couverture_2_0"/>
+                <seq>
+                    <audio src="002_Quatrieme_de_couverture.mp3" clip-begin="npt=8.724081s" id="audio_002_Quatrieme_de_couverture_2_0" clip-end="npt=11.01873s"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

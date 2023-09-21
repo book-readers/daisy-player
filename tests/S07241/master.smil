@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="ncc:generator" content="SCENARI 6.0.5 / paon 1.1.3"/>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="dc:title" content="Le Petit Prince"/>
+        <meta name="dc:identifier" content="FR-AVH-9782075155540-AUD"/>
+        <meta name="ncc:timeInThisSmil" content="01:28:04.975"/>
+        <layout>
+            <region id="txtView"/>
+        </layout>
+    </head>
+    <body>
+        <ref title="Le Petit Prince" src="001_Le_Petit_Prince.smil#par_001_Le_Petit_Prince_0_0" id="smil_001_Le_Petit_Prince"/>
+        <ref title="Quatrième de couverture" src="002_Quatrieme_de_couverture.smil#par_002_Quatrieme_de_couverture_0_0" id="smil_002_Quatrieme_de_couverture"/>
+        <ref title="Dédicace" src="003_Dedicace.smil#par_003_Dedicace_0_0" id="smil_003_Dedicace"/>
+        <ref title="Exergue" src="004_Exergue.smil#par_004_Exergue_0_0" id="smil_004_Exergue"/>
+        <ref title="Chapitre 1" src="005_Chapitre_1.smil#par_005_Chapitre_1_0_0" id="smil_005_Chapitre_1"/>
+        <ref title="Chapitre 2" src="006_Chapitre_2.smil#par_006_Chapitre_2_0_0" id="smil_006_Chapitre_2"/>
+        <ref title="Chapitre 3" src="007_Chapitre_3.smil#par_007_Chapitre_3_0_0" id="smil_007_Chapitre_3"/>
+        <ref title="Chapitre 4" src="008_Chapitre_4.smil#par_008_Chapitre_4_0_0" id="smil_008_Chapitre_4"/>
+        <ref title="Chapitre 5" src="009_Chapitre_5.smil#par_009_Chapitre_5_0_0" id="smil_009_Chapitre_5"/>
+        <ref title="Chapitre 6" src="010_Chapitre_6.smil#par_010_Chapitre_6_0_0" id="smil_010_Chapitre_6"/>
+        <ref title="Chapitre 7" src="011_Chapitre_7.smil#par_011_Chapitre_7_0_0" id="smil_011_Chapitre_7"/>
+        <ref title="Chapitre 8" src="012_Chapitre_8.smil#par_012_Chapitre_8_0_0" id="smil_012_Chapitre_8"/>
+        <ref title="Chapitre 9" src="013_Chapitre_9.smil#par_013_Chapitre_9_0_0" id="smil_013_Chapitre_9"/>
+        <ref title="Chapitre 10" src="014_Chapitre_10.smil#par_014_Chapitre_10_0_0" id="smil_014_Chapitre_10"/>
+        <ref title="Chapitre 11" src="015_Chapitre_11.smil#par_015_Chapitre_11_0_0" id="smil_015_Chapitre_11"/>
+        <ref title="Chapitre 12" src="016_Chapitre_12.smil#par_016_Chapitre_12_0_0" id="smil_016_Chapitre_12"/>
+        <ref title="Chapitre 13" src="017_Chapitre_13.smil#par_017_Chapitre_13_0_0" id="smil_017_Chapitre_13"/>
+        <ref title="Chapitre 14" src="018_Chapitre_14.smil#par_018_Chapitre_14_0_0" id="smil_018_Chapitre_14"/>
+        <ref title="Chapitre 15" src="019_Chapitre_15.smil#par_019_Chapitre_15_0_0" id="smil_019_Chapitre_15"/>
+        <ref title="Chapitre 16" src="020_Chapitre_16.smil#par_020_Chapitre_16_0_0" id="smil_020_Chapitre_16"/>
+        <ref title="Chapitre 17" src="021_Chapitre_17.smil#par_021_Chapitre_17_0_0" id="smil_021_Chapitre_17"/>
+        <ref title="Chapitre 18" src="022_Chapitre_18.smil#par_022_Chapitre_18_0_0" id="smil_022_Chapitre_18"/>
+        <ref title="Chapitre 19" src="023_Chapitre_19.smil#par_023_Chapitre_19_0_0" id="smil_023_Chapitre_19"/>
+        <ref title="Chapitre 20" src="024_Chapitre_20.smil#par_024_Chapitre_20_0_0" id="smil_024_Chapitre_20"/>
+        <ref title="Chapitre 21" src="025_Chapitre_21.smil#par_025_Chapitre_21_0_0" id="smil_025_Chapitre_21"/>
+        <ref title="Chapitre 22" src="026_Chapitre_22.smil#par_026_Chapitre_22_0_0" id="smil_026_Chapitre_22"/>
+        <ref title="Chapitre 23" src="027_Chapitre_23.smil#par_027_Chapitre_23_0_0" id="smil_027_Chapitre_23"/>
+        <ref title="Chapitre 24" src="028_Chapitre_24.smil#par_028_Chapitre_24_0_0" id="smil_028_Chapitre_24"/>
+        <ref title="Chapitre 25" src="029_Chapitre_25.smil#par_029_Chapitre_25_0_0" id="smil_029_Chapitre_25"/>
+        <ref title="Chapitre 26" src="030_Chapitre_26.smil#par_030_Chapitre_26_0_0" id="smil_030_Chapitre_26"/>
+        <ref title="Chapitre 27" src="031_Chapitre_27.smil#par_031_Chapitre_27_0_0" id="smil_031_Chapitre_27"/>
+        <ref title="Conclusion" src="032_Conclusion.smil#par_032_Conclusion_0_0" id="smil_032_Conclusion"/>
+        <ref title="Annexes" src="033_Annexes.smil#par_033_Annexes_0_0" id="smil_033_Annexes"/>
+        <ref title="Antoine de Saint-Exupéry, l’auteur" src="033-000_Antoine_de_Saint-Exupery_lauteur.smil#par_033-000_Antoine_de_Saint-Exupery_lauteur_0_0" id="smil_033-000_Antoine_de_Saint-Exupery_lauteur"/>
+        <ref title="Fondation Antoine de Saint-Exupéry" src="033-001_Fondation_Antoine_de_Saint-Exupery.smil#par_033-001_Fondation_Antoine_de_Saint-Exupery_0_0" id="smil_033-001_Fondation_Antoine_de_Saint-Exupery"/>
+        <ref title="À la rencontre d’Antoine de Saint-Exupéry (1900-1944)" src="033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900.smil#par_033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900_0_0" id="smil_033-002_A_la_rencontre_dAntoine_de_Saint-Exupery_1900"/>
+        <ref title="Un petit prince en son royaume" src="033-002-001_Un_petit_prince_en_son_royaume.smil#par_033-002-001_Un_petit_prince_en_son_royaume_0_0" id="smil_033-002-001_Un_petit_prince_en_son_royaume"/>
+        <ref title="La passion des avions" src="033-002-002_La_passion_des_avions.smil#par_033-002-002_La_passion_des_avions_0_0" id="smil_033-002-002_La_passion_des_avions"/>
+        <ref title="Pilote et écrivain" src="033-002-003_Pilote_et_ecrivain.smil#par_033-002-003_Pilote_et_ecrivain_0_0" id="smil_033-002-003_Pilote_et_ecrivain"/>
+        <ref title="Un petit prince en Amérique" src="033-002-004_Un_petit_prince_en_Amerique.smil#par_033-002-004_Un_petit_prince_en_Amerique_0_0" id="smil_033-002-004_Un_petit_prince_en_Amerique"/>
+        <ref title="La dernière mission" src="034_La_derniere_mission.smil#par_034_La_derniere_mission_0_0" id="smil_034_La_derniere_mission"/>
+        <ref title="Autres mentions" src="035_Autres_mentions.smil#par_035_Autres_mentions_0_0" id="smil_035_Autres_mentions"/>
+    </body>
+</smil>

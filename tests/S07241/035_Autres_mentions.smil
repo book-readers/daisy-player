@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="00:00:39.417"/>
+        <meta name="ncc:totalElapsedTime" content="01:27:25.557"/>
+        <layout>
+            <region id="txtView"/>
+        </layout>
+        <meta name="ncc:generator" content="SCENARI 6.0.5 / paon 1.1.3"/>
+        <meta name="title" content="Autres mentions"/>
+        <meta name="dc:title" content="Le Petit Prince"/>
+        <meta name="dc:identifier" content="FR-AVH-9782075155540-AUD"/>
+    </head>
+    <body>
+        <seq dur="39.417233s">
+            <par endsync="last" id="par_035_Autres_mentions_0_0">
+                <text src="Le_Petit_Prince.html#s035_Autres_mentions_0_0" id="tts_035_Autres_mentions_0_0"/>
+                <seq>
+                    <audio src="035_Autres_mentions.mp3" clip-begin="npt=0.050022s" id="audio_035_Autres_mentions_0_0" clip-end="npt=1.866802s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_035_Autres_mentions_1_0">
+                <text src="Le_Petit_Prince.html#s035_Autres_mentions_1_0" id="tts_035_Autres_mentions_1_0"/>
+                <seq>
+                    <audio src="035_Autres_mentions.mp3" clip-begin="npt=1.866802s" id="audio_035_Autres_mentions_1_0" clip-end="npt=7.185532s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_035_Autres_mentions_2_0">
+                <text src="Le_Petit_Prince.html#s035_Autres_mentions_2_0" id="tts_035_Autres_mentions_2_0"/>
+                <seq>
+                    <audio src="035_Autres_mentions.mp3" clip-begin="npt=7.185532s" id="audio_035_Autres_mentions_2_0" clip-end="npt=13.636054s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_035_Autres_mentions_3_0">
+                <text src="Le_Petit_Prince.html#s035_Autres_mentions_3_0" id="tts_035_Autres_mentions_3_0"/>
+                <seq>
+                    <audio src="035_Autres_mentions.mp3" clip-begin="npt=13.636054s" id="audio_035_Autres_mentions_3_0" clip-end="npt=18.983083s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_035_Autres_mentions_4_0">
+                <text src="Le_Petit_Prince.html#s035_Autres_mentions_4_0" id="tts_035_Autres_mentions_4_0"/>
+                <seq>
+                    <audio src="035_Autres_mentions.mp3" clip-begin="npt=18.983083s" id="audio_035_Autres_mentions_4_0" clip-end="npt=38.930113s"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

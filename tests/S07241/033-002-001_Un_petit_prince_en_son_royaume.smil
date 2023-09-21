@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="00:01:27.321"/>
+        <meta name="ncc:totalElapsedTime" content="01:21:29.518"/>
+        <layout>
+            <region id="txtView"/>
+        </layout>
+        <meta name="ncc:generator" content="SCENARI 6.0.5 / paon 1.1.3"/>
+        <meta name="title" content="Un petit prince en son royaume"/>
+        <meta name="dc:title" content="Le Petit Prince"/>
+        <meta name="dc:identifier" content="FR-AVH-9782075155540-AUD"/>
+    </head>
+    <body>
+        <seq dur="87.321859s">
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_0_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_0_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_0_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=0.050022s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_0_0" clip-end="npt=2.245487s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_1_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_1_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_1_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=2.245487s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_1_0" clip-end="npt=3.47297s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_2_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_2_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_2_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=3.47297s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_2_0" clip-end="npt=6.23365s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_2_1">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_2_1" id="tts_033-002-001_Un_petit_prince_en_son_royaume_2_1"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=6.23365s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_2_1" clip-end="npt=11.446031s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_3_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_3_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_3_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=11.446031s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_3_0" clip-end="npt=14.895736s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_3_1">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_3_1" id="tts_033-002-001_Un_petit_prince_en_son_royaume_3_1"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=14.895736s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_3_1" clip-end="npt=21.784126s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_3_2">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_3_2" id="tts_033-002-001_Un_petit_prince_en_son_royaume_3_2"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=21.784126s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_3_2" clip-end="npt=29.522993s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_4_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_4_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_4_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=29.522993s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_4_0" clip-end="npt=30.760498s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_5_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_5_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_5_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=30.760498s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_5_0" clip-end="npt=34.376643s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_5_1">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_5_1" id="tts_033-002-001_Un_petit_prince_en_son_royaume_5_1"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=34.376643s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_5_1" clip-end="npt=36.0439s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_6_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_6_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_6_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=36.0439s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_6_0" clip-end="npt=37.311609s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_7_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_7_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_7_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=37.311609s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_7_0" clip-end="npt=39.468117s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_8_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_8_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_8_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=39.468117s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_8_0" clip-end="npt=40.850748s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_9_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_9_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_9_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=40.850748s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_9_0" clip-end="npt=42.413061s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_10_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_10_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_10_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=42.413061s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_10_0" clip-end="npt=43.650566s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_11_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_11_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_11_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=43.650566s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_11_0" clip-end="npt=45.945215s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_12_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_12_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_12_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=45.945215s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_12_0" clip-end="npt=48.862312s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_13_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_13_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_13_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=48.862312s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_13_0" clip-end="npt=54.38585s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_13_1">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_13_1" id="tts_033-002-001_Un_petit_prince_en_son_royaume_13_1"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=54.38585s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_13_1" clip-end="npt=61.407392s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_13_2">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_13_2" id="tts_033-002-001_Un_petit_prince_en_son_royaume_13_2"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=61.407392s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_13_2" clip-end="npt=66.103809s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_14_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_14_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_14_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=66.103809s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_14_0" clip-end="npt=67.341315s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_15_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_15_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_15_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=67.341315s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_15_0" clip-end="npt=70.130294s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_16_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_16_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_16_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=70.130294s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_16_0" clip-end="npt=71.387981s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_17_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_17_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_17_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=71.387981s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_17_0" clip-end="npt=76.97814s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_17_1">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_17_1" id="tts_033-002-001_Un_petit_prince_en_son_royaume_17_1"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=76.97814s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_17_1" clip-end="npt=84.071292s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_18_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_18_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_18_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=84.071292s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_18_0" clip-end="npt=85.267482s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-001_Un_petit_prince_en_son_royaume_19_0">
+                <text src="Le_Petit_Prince.html#s033-002-001_Un_petit_prince_en_son_royaume_19_0" id="tts_033-002-001_Un_petit_prince_en_son_royaume_19_0"/>
+                <seq>
+                    <audio src="033-002-001_Un_petit_prince_en_son_royaume.mp3" clip-begin="npt=85.267482s" id="audio_033-002-001_Un_petit_prince_en_son_royaume_19_0" clip-end="npt=86.834784s"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

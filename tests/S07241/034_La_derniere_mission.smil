@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="00:01:03.116"/>
+        <meta name="ncc:totalElapsedTime" content="01:26:22.441"/>
+        <layout>
+            <region id="txtView"/>
+        </layout>
+        <meta name="ncc:generator" content="SCENARI 6.0.5 / paon 1.1.3"/>
+        <meta name="title" content="La dernière mission"/>
+        <meta name="dc:title" content="Le Petit Prince"/>
+        <meta name="dc:identifier" content="FR-AVH-9782075155540-AUD"/>
+    </head>
+    <body>
+        <seq dur="63.116643s">
+            <par endsync="last" id="par_034_La_derniere_mission_0_0">
+                <text src="Le_Petit_Prince.html#s034_La_derniere_mission_0_0" id="tts_034_La_derniere_mission_0_0"/>
+                <seq>
+                    <audio src="034_La_derniere_mission.mp3" clip-begin="npt=0.050022s" id="audio_034_La_derniere_mission_0_0" clip-end="npt=1.635963s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_034_La_derniere_mission_1_0">
+                <text src="Le_Petit_Prince.html#s034_La_derniere_mission_1_0" id="tts_034_La_derniere_mission_1_0"/>
+                <seq>
+                    <audio src="034_La_derniere_mission.mp3" clip-begin="npt=1.635963s" id="audio_034_La_derniere_mission_1_0" clip-end="npt=12.142675s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_034_La_derniere_mission_1_1">
+                <text src="Le_Petit_Prince.html#s034_La_derniere_mission_1_1" id="tts_034_La_derniere_mission_1_1"/>
+                <seq>
+                    <audio src="034_La_derniere_mission.mp3" clip-begin="npt=12.142675s" id="audio_034_La_derniere_mission_1_1" clip-end="npt=22.499637s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_034_La_derniere_mission_2_0">
+                <text src="Le_Petit_Prince.html#s034_La_derniere_mission_2_0" id="tts_034_La_derniere_mission_2_0"/>
+                <seq>
+                    <audio src="034_La_derniere_mission.mp3" clip-begin="npt=22.499637s" id="audio_034_La_derniere_mission_2_0" clip-end="npt=23.767346s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_034_La_derniere_mission_3_0">
+                <text src="Le_Petit_Prince.html#s034_La_derniere_mission_3_0" id="tts_034_La_derniere_mission_3_0"/>
+                <seq>
+                    <audio src="034_La_derniere_mission.mp3" clip-begin="npt=23.767346s" id="audio_034_La_derniere_mission_3_0" clip-end="npt=28.620181s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_034_La_derniere_mission_4_0">
+                <text src="Le_Petit_Prince.html#s034_La_derniere_mission_4_0" id="tts_034_La_derniere_mission_4_0"/>
+                <seq>
+                    <audio src="034_La_derniere_mission.mp3" clip-begin="npt=28.620181s" id="audio_034_La_derniere_mission_4_0" clip-end="npt=30.049387s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_034_La_derniere_mission_5_0">
+                <text src="Le_Petit_Prince.html#s034_La_derniere_mission_5_0" id="tts_034_La_derniere_mission_5_0"/>
+                <seq>
+                    <audio src="034_La_derniere_mission.mp3" clip-begin="npt=30.049387s" id="audio_034_La_derniere_mission_5_0" clip-end="npt=31.616689s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_034_La_derniere_mission_6_0">
+                <text src="Le_Petit_Prince.html#s034_La_derniere_mission_6_0" id="tts_034_La_derniere_mission_6_0"/>
+                <seq>
+                    <audio src="034_La_derniere_mission.mp3" clip-begin="npt=31.616689s" id="audio_034_La_derniere_mission_6_0" clip-end="npt=56.201315s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_034_La_derniere_mission_7_0">
+                <text src="Le_Petit_Prince.html#s034_La_derniere_mission_7_0" id="tts_034_La_derniere_mission_7_0"/>
+                <seq>
+                    <audio src="034_La_derniere_mission.mp3" clip-begin="npt=56.201315s" id="audio_034_La_derniere_mission_7_0" clip-end="npt=57.43882s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_034_La_derniere_mission_8_0">
+                <text src="Le_Petit_Prince.html#s034_La_derniere_mission_8_0" id="tts_034_La_derniere_mission_8_0"/>
+                <seq>
+                    <audio src="034_La_derniere_mission.mp3" clip-begin="npt=57.43882s" id="audio_034_La_derniere_mission_8_0" clip-end="npt=62.629523s"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

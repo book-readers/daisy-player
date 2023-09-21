@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="00:00:41.678"/>
+        <meta name="ncc:totalElapsedTime" content="01:22:56.839"/>
+        <layout>
+            <region id="txtView"/>
+        </layout>
+        <meta name="ncc:generator" content="SCENARI 6.0.5 / paon 1.1.3"/>
+        <meta name="title" content="La passion des avions"/>
+        <meta name="dc:title" content="Le Petit Prince"/>
+        <meta name="dc:identifier" content="FR-AVH-9782075155540-AUD"/>
+    </head>
+    <body>
+        <seq dur="41.678866s">
+            <par endsync="last" id="par_033-002-002_La_passion_des_avions_0_0">
+                <text src="Le_Petit_Prince.html#s033-002-002_La_passion_des_avions_0_0" id="tts_033-002-002_La_passion_des_avions_0_0"/>
+                <seq>
+                    <audio src="033-002-002_La_passion_des_avions.mp3" clip-begin="npt=0.050022s" id="audio_033-002-002_La_passion_des_avions_0_0" clip-end="npt=1.76916s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-002_La_passion_des_avions_1_0">
+                <text src="Le_Petit_Prince.html#s033-002-002_La_passion_des_avions_1_0" id="tts_033-002-002_La_passion_des_avions_1_0"/>
+                <seq>
+                    <audio src="033-002-002_La_passion_des_avions.mp3" clip-begin="npt=1.76916s" id="audio_033-002-002_La_passion_des_avions_1_0" clip-end="npt=8.314648s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-002_La_passion_des_avions_1_1">
+                <text src="Le_Petit_Prince.html#s033-002-002_La_passion_des_avions_1_1" id="tts_033-002-002_La_passion_des_avions_1_1"/>
+                <seq>
+                    <audio src="033-002-002_La_passion_des_avions.mp3" clip-begin="npt=8.314648s" id="audio_033-002-002_La_passion_des_avions_1_1" clip-end="npt=13.205714s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-002_La_passion_des_avions_1_2">
+                <text src="Le_Petit_Prince.html#s033-002-002_La_passion_des_avions_1_2" id="tts_033-002-002_La_passion_des_avions_1_2"/>
+                <seq>
+                    <audio src="033-002-002_La_passion_des_avions.mp3" clip-begin="npt=13.205714s" id="audio_033-002-002_La_passion_des_avions_1_2" clip-end="npt=14.834603s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-002_La_passion_des_avions_1_3">
+                <text src="Le_Petit_Prince.html#s033-002-002_La_passion_des_avions_1_3" id="tts_033-002-002_La_passion_des_avions_1_3"/>
+                <seq>
+                    <audio src="033-002-002_La_passion_des_avions.mp3" clip-begin="npt=14.834603s" id="audio_033-002-002_La_passion_des_avions_1_3" clip-end="npt=19.725714s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-002_La_passion_des_avions_1_4">
+                <text src="Le_Petit_Prince.html#s033-002-002_La_passion_des_avions_1_4" id="tts_033-002-002_La_passion_des_avions_1_4"/>
+                <seq>
+                    <audio src="033-002-002_La_passion_des_avions.mp3" clip-begin="npt=19.725714s" id="audio_033-002-002_La_passion_des_avions_1_4" clip-end="npt=21.526077s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-002_La_passion_des_avions_2_0">
+                <text src="Le_Petit_Prince.html#s033-002-002_La_passion_des_avions_2_0" id="tts_033-002-002_La_passion_des_avions_2_0"/>
+                <seq>
+                    <audio src="033-002-002_La_passion_des_avions.mp3" clip-begin="npt=21.526077s" id="audio_033-002-002_La_passion_des_avions_2_0" clip-end="npt=22.763582s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-002_La_passion_des_avions_3_0">
+                <text src="Le_Petit_Prince.html#s033-002-002_La_passion_des_avions_3_0" id="tts_033-002-002_La_passion_des_avions_3_0"/>
+                <seq>
+                    <audio src="033-002-002_La_passion_des_avions.mp3" clip-begin="npt=22.763582s" id="audio_033-002-002_La_passion_des_avions_3_0" clip-end="npt=24.958367s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-002_La_passion_des_avions_4_0">
+                <text src="Le_Petit_Prince.html#s033-002-002_La_passion_des_avions_4_0" id="tts_033-002-002_La_passion_des_avions_4_0"/>
+                <seq>
+                    <audio src="033-002-002_La_passion_des_avions.mp3" clip-begin="npt=24.958367s" id="audio_033-002-002_La_passion_des_avions_4_0" clip-end="npt=31.409024s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-002_La_passion_des_avions_5_0">
+                <text src="Le_Petit_Prince.html#s033-002-002_La_passion_des_avions_5_0" id="tts_033-002-002_La_passion_des_avions_5_0"/>
+                <seq>
+                    <audio src="033-002-002_La_passion_des_avions.mp3" clip-begin="npt=31.409024s" id="audio_033-002-002_La_passion_des_avions_5_0" clip-end="npt=32.676734s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-002_La_passion_des_avions_6_0">
+                <text src="Le_Petit_Prince.html#s033-002-002_La_passion_des_avions_6_0" id="tts_033-002-002_La_passion_des_avions_6_0"/>
+                <seq>
+                    <audio src="033-002-002_La_passion_des_avions.mp3" clip-begin="npt=32.676734s" id="audio_033-002-002_La_passion_des_avions_6_0" clip-end="npt=37.030249s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-002_La_passion_des_avions_7_0">
+                <text src="Le_Petit_Prince.html#s033-002-002_La_passion_des_avions_7_0" id="tts_033-002-002_La_passion_des_avions_7_0"/>
+                <seq>
+                    <audio src="033-002-002_La_passion_des_avions.mp3" clip-begin="npt=37.030249s" id="audio_033-002-002_La_passion_des_avions_7_0" clip-end="npt=39.624489s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_033-002-002_La_passion_des_avions_8_0">
+                <text src="Le_Petit_Prince.html#s033-002-002_La_passion_des_avions_8_0" id="tts_033-002-002_La_passion_des_avions_8_0"/>
+                <seq>
+                    <audio src="033-002-002_La_passion_des_avions.mp3" clip-begin="npt=39.624489s" id="audio_033-002-002_La_passion_des_avions_8_0" clip-end="npt=41.191791s"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>

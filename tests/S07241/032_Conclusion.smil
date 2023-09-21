@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="ncc:timeInThisSmil" content="00:00:41.596"/>
+        <meta name="ncc:totalElapsedTime" content="01:17:49.733"/>
+        <layout>
+            <region id="txtView"/>
+        </layout>
+        <meta name="ncc:generator" content="SCENARI 6.0.5 / paon 1.1.3"/>
+        <meta name="title" content="Conclusion"/>
+        <meta name="dc:title" content="Le Petit Prince"/>
+        <meta name="dc:identifier" content="FR-AVH-9782075155540-AUD"/>
+    </head>
+    <body>
+        <seq dur="41.59678s">
+            <par endsync="last" id="par_032_Conclusion_0_0">
+                <text src="Le_Petit_Prince.html#s032_Conclusion_0_0" id="tts_032_Conclusion_0_0"/>
+                <seq>
+                    <audio src="032_Conclusion.mp3" clip-begin="npt=0.050022s" id="audio_032_Conclusion_0_0" clip-end="npt=1.336417s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_032_Conclusion_1_0">
+                <text src="Le_Petit_Prince.html#s032_Conclusion_1_0" id="tts_032_Conclusion_1_0"/>
+                <seq>
+                    <audio src="032_Conclusion.mp3" clip-begin="npt=1.336417s" id="audio_032_Conclusion_1_0" clip-end="npt=5.352018s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_032_Conclusion_1_1">
+                <text src="Le_Petit_Prince.html#s032_Conclusion_1_1" id="tts_032_Conclusion_1_1"/>
+                <seq>
+                    <audio src="032_Conclusion.mp3" clip-begin="npt=5.352018s" id="audio_032_Conclusion_1_1" clip-end="npt=11.141904s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_032_Conclusion_1_2">
+                <text src="Le_Petit_Prince.html#s032_Conclusion_1_2" id="tts_032_Conclusion_1_2"/>
+                <seq>
+                    <audio src="032_Conclusion.mp3" clip-begin="npt=11.141904s" id="audio_032_Conclusion_1_2" clip-end="npt=14.911247s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_032_Conclusion_2_0">
+                <text src="Le_Petit_Prince.html#s032_Conclusion_2_0" id="tts_032_Conclusion_2_0"/>
+                <seq>
+                    <audio src="032_Conclusion.mp3" clip-begin="npt=14.911247s" id="audio_032_Conclusion_2_0" clip-end="npt=21.989342s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_032_Conclusion_2_1">
+                <text src="Le_Petit_Prince.html#s032_Conclusion_2_1" id="tts_032_Conclusion_2_1"/>
+                <seq>
+                    <audio src="032_Conclusion.mp3" clip-begin="npt=21.989342s" id="audio_032_Conclusion_2_1" clip-end="npt=28.45687s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_032_Conclusion_2_2">
+                <text src="Le_Petit_Prince.html#s032_Conclusion_2_2" id="tts_032_Conclusion_2_2"/>
+                <seq>
+                    <audio src="032_Conclusion.mp3" clip-begin="npt=28.45687s" id="audio_032_Conclusion_2_2" clip-end="npt=35.778049s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_032_Conclusion_2_3">
+                <text src="Le_Petit_Prince.html#s032_Conclusion_2_3" id="tts_032_Conclusion_2_3"/>
+                <seq>
+                    <audio src="032_Conclusion.mp3" clip-begin="npt=35.778049s" id="audio_032_Conclusion_2_3" clip-end="npt=37.340317s"/>
+                </seq>
+            </par>
+            <par endsync="last" id="par_032_Conclusion_2_4">
+                <text src="Le_Petit_Prince.html#s032_Conclusion_2_4" id="tts_032_Conclusion_2_4"/>
+                <seq>
+                    <audio src="032_Conclusion.mp3" clip-begin="npt=37.340317s" id="audio_032_Conclusion_2_4" clip-end="npt=41.109659s"/>
+                </seq>
+            </par>
+        </seq>
+    </body>
+</smil>
