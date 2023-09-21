@@ -3,6 +3,7 @@
 set -xue
 
 export LC_ALL=C
+export TERM=dumb
 
 test -d "$abs_srcdir"
 
