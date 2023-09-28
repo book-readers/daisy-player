@@ -221,7 +221,7 @@ echo
 echo "Configure madplay..."
 echo                      
 
-(cd src/madplay && ./configure)
+(cd src/madplay && ../../${srcdir}/src/madplay/configure)
 
 dnl pulseaudio/pactl stuff
 
@@ -229,4 +229,4 @@ echo
 echo "Configure pulseaudio/pactl..."
 echo
 
-(cd src/pactl && ./configure)
+(cd src/pactl && ../../${srcdir}/src/pactl/configure)
