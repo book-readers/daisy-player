@@ -307,11 +307,11 @@ msgstr "A segítségért nyomja meg a H billentyűt."
 
 #: src/ncx.c:261
 msgid "No items found. Try option \"-O\"."
-msgstr "iihdprvBoJep"
+msgstr ""
 
 #: src/playfile.c:90
 msgid "Try option \"-i\"."
-msgstr "iihdprvBoJep"
+msgstr ""
 
 #~ msgid "Please try to play this book with daisy-player"
 #~ msgstr ""
@@ -319,7 +319,7 @@ msgstr "iihdprvBoJep"
 #~ "segítségével"
 
 #~ msgid "No items found. Try option \"-N\"."
-#~ msgstr "jicLbQdR"
+#~ msgstr ""
 
 #~ msgid "eBook-speaker cannot handle this file."
 #~ msgstr "Az eBook-speaker nem tudja kezelni ezt a fájlt."
