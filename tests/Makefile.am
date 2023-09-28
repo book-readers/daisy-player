@@ -12,3 +12,4 @@ TESTS = \
 	Y9621.expected \
 	S07241.expected \
 	$(null)
+EXTRA_DIST = $(TESTS:.expected=) $(TESTS)
