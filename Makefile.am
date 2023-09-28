@@ -6,10 +6,7 @@ docdir = $(datadir)/doc/@PACKAGE@
 
 ACLOCAL_AMFLAGS = -I m4
 
-EXTRA_DIST = ChangeLog \
-             icons INSTALL \
-             src/daisy.h \
-             src/Makefile.am \
+EXTRA_DIST = icons \
              src/madplay/audio.h \
              src/madplay/CHANGES \
              src/madplay/config.h.in \

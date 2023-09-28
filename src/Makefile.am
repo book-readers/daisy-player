@@ -68,6 +68,7 @@ daisy_player_SOURCES = madplay/madplay.c madplay/audio.c \
                        alsa_ctl.c \
                        audiocd.c paranoia.c common.c daisy2.02.c \
                        daisy3.c daisy-player.c playfile.c \
+                       daisy.h \
                        ncx.c opf.c
 
 localedir = $(datadir)/locale
