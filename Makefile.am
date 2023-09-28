@@ -8,7 +8,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = ChangeLog \
              icons INSTALL \
-             src/daisy.h src/gettext.h \
+             src/daisy.h \
              src/Makefile.am \
              src/madplay/audio.h \
              src/madplay/CHANGES \
