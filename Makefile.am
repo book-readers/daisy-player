@@ -14,39 +14,6 @@ EXTRA_DIST = ChangeLog \
              doc/Makefile.am doc/TODO \
              icons INSTALL \
              man \
-             po/af.po \
-             po/ChangeLog \
-             po/cs.po \
-             po/de.po \
-             po/en@boldquot.header \
-             po/en@quot.header \
-             po/es_ES.po \
-             po/es_GT.org \
-             po/es_GT.po \
-             po/es_GT.txt \
-             po/fi.po \
-             po/fr.po \
-             po/fr.po.chexkei \
-             po/fr.po.Osvaldo \
-             po/hu.Hammer_Attila.po \
-             po/hu.JimmiXzSq.po \
-             po/hu.po \
-             po/it.po \
-             po/LINGUAS \
-             po/Makefile.in.in \
-             po/Makevars \
-             po/messages.po \
-             po/ml.org \
-             po/ml.po \
-             po/nb.po \
-             po/nl.po \
-             po/pl.Patryk_Doering \
-             po/pl.po \
-             po/POTFILES \
-             po/POTFILES.in \
-             po/pt.po \
-             po/sl.po \
-             po/sv.po \
              src/daisy.h src/gettext.h \
              src/Makefile.am \
              src/madplay/audio.h \
@@ -96,6 +63,20 @@ EXTRA_DIST = ChangeLog \
              src/pactl/src/strbuf.h \
              src/pactl/src/strlist.h \
              src/pactl/todo
+
+DISTCLEANFILES = \
+	src/madplay/config.log \
+	src/madplay/.deps/madtest.Po \
+	src/madplay/Makefile \
+	src/madplay/config.h \
+	src/madplay/stamp-h1 \
+	src/madplay/config.status \
+	src/madplay/m4/Makefile \
+	src/pactl/config.log \
+	src/pactl/Makefile \
+	src/pactl/config.status \
+	src/pactl/m4/Makefile \
+	src/pactl/src/Makefile
 
 dist_doc_DATA = README.adoc
 
