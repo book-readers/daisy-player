@@ -24,7 +24,14 @@ input="${expected%.*}"
 sed_safe_abs_srcdir=$(printf %s "${abs_srcdir}" | sed 's%[].\[*]%\\\0%g')
 
 # run daisy-player -D
-"$1" -D "$input" | sed "s%${sed_safe_abs_srcdir}%%g;s%/[.]/%%" > "$actual"
+"$1" -D "$input" | sed "
+# strip the header
+1,5d
+# remove the source dir part of the path
+s%${sed_safe_abs_srcdir}%%g
+# sanitize path
+s%/[.]/%%
+" > "$actual"
 
 # compare the result with the expectations
 $generate || diff -u "$expected" "$actual"
