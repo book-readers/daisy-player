@@ -3,6 +3,7 @@
 .dirstamp
 aclocal.m4
 autom4te.cache/
+compile
 config.guess
 config.log
 config.status
@@ -12,15 +13,14 @@ config.h.in~
 config.rpath
 config.sub
 configure
+depcomp
 install-sh
+missing
 stamp-h1
 Makefile.in
 Makefile
 /ABOUT-NLS
-/compile
 /configure~
-/depcomp
-/missing
 /doc/daisy-player.html
 /man/daisy-player.1
 /m4/
