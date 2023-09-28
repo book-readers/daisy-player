@@ -7,11 +7,6 @@ docdir = $(datadir)/doc/@PACKAGE@
 ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = ChangeLog \
-             doc/Changelog doc/COMPILE doc/COPYING \
-             doc/daisy-player.description doc/daisy-player.desktop \
-             doc/daisy-player.menu \
-             doc/daisy-player.png doc/daisy-player.txt doc/License \
-             doc/Makefile.am doc/TODO \
              icons INSTALL \
              src/daisy.h src/gettext.h \
              src/Makefile.am \
