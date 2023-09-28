@@ -74,7 +74,6 @@ AC_TYPE_SSIZE_T
 
 AC_CONFIG_FILES([Makefile
                  doc/Makefile
-                 man/Makefile
                  po/Makefile.in
                  src/Makefile
                  src/madplay/Makefile

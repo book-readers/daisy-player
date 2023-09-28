@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = man doc po src tests
+SUBDIRS = doc po src tests
 
 docdir = $(datadir)/doc/@PACKAGE@
 
@@ -13,7 +13,6 @@ EXTRA_DIST = ChangeLog \
              doc/daisy-player.png doc/daisy-player.txt doc/License \
              doc/Makefile.am doc/TODO \
              icons INSTALL \
-             man \
              src/daisy.h src/gettext.h \
              src/Makefile.am \
              src/madplay/audio.h \
