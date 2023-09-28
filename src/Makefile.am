@@ -12,12 +12,11 @@ AM_CPPFLAGS = $(CDIO_CFLAGS) \
 	$(ID3TAG_CFLAGS) \
 	$(ASOUND_CFLAGS)
 
-AM_CFLAGS = -I . -D LOCALEDIR=\"$(prefix)/share/locale\"  -Wall -Wextra \
+AM_CFLAGS = -I . -D LOCALEDIR=\"$(datadir)/locale\"  -Wall -Wextra \
             -Wunused -Wunused-variable -Wunused-function \
             -Wmissing-declarations \
             -g -O3 \
-            -Wuninitialized -Winit-self \
-            -DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\"
+            -Wuninitialized -Winit-self
 
 #AM_LDFLAGS = -static # jos
 
@@ -35,16 +34,7 @@ LIBS += $(CDIO_LIBS) \
 
 bin_PROGRAMS = daisy-player
 
-ldadd = $(depend) @LTLIBINTL@
-
-DEPENDENCIES = $(depend)
-
-LDADD =	$(ldadd)
-
-CLEANFILES = $(EXTRA_PROGRAMS)
-
-libtool: $(LIBTOOL_DEPS)
-	$(SHELL) ./config.status --recheck
+LDADD = @LTLIBINTL@
 
 .c.s:
 	(cd madplay && $(MAKE))
@@ -52,8 +42,7 @@ libtool: $(LIBTOOL_DEPS)
 	$(COMPILE) -S $<
 
 again:
-	$(MAKE) clean
-	$(MAKE)                 
+	$(MAKE) clean all
 
 .PHONY: profile again
 
@@ -70,5 +59,3 @@ daisy_player_SOURCES = madplay/madplay.c madplay/audio.c \
                        daisy3.c daisy-player.c playfile.c \
                        daisy.h \
                        ncx.c opf.c
-
-localedir = $(datadir)/locale
