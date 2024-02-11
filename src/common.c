@@ -925,17 +925,18 @@ void get_list_of_sound_devices (misc_t *misc, audio_info_t *sound_devices)
    char *str;
    struct group *grp;
    FILE *p;
+   int ngroups;
+
+   ngroups = getgroups (0, NULL);
+   gid_t groups[ngroups];
+   getgroups (ngroups, groups);
 
    grp = getgrnam ("audio");
-   found = 0;
-   for (g = 0; grp->gr_mem[g]; g++)
-   {
-      if (strcmp (grp->gr_mem[g], cuserid (NULL)) == 0)
-      {
-         found = 1;
-         break;
-      } // if
-   } // for
+   found = getegid () == grp->gr_gid;
+
+   for (g = 0; !found && g < ngroups; g++)
+      found = groups[g] == grp->gr_gid;
+
    if (found == 0)
    {
       beep ();
