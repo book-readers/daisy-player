@@ -97,9 +97,10 @@ int play(struct audio_play *play)
 }
 
 static
-int finish ()
+int finish (struct audio_finish *finish)
 {
   int result = 0;
+  (void) finish;
 
   /* pad audio to CD frame boundary */
 

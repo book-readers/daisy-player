@@ -233,9 +233,10 @@ int patch_int32(long address, unsigned long num)
 }
 
 static 
-int finish ()
+int finish (struct audio_finish *finish)
 {
   int result = 0;
+  (void) finish;
 
   if (config_precision == 0) {
     struct audio_config dummy;

@@ -184,7 +184,7 @@ extern void go_to_page_number (misc_t *, my_attribute_t *, daisy_t *, audio_info
 extern void make_tmp_dir (misc_t *);
 extern daisy_t *create_daisy_struct (misc_t *, my_attribute_t *, daisy_t *);
 extern void skip_right (misc_t *, daisy_t *, my_attribute_t *, audio_info_t *);
-extern void player_ended ();
+extern void player_ended (int sig);
 extern char *convert_URL_name (misc_t *, char *);
 extern void get_realpath_name (char *, char *, char *);
 extern void failure (misc_t *, char *, int);
@@ -245,7 +245,7 @@ extern void go_to_time (misc_t *, daisy_t *, my_attribute_t *, audio_info_t *,
                         time_t);
 extern void skip_left (misc_t *, my_attribute_t *, daisy_t *, audio_info_t *);
 extern void browse (misc_t *, my_attribute_t *, daisy_t *, audio_info_t *);
-extern void usage ();
+extern void usage (int ret);
 extern char *get_mount_point (misc_t *);
 extern void handle_discinfo (misc_t *, my_attribute_t *, daisy_t *, char *);
 extern void reset_term_signal_handlers_after_fork (void);

@@ -1256,8 +1256,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
          beep ();
          endwin ();
          printf ("\n");
-         usage ();
-         _exit (EXIT_FAILURE);
+         usage (EXIT_FAILURE);
       } // if
       get_list_of_sound_devices (misc, sound_devices);
       for (sink = 0; sink < misc->total_sinks; sink++)
@@ -1831,7 +1830,7 @@ void browse (misc_t *misc, my_attribute_t *my_attribute,
    quit_daisy_player (misc, my_attribute, daisy);
 } // browse
 
-void usage ()
+void usage (int ret)
 {
    printf (gettext ("Daisy-player - Version %s %s"), PACKAGE_VERSION, "\n");
    puts ("(C)2003-2021 J. Lemmens\n");
@@ -1842,7 +1841,7 @@ void usage ()
            gettext ("[-c cdrom_device] [-d audio_device:audio_type]"));
    printf ("[-h] [-i] [-T] [-n | -y] [-v]\n");
    fflush (stdout);
-   _exit (EXIT_FAILURE);
+   _exit (ret);
 } // usage
 
 char *get_mount_point (misc_t *misc)
@@ -2160,8 +2159,7 @@ int main (int argc, char *argv[])
             beep ();
             endwin ();
             printf ("\n");
-            usage ();
-            _exit (EXIT_FAILURE);
+            usage (EXIT_FAILURE);
          } // if
          get_list_of_sound_devices (&misc, sound_devices);
          for (sink = 0; sink < misc.total_sinks; sink++)
@@ -2180,7 +2178,7 @@ int main (int argc, char *argv[])
       }
       case 'h':
          remove_tmp_dir (&misc);
-         usage (0);
+         usage (EXIT_SUCCESS);
          break;
       case 'i':
          misc.ignore_bookmark = 1;
@@ -2223,7 +2221,7 @@ int main (int argc, char *argv[])
       default:
          beep ();
          remove_tmp_dir (&misc);
-         usage (1);
+         usage (EXIT_FAILURE);
       } // switch
    } // while
    if (c_opt)
@@ -2274,7 +2272,7 @@ int main (int argc, char *argv[])
          beep ();
          fflush (stdout);
          remove_tmp_dir (&misc);
-         usage (1);
+         usage (EXIT_FAILURE);
       } // if
       if (strcasestr (magic_file (myt, argv[optind]), "directory"))
       {
@@ -2341,7 +2339,7 @@ int main (int argc, char *argv[])
          printf ("\n%s\n", gettext ("No DAISY-CD or Audio-cd found"));
          beep ();
          remove_tmp_dir (&misc);
-         usage (1);
+         usage (EXIT_FAILURE);
       } // if
       magic_close (myt);
    } // if there is an argument
