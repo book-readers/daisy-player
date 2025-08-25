@@ -3,6 +3,8 @@
 Daisy-player - A parser to play Daisy CD's with Linux +
 (C)2003-2020 J. Lemmens
 
+https://github.com/book-readers/daisy-player
+
 === Description
 Daisy-player reads a DAISY-CD and plays its audio-files. +
 Daisy-player also CAN PLAY Audio-cd's and tries to fetch info using cddbget.
